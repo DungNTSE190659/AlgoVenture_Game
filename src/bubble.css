@@ -8,6 +8,8 @@
   color: #405a60;
   background: linear-gradient(#e9f5f1, #faf9e8 65%, #e0edc8);
 }
+.bubble-feedback.is-success { color: #568048; animation: insertion-pop .3s ease-out; }
+.bubble-feedback.is-error { animation: insertion-shake .3s ease-out; }
 .bubble-world .world-scenery {
   position: fixed;
   opacity: 0.55;
@@ -790,4 +792,80 @@
 }
 .bubble-demo .bubble-tile {
   border-radius: 50%;
+}
+
+/* Reserve room for narration and playback at desktop browser height, including
+   laptops with browser toolbars. Phone portrait/landscape rules stay unchanged. */
+@media (min-width: 1024px) and (min-height: 560px) {
+  .bubble-demo {
+    display: grid;
+    grid-template-rows: clamp(56px, 8dvh, 80px) minmax(0, 1fr) auto auto;
+  }
+  .bubble-demo .bubble-header {
+    padding: 4px 32px;
+  }
+  .bubble-demo .bubble-content {
+    min-height: 0;
+    display: grid;
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+    justify-items: center;
+    gap: 4px;
+    padding: 4px 24px;
+  }
+  .bubble-demo .bubble-content h2 {
+    margin: 0;
+    font-size: clamp(26px, 4.6dvh, 42px);
+  }
+  .bubble-demo .bubble-board-area {
+    align-self: center;
+    margin: clamp(32px, 5dvh, 56px) 0 4px;
+  }
+  .bubble-demo .bubble-board {
+    --tile: min(
+      clamp(64px, 12dvh, 120px),
+      calc((100vw - 82px - (var(--count) - 1) * 14px) / var(--count))
+    );
+  }
+  .bubble-demo .bubble-rule {
+    font-size: clamp(16px, 2.6dvh, 22px);
+  }
+  .bubble-demo .bubble-equation {
+    min-height: 42px;
+  }
+  .bubble-demo .bubble-equation b {
+    font-size: clamp(28px, 4.6dvh, 42px);
+  }
+  .bubble-demo .bubble-equation > span {
+    font-size: 28px;
+  }
+  .bubble-demo .bubble-equation strong {
+    font-size: 20px;
+  }
+  .bubble-demo .bubble-dialogue {
+    min-height: 0;
+    padding: 0 24px 8px;
+  }
+  .bubble-demo .bubble-dialogue .pig {
+    width: clamp(72px, 12dvh, 125px);
+  }
+  .bubble-demo .bubble-dialogue p {
+    font-size: clamp(17px, 2.8dvh, 24px);
+    line-height: 1.45;
+    padding: 12px 24px;
+    max-width: 880px;
+  }
+  .bubble-demo .bubble-controls {
+    padding: 4px 20px 10px;
+  }
+  .bubble-demo .bubble-playback .chunky-button {
+    height: 48px;
+    min-height: 48px;
+  }
+  .bubble-demo .bubble-playback .round-button {
+    width: 44px;
+    height: 44px;
+  }
+  .bubble-demo .bubble-step-status {
+    margin-top: 6px;
+  }
 }

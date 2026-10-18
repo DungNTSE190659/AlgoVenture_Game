@@ -119,7 +119,7 @@ test("real mouse dragging allows wrong placements, undo, corrections and choosin
   await page
     .getByRole("button", { name: "Đi tiếp cùng Buta", exact: true })
     .click();
-  await expect(page.locator("#track-sheet-title")).toHaveText("Binary Search");
+  await expect(page.locator("#track-sheet-title")).toHaveText("Quick Sort");
   expect(errors).toEqual([]);
 });
 

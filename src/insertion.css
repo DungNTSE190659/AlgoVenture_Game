@@ -1,0 +1,32 @@
+.insertion-world { position: relative; isolation: isolate; min-height: 100dvh; height: 100dvh; overflow: auto; display: flex; flex-direction: column; background: linear-gradient(#e9f5ef, #fff9e8 65%, #e1edcb); color: #486054; }
+.insertion-world .world-scenery { position: fixed; z-index: -1; pointer-events: none; opacity: .45; }
+.insertion-demo { background: #fafbf5; }
+.insertion-header { flex: 0 0 80px; }
+.insertion-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 24px; padding: 8px 16px; color: #7c8c68; font-size: 14px; }
+.insertion-stats span { display: flex; align-items: center; gap: 5px; }.insertion-stats span:first-child { color: #ab8a43; }
+.insertion-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 0 24px; min-height: 420px; }
+.insertion-content h2 { margin: 12px 20px; font-size: clamp(23px, 3vw, 36px); text-align: center; line-height: 1.25; }
+.insertion-task { text-align: center; max-width: 640px; margin: 0 20px; line-height: 1.5; color: #72816a; }
+.insertion-board-scroll { width: 100%; overflow-x: auto; padding: 22px 24px 10px; overscroll-behavior-x: contain; }
+.insertion-board { --tile: 68px; --step: 82px; position: relative; height: 207px; width: calc(var(--step) * (var(--count) - 1) + var(--tile)); margin: 0 auto; }
+.insertion-key-label { position: absolute; top: -17px; left: 0; font-size: 11px; font-weight: 900; letter-spacing: 1px; color: #ab8242; }
+.insertion-slot, .insertion-tile { position: absolute; width: var(--tile); height: var(--tile); border-radius: 18px; }
+.insertion-slot { top: 100px; padding: 0; border: 2px dashed #c5cdb6; background: #f3f4e5; color: #829768; }.insertion-slot:disabled { opacity: 1; }.insertion-slot > span { display: grid; place-items: center; height: 100%; }
+.insertion-slot small { position: absolute; top: calc(100% + 10px); left: 0; width: 100%; color: #88977b; font-size: 12px; }
+.slot-empty { border-color: #b6995d; background: #fff5d2; }.slot-over { outline: 4px solid #b4d79a; background: #e6f4cb; }
+.insertion-tile { display: flex; align-items: center; justify-content: center; padding: 0; border: 2px solid #c7ccbb; background: linear-gradient(#fffef4, #e7ebda); color: #62725a; box-shadow: 0 5px 0 #bbc5a7; z-index: 1; }
+.insertion-tile strong { font-size: 27px; }.insertion-tile > svg { position: absolute; bottom: 4px; right: 5px; }
+.insertion-tile:disabled { opacity: 1; cursor: default; }.insertion-tile:not(:disabled) { border-color: #7c9c60; outline: 3px solid #aac78e55; cursor: pointer; }
+.insertion-tile.tile-sorted { background: linear-gradient(#cce4b5, #a9ca8e); border-color: #92b377; box-shadow: 0 5px 0 #88a66e; }
+.insertion-tile.tile-held { touch-action: none; background: linear-gradient(#ffeeb9, #f3d382); border-color: #d4b265; box-shadow: 0 5px 0 #b6995d; }
+.insertion-ghost { position: fixed; pointer-events: none; transform: translate(-50%, -50%) scale(1.1); z-index: 50; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 18px; border: 2px solid #d4b265; background: #ffecb2; color: #8b7039; font-size: 27px; font-weight: 900; box-shadow: 0 10px 24px #68704b33; }
+.insertion-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; padding: 0 18px; color: #819077; font-size: 12px; }.insertion-legend span { display: flex; align-items: center; gap: 5px; }.insertion-legend i { width: 12px; height: 12px; border-radius: 4px; background: #b4d396; }.insertion-legend span:nth-child(2) i { background: #f3d382; }
+.insertion-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; padding: 22px 16px 0; }.insertion-actions button { min-height: 48px; font-size: 16px; }
+.insertion-feedback { min-height: 44px; margin: 16px 20px 10px; max-width: 600px; font-size: 14px; line-height: 1.5; text-align: center; color: #7d8a70; }.feedback-correct { color: #548042; animation: insertion-pop .3s ease-out; }.feedback-retry { color: #ad6554; animation: insertion-shake .3s ease-out; }
+.insertion-dialogue { display: flex; align-items: center; justify-content: center; gap: 12px; max-width: 650px; margin: 12px auto; padding: 0 20px; }.insertion-dialogue .pig { flex: 0 0 80px; width: 80px; height: 96px; }.insertion-dialogue p { background: #fffdf4; border: 2px solid #e6e5ce; border-radius: 20px; padding: 14px 18px; line-height: 1.55; font-size: 15px; }
+.insertion-controls { padding: 0 16px max(20px, env(safe-area-inset-bottom)); }.insertion-playback { display: flex; justify-content: center; align-items: center; gap: 14px; }.insertion-playback .chunky-button { min-width: 180px; }.insertion-demo-progress { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 16px 0 0; color: #87947c; font-size: 12px; }.insertion-demo-progress progress { width: min(40vw, 240px); accent-color: #9abc80; }
+@keyframes insertion-pop { from { transform: translateY(4px); opacity: .3; } to { transform: none; opacity: 1; } }
+@keyframes insertion-shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+@media (max-width: 600px) { .insertion-board { --tile: 54px; --step: 64px; }.insertion-tile strong { font-size: 23px; }.insertion-header { flex-basis: 70px; }.insertion-content { min-height: 420px; }.insertion-stats { gap: 8px 12px; font-size: 12px; }.insertion-task { font-size: 14px; }.insertion-actions { gap: 10px; }.insertion-actions button { font-size: 13px; padding: 10px 12px; }.insertion-dialogue { padding: 0 4px; gap: 5px; }.insertion-dialogue .pig { flex-basis: 60px; width: 60px; height: 75px; }.insertion-dialogue p { font-size: 13px; padding: 11px 12px; }.insertion-content h2 { margin-top: 6px; }.insertion-playback { gap: 10px; }.insertion-playback .chunky-button { min-width: 160px; } }
+@media (max-height: 500px) { .insertion-header { flex-basis: 64px; }.insertion-content { min-height: 400px; }.insertion-controls { padding-bottom: 20px; } }
+@media (prefers-reduced-motion: reduce) { .insertion-world *, .insertion-world *::before, .insertion-world *::after { animation: none !important; transition: none !important; } }

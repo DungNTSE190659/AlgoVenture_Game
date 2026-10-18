@@ -1,6 +1,17 @@
 /** Small, original synthesized game sounds. No downloads or audio assets required. */
 export type SoundCue =
   | "tap"
+  | "topic-next"
+  | "topic-prev"
+  | "island-select"
+  | "locked"
+  | "step-left"
+  | "step-right"
+  | "arrive"
+  | "ui-open"
+  | "ui-close"
+  | "sound-on"
+  | "drop"
   | "enter"
   | "pivot"
   | "scan"
@@ -21,9 +32,45 @@ type Tone = {
   duration: number;
   volume: number;
   pan?: number;
+  wave?: OscillatorType;
 };
 const melodies: Record<SoundCue, Tone[]> = {
-  tap: [{ at: 0, frequency: 540, end: 400, duration: 0.055, volume: 0.045 }],
+  tap: [
+    { at: 0, frequency: 620, end: 430, duration: 0.055, volume: 0.04 },
+    { at: 0.025, frequency: 930, duration: 0.065, volume: 0.015 },
+  ],
+  "topic-next": [
+    { at: 0, frequency: 330, end: 660, duration: 0.18, volume: 0.025, pan: -0.5 },
+    { at: 0.09, frequency: 880, duration: 0.13, volume: 0.025, pan: 0.5 },
+  ],
+  "topic-prev": [
+    { at: 0, frequency: 660, end: 330, duration: 0.18, volume: 0.025, pan: 0.5 },
+    { at: 0.09, frequency: 440, duration: 0.13, volume: 0.025, pan: -0.5 },
+  ],
+  "island-select": [
+    { at: 0, frequency: 587.33, end: 493.88, duration: 0.09, volume: 0.04, wave: "triangle" },
+    { at: 0.06, frequency: 739.99, duration: 0.14, volume: 0.035 },
+  ],
+  locked: [{ at: 0, frequency: 220, end: 174.61, duration: 0.13, volume: 0.035, wave: "triangle" }],
+  "step-left": [
+    { at: 0, frequency: 155, end: 85, duration: 0.065, volume: 0.05, wave: "triangle", pan: -0.18 },
+    { at: 0.015, frequency: 720, end: 420, duration: 0.035, volume: 0.016, pan: -0.18 },
+  ],
+  "step-right": [
+    { at: 0, frequency: 175, end: 95, duration: 0.065, volume: 0.05, wave: "triangle", pan: 0.18 },
+    { at: 0.015, frequency: 810, end: 480, duration: 0.035, volume: 0.016, pan: 0.18 },
+  ],
+  arrive: [587.33, 739.99, 880].map((frequency, index) => ({ at: index * 0.065, frequency, duration: 0.18, volume: 0.045 })),
+  "ui-open": [
+    { at: 0, frequency: 440, end: 587.33, duration: 0.09, volume: 0.03 },
+    { at: 0.05, frequency: 739.99, duration: 0.12, volume: 0.025 },
+  ],
+  "ui-close": [{ at: 0, frequency: 587.33, end: 392, duration: 0.1, volume: 0.035 }],
+  "sound-on": [523.25, 783.99].map((frequency, index) => ({ at: index * 0.07, frequency, duration: 0.13, volume: 0.04 })),
+  drop: [
+    { at: 0, frequency: 440, end: 310, duration: 0.09, volume: 0.055 },
+    { at: 0.06, frequency: 660, duration: 0.1, volume: 0.04 },
+  ],
   enter: [
     { at: 0, frequency: 392, duration: 0.12, volume: 0.07 },
     { at: 0.09, frequency: 523.25, duration: 0.19, volume: 0.07 },
@@ -89,7 +136,7 @@ export function renderCue(
     const envelope = context.createGain();
     const pan = context.createStereoPanner();
     const at = start + tone.at;
-    oscillator.type = "sine";
+    oscillator.type = tone.wave ?? "sine";
     oscillator.frequency.setValueAtTime(tone.frequency, at);
     if (tone.end)
       oscillator.frequency.exponentialRampToValueAtTime(
@@ -112,7 +159,8 @@ export function renderCue(
     oscillator.stop(at + tone.duration + 0.01);
     sources.push(oscillator);
   }
-  if (cue === "swap" || cue === "pivot-move") {
+  const navigation = cue === "topic-next" || cue === "topic-prev";
+  if (cue === "swap" || cue === "pivot-move" || navigation) {
     const noise = context.createBufferSource();
     const buffer = context.createBuffer(
       1,
@@ -132,7 +180,7 @@ export function renderCue(
     filter.frequency.value = 1100;
     const envelope = context.createGain();
     envelope.gain.setValueAtTime(0, start);
-    envelope.gain.linearRampToValueAtTime(0.07, start + 0.09);
+    envelope.gain.linearRampToValueAtTime(navigation ? 0.025 : 0.07, start + 0.09);
     envelope.gain.exponentialRampToValueAtTime(0.0001, start + 0.27);
     noise.connect(filter);
     filter.connect(envelope);
@@ -160,8 +208,21 @@ export function readSoundPreference(): boolean {
 class GameAudio {
   private context: AudioContext | null = null;
   private master: GainNode | null = null;
-  private sources = new Set<AudioScheduledSourceNode>();
+  private sources = new Map<AudioScheduledSourceNode, SoundCue>();
   private enabled = readSoundPreference();
+  private resuming = false;
+  private pending: SoundCue | null = null;
+  private requests = 0;
+  private lastInterface = -Infinity;
+  get requestVersion() { return this.requests; }
+
+  /** A fallback button click must not double an action's own sound. */
+  playInterface(cue: SoundCue = "tap") {
+    if (performance.now() - this.lastInterface < 45) return false;
+    this.lastInterface = performance.now();
+    this.unlock();
+    return this.play(cue);
+  }
 
   setEnabled(enabled: boolean) {
     this.enabled = enabled;
@@ -183,14 +244,27 @@ class GameAudio {
         this.master.gain.value = 0.7;
         this.master.connect(this.context.destination);
       }
-      if (this.context.state === "suspended")
-        void this.context.resume().catch(() => {});
+      if (this.context.state === "suspended" && !this.resuming) {
+        this.resuming = true;
+        void this.context.resume().then(() => {
+          this.resuming = false;
+          const pending = this.pending;
+          this.pending = null;
+          if (pending) this.play(pending);
+        }).catch(() => { this.resuming = false; this.pending = null; });
+      }
     } catch {
       /* The game also works when the device has no audio output. */
     }
   }
 
   play(cue: SoundCue): boolean {
+    this.requests++;
+    if (this.enabled && typeof document !== "undefined" && !document.hidden && this.resuming && this.context?.state === "suspended") {
+      // Keep only the latest gesture while the browser opens its audio output.
+      this.pending = cue;
+      return false;
+    }
     if (
       !this.enabled ||
       typeof document === "undefined" ||
@@ -202,7 +276,7 @@ class GameAudio {
     try {
       const sources = renderCue(this.context, this.master, cue);
       for (const source of sources) {
-        this.sources.add(source);
+        this.sources.set(source, cue);
         const cleanup = source.onended;
         source.onended = (event) => {
           cleanup?.call(source, event);
@@ -215,15 +289,17 @@ class GameAudio {
     }
   }
 
-  stop() {
-    for (const source of this.sources) {
+  stop(cues?: readonly SoundCue[]) {
+    if (!cues || (this.pending && cues.includes(this.pending))) this.pending = null;
+    for (const [source, cue] of this.sources) {
+      if (cues && !cues.includes(cue)) continue;
       try {
         source.stop();
       } catch {
         /* Already ended. */
       }
+      this.sources.delete(source);
     }
-    this.sources.clear();
   }
 }
 

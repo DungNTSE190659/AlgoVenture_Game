@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { REGIONS } from "../src/engine/learningTrack";
+import { REGIONS, ARRAY_ROUTES } from "../src/engine/learningTrack";
 
 const arrays = { array: true, linear: true, bubble: true, selection: true, insertion: true, merge: true, quick: true, binary: true };
 async function enterArray(page: Page, mode = "Thử thách") {
@@ -29,7 +29,8 @@ test("one large topic is shown at a time and locked topics never open their less
   await expect(page.locator(".atlas-buta")).toHaveAttribute("aria-label", "Buta đang ở Mảng");
   await choose(page, "Mảng");
   await page.getByRole("button", { name: "Mảng", exact: true }).click();
-  await expect(page.locator(".track-stop")).toHaveCount(8);
+  await expect(page.locator(".track-stop")).toHaveCount(5);
+  await expect(page.getByRole("button", { name: "Array", exact: true })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Xem demo", exact: true })).toBeEnabled();
   await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeEnabled();
   expect(errors).toEqual([]);
@@ -45,8 +46,16 @@ test("only complete subjects unlock subsequent subjects, with every topic's corr
     await expect(page.locator(".region-locked")).toHaveCount(REGIONS.length - index - 1);
     await choose(page, region.name);
     await page.locator(".atlas-enter").click();
-    await expect(page.locator(".track-stop")).toHaveCount(region.lessons.length);
-    for (const lesson of region.lessons) await expect(page.getByRole("button", { name: lesson.name, exact: true })).toHaveCount(1);
+    if (region.id === "arrays") {
+      for (const route of ARRAY_ROUTES) {
+        await page.getByRole("button", { name: `Lộ trình ${route.name}`, exact: true }).click();
+        await expect(page.locator(".track-stop")).toHaveCount(route.lessons.length);
+        for (const lesson of route.lessons) await expect(page.getByRole("button", { name: lesson.name, exact: true })).toHaveCount(1);
+      }
+    } else {
+      await expect(page.locator(".track-stop")).toHaveCount(region.lessons.length);
+      for (const lesson of region.lessons) await expect(page.getByRole("button", { name: lesson.name, exact: true })).toHaveCount(1);
+    }
     for (const lesson of region.lessons) progress[lesson.id] = true;
   }
 });
@@ -61,37 +70,33 @@ test("missing just the last Array challenge keeps the second topic locked", asyn
   await expect(page.locator(".region-locked")).toHaveCount(3);
 });
 
-test("Array demo never unlocks Linear Search", async ({ page }) => {
+test("Bubble demo never unlocks Insertion Sort", async ({ page }) => {
   await enterArray(page, "Xem demo");
   for (let step = 0; step < 3; step++) await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
   await page.getByRole("button", { name: "Về bản đồ", exact: true }).click();
   await expect(page.locator(".stop-complete")).toHaveCount(0);
-  await page.getByRole("button", { name: "Linear Search", exact: true }).click();
+  await page.getByRole("button", { name: "Insertion Sort", exact: true }).click();
   await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeDisabled();
 });
 
-test("Array victory opens Linear Search and Buta walks there; the next topic stays locked", async ({ page }) => {
+test("Bubble victory opens Insertion Sort and Buta walks there; the next topic stays locked", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await enterArray(page);
-  await page.getByRole("button", { name: "Ô chỉ số 0, giá trị 8", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("thử lại");
-  await page.getByRole("button", { name: "Ô chỉ số 2, giá trị 6", exact: true }).click();
-  await page.getByRole("button", { name: "Ô chỉ số 1, giá trị 3", exact: true }).click();
-  await page.getByRole("button", { name: "3 phần tử", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("đếm số ô");
-  await page.getByRole("button", { name: "4 phần tử", exact: true }).click();
-  await page.getByRole("button", { name: "Ô chỉ số 1, giá trị 3", exact: true }).click();
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, 2");
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
+  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
   await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
   await expect(page.locator(".buta-walking")).toBeVisible();
   await expect(page.locator(".buta-walking")).toHaveCount(0);
-  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Linear Search");
-  await expect(page.locator(".stop-locked")).toHaveCount(6);
+  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Insertion Sort");
+  await expect(page.locator(".stop-locked")).toHaveCount(2);
   await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
   await expect(page.locator(".region-locked")).toHaveCount(3);
   await page.reload();
-  await expect(page.locator(".atlas-region-progress")).toHaveText("1/8");
+  await expect(page.locator(".atlas-region-progress")).toHaveText("1/7");
   await page.locator(".atlas-enter").click();
-  await expect(page.locator("#track-sheet-title")).toHaveText("Linear Search");
+  await expect(page.locator("#track-sheet-title")).toHaveText("Insertion Sort");
 });
 
 test("Buta follows the enlarged map road when entering another unlocked topic", async ({ page }) => {
@@ -99,7 +104,7 @@ test("Buta follows the enlarged map road when entering another unlocked topic", 
   await page.goto("/");
   await choose(page, "Mảng");
   await page.locator(".atlas-enter").click();
-  await expect(page.locator("#track-sheet-title")).toHaveText("Binary Search");
+  await expect(page.locator("#track-sheet-title")).toHaveText("Quick Sort");
   await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
   await choose(page, "Danh sách");
   await page.locator(".atlas-enter").click();
@@ -147,7 +152,7 @@ test("touch swipes change topics without opening them and a single map tap enter
   await page.getByRole("button", { name: "Mảng", exact: true }).tap();
   await expect(page.locator(".track-viewport")).toBeVisible();
   await page.getByRole("button", { name: "Thử thách", exact: true }).tap();
-  await expect(page.locator(".array-lesson")).toBeVisible();
+  await expect(page.locator(".bubble-play")).toBeVisible();
   await context.close();
 });
 
@@ -177,5 +182,25 @@ test("old saves preserve completed lessons without bypassing subject prerequisit
   await page.getByRole("button", { name: "Mảng", exact: true }).click();
   await expect(page.locator(".stop-complete")).toHaveCount(1);
   await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();
-  await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeEnabled();
+});
+
+test("arrays to lists animates smoothly even when the locked-topic sheet changes height", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  for (const target of [1, 2, 0]) {
+    const positions = await page.evaluate(async destination => {
+      const carousel = document.querySelector<HTMLElement>(".atlas-carousel")!;
+      const values: number[] = [carousel.scrollLeft];
+      (document.querySelectorAll(".topic-dots button")[destination] as HTMLButtonElement).click();
+      for (let sample = 0; sample < 24; sample++) {
+        await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+        values.push(carousel.scrollLeft);
+      }
+      return { values, width: carousel.clientWidth };
+    }, target);
+    const from = positions.values[0], to = positions.width * target;
+    expect(positions.values.some(position => position > Math.min(from, to) + 1 && position < Math.max(from, to) - 1)).toBe(true);
+    await expect.poll(() => page.locator(".atlas-carousel").evaluate(node => Math.round(node.scrollLeft))).toBe(to);
+  }
 });

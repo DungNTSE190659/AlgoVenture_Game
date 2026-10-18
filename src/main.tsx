@@ -10,7 +10,7 @@ import "./bubble.css";
 import "./victory.css";
 import "./track.css";
 import "./atlas.css";
-import "./array.css";
+import "./insertion.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

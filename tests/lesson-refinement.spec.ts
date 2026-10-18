@@ -66,6 +66,17 @@ test("real synthesized cues are audible, short, and do not clip", async ({
     const audio = await import("/src/audio/gameAudio.ts");
     const cues = [
       "tap",
+      "drop",
+      "topic-next",
+      "topic-prev",
+      "island-select",
+      "locked",
+      "step-left",
+      "step-right",
+      "arrive",
+      "ui-open",
+      "ui-close",
+      "sound-on",
       "enter",
       "pivot",
       "scan",

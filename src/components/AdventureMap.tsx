@@ -2,11 +2,15 @@ import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from
 import { ArrowLeft, ArrowRight, AudioLines, CircleDot, Check, Eye, Flag, Footprints, Gamepad2, GitMerge, Layers3, LockKeyhole, Search, Shuffle, Trophy, ListOrdered, Link, Network, Route, ScanSearch, TreePine, GalleryVerticalEnd } from "lucide-react";
 import World from "./World";
 import Pig from "./Pig";
-import { REGIONS, ALL_LESSONS, lessonUnlocked, regionUnlocked, type RegionId, type TrackId } from "../engine/learningTrack";
+import { REGIONS, ARRAY_ROUTES, lessonPrerequisites, lessonAvailable, lessonUnlocked, regionUnlocked, type ArrayRouteId, type RegionId, type TrackId } from "../engine/learningTrack";
 import type { Mode } from "../engine/gameConfig";
+import { gameAudio } from "../audio/gameAudio";
+import { useMapAudio } from "../audio/useMapAudio";
 
 type Props = {
   region: RegionId;
+  arrayRoute: ArrayRouteId;
+  onArrayRoute: (id: ArrayRouteId) => void;
   onWorld: () => void;
   onStart: (mode: Mode) => void;
   sound: boolean;
@@ -34,15 +38,17 @@ function geometry(count: number) {
   return { point, curve, positionOnRoad, height: 160 + (count - 1) * 220 + 180 };
 }
 
-export default function AdventureMap({ region, onWorld, onStart, sound, onSound, completed, algorithm, onAlgorithm, arrivalFrom, onArrived }: Props) {
+export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld, onStart, sound, onSound, completed, algorithm, onAlgorithm, arrivalFrom, onArrived }: Props) {
   const territory = REGIONS.find(item => item.id === region)!;
-  const TRACK = territory.lessons;
+  const route = region === "arrays" ? ARRAY_ROUTES.find(item => item.id === arrayRoute)! : null;
+  const TRACK = route?.lessons ?? territory.lessons;
   const { point, curve, positionOnRoad, height: worldHeight } = geometry(TRACK.length);
   const initial = Math.max(0, TRACK.findIndex(item => item.id === (arrivalFrom ?? algorithm)));
   const [selected, setSelected] = useState(initial);
   const [location, setLocation] = useState(initial);
   const [traveler, setTraveler] = useState(point(initial));
   const [walking, setWalking] = useState(false);
+  const mapAudio = useMapAudio();
   const viewport = useRef<HTMLDivElement>(null);
   const animation = useRef(0);
   const arrivalHandled = useRef(false);
@@ -50,8 +56,8 @@ export default function AdventureMap({ region, onWorld, onStart, sound, onSound,
   const openThrough = TRACK.reduce((last, item, index) => lessonUnlocked(item.id, completed) ? index : last, -1);
   const active = TRACK[selected];
   const locked = selected > openThrough;
-  const available = active.id === "bubble" || active.id === "quick" || active.id === "array";
-  const previous = ALL_LESSONS[ALL_LESSONS.findIndex(item => item.id === active.id) - 1];
+  const available = lessonAvailable(active.id);
+  const previous = lessonPrerequisites(active.id).at(-1);
   const finishedCount = TRACK.filter(item => completed[item.id]).length;
 
   function center(y: number, smooth = true) {
@@ -71,6 +77,8 @@ export default function AdventureMap({ region, onWorld, onStart, sound, onSound,
 
   function travel(destination: number) {
     if (walkingRef.current) return;
+    gameAudio.unlock();
+    gameAudio.play(destination > openThrough ? "locked" : "island-select");
     setSelected(destination);
     if (destination > openThrough) {
       center(point(destination).y);
@@ -81,6 +89,7 @@ export default function AdventureMap({ region, onWorld, onStart, sound, onSound,
     if (destination === location) { center(point(destination).y); return; }
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
+      mapAudio.arrive();
       setLocation(destination);
       setTraveler(point(destination));
       center(point(destination).y, false);
@@ -88,12 +97,14 @@ export default function AdventureMap({ region, onWorld, onStart, sound, onSound,
     }
     walkingRef.current = true;
     setWalking(true);
+    mapAudio.begin();
     const origin = location;
     const distance = Math.abs(destination - origin);
     const direction = Math.sign(destination - origin);
     const started = performance.now();
     // Visit every intermediate island, including when returning to an older lesson.
     function frame(now: number) {
+      mapAudio.tick(now - started);
       const progress = Math.min(distance, (now - started) / 1450);
       const leg = Math.min(distance - 1, Math.floor(progress));
       const t = progress >= distance ? 1 : progress - leg;
@@ -106,6 +117,7 @@ export default function AdventureMap({ region, onWorld, onStart, sound, onSound,
         walkingRef.current = false;
         setWalking(false);
         setLocation(destination);
+        mapAudio.arrive();
       }
     }
     animation.current = requestAnimationFrame(frame);
@@ -114,7 +126,9 @@ export default function AdventureMap({ region, onWorld, onStart, sound, onSound,
     if (!arrivalFrom || arrivalHandled.current) return;
     arrivalHandled.current = true;
     const origin = TRACK.findIndex(item => item.id === arrivalFrom);
-    const destination = Math.min(origin + 1, openThrough);
+    if (origin < 0) { onArrived(); return; }
+    const nextPlayable = TRACK.findIndex((item, index) => index > origin && index <= openThrough && lessonAvailable(item.id));
+    const destination = nextPlayable >= 0 ? nextPlayable : Math.min(origin + 1, openThrough);
     const timer = window.setTimeout(() => { travel(destination); onArrived(); }, 350);
     return () => { window.clearTimeout(timer); arrivalHandled.current = false; };
   }, [arrivalFrom]);
@@ -122,21 +136,30 @@ export default function AdventureMap({ region, onWorld, onStart, sound, onSound,
   function start(mode: Mode) {
     if (walking || locked || !available) return;
     const id = active.id;
-    if (id === "bubble" || id === "quick" || id === "array") {
+    if (lessonAvailable(id)) {
       onAlgorithm(id);
       onStart(mode);
     }
   }
 
-  return <main className={`adventure-map learning-map region-${region} ${walking || locked || !available ? "map-has-status" : ""}`}>
+  return <main className={`adventure-map learning-map region-${region} ${route ? "has-route-picker" : ""} ${walking || locked || !available ? "map-has-status" : ""}`}>
     <World map />
     <header className="track-header">
       <button className="track-back" aria-label="Bản đồ thế giới" onClick={onWorld} disabled={walking}><ArrowLeft size={20} /></button>
       <div><h1>{territory.name}</h1></div>
       <button className="track-sound" onClick={onSound} aria-label={sound ? "Tắt âm thanh" : "Bật âm thanh"} aria-pressed={sound}><AudioLines size={20} />{!sound && <span />}</button>
     </header>
+      {route && <nav className="track-routes" aria-label="Chọn lộ trình trong Mảng">
+        {ARRAY_ROUTES.map(item => {
+          const Icon = item.id === "sort" ? Shuffle : Search;
+          const count = item.lessons.filter(lesson => completed[lesson.id]).length;
+          return <button key={item.id} className={`track-route ${item.id === arrayRoute ? "route-active" : ""}`} aria-label={`Lộ trình ${item.name}`} aria-pressed={item.id === arrayRoute} disabled={walking} onClick={() => onArrayRoute(item.id)}>
+            <Icon size={19} /><span><strong>{item.name}</strong><small>{item.description}</small></span><b>{count}/{item.lessons.length}</b>
+          </button>;
+        })}
+      </nav>}
       <div className="track-progress" aria-label="Tiến trình"><span><Flag size={15} /></span><span><Trophy size={15} /> {finishedCount}/{TRACK.length}</span><div><i style={{ width: `${finishedCount / TRACK.length * 100}%` }} /></div></div>
-      <div className="track-viewport" ref={viewport} aria-label="Bản đồ hành trình sắp xếp, cuộn để khám phá" tabIndex={0}>
+      <div className="track-viewport" ref={viewport} aria-label={`Bản đồ lộ trình ${route?.name ?? territory.name}, cuộn để khám phá`} tabIndex={0}>
         <div className="track-world" style={{ height: worldHeight }}>
           <div className="track-destination" aria-hidden="true"><Flag size={20} /></div>
           <svg className="track-roads" style={{ height: worldHeight }} viewBox={`0 0 400 ${worldHeight}`} preserveAspectRatio="none" aria-hidden="true">

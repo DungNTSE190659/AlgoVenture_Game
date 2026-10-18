@@ -28,6 +28,8 @@ import {
 } from "../engine/expedition";
 import { createArray, type Difficulty } from "../engine/quicksort";
 import { gameAudio } from "../audio/gameAudio";
+import { playFeedback, stopHaptics } from "../audio/gameFeedback";
+import HapticsToggle from "./HapticsToggle";
 import Pig from "./Pig";
 import World from "./World";
 import VictoryCelebration from "./VictoryCelebration";
@@ -127,16 +129,17 @@ export default function ExpeditionPlay({
   useEffect(() => {
     const change = () => {
       setVisible(!document.hidden);
-      if (document.hidden) gameAudio.stop();
+      if (document.hidden) { gameAudio.stop(); stopHaptics(); }
     };
     document.addEventListener("visibilitychange", change);
     return () => {
       document.removeEventListener("visibilitychange", change);
       gameAudio.stop();
+      stopHaptics();
     };
   }, []);
   useEffect(() => {
-    if (settings) dialog.current?.showModal();
+    if (settings) { gameAudio.stop(); stopHaptics(); dialog.current?.showModal(); }
     else dialog.current?.close();
   }, [settings]);
   useEffect(() => {
@@ -184,7 +187,7 @@ export default function ExpeditionPlay({
     setStreak(0);
     setRemaining(60);
     setToast("Hết 60 giây. Trừ 50 điểm, bạn tiếp tục chia nhóm nhé.");
-    gameAudio.play("retry");
+    playFeedback("retry");
   }, [remaining, difficulty, done]);
   useEffect(() => {
     if (!done || awarded.current) return;
@@ -199,13 +202,13 @@ export default function ExpeditionPlay({
     } catch {
       /* Optional storage. */
     }
-    gameAudio.play("finish");
+    playFeedback("finish");
     onComplete();
   }, [done, score, difficulty, onComplete]);
 
   function cue(name: Parameters<typeof gameAudio.play>[0]) {
     gameAudio.unlock();
-    gameAudio.play(name);
+    playFeedback(name);
   }
   function activate(next: Island) {
     setActiveId(next.id);
@@ -305,7 +308,7 @@ export default function ExpeditionPlay({
     setWrong([]);
     setToast("");
     setMoves((value) => value + 1);
-    cue(destination === "pivot" ? "pivot" : "swap");
+    cue(destination === "pivot" ? "pivot" : "drop");
   }
   function targetAt(x: number, y: number): Destination | null {
     const element = document
@@ -773,6 +776,7 @@ export default function ExpeditionPlay({
           {sound ? <Volume2 size={20} /> : <VolumeX size={20} />} Hiệu ứng âm
           thanh <b>{sound ? "Bật" : "Tắt"}</b>
         </button>
+        <HapticsToggle />
         <form
           onSubmit={(event) => {
             event.preventDefault();

@@ -104,12 +104,13 @@ for (const algorithm of ["Bubble Sort", "Quick Sort"])
       .click();
     if (algorithm === 'Bubble Sort') {
       await expect(page.locator('.learning-map')).toBeVisible();
-      await expect(page.locator('#track-sheet-title')).toHaveText('Selection Sort');
-      await expect(page.getByRole('button', {name:'Thử thách',exact:true})).toBeDisabled();
+      await expect(page.locator('#track-sheet-title')).toHaveText('Insertion Sort');
+      await expect(page.getByRole('button', {name:'Thử thách',exact:true})).toBeEnabled();
     } else {
       await expect(page.locator('.learning-map')).toBeVisible();
-      await expect(page.locator('#track-sheet-title')).toHaveText('Binary Search');
-      await expect(page.locator('.track-buta')).toHaveAttribute('aria-label', 'Buta đang ở Binary Search');
+      await expect(page.locator('#track-sheet-title')).toHaveText('Quick Sort');
+      await expect(page.locator('.track-buta')).toHaveAttribute('aria-label', 'Buta đang ở Quick Sort');
+      await expect(page.getByRole('button', {name:'Linear Search',exact:true})).toHaveCount(0);
     }
   });
 

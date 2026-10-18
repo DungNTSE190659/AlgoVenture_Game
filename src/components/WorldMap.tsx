@@ -2,6 +2,8 @@ import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from
 import { ArrowRight, AudioLines, Check, ChevronLeft, ChevronRight, Compass, Flag, LockKeyhole } from "lucide-react";
 import Pig from "./Pig";
 import RegionLandmark from "./RegionLandmark";
+import { gameAudio } from "../audio/gameAudio";
+import { useMapAudio } from "../audio/useMapAudio";
 import { REGIONS, regionComplete, regionUnlocked, type Progress, type RegionId } from "../engine/learningTrack";
 
 type Props = {
@@ -37,6 +39,8 @@ function RegionTerrain({ index }: { index: number }) {
 export default function WorldMap({ completed, sound, onSound, onEnter, location, onLocation, arrivalFrom, onArrived }: Props) {
   const initial = REGIONS.findIndex(region => region.id === location);
   const [selected, setSelected] = useState(initial);
+  const audibleTopic = useRef(initial);
+  const mapAudio = useMapAudio();
   const [walking, setWalking] = useState(false);
   const [traveler, setTraveler] = useState({ x: 300, y: 350 });
   const [walkingIn, setWalkingIn] = useState(initial);
@@ -51,11 +55,20 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
   const locked = !regionUnlocked(territory.id, completed);
   const finished = territory.lessons.filter(lesson => completed[lesson.id]).length;
 
+  function announceTopic(index: number) {
+    const previous = audibleTopic.current;
+    audibleTopic.current = index;
+    if (index === previous) return;
+    gameAudio.unlock();
+    gameAudio.play(index > previous ? "topic-next" : "topic-prev");
+  }
+
   function showTopic(index: number, smooth = true) {
     if (walkingRef.current) return;
     const target = Math.max(0, Math.min(REGIONS.length - 1, index));
     const area = carousel.current;
     if (!area) return;
+    announceTopic(target);
     setSelected(target);
     area.dataset.selected = String(target);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -67,7 +80,13 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
     const area = carousel.current;
     if (!area) return;
     area.scrollLeft = initial * area.clientWidth;
+    let width = area.clientWidth;
     const observer = new ResizeObserver(() => {
+      // Locked-topic copy changes the carousel height. Only a width change
+      // requires recentering; height changes must not interrupt smooth scrolling.
+      if (area.clientWidth === width) return;
+      width = area.clientWidth;
+      scrollTarget.current = null;
       // A rotation keeps the selected topic centered instead of landing between maps.
       const index = Number(area.dataset.selected ?? initial);
       area.scrollTo({ left: index * area.clientWidth, behavior: "instant" });
@@ -81,6 +100,8 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
     if (walkingRef.current || !regionUnlocked(REGIONS[index].id, completed)) return;
     const destination = REGIONS[index].id;
     if (destination === position.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gameAudio.unlock();
+      gameAudio.play(destination === position.current ? "enter" : "arrive");
       position.current = destination;
       onLocation(destination);
       onArrived();
@@ -92,8 +113,10 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
     setTraveler({ x: 100, y: 428 });
     setWalking(true);
     walkingRef.current = true;
+    mapAudio.begin();
     const started = performance.now();
     function frame(now: number) {
+      mapAudio.tick(now - started);
       const t = Math.min(1, (now - started) / 1400), q = 1 - t;
       setTraveler({ x: q ** 3 * 100 + 3 * q * q * t * 112 + 3 * q * t * t * 242 + t ** 3 * 300, y: q ** 3 * 428 + 3 * q * q * t * 365 + 3 * q * t * t * 422 + t ** 3 * 350 });
       if (t < 1) animation.current = requestAnimationFrame(frame);
@@ -102,6 +125,7 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
         scrollTarget.current = null;
         walkingRef.current = false;
         setWalking(false);
+        mapAudio.arrive();
         onLocation(destination);
         onArrived();
         if (enterAfter) onEnter(destination);
@@ -128,6 +152,7 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
         if (Math.abs(area.scrollLeft - scrollTarget.current * area.clientWidth) > 1) return;
         scrollTarget.current = null;
       }
+      announceTopic(index);
       setSelected(index);
       area.dataset.selected = String(index);
     }} onWheel={() => { scrollTarget.current = null; }} onKeyDown={event => {

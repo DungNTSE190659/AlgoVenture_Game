@@ -31,13 +31,33 @@ import {
 import { createArray, type Difficulty, type Item } from "../engine/quicksort";
 import { LEVELS } from "../engine/gameConfig";
 import { gameAudio } from "../audio/gameAudio";
+import { playFeedback, stopHaptics } from "../audio/gameFeedback";
+import HapticsToggle from "./HapticsToggle";
 import Pig from "./Pig";
 import BubbleRunBoard from "./BubbleRunBoard";
 import World from "./World";
 import VictoryCelebration from "./VictoryCelebration";
 
-// The native click can arrive after changing the array has remounted this screen.
-let touchActivated = false;
+// A synthesized touch activation can unmount this screen before Chromium sends
+// its compatibility click. Catch that click on the document so it cannot press
+// the map's Back button underneath. A new gesture always releases the guard.
+function activateTouchButton(button: HTMLButtonElement) {
+  const clear = () => {
+    clearTimeout(timer);
+    document.removeEventListener("click", suppress, true);
+    document.removeEventListener("pointerdown", clear, true);
+  };
+  const suppress = (event: MouseEvent) => {
+    if (event.detail === 0) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    clear();
+  };
+  const timer = window.setTimeout(clear, 600);
+  document.addEventListener("click", suppress, true);
+  document.addEventListener("pointerdown", clear, true);
+  button.click();
+}
 
 type Props = {
   mode: "demo" | "play";
@@ -79,6 +99,7 @@ export default function BubbleGame({
   const [hint, setHint] = useState(false);
   const [mistakes, setMistakes] = useState(0);
   const [feedback, setFeedback] = useState("");
+  const [outcome, setOutcome] = useState<"correct" | "retry" | "">("");
   const [hasInteracted, setHasInteracted] = useState(false);
   const [busy, setBusy] = useState<{
     pair: number;
@@ -109,10 +130,12 @@ export default function BubbleGame({
     return () => {
       document.removeEventListener("visibilitychange", handler);
       gameAudio.stop();
+      stopHaptics();
     };
   }, []);
   useEffect(() => {
     if (paused || !sound) gameAudio.stop();
+    if (paused) stopHaptics();
   }, [paused, sound]);
   useEffect(() => {
     if (!demo || !playing || paused || done) return;
@@ -151,7 +174,7 @@ export default function BubbleGame({
   useEffect(() => {
     if (demo || !done || finished.current) return;
     finished.current = true;
-    gameAudio.play("finish");
+    playFeedback("finish");
     onComplete();
   }, [demo, done, onComplete]);
   const a = shown.items[shown.pair]?.value,
@@ -164,6 +187,7 @@ export default function BubbleGame({
     const next = bubbleMove(state, swap);
     setHint(false);
     if (!next) {
+      setOutcome("retry");
       setMistakes((v) => v + 1);
       setFeedback(
         swap
@@ -172,14 +196,15 @@ export default function BubbleGame({
             : `${a} nhỏ hơn ${b}, nên cặp này đã đúng thứ tự. Bấm Giữ nguyên để đi tiếp nhé.`
           : "Bong bóng bên trái lớn hơn. Kéo nó qua hàng xóm để đổi chỗ nhé.",
       );
-      gameAudio.play("retry");
+      playFeedback("retry");
       return false;
     }
-    setFeedback("");
+    setOutcome("correct");
+    setFeedback(swap ? "Đúng rồi! Bong bóng lớn hơn đã tiến sang phải." : "Đúng rồi! Hai số đã có thứ tự, mình giữ nguyên.");
     lock.current = true;
     setBusy({ pair: state.pair, end: state.end, swap });
     setState(next);
-    gameAudio.play(swap ? "bubble-swap" : "keep");
+    playFeedback(swap ? "bubble-swap" : "keep");
     return true;
   }
   function moveFrame(delta: number) {
@@ -202,6 +227,7 @@ export default function BubbleGame({
     setMistakes(0);
     setHint(false);
     setFeedback("");
+    setOutcome("");
     setSettings(false);
   }
   const title = demo
@@ -229,7 +255,6 @@ export default function BubbleGame({
       data-busy={!!busy}
       onPointerDownCapture={(event) => {
         touchStart.current = { x: event.clientX, y: event.clientY };
-        touchActivated = false;
       }}
       onPointerUpCapture={(event) => {
         if (
@@ -255,15 +280,7 @@ export default function BubbleGame({
           return;
         // Captured drags can suppress the next native touch click in Chromium.
         event.preventDefault();
-        touchActivated = true;
-        button.click();
-      }}
-      onClickCapture={(event) => {
-        if (event.detail !== 0 && touchActivated) {
-          touchActivated = false;
-          event.preventDefault();
-          event.stopPropagation();
-        }
+        activateTouchButton(button);
       }}
     >
       {!demo && <World />}
@@ -341,10 +358,10 @@ export default function BubbleGame({
               if (id !== left?.id && id !== right?.id) return false;
               return answer(id === left?.id);
             }}
-            onHandoff={() =>
+            onHandoff={() => { setOutcome("");
               setFeedback(
                 "Cặp này đã đúng thứ tự. Thả tay rồi bấm Giữ nguyên để đi tiếp nhé.",
-              )
+              ); }
             }
           />
         )}
@@ -371,7 +388,8 @@ export default function BubbleGame({
               <Check size={23} /> Giữ nguyên
             </button>
             <p
-              className={`bubble-feedback ${feedback ? "is-error" : ""}`}
+              key={`${state.comparisons}:${mistakes}`}
+              className={`bubble-feedback ${outcome === "retry" ? "is-error" : outcome === "correct" ? "is-success" : ""}`}
               role="status"
             >
               {feedback}
@@ -383,7 +401,7 @@ export default function BubbleGame({
             className="chunky-button button-green bubble-next-pass"
             onClick={() => {
               gameAudio.unlock();
-              gameAudio.play("scan");
+              playFeedback("tap");
               setState(nextBubblePass(state));
               setFeedback("");
               setHint(false);
@@ -509,7 +527,7 @@ export default function BubbleGame({
               aria-expanded={hint}
               onClick={() => {
                 gameAudio.unlock();
-                gameAudio.play("hint");
+                playFeedback("hint");
                 setHint((v) => !v);
               }}
             >
@@ -532,6 +550,7 @@ export default function BubbleGame({
             <span>Hiệu ứng âm thanh</span>
             <b>{sound ? "Bật" : "Tắt"}</b>
           </button>
+          <HapticsToggle />
           <label className="setting-label" htmlFor="bubble-level">
             Mảng mẫu
           </label>
