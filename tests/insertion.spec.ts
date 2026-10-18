@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page, type Locator } from "@playwright/test";
 import { enterTrack } from "./track-navigation";
 
 async function enter(page: Page, mode = "Play") { await enterTrack(page, "Insertion Sort", mode); }
@@ -7,17 +7,31 @@ async function custom(page: Page, values: string) {
   await page.getByLabel("Mảng của bạn", { exact: true }).fill(values);
   await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
 }
+async function dragTo(page: Page, source: Locator, target: Locator) {
+  await source.scrollIntoViewIfNeeded();
+  const from = (await source.boundingBox())!, to = (await target.boundingBox())!;
+  await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(to.x + to.width / 2, to.y + to.height / 2, { steps: 12 });
+  await expect(page.locator(".insertion-ghost")).toBeVisible();
+  await page.mouse.up();
+  await expect(page.locator(".insertion-world")).toHaveAttribute("data-busy", "false");
+}
 async function solve(page: Page) {
-  for (let move = 0; move < 60; move++) {
+  for (let move = 0; move < 80; move++) {
     await expect(page.locator(".insertion-world")).toHaveAttribute("data-busy", "false");
     if (await page.locator(".insertion-victory").count()) return;
-    const pick = page.getByRole("button", { name: /^Nhấc số / });
-    if (await pick.count()) { await pick.click(); continue; }
+    const lift = page.locator("[data-insertion-lift]");
+    if (await lift.count()) {
+      const cursor = Number((await page.locator(".insertion-stats").innerText()).match(/(\d+)\//)![1]);
+      await dragTo(page, page.locator(`.insertion-tile[data-index="${cursor}"]`), lift);
+      continue;
+    }
     const held = Number(await page.locator(".tile-held").getAttribute("data-value"));
     const hole = Number(await page.locator("[data-insertion-hole]").getAttribute("data-insertion-hole"));
     const left = page.locator(`.insertion-tile[data-index="${hole - 1}"]`);
     const shift = hole > 0 && Number(await left.getAttribute("data-value")) > held;
-    await page.getByRole("button", { name: shift ? "Dịch sang phải" : "Chèn vào ô trống", exact: true }).click();
+    await dragTo(page, shift ? left : page.locator(".tile-held"), page.locator("[data-insertion-hole]"));
   }
   throw new Error("Insertion Sort did not finish");
 }
@@ -29,8 +43,8 @@ test("play explains mistakes, sorts negative and duplicate values stably, saves,
   await custom(page, "3, -1, 3, 0");
   await page.getByRole("button", { name: "Số -1, ô 1", exact: true }).click();
   await expect(page.locator(".insertion-world")).toHaveAttribute("data-busy", "false");
-  await page.getByRole("button", { name: "Chèn vào ô trống", exact: true }).click();
-  await expect(page.getByRole("status")).toContainText("3 lớn hơn -1");
+  await dragTo(page, page.locator(".tile-held"), page.locator("[data-insertion-hole]"));
+  await expect(page.getByRole("status")).toContainText("Chưa đúng");
   await expect(page.locator(".slot-empty")).toHaveAttribute("data-insertion-hole", "1");
   await solve(page);
   const sorted = await page.locator(".insertion-tile").evaluateAll(nodes => nodes.map(node => ({ id: Number(node.getAttribute("data-item-id")), value: Number(node.getAttribute("data-value")), index: Number(node.getAttribute("data-index")) })).sort((a, b) => a.index - b.index));
@@ -60,28 +74,53 @@ test("keyboard can lift, shift and insert; mouse can drag the held number into t
   await page.mouse.move(key.x + key.width / 2, key.y + key.height / 2);
   await page.mouse.down();
   await page.mouse.move(hole.x + hole.width / 2, hole.y + hole.height / 2, { steps: 12 });
-  await expect(page.locator(".slot-over")).toBeVisible();
+  await expect(page.locator(".insertion-ghost")).toBeVisible();
   await page.mouse.up();
   await expect(page.locator(".insertion-victory")).toBeVisible();
 });
 
-test("touch supports lifting and dragging a key into its slot", async ({ browser }) => {
+test("touch completes lift, shift and insertion entirely by dragging", async ({ browser }) => {
   const context = await browser.newContext({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await enter(page);
-  await custom(page, "1, 2");
-  await page.getByRole("button", { name: "Nhấc số 2", exact: true }).tap();
-  await expect(page.locator(".insertion-world")).toHaveAttribute("data-busy", "false");
-  const key = (await page.locator(".tile-held").boundingBox())!;
-  const hole = (await page.locator("[data-insertion-hole]").boundingBox())!;
+  await custom(page, "2, 1");
   const cdp = await context.newCDPSession(page);
-  const x = key.x + key.width / 2, y = key.y + key.height / 2;
-  const toX = hole.x + hole.width / 2, toY = hole.y + hole.height / 2;
-  await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
-  for (let step = 1; step <= 10; step++) await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: x + (toX - x) * step / 10, y: y + (toY - y) * step / 10 }] });
-  await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  async function touchDrag(source: Locator, target: Locator) {
+    const from = (await source.boundingBox())!, to = (await target.boundingBox())!;
+    const x = from.x + from.width / 2, y = from.y + from.height / 2;
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
+    for (let step = 1; step <= 12; step++) await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: x + (to.x + to.width / 2 - x) * step / 12, y: y + (to.y + to.height / 2 - y) * step / 12 }] });
+    await expect(page.locator(".insertion-ghost")).toBeVisible();
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await expect(page.locator(".insertion-world")).toHaveAttribute("data-busy", "false");
+  }
+  await touchDrag(page.getByRole("button", { name: "Số 1, ô 1", exact: true }), page.locator("[data-insertion-lift]"));
+  await touchDrag(page.getByRole("button", { name: "Số 2, ô 0", exact: true }), page.locator("[data-insertion-hole]"));
+  await touchDrag(page.locator(".tile-held"), page.locator("[data-insertion-hole]"));
   await expect(page.locator(".insertion-victory")).toBeVisible();
   await context.close();
+});
+
+test("a missed or canceled drop leaves the array and score unchanged", async ({ page }) => {
+  await enter(page);
+  await custom(page, "2, 1");
+  const tile = page.getByRole("button", { name: "Số 1, ô 1", exact: true });
+  const box = (await tile.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width / 2 + 100, box.y + box.height / 2, { steps: 10 });
+  await page.mouse.up();
+  await expect(page.locator(".insertion-score")).toHaveText("0");
+  await expect(page.locator(".tile-held")).toHaveCount(0);
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width / 2, box.y - 30, { steps: 10 });
+  await page.locator(".insertion-board").dispatchEvent("pointercancel");
+  await page.mouse.up();
+  await expect(page.locator(".insertion-ghost")).toHaveCount(0);
+  await expect(page.locator(".insertion-score")).toHaveText("0");
+  await solve(page);
+  await expect(page.locator(".insertion-victory")).toBeVisible();
 });
 
 test("demo has backward steps, pause, speed, validation, and never awards completion", async ({ page }) => {
@@ -117,13 +156,13 @@ test("haptics have a separate persistent toggle and work with sound muted", asyn
     Object.defineProperty(navigator, "vibrate", { configurable: true, value: (pattern: unknown) => { (window as unknown as { vibrations: unknown[] }).vibrations.push(pattern); return true; } });
   });
   await enter(page);
-  await page.getByRole("button", { name: /^Nhấc số / }).click();
+  await dragTo(page, page.locator('.insertion-tile[data-index="1"]'), page.locator("[data-insertion-lift]"));
   expect(await page.evaluate(() => (window as unknown as { vibrations: unknown[] }).vibrations)).toContain(14);
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
   await page.getByRole("button", { name: /Rung khi thao tác/ }).click();
   await expect(page.getByRole("button", { name: /Rung khi thao tác/ })).toHaveAttribute("aria-pressed", "false");
   await page.getByRole("button", { name: "Đóng", exact: true }).click();
-  await page.getByRole("button", { name: "Dịch sang phải", exact: true }).click();
+  await dragTo(page, page.getByRole("button", { name: "Số 8, ô 0", exact: true }), page.locator("[data-insertion-hole]"));
   expect(await page.evaluate(() => (window as unknown as { vibrations: unknown[] }).vibrations)).not.toContainEqual([12, 25, 18]);
   expect(await page.evaluate(() => localStorage.getItem("algoventure-haptics"))).toBe("off");
 });
@@ -135,11 +174,45 @@ test("long arrays fit a scrollable board in portrait, landscape and desktop", as
     await page.setViewportSize({ width, height });
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     await expect(page.locator(".insertion-board-scroll")).toBeVisible();
-    const button = page.getByRole("button", { name: /^Nhấc số / });
+    const button = page.locator('.insertion-tile[data-index="1"]');
     await button.scrollIntoViewIfNeeded();
     await expect(button).toBeInViewport();
   }
   await page.screenshot({ path: ".qa/insertion-desktop.png" });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: ".qa/insertion-mobile.png" });
+  for (const [width, height] of [[1024, 560], [1280, 580], [1536, 707]]) {
+    await page.setViewportSize({ width, height });
+    expect(await page.locator(".insertion-world").evaluate(node => node.scrollHeight - node.clientHeight)).toBeLessThanOrEqual(1);
+    await expect(page.getByRole("button", { name: "Buta gợi ý", exact: true })).toBeInViewport();
+  }
+});
+
+
+test("play does not reveal the next move and checks the actual number dragged", async ({ page }) => {
+  await enter(page);
+  await custom(page, "8, 3, 6, 2, 5");
+  const task = await page.locator(".insertion-task").innerText();
+  await expect(page.locator(".insertion-tile:enabled")).toHaveCount(5);
+  await expect(page.locator(".insertion-board .lucide-arrow-up, .insertion-board .lucide-arrow-right")).toHaveCount(0);
+  await expect(page.locator(".insertion-task")).not.toContainText(/\d/);
+  await expect(page.locator(".insertion-lift-slot, .slot-hinted")).toHaveCount(0);
+  await page.getByRole("button", { name: "Buta gợi ý", exact: true }).click();
+  await expect(page.locator(".insertion-lift-slot")).toBeVisible();
+  await page.getByRole("button", { name: "Đóng gợi ý", exact: true }).click();
+  await expect(page.locator(".insertion-lift-slot")).toHaveCount(0);
+  const tray = (await page.locator("[data-insertion-lift]").boundingBox())!;
+  await dragTo(page, page.locator('.insertion-tile[data-index="3"]'), page.locator("[data-insertion-lift]"));
+  await expect(page.locator(".tile-held")).toHaveCount(0);
+  await expect(page.getByRole("status")).not.toContainText(/Nhấc số|lớn hơn|\d/);
+  await dragTo(page, page.locator('.insertion-tile[data-index="1"]'), page.locator("[data-insertion-lift]"));
+  await expect(page.locator(".insertion-task")).toHaveText(task);
+  const key = (await page.locator(".tile-held").boundingBox())!;
+  expect(Math.abs(key.x + key.width / 2 - tray.x - tray.width / 2)).toBeLessThanOrEqual(1);
+  // A non-adjacent number must not silently move the actual left neighbour.
+  await dragTo(page, page.locator('.insertion-tile[data-index="4"]'), page.locator("[data-insertion-hole]"));
+  await expect(page.locator('[data-insertion-hole="1"]')).toBeVisible();
+  await expect(page.locator('.insertion-tile[data-index="0"]')).toHaveAttribute("data-value", "8");
+  await page.getByRole("button", { name: "Buta gợi ý", exact: true }).click();
+  await expect(page.locator(".insertion-hint")).toContainText("8 lớn hơn 3");
 });

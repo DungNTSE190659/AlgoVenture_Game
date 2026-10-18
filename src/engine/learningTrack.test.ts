@@ -35,14 +35,14 @@ describe("curriculum and progress", () => {
     vi.stubGlobal("localStorage", { getItem: (key: string) => key === "algoventure.world-progress.v2" ? '{"array":true,"bubble":true,"bst":true,"binary":"true","unknown":true}' : null });
     const progress = readTrackProgress();
     expect(progress).toEqual({ bubble: true, bst: true });
-    expect(currentLesson(progress).id).toBe("insertion");
+    expect(currentLesson(progress).id).toBe("selection");
     expect(lessonUnlocked("quick", progress)).toBe(false);
     expect(regionUnlocked("trees", progress)).toBe(false);
   });
   it("imports v1 saves and prefers the current save when it exists", () => {
     vi.stubGlobal("localStorage", { getItem: (key: string) => key === "algoventure.learning-track.v1" ? '{"bubble":true}' : null });
     expect(readTrackProgress()).toEqual({ bubble: true });
-    expect(currentLesson(readTrackProgress()).id).toBe("insertion");
+    expect(currentLesson(readTrackProgress()).id).toBe("selection");
     vi.stubGlobal("localStorage", { getItem: (key: string) => key === STORAGE_KEY ? '{"array":true,"linear":true}' : '{"quick":true}' });
     expect(readTrackProgress()).toEqual({ linear: true });
   });
@@ -55,8 +55,10 @@ describe("curriculum and progress", () => {
   it("keeps shipped games playable while unfinished lessons stay on the map", () => {
     expect(currentLesson({}).id).toBe("bubble");
     expect(lessonUnlocked("insertion", {})).toBe(false);
-    expect(lessonUnlocked("insertion", { bubble: true })).toBe(true);
-    expect(lessonUnlocked("quick", { bubble: true, insertion: true })).toBe(true);
+    expect(lessonUnlocked("selection", { bubble: true })).toBe(true);
+    expect(lessonUnlocked("insertion", { bubble: true })).toBe(false);
+    expect(lessonUnlocked("insertion", { bubble: true, selection: true })).toBe(true);
+    expect(lessonUnlocked("quick", { bubble: true, selection: true, insertion: true })).toBe(true);
     expect(regionUnlocked("linear-structures", { bubble: true, insertion: true, quick: true })).toBe(false);
   });
   it("keeps Search and Sort independent, with local lesson order and progress", () => {
@@ -78,7 +80,7 @@ describe("curriculum and progress", () => {
     vi.stubGlobal("localStorage", { getItem: () => '{"linear":true,"binary":true,"bubble":true,"insertion":true}' });
     const progress = readTrackProgress();
     expect(progress).toEqual({ linear: true, binary: true, bubble: true, insertion: true });
-    expect(currentRouteLesson("sort", progress).id).toBe("quick");
+    expect(currentRouteLesson("sort", progress).id).toBe("selection");
     expect(currentRouteLesson("search", progress).id).toBe("binary");
   });
 });

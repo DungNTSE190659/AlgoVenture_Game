@@ -104,7 +104,7 @@ for (const algorithm of ["Bubble Sort", "Quick Sort"])
       .click();
     if (algorithm === 'Bubble Sort') {
       await expect(page.locator('.learning-map')).toBeVisible();
-      await expect(page.locator('#track-sheet-title')).toHaveText('Insertion Sort');
+      await expect(page.locator('#track-sheet-title')).toHaveText('Selection Sort');
       await expect(page.getByRole('button', {name:'Thử thách',exact:true})).toBeEnabled();
     } else {
       await expect(page.locator('.learning-map')).toBeVisible();

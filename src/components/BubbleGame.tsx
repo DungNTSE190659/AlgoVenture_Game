@@ -1,3 +1,4 @@
+import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
 import {
   useEffect,
   useLayoutEffect,
@@ -7,16 +8,12 @@ import {
   type CSSProperties,
 } from "react";
 import {
-  ArrowLeft,
   Check,
-  Lightbulb,
   Pause,
   Play,
   RotateCcw,
-  Settings,
   SkipBack,
   SkipForward,
-  Star,
   Volume2,
   VolumeX,
   X,
@@ -37,27 +34,7 @@ import Pig from "./Pig";
 import BubbleRunBoard from "./BubbleRunBoard";
 import World from "./World";
 import VictoryCelebration from "./VictoryCelebration";
-
-// A synthesized touch activation can unmount this screen before Chromium sends
-// its compatibility click. Catch that click on the document so it cannot press
-// the map's Back button underneath. A new gesture always releases the guard.
-function activateTouchButton(button: HTMLButtonElement) {
-  const clear = () => {
-    clearTimeout(timer);
-    document.removeEventListener("click", suppress, true);
-    document.removeEventListener("pointerdown", clear, true);
-  };
-  const suppress = (event: MouseEvent) => {
-    if (event.detail === 0) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    clear();
-  };
-  const timer = window.setTimeout(clear, 600);
-  document.addEventListener("click", suppress, true);
-  document.addEventListener("pointerdown", clear, true);
-  button.click();
-}
+import { activateTouchButton } from "./touchActivation";
 
 type Props = {
   mode: "demo" | "play";
@@ -250,7 +227,7 @@ export default function BubbleGame({
           ? `Hai số cùng bằng ${a}, nên mình giữ nguyên thứ tự của chúng. Bấm Giữ nguyên để chuyển sang cặp tiếp theo nhé.`
           : `${a} nhỏ hơn ${b}, nên hai số đã đúng thứ tự từ bé đến lớn. Bấm Giữ nguyên để xét cặp tiếp theo, không cần đổi chỗ nhé.`;
   return (
-    <main
+    <GameLayout play={!demo}
       className={`bubble-world ${demo ? "bubble-demo" : "bubble-play"}`}
       data-busy={!!busy}
       onPointerDownCapture={(event) => {
@@ -284,44 +261,12 @@ export default function BubbleGame({
       }}
     >
       {!demo && <World />}
-      <header
-        className={`lesson-header bubble-header ${!demo ? "play-header" : ""}`}
-      >
-        <button
-          className="round-button"
-          onClick={onBack}
-          aria-label="Về bản đồ"
-        >
-          <ArrowLeft size={25} />
-        </button>
-        <h1>Bubble Sort</h1>
-        <button
-          className="round-button"
-          onClick={() => {
-            gameAudio.unlock();
-            setSettings(true);
-          }}
-          aria-label="Tùy chọn"
-        >
-          <Settings size={25} />
-        </button>
-      </header>
-      {!demo && (
-        <div className="bubble-topline play-stats">
-          <span className="bubble-score play-score">
-            <Star size={17} fill="currentColor" />
-            <strong>
-              {Math.max(
-                0,
-                state.comparisons * 100 - mistakes * 25,
-              ).toLocaleString("vi-VN")}
-            </strong>
-          </span>
-          <span>Lượt {shown.pass}</span>
-          <span>{shown.comparisons} lần so sánh</span>
-          <span>{shown.swaps} lần đổi chỗ</span>
-        </div>
-      )}
+      <GameHeader title="Bubble Sort" className="bubble-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
+      {!demo && <GameStats className="bubble-topline" scoreClassName="bubble-score" score={Math.max(0, state.comparisons * 100 - mistakes * 25)}>
+        <span>Lượt {shown.pass}</span>
+        <span>{shown.comparisons} lần so sánh</span>
+        <span>{shown.swaps} lần đổi chỗ</span>
+      </GameStats>}
       <section className="bubble-content">
         {demo && (
           <div className="bubble-topline">
@@ -507,7 +452,7 @@ export default function BubbleGame({
         </>
       ) : (
         !done && (
-          <footer className="bubble-play-footer">
+          <GameFooter className="bubble-play-footer">
             {hint && (
               <div className="bubble-hint">
                 <Pig mood="thinking" />
@@ -521,7 +466,7 @@ export default function BubbleGame({
                 </button>
               </div>
             )}
-            <button
+            <GameHintButton
               className="bubble-hint-button"
               disabled={!!busy}
               aria-expanded={hint}
@@ -530,10 +475,8 @@ export default function BubbleGame({
                 playFeedback("hint");
                 setHint((v) => !v);
               }}
-            >
-              <Lightbulb size={22} /> Buta gợi ý
-            </button>
-          </footer>
+            />
+          </GameFooter>
         )
       )}
       {settings && (
@@ -627,7 +570,7 @@ export default function BubbleGame({
           </button>
         </BubbleSettings>
       )}
-    </main>
+    </GameLayout>
   );
 }
 

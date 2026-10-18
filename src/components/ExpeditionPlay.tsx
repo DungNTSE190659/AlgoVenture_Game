@@ -1,3 +1,4 @@
+import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
 import {
   useEffect,
   useRef,
@@ -5,13 +6,10 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import {
-  ArrowLeft,
   Check,
   Compass,
   Flag,
-  Lightbulb,
   RotateCcw,
-  Settings,
   Star,
   Undo2,
   Volume2,
@@ -450,41 +448,13 @@ export default function ExpeditionPlay({
             ? "Kiểm tra hai nhóm để mở đường"
             : `Chia nhóm theo chốt ${pivot.value}`;
   return (
-    <main
+    <GameLayout
       ref={world}
       className={`expedition-world ${done ? "expedition-complete" : ""} ${celebration !== null ? "expedition-celebrating" : ""}`}
     >
       <World />
-      <header className="expedition-header play-header">
-        <button
-          className="round-button"
-          onClick={() => {
-            gameAudio.stop();
-            onBack();
-          }}
-          aria-label="Về bản đồ"
-        >
-          <ArrowLeft size={23} />
-        </button>
-        <div>
-          <h1>Quick Sort</h1>
-        </div>
-        <button
-          className="round-button"
-          onClick={() => {
-            gameAudio.stop();
-            setSettings(true);
-          }}
-          aria-label="Tùy chọn"
-        >
-          <Settings size={22} />
-        </button>
-      </header>
-      <div className="expedition-stats play-stats">
-        <span className="expedition-score play-score">
-          <Star size={17} fill="currentColor" />
-          <strong>{score.toLocaleString("vi-VN")}</strong>
-        </span>
+      <GameHeader title="Quick Sort" className="expedition-header" onBack={() => { gameAudio.stop(); onBack(); }} onSettings={() => { gameAudio.stop(); setSettings(true); }} />
+      <GameStats className="expedition-stats" scoreClassName="expedition-score" score={score}>
         <span>
           {difficulty === "hard"
             ? `${Math.ceil(remaining)} giây`
@@ -492,7 +462,7 @@ export default function ExpeditionPlay({
         </span>
         <span>{moves} lượt kéo</span>
         {streak > 1 && <b className="expedition-streak">Chuỗi {streak}</b>}
-      </div>
+      </GameStats>
       <div className="expedition-trail" aria-label="Tiến độ sắp xếp">
         <span>
           <Compass size={17} />
@@ -660,7 +630,7 @@ export default function ExpeditionPlay({
             ? `Đã nhấc khối ${byId(selected).value}. Chọn nơi muốn đặt.`
             : "")}
       </div>
-      <footer className="expedition-controls">
+      <GameFooter className="expedition-controls">
         <button
           className="round-button expedition-undo"
           aria-label="Hoàn tác lượt kéo"
@@ -677,16 +647,16 @@ export default function ExpeditionPlay({
           <Undo2 size={22} />
         </button>
         {!done && (
-          <button
+          <GameHintButton
             className="expedition-hint-button"
             ref={hintTrigger}
             onClick={showHint}
             disabled={!island || celebration !== null}
           >
-            <Lightbulb size={20} /> Buta gợi ý <small>50 điểm</small>
-          </button>
+            <small>50 điểm</small>
+          </GameHintButton>
         )}
-      </footer>
+      </GameFooter>
       {ghost && (
         <div
           className="cargo-ghost cargo-crate"
@@ -819,6 +789,6 @@ export default function ExpeditionPlay({
           Tiếp tục chơi
         </button>
       </dialog>
-    </main>
+    </GameLayout>
   );
 }

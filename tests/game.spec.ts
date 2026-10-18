@@ -20,7 +20,7 @@ test("five Sort lessons offer optional demo and direct challenge; locked islands
   await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeDisabled();
   await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Bubble Sort");
   await page.getByRole("button", { name: "Insertion Sort", exact: true }).click();
-  await expect(page.locator(".sheet-description")).toHaveText("Xong Bubble Sort để mở.");
+  await expect(page.locator(".sheet-description")).toHaveText("Xong Selection Sort để mở.");
   await page.getByRole("button", { name: "Quick Sort", exact: true }).click();
   await expect(page.locator(".sheet-description")).toHaveText("Xong Insertion Sort để mở.");
   await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();
@@ -58,8 +58,8 @@ test("winning Bubble persists progress and Buta walks along the newly opened roa
   const before = await page.locator(".track-buta").getAttribute("style");
   await expect.poll(() => page.locator(".track-buta").getAttribute("style")).not.toBe(before);
   await expect(page.locator(".buta-walking")).toHaveCount(0);
-  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Insertion Sort");
-  await expect(page.locator(".stop-locked")).toHaveCount(2);
+  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Selection Sort");
+  await expect(page.locator(".stop-locked")).toHaveCount(3);
   await expect(page.locator(".stop-complete")).toHaveCount(1);
   await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeEnabled();
   await page.screenshot({ path: ".qa/learning-track-unlocked-390.png" });
@@ -67,9 +67,9 @@ test("winning Bubble persists progress and Buta walks along the newly opened roa
   await page.getByRole("button", { name: "Xem chủ đề Mảng", exact: true }).click();
   await page.getByRole("button", { name: "Tiếp tục", exact: true }).click();
   await expect(page.locator(".stop-complete")).toHaveCount(1);
-  await expect(page.locator(".stop-locked")).toHaveCount(2);
-  await expect(page.locator("#track-sheet-title")).toHaveText("Insertion Sort");
-  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Insertion Sort");
+  await expect(page.locator(".stop-locked")).toHaveCount(3);
+  await expect(page.locator("#track-sheet-title")).toHaveText("Selection Sort");
+  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Selection Sort");
 });
 
 test("portrait and landscape layouts keep both actions and Buta inside the viewport", async ({ page }) => {

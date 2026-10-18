@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AdventureMap from "./components/AdventureMap";
 import WorldMap from "./components/WorldMap";
 import InsertionGame from "./components/InsertionGame";
+import SelectionGame from "./components/SelectionGame";
 import DemoLesson from "./components/DemoLesson";
 import BubbleGame from "./components/BubbleGame";
 import { arrayRouteForLesson, currentRouteLesson, currentLesson, lessonAvailable, lessonUnlocked, nextLesson, readTrackProgress, regionForLesson, REGIONS, regionUnlocked, saveTrackProgress, type ArrayRouteId, type RegionId, type TrackId } from "./engine/learningTrack";
@@ -123,6 +124,7 @@ export default function App() {
         onSound={() => changeSound(!sound)}
       />
     );
+  if (algorithm === "selection") return <SelectionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "insertion") return <InsertionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "bubble")
     return (

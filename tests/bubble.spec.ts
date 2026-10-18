@@ -80,7 +80,7 @@ test("relay play rejects the smaller carrier and sorts through adjacent passes",
     .getByRole("button", { name: "Đi tiếp cùng Buta", exact: true })
     .click();
   await expect(page.locator('.track-stop.stop-complete')).toHaveCount(1);
-  await expect(page.locator('#track-sheet-title')).toHaveText('Insertion Sort');
+  await expect(page.locator('#track-sheet-title')).toHaveText('Selection Sort');
   await expect(page.getByRole('button', { name: 'Thử thách', exact: true })).toBeEnabled();
   expect(errors).toEqual([]);
 });

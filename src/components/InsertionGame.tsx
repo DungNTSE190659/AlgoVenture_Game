@@ -1,5 +1,6 @@
+import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { ArrowLeft, ArrowRight, Check, Hand, Lightbulb, Pause, Play, RotateCcw, Settings, SkipBack, SkipForward, Star, Volume2, VolumeX, X } from "lucide-react";
+import { Check, Pause, Play, RotateCcw, SkipBack, SkipForward, Volume2, VolumeX, X } from "lucide-react";
 import { createInsertion, createInsertionLesson, insertionInstruction, insertionMove, type InsertionAction, type InsertionState } from "../engine/insertionSort";
 import { createArray, type Difficulty, type Item } from "../engine/quicksort";
 import { LEVELS } from "../engine/gameConfig";
@@ -28,7 +29,6 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
   const [busy, setBusy] = useState(false);
   const [hint, setHint] = useState(false);
   const [feedback, setFeedback] = useState("");
-  const [outcome, setOutcome] = useState<"correct" | "retry" | "">("");
   const [mistakes, setMistakes] = useState(0);
   const [moves, setMoves] = useState(0);
   const [draft, setDraft] = useState(input.join(", "));
@@ -78,15 +78,16 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
     onComplete();
   }, [demo, done, onComplete]);
 
-  function act(action: InsertionAction) {
+  function act(action: InsertionAction, itemId?: number) {
     if (demo || paused || lock.current || done) return;
     gameAudio.unlock();
-    const next = insertionMove(state, action);
+    const expected = action === "pick" ? state.items[state.cursor]?.id
+      : action === "shift" ? state.items[state.hole - 1]?.id : state.key?.id;
+    const next = (itemId === undefined || itemId === expected) ? insertionMove(state, action) : null;
     setHint(false);
     if (!next) {
       setMistakes(value => value + 1);
-      setOutcome("retry");
-      setFeedback(`Chưa đúng. ${insertionInstruction(state)}`);
+      setFeedback("Chưa đúng. Thử lại nhé, hoặc gọi Buta nếu cần gợi ý.");
       playFeedback("retry");
       return;
     }
@@ -94,8 +95,7 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
     setBusy(true);
     setMoves(value => value + 1);
     setState(next);
-    setOutcome("correct");
-    setFeedback(action === "pick" ? "Đã nhấc số. Tìm chỗ cho số này nhé!" : action === "shift" ? "Đúng rồi! Ô trống đã dịch sang trái." : "Chèn đúng chỗ! Phần có thứ tự đã dài hơn.");
+    setFeedback("");
     playFeedback(action === "pick" ? "pivot" : action === "shift" ? "bubble-swap" : "correct");
   }
   function step(delta: number) {
@@ -105,7 +105,7 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
   function reset() {
     gameAudio.stop(); stopHaptics(); lock.current = false; awarded.current = false; lastCue.current = -1;
     setState(createInsertion(input)); setCursor(0); setPlaying(false); setMotionPaused(false); setBusy(false);
-    setHint(false); setFeedback(""); setOutcome(""); setMoves(0); setMistakes(0); setSettings(false);
+    setHint(false); setFeedback(""); setMoves(0); setMistakes(0); setSettings(false);
   }
   function applyInput(event: React.FormEvent) {
     event.preventDefault();
@@ -116,38 +116,27 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
     }
     onChange(values, difficulty);
   }
-  const title = demo ? frame.title : done ? "Bạn đã làm được!" : shown.phase === "pick" ? "Nhấc một số, tìm đúng chỗ" : "Dịch sang phải hay chèn vào?";
-  return <main className={`insertion-world ${demo ? "insertion-demo" : "insertion-play"}`} data-busy={busy}>
+  const title = demo ? frame.title : done ? "Bạn đã làm được!" : "Sắp xếp từ bé đến lớn";
+  const instruction = done ? "Mảng đã được sắp xếp!" : "Kéo thả để sắp xếp dãy số.";
+  return <GameLayout play={!demo} className={`insertion-world ${demo ? "insertion-demo" : "insertion-play"}`} data-busy={busy}>
     {!demo && <World />}
-    <header className="lesson-header insertion-header">
-      <button className="round-button" aria-label="Về bản đồ" onClick={onBack}><ArrowLeft size={25} /></button>
-      <h1>Insertion Sort</h1>
-      <button className="round-button" aria-label="Tùy chọn" onClick={() => { gameAudio.unlock(); setSettings(true); }}><Settings size={25} /></button>
-    </header>
-    <div className="insertion-stats">
-      {!demo && <span><Star size={18} fill="currentColor" /> <strong>{score.toLocaleString("vi-VN")} điểm</strong></span>}
+    <GameHeader title="Insertion Sort" className="insertion-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
+    <GameStats className="insertion-stats" scoreClassName="insertion-score" score={demo ? undefined : score}>
       <span>{Math.min(shown.cursor, input.length)}/{input.length} số trong lượt</span><span>{shown.shifts} lần dịch</span>
-    </div>
+    </GameStats>
     <section className="insertion-content">
       <h2>{title}</h2>
-      <p className="insertion-task">{demo ? "Sắp xếp từ bé đến lớn · Chỉ dịch số lớn hơn số đang cầm" : insertionInstruction(shown)}</p>
-      <InsertionBoard state={shown} enabled={!demo && !paused && !busy && !done} paused={paused || motionPaused} onAction={act} />
-      <div className="insertion-legend"><span><i /> Phần có thứ tự</span><span><i /> Số đang chèn</span><span>Chỉ số bắt đầu từ 0</span></div>
-      {!demo && !done && <>
-        <div className="insertion-actions">
-          {shown.phase === "pick" ? <button className="chunky-button button-green" disabled={busy || paused} onClick={() => act("pick")}><Hand size={21} /> Nhấc số {shown.items[shown.cursor]!.value}</button> : <>
-            <button className="chunky-button button-purple" disabled={busy || paused} onClick={() => act("shift")}>Dịch sang phải <ArrowRight size={21} /></button>
-            <button className="chunky-button button-green" disabled={busy || paused} onClick={() => act("insert")}><Check size={21} /> Chèn vào ô trống</button>
-          </>}
-        </div>
-        <p key={`${moves}:${mistakes}`} className={`insertion-feedback feedback-${outcome}`} role="status">{feedback || "Chạm số để thao tác. Có thể kéo số đang cầm vào ô trống hoặc dùng các nút bên trên."}</p>
-        <button className="bubble-hint-button" aria-expanded={hint} disabled={busy || paused} onClick={() => { gameAudio.unlock(); playFeedback("hint"); setHint(value => !value); }}><Lightbulb size={21} /> Buta gợi ý</button>
-        {hint && <div className="insertion-dialogue"><Pig mood="thinking" /><p>{insertionInstruction(shown)}</p></div>}
-      </>}
+      <p className="insertion-task">{demo ? "Sắp xếp từ bé đến lớn · Chỉ dịch số lớn hơn số đang cầm" : instruction}</p>
+      <InsertionBoard state={shown} interactive={!demo} showHint={hint} enabled={!demo && !paused && !busy && !done} paused={paused || motionPaused} onAction={act} />
+      {!demo && !done && <p className="insertion-feedback" role="status">{feedback}</p>}
       {!demo && done && <VictoryCelebration className="insertion-victory" stars={mistakes === 0 ? 3 : mistakes <= 3 ? 2 : 1} difficulty={difficulty} onReplay={reset} onHarder={level => onChange(createArray(level), level)} onMap={onChooseMap}>
         <strong>{score.toLocaleString("vi-VN")} điểm</strong><p>{state.shifts} lần dịch · {mistakes} lần thử lại</p>
       </VictoryCelebration>}
     </section>
+    {!demo && !done && <GameFooter>
+        <GameHintButton className="bubble-hint-button" aria-expanded={hint} disabled={busy || paused} onClick={() => { gameAudio.unlock(); playFeedback("hint"); setHint(value => !value); }} />
+        {hint && <div className="insertion-dialogue insertion-hint"><Pig mood="thinking" /><p>{insertionInstruction(shown)}</p><button className="round-button" aria-label="Đóng gợi ý" onClick={() => setHint(false)}><X size={18} /></button></div>}
+    </GameFooter>}
     {demo && <footer className="insertion-controls">
       <div className="insertion-dialogue"><Pig mood={done ? "celebrate" : frame.cue === "pivot" ? "thinking" : "explaining"} /><p aria-live="polite">{frame.narration}</p></div>
       <div className="insertion-playback">
@@ -172,68 +161,98 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
       </form>
       <button className="chunky-button button-green modal-primary" onClick={() => setSettings(false)}>Tiếp tục</button>
     </dialog>}
-  </main>;
+  </GameLayout>;
 }
 
-function InsertionBoard({ state, enabled, paused, onAction }: { state: InsertionState; enabled: boolean; paused: boolean; onAction: (action: InsertionAction) => void }) {
+function InsertionBoard({ state, interactive, showHint, enabled, paused, onAction }: { state: InsertionState; interactive: boolean; showHint: boolean; enabled: boolean; paused: boolean; onAction: (action: InsertionAction, itemId?: number) => void }) {
   const scroll = useRef<HTMLDivElement>(null);
-  const [ghost, setGhost] = useState<{ x: number; y: number } | null>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
+  const [ghost, setGhost] = useState<{ x: number; y: number; id: number; value: number } | null>(null);
   const [over, setOver] = useState(false);
-  const drag = useRef<{ pointer: number; x: number; y: number; moved: boolean } | null>(null);
+  const drag = useRef<{ pointer: number; x: number; y: number; moved: boolean; action: InsertionAction; item: Item } | null>(null);
   const suppressedClick = useRef(false);
   const items = [...state.items.filter((item): item is Item => item !== null), ...(state.key ? [state.key] : [])].sort((a, b) => a.id - b.id);
   useLayoutEffect(() => {
-    const area = scroll.current, board = area?.querySelector<HTMLElement>(".insertion-board");
+    const area = scroll.current, board = boardRef.current;
     if (!area || !board) return;
     const step = parseFloat(getComputedStyle(board).getPropertyValue("--step"));
     const index = Math.min(state.phase === "compare" ? state.hole : state.cursor, state.items.length - 1);
     const left = Math.max(0, index * step + step / 2 + 24 - area.clientWidth / 2);
     area.scrollTo({ left, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
   }, [state.cursor, state.hole, state.phase, state.items.length]);
-  useEffect(() => { if (!enabled) { drag.current = null; setGhost(null); setOver(false); } }, [enabled]);
+  function cancel() {
+    const gesture = drag.current;
+    drag.current = null; setGhost(null); setOver(false);
+    if (gesture && boardRef.current?.hasPointerCapture(gesture.pointer)) boardRef.current.releasePointerCapture(gesture.pointer);
+  }
+  useEffect(() => { if (!enabled) cancel(); }, [enabled]);
+  function targetAt(x: number, y: number, action: InsertionAction) {
+    const target = document.elementFromPoint(x, y)?.closest(action === "pick" ? "[data-insertion-lift]" : "[data-insertion-hole]");
+    return !!target && !!boardRef.current?.contains(target);
+  }
+  useEffect(() => {
+    if (!ghost) return;
+    const timer = setInterval(() => {
+      const area = scroll.current, gesture = drag.current;
+      if (!area || !gesture) return;
+      const box = area.getBoundingClientRect();
+      if (ghost.y < box.top || ghost.y > box.bottom) return;
+      const direction = ghost.x < box.left + 32 ? -1 : ghost.x > box.right - 32 ? 1 : 0;
+      if (direction) {
+        area.scrollBy({ left: direction * 10 });
+        setOver(targetAt(ghost.x, ghost.y, gesture.action));
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [ghost]);
   function move(event: PointerEvent<HTMLDivElement>) {
     const gesture = drag.current;
-    if (!gesture || gesture.pointer !== event.pointerId) return;
-    if (Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) > 6) gesture.moved = true;
-    if (!gesture.moved) return;
-    setGhost({ x: event.clientX, y: event.clientY });
-    setOver(!!document.elementFromPoint(event.clientX, event.clientY)?.closest("[data-insertion-hole]"));
+    if (!gesture || gesture.pointer !== event.pointerId || !enabled) return;
+    if (!gesture.moved && Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) <= 6) return;
+    if (!gesture.moved) {
+      gesture.moved = true; suppressedClick.current = true;
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+    setGhost({ x: event.clientX, y: event.clientY, id: gesture.item.id, value: gesture.item.value });
+    setOver(targetAt(event.clientX, event.clientY, gesture.action));
   }
   function end(event: PointerEvent<HTMLDivElement>) {
     const gesture = drag.current;
     if (!gesture || gesture.pointer !== event.pointerId) return;
-    drag.current = null; setGhost(null); setOver(false);
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
-    if (gesture.moved) {
-      suppressedClick.current = true;
-      if (document.elementFromPoint(event.clientX, event.clientY)?.closest("[data-insertion-hole]")) onAction("insert");
-    }
+    const accepted = enabled && gesture.moved && targetAt(event.clientX, event.clientY, gesture.action);
+    cancel();
+    if (accepted) onAction(gesture.action, gesture.item.id);
   }
   return <div className="insertion-board-scroll" ref={scroll}>
-    <div className="insertion-board" aria-label="Mảng Insertion Sort" style={{ "--count": state.items.length } as CSSProperties} onPointerMove={move} onPointerUp={end} onPointerCancel={() => { drag.current = null; setGhost(null); setOver(false); }}>
-      {state.key && <span className="insertion-key-label">ĐANG CẦM: {state.key.value}</span>}
-      {state.items.map((item, index) => <button key={index} className={`insertion-slot ${!item ? "slot-empty" : ""} ${!item && over ? "slot-over" : ""}`} style={{ left: `calc(var(--step) * ${index})` }} data-insertion-hole={!item ? index : undefined} aria-label={`Ô ${index}${!item ? ", chèn số đang cầm" : ""}`} disabled={!!item || !enabled} onClick={() => onAction("insert")}><span>{!item && <ArrowRight size={22} />}</span><small>{index}</small></button>)}
+    <div className="insertion-board" ref={boardRef} aria-label="Mảng Insertion Sort" style={{ "--count": state.items.length } as CSSProperties} onPointerMove={move} onPointerUp={end} onPointerCancel={cancel} onLostPointerCapture={event => {
+      // Touch implicitly captures the tile first. Transferring capture to the
+      // board also emits a bubbled lost event from that tile; the drag continues.
+      if (event.target === event.currentTarget) cancel();
+    }}>
+      {interactive && state.phase === "pick" && <div className="insertion-lift-zone" data-insertion-lift aria-hidden="true">
+        {showHint && <div className={`insertion-lift-slot ${over ? "slot-over" : ""}`} style={{ left: "calc(50% - var(--tile) / 2)" }} />}
+      </div>}
+      {state.items.map((item, index) => <button key={index} className={`insertion-slot ${!item ? "slot-empty" : ""} ${!item && showHint ? "slot-hinted" : ""} ${!item && over && showHint ? "slot-over" : ""}`} style={{ left: `calc(var(--step) * ${index})` }} data-insertion-hole={!item ? index : undefined} aria-label={`Ô ${index}${!item ? ", chèn số đang cầm" : ""}`} disabled={!!item || !enabled} onClick={() => onAction("insert")}><small>{index}</small></button>)}
       {items.map(item => {
         const index = state.items.findIndex(value => value?.id === item.id);
         const held = state.key?.id === item.id;
-        const actionable = state.phase === "pick" ? index === state.cursor : held || index === state.hole - 1;
-        return <InsertionTile key={item.id} item={item} index={held ? state.hole : index} held={held} settled={!held && (state.phase === "done" || index < (state.phase === "pick" ? state.cursor : state.hole))} disabled={!enabled || !actionable} paused={paused} onClick={() => {
+        const action: InsertionAction = state.phase === "pick" ? "pick" : held ? "insert" : "shift";
+        return <InsertionTile key={item.id} item={item} index={held ? interactive ? (state.items.length - 1) / 2 : state.hole : index} held={held} dragging={ghost?.id === item.id} settled={!held && (state.phase === "done" || index < (state.phase === "pick" ? state.cursor : state.hole))} disabled={!enabled} paused={paused} onClick={() => {
           if (suppressedClick.current) { suppressedClick.current = false; return; }
-          onAction(state.phase === "pick" ? "pick" : held ? "insert" : "shift");
+          onAction(action, item.id);
         }} onPointerDown={event => {
           suppressedClick.current = false;
-          if (!held || !enabled || event.button !== 0) return;
+          if (!enabled || event.button !== 0) return;
           gameAudio.unlock();
-          drag.current = { pointer: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
-          event.currentTarget.parentElement!.setPointerCapture(event.pointerId);
+          drag.current = { pointer: event.pointerId, x: event.clientX, y: event.clientY, moved: false, action, item };
         }} />;
       })}
     </div>
-    {ghost && <div className="insertion-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true">{state.key?.value}</div>}
+    {ghost && <div className="insertion-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true">{ghost.value}</div>}
   </div>;
 }
 
-function InsertionTile({ item, index, held, settled, disabled, paused, onClick, onPointerDown }: { item: Item; index: number; held: boolean; settled: boolean; disabled: boolean; paused: boolean; onClick: () => void; onPointerDown: React.PointerEventHandler<HTMLButtonElement> }) {
+function InsertionTile({ item, index, held, dragging, settled, disabled, paused, onClick, onPointerDown }: { item: Item; index: number; held: boolean; dragging: boolean; settled: boolean; disabled: boolean; paused: boolean; onClick: () => void; onPointerDown: React.PointerEventHandler<HTMLButtonElement> }) {
   const ref = useRef<HTMLButtonElement>(null);
   const previous = useRef({ index, held });
   const animation = useRef<Animation | null>(null);
@@ -251,5 +270,5 @@ function InsertionTile({ item, index, held, settled, disabled, paused, onClick, 
     else if (animation.current?.playState === "paused") animation.current.play();
   }, [paused, index, held]);
   useEffect(() => () => animation.current?.cancel(), []);
-  return <button ref={ref} className={`insertion-tile ${held ? "tile-held" : ""} ${settled ? "tile-sorted" : ""}`} style={{ left: `calc(var(--step) * ${index})`, top: held ? 0 : 100 }} disabled={disabled} aria-label={held ? `Số đang cầm ${item.value}, chèn vào ô trống` : `Số ${item.value}, ô ${index}`} data-item-id={item.id} data-value={item.value} data-index={held ? "held" : index} onClick={onClick} onPointerDown={onPointerDown}><strong>{item.value}</strong>{settled && <Check size={14} />}</button>;
+  return <button ref={ref} className={`insertion-tile ${held ? "tile-held" : ""} ${dragging ? "tile-dragging" : ""} ${settled ? "tile-sorted" : ""}`} style={{ left: `calc(var(--step) * ${index})`, top: held ? 0 : 100 }} disabled={disabled} aria-label={held ? `Số đang cầm ${item.value}, chèn vào ô trống` : `Số ${item.value}, ô ${index}`} data-item-id={item.id} data-value={item.value} data-index={held ? "held" : index} onClick={onClick} onPointerDown={onPointerDown}><strong>{item.value}</strong>{settled && <Check size={14} />}</button>;
 }

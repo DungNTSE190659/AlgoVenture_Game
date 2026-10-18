@@ -70,16 +70,16 @@ test("missing just the last Array challenge keeps the second topic locked", asyn
   await expect(page.locator(".region-locked")).toHaveCount(3);
 });
 
-test("Bubble demo never unlocks Insertion Sort", async ({ page }) => {
+test("Bubble demo never unlocks Selection Sort", async ({ page }) => {
   await enterArray(page, "Xem demo");
   for (let step = 0; step < 3; step++) await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
   await page.getByRole("button", { name: "Về bản đồ", exact: true }).click();
   await expect(page.locator(".stop-complete")).toHaveCount(0);
-  await page.getByRole("button", { name: "Insertion Sort", exact: true }).click();
+  await page.getByRole("button", { name: "Selection Sort", exact: true }).click();
   await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeDisabled();
 });
 
-test("Bubble victory opens Insertion Sort and Buta walks there; the next topic stays locked", async ({ page }) => {
+test("Bubble victory opens Selection Sort and Buta walks there; the next topic stays locked", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await enterArray(page);
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
@@ -89,14 +89,14 @@ test("Bubble victory opens Insertion Sort and Buta walks there; the next topic s
   await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
   await expect(page.locator(".buta-walking")).toBeVisible();
   await expect(page.locator(".buta-walking")).toHaveCount(0);
-  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Insertion Sort");
-  await expect(page.locator(".stop-locked")).toHaveCount(2);
+  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Selection Sort");
+  await expect(page.locator(".stop-locked")).toHaveCount(3);
   await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
   await expect(page.locator(".region-locked")).toHaveCount(3);
   await page.reload();
   await expect(page.locator(".atlas-region-progress")).toHaveText("1/7");
   await page.locator(".atlas-enter").click();
-  await expect(page.locator("#track-sheet-title")).toHaveText("Insertion Sort");
+  await expect(page.locator("#track-sheet-title")).toHaveText("Selection Sort");
 });
 
 test("Buta follows the enlarged map road when entering another unlocked topic", async ({ page }) => {
