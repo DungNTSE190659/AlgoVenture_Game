@@ -1,0 +1,1336 @@
+.expedition-world {
+  --crate: 78px;
+  height: 100dvh;
+  width: 100%;
+  overflow: auto;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  background: #f5f5e8;
+  color: #47584a;
+}
+.expedition-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 3% 3px;
+  flex-shrink: 0;
+}
+.expedition-header > div {
+  text-align: center;
+}
+.expedition-header > div > span {
+  font-size: 10px;
+  font-weight: 900;
+  color: #8b9a7d;
+  letter-spacing: 2px;
+}
+.expedition-header h1 {
+  font-size: 26px;
+  font-weight: 1000;
+  color: #556b53;
+  line-height: 1.25;
+}
+.expedition-header .round-button {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+}
+.expedition-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-height: 40px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #849371;
+  font-weight: 850;
+}
+.expedition-score {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #b39341;
+  padding: 5px 14px;
+  background: #fff6d4;
+  border: 2px solid #fffbed;
+  border-radius: 12px;
+  box-shadow: 0 3px 0 #ddcf9e;
+}
+.expedition-score strong {
+  font-size: 16px;
+}
+.expedition-streak {
+  color: #bc8056;
+}
+.expedition-trail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  margin: 10px auto 0;
+  flex-shrink: 0;
+}
+.expedition-trail > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #849171;
+  font-size: 11px;
+  font-weight: 850;
+}
+.expedition-trail-blocks {
+  display: flex;
+  gap: 6px;
+}
+.expedition-trail-blocks > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 34px;
+  height: 32px;
+  border: 2px solid #d7dfcc;
+  border-radius: 8px;
+  background: #e8eddf;
+  color: #8d9880;
+  font-size: 15px;
+  font-weight: 900;
+  transition:
+    background 0.35s,
+    transform 0.35s;
+}
+.expedition-trail-blocks > .trail-active {
+  background: #eee5f6;
+  border-color: #cbb6df;
+  color: #9071a7;
+}
+.expedition-trail-blocks > .trail-fixed {
+  background: #f5dfa1;
+  border-color: #e6c573;
+  color: #9c742f;
+}
+.expedition-trail-blocks svg {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #a58137;
+}
+.expedition-stage {
+  width: min(1060px, 94%);
+  margin: auto;
+  padding: 16px 0 10px;
+  flex-shrink: 0;
+}
+.expedition-stage > h2 {
+  text-align: center;
+  font-size: 29px;
+  line-height: 1.3;
+  letter-spacing: -0.6px;
+  font-weight: 1000;
+  margin-bottom: 18px;
+  color: #435e49;
+}
+.cargo-pool {
+  width: 100%;
+  border: 2px solid #e3ddc7;
+  background: #fffdf0b8;
+  border-radius: 21px;
+  padding: 12px 18px 17px;
+  min-height: 150px;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+}
+.cargo-pool-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #9e8d65;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 9px;
+}
+.cargo-pool-label b {
+  font-size: 11px;
+  padding: 1px 6px;
+  background: #eae3c9;
+  border-radius: 7px;
+}
+.cargo-pool-label small {
+  font-size: 10px;
+  color: #b1a68b;
+  margin-left: 7px;
+  font-weight: 750;
+}
+.cargo-pool-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 13px;
+  min-height: var(--crate);
+}
+.cargo-crate {
+  width: var(--crate);
+  height: var(--crate);
+  flex: 0 0 var(--crate);
+  border: 3px solid #f5d5a0;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #d6a96c, #bd8e57);
+  box-shadow:
+    0 6px 0 #92734d,
+    inset 0 0 0 4px #c1955e,
+    inset 0 0 0 6px #eed0a080;
+  color: #fffaf0;
+  font-size: 34px;
+  font-weight: 1000;
+  text-shadow: 0 2px 0 #8e693f66;
+  display: grid;
+  place-items: center;
+  position: relative;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    box-shadow 0.15s,
+    opacity 0.15s;
+  z-index: 1;
+}
+.cargo-crate > i {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #94744c;
+  box-shadow: 0 calc(var(--crate) - 24px) 0 #94744c;
+}
+.cargo-crate > i:last-child {
+  left: auto;
+  right: 7px;
+}
+.cargo-crate:not(:disabled):hover {
+  filter: brightness(1.06);
+}
+.cargo-crate:not(:disabled):active {
+  cursor: grabbing;
+}
+.cargo-crate:disabled {
+  opacity: 1;
+}
+.cargo-crate.cargo-selected {
+  outline: 3px solid #8ca96e;
+  outline-offset: 4px;
+}
+.cargo-crate.cargo-lifted {
+  opacity: 0.25;
+}
+.cargo-crate.cargo-wrong {
+  border-color: #db8271;
+  box-shadow:
+    0 6px 0 #b46e5b,
+    0 0 0 3px #e2a49566;
+  animation: cargo-shake 0.35s;
+}
+.cargo-ghost.cargo-crate {
+  position: fixed;
+  z-index: 90;
+  pointer-events: none;
+  transform: translate(-50%, -65%) rotate(-6deg) scale(1.08);
+  box-shadow:
+    0 12px 0 #94734c55,
+    0 24px 30px #4d573940;
+  opacity: 0.96;
+}
+.expedition-partition {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 130px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 18px;
+  margin-top: 20px;
+}
+.cargo-zone {
+  min-width: 0;
+  border: 3px dashed #a4c198;
+  background: #e1edd5bd;
+  border-radius: 23px;
+  padding: 12px;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.cargo-zone-label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  text-align: left;
+  background: transparent;
+  color: #62864f;
+  font-size: 17px;
+  font-weight: 950;
+}
+.cargo-zone-label svg {
+  flex-shrink: 0;
+}
+.cargo-zone-label small {
+  display: block;
+  font-size: 10px;
+  font-weight: 850;
+  margin-top: 2px;
+}
+.cargo-zone-label b {
+  margin-left: auto;
+  font-size: 12px;
+  background: #c3dab3;
+  border-radius: 9px;
+  min-width: 22px;
+  text-align: center;
+  padding: 2px;
+}
+.cargo-zone-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: calc(var(--crate) + 20px);
+  padding: 12px 0 5px;
+}
+.zone-large {
+  background: #deebf3c9;
+  border-color: #a4becd;
+}
+.zone-large .cargo-zone-label {
+  color: #5b8197;
+}
+.zone-large .cargo-zone-label b {
+  background: #c5dae5;
+}
+.cargo-empty {
+  font-size: 12px;
+  font-weight: 800;
+  color: #91a783;
+}
+.zone-large .cargo-empty {
+  color: #91a7b2;
+}
+.cargo-pool-empty {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #a1aa8d;
+  font-size: 14px;
+  font-weight: 850;
+}
+.cargo-pool.pool-empty {
+  min-height: 65px;
+}
+.pool-empty .cargo-pool-content {
+  min-height: 25px;
+}
+.cargo-pool-label,
+.cargo-zone-label,
+.cargo-pivot-label {
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+}
+.cargo-zone-label:disabled,
+.cargo-pool-label:disabled,
+.cargo-pivot-label:disabled {
+  opacity: 1;
+}
+.cargo-zone-content .cargo-crate,
+.cargo-pivot .cargo-crate {
+  animation: cargo-land 0.3s ease-out;
+}
+@keyframes cargo-land {
+  0% {
+    transform: translateY(-12px) scale(1.08);
+  }
+  65% {
+    transform: translateY(3px) scale(0.96);
+  }
+  100% {
+    transform: none;
+  }
+}
+.cargo-pivot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 5px 0;
+  border-radius: 24px;
+}
+.cargo-pivot-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #a78642;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 950;
+}
+.cargo-pivot-pedestal {
+  display: grid;
+  place-items: center;
+  width: calc(var(--crate) + 22px);
+  height: calc(var(--crate) + 22px);
+  border: 3px dashed #d5b775;
+  border-radius: 24px;
+  background: #faedcbbd;
+  box-shadow: 0 6px 0 #e0c89877;
+}
+.cargo-pivot .cargo-crate {
+  background: linear-gradient(135deg, #edc36f, #d7a34d);
+  border-color: #ffe8b0;
+}
+.pivot-placeholder {
+  font-size: 43px;
+  font-weight: 950;
+  color: #cfb675;
+}
+.cargo-pivot > span {
+  font-size: 10px;
+  font-weight: 850;
+  color: #aa9b74;
+  text-align: center;
+}
+.cargo-commit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  margin: 23px auto 0;
+  width: min(430px, 100%);
+  min-height: 65px;
+  border: 2px solid #c6ccb7;
+  border-radius: 18px;
+  background: #f9f9e8aa;
+  color: #a1ab8b;
+  font-size: 16px;
+  font-weight: 900;
+  padding: 9px 18px;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+.cargo-commit small {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  margin-top: 3px;
+}
+.cargo-commit.commit-ready {
+  color: #fffdf0;
+  background: #97b775;
+  border-color: #dcebc6;
+  box-shadow: 0 5px 0 #769859;
+}
+.cargo-commit:not(:disabled):hover {
+  filter: brightness(1.05);
+}
+.cargo-commit:not(:disabled):active {
+  box-shadow: 0 2px 0 #769859;
+}
+.drop-hover {
+  background: #fff9db !important;
+  border-color: #e2b25f !important;
+  box-shadow: 0 0 0 4px #e2b25f30;
+}
+.expedition-message {
+  min-height: 25px;
+  padding: 3px 15px;
+  text-align: center;
+  font-size: 12px;
+  color: #9d7e55;
+  font-weight: 850;
+  flex-shrink: 0;
+}
+.expedition-controls {
+  width: min(1060px, 94%);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 8px 0 18px;
+  flex-shrink: 0;
+}
+.expedition-undo.round-button {
+  width: 43px;
+  height: 43px;
+  border-radius: 14px;
+}
+.expedition-hint-button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 43px;
+  padding: 0 17px;
+  background: #fff9e8;
+  border: 2px solid #f3e5c2;
+  border-radius: 14px;
+  box-shadow: 0 4px 0 #d6cba6;
+  color: #9b8352;
+  font-size: 13px;
+  font-weight: 900;
+}
+.expedition-hint-button small {
+  font-size: 9px;
+  opacity: 0.65;
+  margin-left: 5px;
+}
+.expedition-level {
+  font-size: 11px;
+  color: #81956e;
+  font-weight: 850;
+}
+.expedition-branches {
+  display: flex;
+  gap: 35px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 250px;
+  position: relative;
+}
+.expedition-island {
+  background: #b9d58c;
+  border: 4px solid #e9f0bf;
+  border-radius: 45% 45% 30% 30%;
+  box-shadow:
+    0 10px 0 #8fa96c,
+    0 17px 0 #b5a17b,
+    0 23px 0 #e0cca3;
+  padding: 18px 23px 23px;
+  min-width: 220px;
+  color: #5c7748;
+  transition: transform 0.2s;
+}
+.expedition-island:hover:not(:disabled) {
+  transform: translateY(-6px);
+}
+.expedition-island > div {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 8px 0 12px;
+  max-width: 285px;
+}
+.expedition-island i {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 37px;
+  border: 2px solid #f8e2b7;
+  border-radius: 9px;
+  background: #cb9f66;
+  color: white;
+  font-size: 19px;
+  font-weight: 950;
+  font-style: normal;
+  box-shadow: 0 3px 0 #a78152;
+}
+.expedition-island > span:last-child {
+  font-size: 11px;
+  font-weight: 900;
+}
+.branch-flag {
+  display: block;
+  color: #e5a17c;
+}
+.partition-reward {
+  position: absolute;
+  top: -12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b39540;
+  font-size: 20px;
+  font-weight: 950;
+  animation: reward-pop 0.45s ease-out;
+}
+.expedition-celebrating .trail-fixed {
+  animation: cargo-seal 0.7s ease-out;
+}
+.expedition-victory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 0 25px;
+  text-align: center;
+}
+.expedition-stars {
+  color: #e8be5c;
+  display: flex;
+  gap: 10px;
+}
+.expedition-stars svg {
+  width: 48px;
+  height: 48px;
+  animation: reward-pop 0.5s ease-out backwards;
+}
+.expedition-stars svg:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.expedition-stars svg:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.expedition-result-array {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+}
+.expedition-result-array > span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 53px;
+  height: 58px;
+  background: #e1edc5;
+  border: 2px solid #f1f7df;
+  border-radius: 12px;
+  box-shadow: 0 4px 0 #a6ba84;
+  font-size: 26px;
+  font-weight: 1000;
+  color: #7f9b59;
+}
+.expedition-result-array svg {
+  position: absolute;
+  bottom: 2px;
+  right: 3px;
+}
+.expedition-victory > strong {
+  font-size: 30px;
+  font-weight: 1000;
+  color: #9e853e;
+}
+.expedition-victory p {
+  font-size: 13px;
+  font-weight: 850;
+  color: #899674;
+}
+.expedition-victory > small {
+  font-size: 11px;
+  color: #a4aa8f;
+}
+.expedition-hint {
+  position: fixed;
+  z-index: 80;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: min(760px, 95%);
+  background: #fffdf1;
+  border: 2px solid #e4d9b6;
+  border-radius: 23px;
+  padding: 13px 42px 13px 10px;
+  box-shadow: 0 12px 35px #4e634733;
+}
+.expedition-hint > .pig {
+  width: 105px;
+  flex-shrink: 0;
+}
+.expedition-hint strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 950;
+  color: #718d5e;
+}
+.expedition-hint p {
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 850;
+  color: #968451;
+}
+.expedition-hint > button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  box-shadow: none;
+}
+.expedition-settings .lesson-sound-toggle {
+  margin: 16px 0;
+}
+.expedition-howto {
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 850;
+  margin-bottom: 10px;
+}
+.expedition-method-note {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #a69b7e;
+  margin-bottom: 18px;
+}
+@keyframes cargo-shake {
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+@keyframes commit-glow {
+  50% {
+    box-shadow:
+      0 5px 0 #cad8a3,
+      0 0 0 5px #b4cd7925;
+  }
+}
+@keyframes cargo-seal {
+  40% {
+    transform: translateY(-8px) scale(1.12);
+  }
+}
+@keyframes reward-pop {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (min-width: 1550px) and (min-height: 800px) {
+  .expedition-world {
+    --crate: 88px;
+  }
+  .expedition-stage {
+    width: min(1200px, 94%);
+  }
+  .expedition-stage > h2 {
+    font-size: 34px;
+    margin-bottom: 25px;
+  }
+  .cargo-crate {
+    font-size: 40px;
+  }
+  .cargo-pool {
+    min-height: 165px;
+    padding: 14px 22px 20px;
+  }
+  .cargo-zone {
+    padding: 17px;
+  }
+  .cargo-zone-content {
+    min-height: calc(var(--crate) + 35px);
+  }
+  .cargo-zone-label {
+    font-size: 20px;
+  }
+  .cargo-zone-label small {
+    font-size: 12px;
+  }
+  .cargo-commit {
+    margin-top: 30px;
+  }
+}
+@media (max-height: 760px) and (min-width: 701px) {
+  .expedition-world {
+    --crate: 64px;
+  }
+  .expedition-header {
+    padding-top: 8px;
+  }
+  .expedition-header h1 {
+    font-size: 23px;
+  }
+  .expedition-trail {
+    margin-top: 5px;
+    gap: 4px;
+  }
+  .expedition-trail-blocks > span {
+    height: 28px;
+    width: 30px;
+    font-size: 13px;
+  }
+  .expedition-stage {
+    padding-top: 10px;
+  }
+  .expedition-stage > h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+  .cargo-pool {
+    min-height: 116px;
+    padding: 8px 15px 13px;
+  }
+  .cargo-crate {
+    font-size: 29px;
+    border-radius: 12px;
+  }
+  .expedition-partition {
+    margin-top: 13px;
+    gap: 13px;
+    grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr);
+  }
+  .cargo-zone-label {
+    font-size: 15px;
+  }
+  .cargo-zone-content {
+    min-height: calc(var(--crate) + 12px);
+    gap: 8px;
+    padding-top: 8px;
+  }
+  .cargo-zone {
+    padding: 9px;
+  }
+  .cargo-pivot {
+    gap: 6px;
+  }
+  .cargo-commit {
+    margin-top: 15px;
+    min-height: 55px;
+    font-size: 14px;
+  }
+  .expedition-controls {
+    padding-bottom: 12px;
+  }
+}
+@media (max-width: 700px) {
+  .expedition-world {
+    --crate: 49px;
+  }
+  .expedition-header {
+    padding: 10px 14px 2px;
+  }
+  .expedition-header h1 {
+    font-size: 22px;
+  }
+  .expedition-header > div > span {
+    font-size: 8px;
+  }
+  .expedition-header .round-button {
+    height: 41px;
+    width: 41px;
+    border-radius: 14px;
+  }
+  .expedition-stats {
+    gap: 13px;
+    font-size: 10px;
+    min-height: 36px;
+  }
+  .expedition-score {
+    padding: 3px 9px;
+  }
+  .expedition-score strong {
+    font-size: 13px;
+  }
+  .expedition-trail {
+    margin-top: 8px;
+    gap: 5px;
+  }
+  .expedition-trail > span {
+    font-size: 10px;
+  }
+  .expedition-trail-blocks {
+    gap: 4px;
+  }
+  .expedition-trail-blocks > span {
+    width: 29px;
+    height: 27px;
+    font-size: 12px;
+    border-radius: 7px;
+  }
+  .expedition-stage {
+    width: 94%;
+    padding-top: 15px;
+  }
+  .expedition-stage > h2 {
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+  .cargo-pool {
+    padding: 10px 10px 15px;
+    min-height: 134px;
+    border-radius: 17px;
+  }
+  .cargo-pool-label {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+  .cargo-pool-label small {
+    font-size: 8px;
+    margin-left: auto;
+  }
+  .cargo-pool-content {
+    gap: 12px;
+  }
+  .cargo-crate {
+    font-size: 25px;
+    border-radius: 11px;
+    border-width: 2px;
+    box-shadow:
+      0 5px 0 #92734d,
+      inset 0 0 0 3px #c1955e,
+      inset 0 0 0 5px #eed0a080;
+  }
+  .cargo-crate > i {
+    width: 3px;
+    height: 3px;
+    top: 5px;
+    left: 5px;
+    box-shadow: 0 calc(var(--crate) - 18px) 0 #94744c;
+  }
+  .cargo-crate > i:last-child {
+    right: 5px;
+  }
+  .expedition-partition {
+    grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
+    gap: 7px;
+    margin-top: 15px;
+  }
+  .cargo-zone {
+    padding: 8px 5px;
+    border-radius: 17px;
+    border-width: 2px;
+  }
+  .cargo-zone-label {
+    gap: 3px;
+    font-size: 12px;
+    justify-content: center;
+    text-align: center;
+    min-height: 43px;
+  }
+  .cargo-zone-label svg,
+  .cargo-zone-label b {
+    display: none;
+  }
+  .cargo-zone-label small {
+    font-size: 8px;
+    line-height: 1.3;
+    max-width: 88px;
+  }
+  .cargo-zone-content {
+    min-height: 133px;
+    align-content: center;
+    gap: 10px;
+    padding: 10px 0 7px;
+  }
+  .cargo-empty {
+    font-size: 10px;
+    text-align: center;
+    max-width: 66px;
+  }
+  .cargo-pivot {
+    gap: 10px;
+  }
+  .cargo-pivot-label {
+    font-size: 12px;
+  }
+  .cargo-pivot-pedestal {
+    width: 65px;
+    height: 65px;
+    border-radius: 18px;
+    border-width: 2px;
+  }
+  .cargo-pivot > span {
+    font-size: 8px;
+  }
+  .pivot-placeholder {
+    font-size: 34px;
+  }
+  .cargo-commit {
+    margin-top: 17px;
+    min-height: 57px;
+    padding: 8px 10px;
+    font-size: 13px;
+    gap: 9px;
+    border-radius: 15px;
+  }
+  .cargo-commit small {
+    font-size: 9px;
+  }
+  .cargo-pool-empty {
+    font-size: 11px;
+  }
+  .expedition-message {
+    font-size: 10px;
+    min-height: 25px;
+    line-height: 1.5;
+  }
+  .expedition-controls {
+    gap: 13px;
+    padding-bottom: 15px;
+  }
+  .expedition-undo.round-button {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+  .expedition-hint-button {
+    padding: 0 11px;
+    min-height: 38px;
+    font-size: 11px;
+    border-radius: 12px;
+    gap: 5px;
+  }
+  .expedition-hint-button small {
+    font-size: 8px;
+    margin-left: 0;
+  }
+  .expedition-level {
+    font-size: 9px;
+  }
+  .expedition-branches {
+    gap: 25px;
+    padding: 25px 0;
+  }
+  .expedition-island {
+    min-width: 0;
+    width: min(240px, 90%);
+    padding: 13px 18px 18px;
+  }
+  .expedition-island i {
+    width: 29px;
+    height: 33px;
+    font-size: 17px;
+  }
+  .expedition-hint {
+    padding: 13px 30px 13px 6px;
+    gap: 7px;
+    bottom: 70px;
+  }
+  .expedition-hint > .pig {
+    width: 70px;
+  }
+  .expedition-hint p {
+    font-size: 12px;
+  }
+  .expedition-hint strong {
+    font-size: 10px;
+  }
+  .expedition-result-array > span {
+    width: 33px;
+    height: 42px;
+    font-size: 20px;
+  }
+  .expedition-victory p {
+    font-size: 11px;
+  }
+}
+@media (max-width: 700px) and (max-height: 680px) and (orientation: portrait) {
+  .expedition-world {
+    --crate: 42px;
+  }
+  .expedition-header {
+    padding-top: 7px;
+  }
+  .expedition-header h1 {
+    font-size: 20px;
+  }
+  .expedition-stats {
+    min-height: 32px;
+  }
+  .expedition-trail {
+    margin-top: 3px;
+  }
+  .expedition-trail-blocks > span {
+    height: 23px;
+    width: 27px;
+  }
+  .expedition-stage {
+    padding-top: 10px;
+  }
+  .expedition-stage > h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .cargo-pool {
+    min-height: 115px;
+    padding: 7px 9px 12px;
+  }
+  .cargo-pool-content {
+    gap: 10px;
+  }
+  .cargo-pool-label {
+    margin-bottom: 7px;
+  }
+  .cargo-crate {
+    font-size: 22px;
+  }
+  .expedition-partition {
+    margin-top: 11px;
+    grid-template-columns: minmax(0, 1fr) 61px minmax(0, 1fr);
+  }
+  .cargo-zone-content {
+    min-height: 106px;
+    gap: 8px;
+  }
+  .cargo-zone-label {
+    min-height: 35px;
+  }
+  .cargo-pivot-pedestal {
+    width: 56px;
+    height: 56px;
+  }
+  .cargo-commit {
+    min-height: 48px;
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .cargo-commit small {
+    font-size: 8px;
+  }
+  .expedition-controls {
+    padding-top: 5px;
+    padding-bottom: 10px;
+  }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .expedition-world {
+    --crate: 42px;
+  }
+  .expedition-header {
+    padding: 7px 15px 0;
+  }
+  .expedition-header > div > span {
+    font-size: 7px;
+  }
+  .expedition-header h1 {
+    font-size: 19px;
+  }
+  .expedition-header .round-button {
+    width: 35px;
+    height: 35px;
+    border-radius: 11px;
+  }
+  .expedition-stats {
+    position: absolute;
+    top: 9px;
+    left: 65px;
+    min-height: 30px;
+    gap: 8px;
+    font-size: 9px;
+  }
+  .expedition-stats > span:nth-child(3),
+  .expedition-streak {
+    display: none;
+  }
+  .expedition-score {
+    padding: 2px 7px;
+  }
+  .expedition-score strong {
+    font-size: 11px;
+  }
+  .expedition-trail {
+    position: absolute;
+    right: 60px;
+    top: 8px;
+    margin: 0;
+    gap: 3px;
+  }
+  .expedition-trail > span {
+    font-size: 8px;
+  }
+  .expedition-trail > span > svg {
+    display: none;
+  }
+  .expedition-trail-blocks {
+    gap: 3px;
+  }
+  .expedition-trail-blocks > span {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    border-radius: 5px;
+  }
+  .expedition-stage {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.8fr) minmax(0, 1.7fr);
+    gap: 9px 16px;
+    align-items: stretch;
+    padding: 8px 0 5px;
+    width: 94%;
+  }
+  .expedition-stage > h2 {
+    grid-area: 1 / 1 / 2 / 3;
+    font-size: 19px;
+    margin: 0 0 1px;
+  }
+  .cargo-pool {
+    grid-area: 2 / 1;
+    min-height: 0;
+    padding: 7px 9px 10px;
+    border-radius: 15px;
+  }
+  .cargo-pool-label {
+    font-size: 9px;
+    margin-bottom: 7px;
+  }
+  .cargo-pool-label small {
+    display: none;
+  }
+  .cargo-pool-content {
+    gap: 10px;
+    align-content: center;
+    min-height: 100px;
+  }
+  .cargo-crate {
+    font-size: 22px;
+    border-radius: 10px;
+    border-width: 2px;
+  }
+  .expedition-partition {
+    grid-area: 2 / 2;
+    margin: 0;
+    gap: 6px;
+    grid-template-columns: minmax(0, 1fr) 58px minmax(0, 1fr);
+  }
+  .cargo-zone {
+    padding: 6px;
+    border-radius: 15px;
+    border-width: 2px;
+  }
+  .cargo-zone-label {
+    justify-content: center;
+    text-align: center;
+    font-size: 11px;
+    gap: 0;
+  }
+  .cargo-zone-label svg,
+  .cargo-zone-label b {
+    display: none;
+  }
+  .cargo-zone-label small {
+    font-size: 8px;
+  }
+  .cargo-zone-content {
+    gap: 8px;
+    min-height: 95px;
+    padding: 9px 0 3px;
+  }
+  .cargo-pivot {
+    gap: 6px;
+  }
+  .cargo-pivot-pedestal {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+  }
+  .cargo-pivot-label {
+    font-size: 10px;
+  }
+  .cargo-pivot > span {
+    font-size: 7px;
+  }
+  .cargo-empty {
+    font-size: 9px;
+    text-align: center;
+  }
+  .cargo-commit {
+    grid-area: 3 / 1 / 4 / 3;
+    min-height: 43px;
+    max-width: 370px;
+    font-size: 12px;
+    margin: 1px auto 0;
+    padding: 5px 12px;
+  }
+  .cargo-commit small {
+    font-size: 8px;
+  }
+  .cargo-pool-empty {
+    font-size: 10px;
+    text-align: center;
+  }
+  .expedition-message {
+    min-height: 20px;
+    font-size: 9px;
+    padding: 1px 10px;
+  }
+  .expedition-controls {
+    padding: 1px 0 8px;
+    gap: 15px;
+  }
+  .expedition-undo.round-button {
+    height: 30px;
+    width: 35px;
+    border-radius: 10px;
+  }
+  .expedition-hint-button {
+    min-height: 30px;
+    font-size: 10px;
+    padding: 0 12px;
+  }
+  .expedition-level {
+    font-size: 9px;
+  }
+  .expedition-branches,
+  .expedition-victory {
+    grid-column: 1 / -1;
+    min-height: 0;
+  }
+  .expedition-island {
+    padding: 8px 18px 13px;
+    min-width: 180px;
+  }
+  .expedition-island i {
+    width: 27px;
+    height: 29px;
+    font-size: 16px;
+  }
+  .expedition-branches {
+    padding: 12px 0 20px;
+  }
+  .expedition-victory {
+    gap: 8px;
+    padding: 5px 0;
+  }
+  .expedition-stars svg {
+    height: 32px;
+    width: 32px;
+  }
+  .expedition-result-array > span {
+    width: 36px;
+    height: 39px;
+    font-size: 20px;
+  }
+  .expedition-victory > strong {
+    font-size: 23px;
+  }
+  .expedition-victory .chunky-button {
+    min-height: 39px;
+    font-size: 13px;
+  }
+  .expedition-hint {
+    bottom: 49px;
+    width: min(620px, 95%);
+  }
+  .expedition-hint > .pig {
+    width: 75px;
+  }
+  .expedition-hint p {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .expedition-world *,
+  .expedition-world *:before,
+  .expedition-world *:after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

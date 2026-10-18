@@ -1,0 +1,645 @@
+.victory-celebration {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin: 20px auto;
+  padding: 0;
+  max-width: 760px;
+  text-align: left;
+  animation: victory-arrive 0.5s ease-out;
+}
+.victory-celebration .victory-buta {
+  flex-shrink: 0;
+  align-self: center;
+}
+.victory-celebration .victory-buta .pig {
+  width: 140px;
+  max-width: none;
+}
+.victory-details {
+  min-width: 0;
+  max-width: 480px;
+}
+.victory-stars {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 38px;
+  line-height: 1;
+  color: #b9bc9d;
+}
+.victory-stars span {
+  display: inline-block;
+  animation: victory-star 0.6s cubic-bezier(0.2, 0.8, 0.3, 1.3) both;
+}
+.victory-stars .earned {
+  color: #d8ac44;
+}
+.victory-stars span:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.victory-stars span:nth-child(3) {
+  animation-delay: 0.24s;
+}
+.victory-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.victory-celebration .victory-summary p {
+  margin: 0;
+  max-width: 440px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #52706b;
+}
+.victory-summary > strong {
+  font-size: 28px;
+  color: #a58b41;
+  font-weight: 1000;
+}
+.victory-summary > small {
+  font-size: 12px;
+  color: #899b7d;
+}
+.victory-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.victory-actions .chunky-button {
+  min-height: 50px;
+  padding: 12px 18px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.victory-map-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-basis: 100%;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  margin-top: 3px;
+  border: 0;
+  border-radius: 14px;
+  background: #fffcf0b3;
+  color: #74856b;
+  font-size: 15px;
+}
+.expedition-complete .expedition-message,
+.expedition-complete .expedition-controls {
+  display: none;
+}
+.expedition-complete .expedition-stage {
+  padding-bottom: 32px;
+}
+@keyframes victory-arrive {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes victory-star {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(-25deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+@media (max-width: 700px) {
+  .victory-celebration {
+    gap: 12px;
+    margin: 14px 0;
+    max-width: 100%;
+  }
+  .victory-celebration .victory-buta .pig {
+    width: 80px;
+  }
+  .victory-details {
+    max-width: 290px;
+  }
+  .victory-stars {
+    font-size: 29px;
+    gap: 10px;
+  }
+  .victory-celebration .victory-summary p {
+    font-size: 15px;
+  }
+  .victory-summary > strong {
+    font-size: 22px;
+  }
+  .victory-actions {
+    gap: 9px;
+  }
+  .victory-actions .chunky-button {
+    min-height: 44px;
+    font-size: 14px;
+    padding: 10px 12px;
+    flex: 1;
+  }
+  .victory-actions .chunky-button svg {
+    width: 16px;
+  }
+  .victory-map-button {
+    font-size: 14px;
+  }
+  .victory-celebration .expedition-result-array {
+    gap: 4px;
+  }
+  .victory-celebration .expedition-result-array > span {
+    width: 32px;
+    height: 38px;
+    font-size: 18px;
+  }
+}
+@media (max-width: 400px) {
+  .victory-celebration .victory-buta .pig {
+    width: 64px;
+  }
+  .victory-actions .chunky-button {
+    flex-basis: 100%;
+  }
+  .victory-stars {
+    font-size: 26px;
+  }
+  .victory-celebration {
+    gap: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .victory-celebration,
+  .victory-stars span {
+    animation: none;
+  }
+}
+
+/* Shared Play HUD, based on the Quick Sort layout. */
+.play-header {
+  flex: 0 0 64px;
+  min-height: 64px;
+  padding: 10px 3% 5px;
+}
+.play-header h1 {
+  font-size: 26px;
+  font-weight: 1000;
+  color: #556b53;
+  line-height: 1.25;
+}
+.play-header .round-button {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+}
+.play-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  min-height: 40px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 850;
+  color: #849371;
+}
+.play-score {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #b39341;
+  padding: 5px 14px;
+  background: #fff6d4;
+  border: 2px solid #fffbed;
+  border-radius: 12px;
+  box-shadow: 0 3px 0 #ddcf9e;
+}
+.play-score strong {
+  font-size: 16px;
+}
+.bubble-play .bubble-action-area {
+  min-height: 80px;
+}
+@media (max-width: 700px) {
+  .play-header {
+    flex-basis: 64px;
+    padding: 10px 16px 5px;
+  }
+  .play-header h1 {
+    font-size: 22px;
+  }
+  .play-stats {
+    gap: 8px 14px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+  .play-score {
+    padding: 5px 10px;
+  }
+  .bubble-play .bubble-action-area {
+    min-height: 75px;
+  }
+}
+
+@media (min-width: 701px) {
+  .play-stats {
+    position: relative;
+    justify-content: flex-start;
+    padding-left: calc(50% - 20px);
+  }
+  .play-stats .play-score {
+    position: absolute;
+    left: calc(50% - 145px);
+    top: 50%;
+    transform: translateY(-50%);
+    min-width: 100px;
+    justify-content: center;
+  }
+}
+
+/* Center the award above both Buta and the result, instead of the detail column. */
+.victory-celebration {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 480px);
+  column-gap: 24px;
+  row-gap: 10px;
+  width: min(100%, 644px);
+}
+.victory-celebration .victory-buta {
+  grid-column: 1;
+  grid-row: 2;
+}
+.victory-details {
+  grid-column: 2;
+  grid-row: 2;
+}
+.victory-stars {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px;
+  width: 100%;
+  margin: 0 0 10px;
+  min-height: 145px;
+}
+.victory-stars .victory-award {
+  --tilt: -12deg;
+  position: relative;
+  display: block;
+  width: 104px;
+  flex-shrink: 0;
+  line-height: 0;
+  transform: rotate(var(--tilt));
+  animation: award-pop 0.75s cubic-bezier(0.18, 0.85, 0.32, 1.25) both;
+}
+.victory-stars .victory-award:nth-child(2) {
+  --tilt: 0deg;
+  width: 132px;
+  margin: 0 2px 10px;
+  animation-delay: 0.14s;
+}
+.victory-stars .victory-award:nth-child(3) {
+  --tilt: 12deg;
+  animation-delay: 0.28s;
+}
+.victory-award.earned::before {
+  content: "";
+  position: absolute;
+  inset: 15% -8% 0;
+  background: radial-gradient(ellipse, #ffdc6355, transparent 68%);
+  filter: blur(8px);
+  z-index: -1;
+}
+.award-star {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 5px 4px #a778271a);
+  overflow: visible;
+}
+.award-glints {
+  transform-origin: center;
+  animation: award-twinkle 2.2s ease-in-out 1s 3;
+}
+@keyframes award-pop {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.2) rotate(calc(var(--tilt) - 20deg));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--tilt));
+  }
+}
+@keyframes award-twinkle {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  45% {
+    opacity: 0.25;
+  }
+  60% {
+    opacity: 1;
+  }
+}
+@media (max-width: 700px) {
+  .victory-celebration {
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 8px 12px;
+    max-width: 100%;
+  }
+  .victory-stars {
+    min-height: 119px;
+    margin-bottom: 8px;
+  }
+  .victory-stars .victory-award {
+    width: 80px;
+  }
+  .victory-stars .victory-award:nth-child(2) {
+    width: 102px;
+    margin-bottom: 8px;
+  }
+}
+@media (max-width: 400px) {
+  .victory-celebration {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 8px;
+  }
+  .victory-stars .victory-award {
+    width: 70px;
+  }
+  .victory-stars .victory-award:nth-child(2) {
+    width: 90px;
+  }
+  .victory-stars {
+    min-height: 104px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .victory-stars .victory-award,
+  .award-glints {
+    animation: none;
+  }
+}
+
+/* The completed lesson recedes behind a single centered celebration panel. */
+.victory-screen {
+  position: fixed;
+  inset: 0;
+  width: min(740px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 28px 32px;
+  border: 3px solid #fffef8;
+  border-radius: 36px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  color: #47665a;
+  background:
+    radial-gradient(ellipse at 50% 0, #fff0bd77, transparent 53%), #fffdf2;
+  box-shadow:
+    0 9px 0 #b7c29f66,
+    0 30px 100px #344c352e;
+}
+.victory-screen::backdrop {
+  background: #edf2dfb8;
+  backdrop-filter: blur(12px) saturate(0.55);
+}
+.victory-screen .victory-celebration {
+  margin: 0;
+  width: 100%;
+  max-width: none;
+  row-gap: 14px;
+  animation: none;
+}
+.victory-screen .victory-title {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  text-align: center;
+  color: #456758;
+  font-size: 32px;
+  font-weight: 1000;
+  line-height: 1.25;
+  margin: 0;
+  letter-spacing: -0.6px;
+  outline: none;
+}
+.victory-screen .victory-stars {
+  grid-row: 2;
+  margin: 0;
+}
+.victory-screen .victory-buta,
+.victory-screen .victory-details {
+  grid-row: 3;
+}
+.victory-screen .victory-summary > strong {
+  font-size: 30px;
+}
+.victory-screen .victory-actions {
+  margin-top: 20px;
+}
+@media (max-width: 700px) {
+  .victory-screen {
+    padding: 22px 18px;
+    border-radius: 28px;
+  }
+  .victory-screen .victory-title {
+    font-size: 26px;
+  }
+  .victory-screen .victory-celebration {
+    row-gap: 10px;
+  }
+  .victory-screen .victory-summary > strong {
+    font-size: 25px;
+  }
+}
+@media (max-height: 640px) and (min-width: 701px) {
+  .victory-screen {
+    padding: 20px 28px;
+  }
+  .victory-screen .victory-title {
+    font-size: 28px;
+  }
+  .victory-screen .victory-stars {
+    min-height: 116px;
+  }
+  .victory-screen .victory-award {
+    width: 84px;
+  }
+  .victory-screen .victory-award:nth-child(2) {
+    width: 108px;
+  }
+}
+
+/* Frosted mint and champagne keep the game scenery visible without competing. */
+.victory-screen {
+  background:
+    radial-gradient(ellipse at 14% 8%, #fff4bf8c, transparent 55%),
+    linear-gradient(135deg, #effadbd6, #f9efcadb 52%, #d9eed8da);
+  border-color: #ffffffa8;
+  backdrop-filter: blur(20px) saturate(1.12);
+  box-shadow:
+    0 9px 0 #8baa7c40,
+    0 30px 100px #294d3938,
+    inset 0 1px 0 #ffffffcc;
+}
+.victory-screen::backdrop {
+  background: #637f5e36;
+  backdrop-filter: blur(10px) saturate(0.75);
+}
+.victory-map-button {
+  gap: 12px;
+  justify-content: space-between;
+  min-height: 58px;
+  padding: 9px 14px;
+  margin-top: 5px;
+  border: 2px solid #eefcff;
+  border-radius: 18px;
+  background: linear-gradient(160deg, #d5eef2, #afd4df);
+  box-shadow:
+    0 5px 0 #83aab8,
+    inset 0 1px 0 #ffffffaa;
+  color: #456e7c;
+  font-size: 16px;
+  font-weight: 950;
+  transition:
+    translate 0.15s,
+    box-shadow 0.15s,
+    filter 0.15s;
+}
+.victory-map-button > span:nth-child(2) {
+  flex: 1;
+  text-align: left;
+  line-height: 1.3;
+}
+.victory-map-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #ffffffaa;
+  border-radius: 11px;
+  background: #ffffff70;
+}
+.victory-map-arrow {
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.victory-map-button:hover {
+  translate: 0 -2px;
+  box-shadow: 0 7px 0 #83aab8;
+  filter: brightness(1.03);
+}
+.victory-map-button:active {
+  translate: 0 3px;
+  box-shadow: 0 2px 0 #83aab8;
+}
+@media (max-width: 700px) {
+  .victory-map-button {
+    min-height: 52px;
+    gap: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  .victory-map-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .victory-map-button {
+    transition: none;
+  }
+}
+
+/* All continuation choices share one full-width row. */
+.victory-screen .victory-actions {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+  width: 100%;
+}
+.victory-screen .victory-actions:has(> button:nth-child(3)) {
+  grid-template-columns: 0.85fr 1fr 1.35fr;
+}
+.victory-screen .victory-actions > button {
+  min-width: 0;
+  width: 100%;
+  height: 58px;
+  min-height: 58px;
+  margin: 0;
+}
+.victory-screen .victory-actions .chunky-button {
+  padding: 10px 14px;
+  white-space: normal;
+  font-size: 16px;
+}
+.victory-screen .victory-map-button {
+  padding: 8px 12px;
+  gap: 8px;
+  font-size: 15px;
+}
+@media (max-width: 700px) {
+  .victory-screen .victory-actions,
+  .victory-screen .victory-actions:has(> button:nth-child(3)) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .victory-screen .victory-actions:not(:has(> button:nth-child(3))) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .victory-screen .victory-actions > button {
+    height: 80px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 4px;
+    font-size: 12px;
+    line-height: 1.25;
+    border-radius: 16px;
+  }
+  .victory-screen .victory-map-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+  }
+  .victory-screen .victory-map-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+  .victory-screen .victory-map-arrow {
+    display: none;
+  }
+  .victory-screen .victory-map-button > span:nth-child(2) {
+    flex: none;
+    text-align: center;
+  }
+}
