@@ -68,6 +68,16 @@
 .track-sheet .sheet-actions { margin-top: 16px; }
 .track-sheet .sheet-description + .sheet-actions { margin-top: 10px; }
 .sheet-actions { display: grid; grid-template-columns: 1fr 1.15fr; gap: 12px; }
+.sheet-actions.sheet-actions-single { grid-template-columns: 1fr; }
+.learning-map.has-linked-levels { --sheet-height: 206px; }
+.linked-level-picker { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-top: 12px; }
+.linked-level-button { display: grid; grid-template-columns: 24px 1fr; align-items: center; gap: 2px 5px; min-width: 0; min-height: 64px; padding: 7px; border: 2px solid #cbdcb7; border-radius: 13px; background: #eef5df; color: #638452; text-align: left; box-shadow: 0 3px 0 #b7caa1; }
+.linked-level-button:disabled { opacity: .7; box-shadow: none; background: #f4f4e9; border-color: #e1e3d1; color: #9a9f88; }
+.linked-level-button > span { grid-row: span 2; display: grid; place-items: center; width: 23px; height: 23px; border-radius: 8px; background: #b8d69e; color: white; font-size: 12px; }
+.linked-level-button:disabled > span { background: #d7dcc8; }
+.linked-level-button strong { font-size: 12px; line-height: 1.1; }
+.linked-level-button small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+.linked-level-button.linked-level-done { background: #e0eed3; border-color: #a5c68d; }
 .sheet-actions button { min-height: 49px; border-radius: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 1000; border: 2px solid; }
 .sheet-demo { background: #f3f4e8; border-color: #e4e6d0 !important; box-shadow: 0 3px 0 #dfe1c9; color: #81916b; }
 .sheet-challenge { background: #94b97a; border-color: #a7c78f !important; box-shadow: 0 3px 0 #71965b; color: #fffdf4; }
@@ -88,6 +98,12 @@
 @keyframes buta-feet { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
 @keyframes road-awake { from { stroke: #fff0c3; } to { stroke: #e3d0a6; } }
 @media (max-width: 600px) {
+  .learning-map.has-linked-levels { --sheet-height: 204px; }
+  .linked-level-picker { gap: 5px; }
+  .linked-level-button { grid-template-columns: 1fr; justify-items: center; min-height: 66px; gap: 2px; padding: 5px 2px; text-align: center; }
+  .linked-level-button > span { grid-row: auto; width: 19px; height: 19px; border-radius: 6px; }
+  .linked-level-button strong { font-size: 11px; }
+  .linked-level-button small { max-width: 100%; font-size: 9px; }
   .learning-map { --sheet-height: 164px; --track-top: 116px; }
   .track-header { height: 80px; padding: 14px 18px; gap: 10px; }
   .track-header h1 { font-size: 20px; }.track-eyebrow { font-size: 8px; }
@@ -100,6 +116,7 @@
   .track-welcome { height: calc(100dvh - 80px); }
 }
 @media (max-height: 680px) {
+  .learning-map.has-linked-levels { --sheet-height: 207px; }
   .learning-map { --sheet-height: 154px; --track-top: 108px; }
   .learning-map.map-has-status { --sheet-height: 180px; }
   .track-header { height: 69px; padding-top: 8px; padding-bottom: 8px; }

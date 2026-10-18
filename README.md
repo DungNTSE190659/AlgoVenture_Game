@@ -1,19 +1,19 @@
 # AlgoVenture
 
-Game casual về cấu trúc dữ liệu và thuật toán bằng tiếng Việt. Bản đồ thế giới gồm **Mảng → Danh sách, Stack & Queue → Cây → Đồ thị**, mở khóa theo lộ trình học. Linh vật Buta là chú heo thám hiểm, có mũ, khăn cổ, ba lô và la bàn, di chuyển trên đường giữa các vùng và giữa các ải.
+Game casual về cấu trúc dữ liệu và thuật toán bằng tiếng Việt. Bản đồ thế giới gồm **Mảng → Danh sách → Cây → Đồ thị**, mở khóa theo lộ trình học. Linh vật Buta là chú heo thám hiểm, có mũ, khăn cổ, ba lô và la bàn, di chuyển trên đường giữa các vùng và giữa các ải.
 
 ## Learning track
 
-- Màn đầu hiển thị một bản đồ chủ đề lớn: Quần Đảo Những Ô Số (Mảng), Bến Liên Kết (Linked List, Stack, Queue), Rừng Cây Tri Thức (Cây, BST), Cao Nguyên Kết Nối (Đồ thị). Vuốt trái/phải để chuyển chủ đề; cũng có kéo chuột, mũi tên và các nút chỉ trang. Bấm trực tiếp bản đồ hoặc nút vào vùng để mở lộ trình bên trong.
+- Màn đầu hiển thị một bản đồ chủ đề lớn: Quần Đảo Những Ô Số (Mảng), Bến Liên Kết (Linked List), Rừng Cây Tri Thức (Cây, BST), Cao Nguyên Kết Nối (Đồ thị). Vuốt trái/phải để chuyển chủ đề; cũng có kéo chuột, mũi tên và các nút chỉ trang. Bấm trực tiếp bản đồ hoặc nút vào vùng để mở lộ trình bên trong.
 - Bên trong mỗi vùng, bản đồ cuộn dọc theo đường chữ S. Mỗi đảo có icon, tên, trạng thái khóa hoặc hoàn thành. Bảng đáy hiện hai nút **Xem demo / Thử thách**; được vào thẳng thử thách.
 - **Mảng có hai lộ trình độc lập**, chọn bằng nút **Sort / Search** phía trên bản đồ. Sort: Bubble → Selection → Insertion → Merge → Quick. Search: Linear Search → Binary Search. Mỗi nhánh có đường đi, số thứ tự đảo, Buta và tiến trình riêng; bản đồ thế giới vẫn tính tổng 7 bài. Đã bỏ đảo/bài Array riêng.
-- **Danh sách, Stack & Queue:** Linked List → Stack → Queue. **Cây:** Cây cơ bản → BST → Tìm kiếm → Thêm nút → Xóa nút. **Đồ thị:** Đồ thị cơ bản (đỉnh, cạnh, biểu diễn) → DFS → BFS → Dijkstra.
+- **Danh sách:** Linked List Construction → Traversal → Search → Insertion → Deletion → Reversal. Mỗi nốt có một bài thực hành và hai nút Demo / Thử thách. **Cây:** Cây cơ bản → BST → Tìm kiếm → Thêm nút → Xóa nút. **Đồ thị:** Đồ thị cơ bản (đỉnh, cạnh, biểu diễn) → DFS → BFS → Dijkstra.
 - Đây là thứ tự học do game thiết kế, không phải khẳng định mọi thuật toán sau phụ thuộc vào tất cả thuật toán trước. Sorting và Searching cũng có thể áp dụng cho các cấu trúc khác; trong vùng Mảng, các bài học minh họa trên mảng. Không cần hoàn thành BST để học Bubble Sort.
-- Sort mở Bubble sẵn; vượt Bubble mở Selection, vượt Selection mở Insertion, vượt Insertion mở Quick. Search mở Linear Search sẵn; Binary Search chỉ yêu cầu Linear Search, không yêu cầu bài Sort. Merge đang phát triển, không chặn các màn đã có nội dung. Phải hoàn thành **cả hai lộ trình trong Mảng** mới mở chủ đề tiếp theo. Tiến trình cũ được giữ theo ID; bài Selection mới cần được vượt thử thách để hoàn thành.
+- Sort mở Bubble sẵn; vượt Bubble mở Selection, vượt Selection mở Insertion, vượt Insertion mở Quick. Search mở Linear Search sẵn; Binary Search chỉ yêu cầu Linear Search, không yêu cầu bài Sort. Merge đang phát triển, không chặn các màn đã có nội dung. Cả sáu nốt Danh sách mở sẵn, có thể vào Demo hoặc Thử thách theo thứ tự tùy chọn; các chủ đề sau vẫn theo điều kiện hoàn thành. Tiến trình cũ được giữ theo ID; bài Selection mới cần được vượt thử thách để hoàn thành.
 - Sau chiến thắng, nút **Đi tiếp cùng Buta** đưa Buta tới đảo mới trong cùng lộ trình. Kết thúc Sort không tự chuyển sang Search; dùng nút chọn nhánh để chuyển. Chỉ khi đủ điều kiện hoàn thành toàn bộ chủ đề mới mở vùng tiếp theo. Có nút Về Buta, cuộn chuột, vuốt chạm, bàn phím và hỗ trợ giảm chuyển động.
 - Tiến trình lưu trong localStorage (`algoventure.world-progress.v3`). Các hoàn thành ở bản cũ (`algoventure.world-progress.v2` và `algoventure.learning-track.v1`) được giữ theo ID bài học; chúng không tự cấp hoàn thành cho những ải mới đứng trước.
-- **Bản thử hiện tại:** Bubble, Selection, Insertion và Quick có Demo / Thử thách. Mười lăm ải còn lại có bản đồ và điều kiện mở khóa, nội dung chơi đang phát triển; các chủ đề sau vẫn bị khóa đối với người chơi mới.
-- `src/engine/learningTrack.ts`: bốn chủ đề, 19 ải, luật mở khóa và lưu tiến trình. `src/components/WorldMap.tsx` / `src/atlas.css`: chọn chủ đề bằng các bản đồ lớn vuốt ngang; thay đổi chiều cao bảng thông tin không cắt ngang animation chuyển chủ đề. `src/components/RegionLandmark.tsx`: hình minh họa từng chủ đề. `src/components/AdventureMap.tsx` / `src/track.css`: lộ trình cuộn dọc bên trong.
+- **Bản thử hiện tại:** Bubble, Selection, Insertion và Quick có Demo / Thử thách. Sáu nốt Linked List có một bài Demo và một Thử thách mỗi nốt. Construction lắp khối và nối dây; Traversal và Search kéo con trỏ, Insertion và Deletion kéo khối hoặc đinh, Reversal kéo đinh để đảo liên kết. Các ải Mảng khác, Cây và Đồ thị đang phát triển.
+- `src/engine/learningTrack.ts`: bốn chủ đề, 22 ải, luật mở khóa và lưu tiến trình. `src/engine/linkedCurriculum.ts`: dữ liệu màn và tương thích tiến trình cũ. `src/components/WorldMap.tsx` / `src/atlas.css`: chọn chủ đề bằng các bản đồ lớn vuốt ngang. `src/components/AdventureMap.tsx` / `src/track.css`: lộ trình cuộn dọc bên trong.
 
 Quick Sort Demo dùng **Lomuto partition** với phần tử cuối làm chốt và phép so sánh **≤**.
 
@@ -29,6 +29,14 @@ npm run dev
 Mở địa chỉ được Vite in ra, mặc định http://127.0.0.1:5173.
 
 Muốn thử trên điện thoại cùng Wi-Fi: chạy `npx vite --host 0.0.0.0`, mở `http://<IP-máy-tính>:5173` trên điện thoại và cho phép cổng 5173 trong tường lửa nếu cần.
+
+## Linked List – Lối Đi Mắt Xích
+
+- Vào chủ đề **Danh sách** rồi chọn bất kỳ nốt Linked List nào. Sáu nốt đều mở sẵn; mỗi nốt có Demo và Thử thách.
+- Mỗi màn Construction có số khối riêng: 2, 3 hoặc 4. Các chú giải trên màn giải thích khối dữ liệu, lỗ nhận liên kết, dây và đinh biểu diễn con trỏ `next`, nút đầu `HEAD` và nút cuối `NULL`.
+- Kéo khối từ khay lên hàng lắp theo thứ tự gợi ý rồi kéo đinh vào lỗ của khối tiếp theo. Đinh của khối cuối để rời làm `NULL`. Có thể chạm khối rồi chạm ô, hoặc chạm đinh để rút ra và chạm lỗ khác; chuột, cảm ứng và bàn phím đều dùng được.
+- Kéo khối đã lắp sang ô khác để đổi chỗ. Liên kết đi theo khối, không đi theo vị trí. Trả khối về khay sẽ tháo các liên kết tới khối đó. Không cho phép tự nối hoặc tạo vòng.
+- Logic lắp ghép trong `src/engine/linkedList.ts`, giao diện trong `src/components/LinkedListGame.tsx` và `src/linkedList.css`. Các màn Traversal, Search, Insertion, Deletion, Reversal nằm trong `src/engine/linkedChallenges.ts` và `src/components/LinkedAlgorithmGame.tsx`.
 
 ## Bubble Sort
 
@@ -126,3 +134,5 @@ E2E mặc định dùng Chrome đã cài trên máy. Nếu có Edge, dùng Power
 
 `npm run build` tạo web tĩnh trong `dist/`. Chạy `npm run preview` để xem bản build. Font Google được tải qua mạng; có font sans-serif dự phòng nếu offline. Game không dùng tài khoản hay dịch vụ backend; chưa có service worker/PWA.
 # AlgoVenture_Game
+
+Linked List hiện dùng một bài dài nhất mỗi nốt: Construction 4 nút, Traversal tới nút cuối, Search tìm vị trí, Insertion chèn giữa, Deletion xóa giữa, Reversal 4 nút. Demo có phát/tạm dừng, bước trước/sau và tốc độ 1x/1.5x/2x. Đinh màu có rãnh chữ thập; dây rời mô phỏng con lắc có trọng lực và lực cản, hỗ trợ giảm chuyển động.

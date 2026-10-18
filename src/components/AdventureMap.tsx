@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, AudioLines, CircleDot, Check, Eye, Flag, Footpri
 import World from "./World";
 import Pig from "./Pig";
 import { REGIONS, ARRAY_ROUTES, lessonPrerequisites, lessonAvailable, lessonUnlocked, regionUnlocked, type ArrayRouteId, type RegionId, type TrackId } from "../engine/learningTrack";
+import { type LinkedLevel, type LinkedLevelProgress, type LinkedTrackId } from "../engine/linkedCurriculum";
 import type { Mode } from "../engine/gameConfig";
 import { gameAudio } from "../audio/gameAudio";
 import { useMapAudio } from "../audio/useMapAudio";
@@ -11,6 +12,8 @@ type Props = {
   region: RegionId;
   arrayRoute: ArrayRouteId;
   onArrayRoute: (id: ArrayRouteId) => void;
+  linkedLevels: LinkedLevelProgress;
+  onLinkedLevel: (id: LinkedTrackId, level: LinkedLevel) => void;
   onWorld: () => void;
   onStart: (mode: Mode) => void;
   sound: boolean;
@@ -21,7 +24,7 @@ type Props = {
   arrivalFrom: TrackId | null;
   onArrived: () => void;
 };
-const icons = { bubble: CircleDot, selection: Search, insertion: Layers3, merge: GitMerge, quick: Shuffle, array: Layers3, stack: GalleryVerticalEnd, queue: ListOrdered, "linked-list": Link, "tree-basics": TreePine, bst: TreePine, "bst-search": Search, "bst-insert": GitMerge, "bst-delete": TreePine, linear: ScanSearch, binary: Search, "graph-basics": Network, dfs: Route, bfs: Network, dijkstra: Flag };
+const icons = { bubble: CircleDot, selection: Search, insertion: Layers3, merge: GitMerge, quick: Shuffle, array: Layers3, stack: GalleryVerticalEnd, queue: ListOrdered, "linked-list": Link, "linked-traversal": Route, "linked-search": Search, "linked-insertion": GitMerge, "linked-deletion": Layers3, "linked-reversal": Shuffle, "tree-basics": TreePine, bst: TreePine, "bst-search": Search, "bst-insert": GitMerge, "bst-delete": TreePine, linear: ScanSearch, binary: Search, "graph-basics": Network, dfs: Route, bfs: Network, dijkstra: Flag };
 function geometry(count: number) {
   const point = (index: number) => ({ x: index % 2 ? 270 : 130, y: 160 + (count - 1 - index) * 220 });
   const curve = (from: number, to: number) => {
@@ -189,7 +192,7 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
         <div className="sheet-handle" aria-hidden="true" />
         <div className="sheet-heading"><span className="sheet-number" style={{ background: active.color }}>{String(selected + 1).padStart(2, "0")}</span><div><h2 id="track-sheet-title" title={active.group}>{active.name}</h2></div>{locked ? <LockKeyhole className="sheet-status" size={21} /> : completed[active.id] ? <span className="sheet-done" aria-label="Đã vượt"><Check size={17} /></span> : <span className="sheet-status"><Flag size={20} /></span>}</div>
         {(walking || locked || !available) && <p className="sheet-description" aria-live="polite">{walking ? "Buta đang đi…" : locked ? `Xong ${previous?.name} để mở.` : "Đang phát triển."}</p>}
-        <div className="sheet-actions"><button className="sheet-demo" aria-label="Xem demo" onClick={() => start("demo")} disabled={locked || walking || !available}><Eye size={20} /> Demo</button><button className="sheet-challenge" onClick={() => start("play")} disabled={locked || walking || !available}><Gamepad2 size={20} /> Thử thách<ArrowRight size={17} /></button></div>
+<div className="sheet-actions"><button className="sheet-demo" aria-label="Xem demo" onClick={() => start("demo")} disabled={locked || walking || !available}><Eye size={20} /> Demo</button><button className="sheet-challenge" onClick={() => start("play")} disabled={locked || walking || !available}><Gamepad2 size={20} /> Thử thách<ArrowRight size={17} /></button></div>
       </section>
   </main>;
 }

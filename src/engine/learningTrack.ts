@@ -1,6 +1,6 @@
 import type { Algorithm } from "./gameConfig";
 
-export type TrackId = Algorithm | "selection" | "insertion" | "merge" | "array" | "stack" | "queue" | "linked-list" | "tree-basics" | "bst" | "bst-search" | "bst-insert" | "bst-delete" | "linear" | "binary" | "graph-basics" | "dfs" | "bfs" | "dijkstra";
+export type TrackId = Algorithm | "selection" | "insertion" | "merge" | "array" | "stack" | "queue" | "linked-list" | "linked-traversal" | "linked-search" | "linked-insertion" | "linked-deletion" | "linked-reversal" | "tree-basics" | "bst" | "bst-search" | "bst-insert" | "bst-delete" | "linear" | "binary" | "graph-basics" | "dfs" | "bfs" | "dijkstra";
 export type RegionId = "arrays" | "linear-structures" | "trees" | "graph";
 export type ArrayRouteId = "sort" | "search";
 export type Progress = Partial<Record<TrackId, boolean>>;
@@ -13,9 +13,12 @@ export const TRACK: Lesson[] = [
   { id: "quick", name: "Quick Sort", place: "Pháo Đài Chốt", description: "Chọn chốt, chia hai nhóm và chinh phục từng mảng con.", color: "#e9a18c", dark: "#b87160" },
 ];
 export const LINEAR_STRUCTURES: Lesson[] = [
-  { id: "linked-list", name: "Linked List", place: "Lối Đi Mắt Xích", description: "Nối từng nút dữ liệu để tạo nên một danh sách liên kết.", color: "#d7b57e", dark: "#a28756" },
-  { id: "stack", name: "Stack", place: "Tháp Xếp Chồng", description: "Đặt lên trên cùng, lấy ra trước tiên: làm quen với ngăn xếp.", color: "#c0a1cf", dark: "#9272a3" },
-  { id: "queue", name: "Queue", place: "Bến Đợi Đến Lượt", description: "Vào trước, ra trước: dẫn Buta qua hàng đợi.", color: "#8ebdc8", dark: "#5e8c9a" },
+  { id: "linked-list", name: "Linked List Construction", place: "Lối Đi Mắt Xích", description: "Lắp nút và nối con trỏ next để tạo danh sách.", color: "#d7b57e", dark: "#a28756" },
+  { id: "linked-traversal", name: "Linked List Traversal", place: "Đường Dây Dẫn Lối", description: "Đi theo từng liên kết từ HEAD đến NULL.", color: "#8fbdaf", dark: "#5d9385" },
+  { id: "linked-search", name: "Linked List Search", place: "Trạm Tìm Dấu", description: "Duyệt lần lượt để tìm nút mang giá trị cần tìm.", color: "#91b9d1", dark: "#628aa4" },
+  { id: "linked-insertion", name: "Linked List Insertion", place: "Xưởng Nối Nút", description: "Chèn nút mới bằng cách đổi các liên kết.", color: "#e4b88a", dark: "#ad8157" },
+  { id: "linked-deletion", name: "Linked List Deletion", place: "Ngã Rẽ Tháo Nút", description: "Bỏ một nút và nối lại phần danh sách còn lại.", color: "#c5a5c8", dark: "#946f9c" },
+  { id: "linked-reversal", name: "Linked List Reversal", place: "Cầu Quay Ngược", description: "Đổi hướng từng liên kết để đảo ngược danh sách.", color: "#a7c18c", dark: "#718f5a" },
 ];
 export const TREES: Lesson[] = [
   { id: "tree-basics", name: "Cây cơ bản", place: "Mầm Cây Đầu Tiên", description: "Làm quen với gốc, nút, cạnh và quan hệ cha con trong cây.", color: "#a8c88c", dark: "#708e55" },
@@ -42,16 +45,18 @@ export const ARRAY_ROUTES: { id: ArrayRouteId; name: string; description: string
 export const ARRAYS = ARRAY_ROUTES.flatMap(route => route.lessons);
 export const REGIONS: { id: RegionId; name: string; topics: string; place: string; description: string; color: string; lessons: Lesson[] }[] = [
   { id: "arrays", name: "Mảng", topics: "Sort · Search", place: "Quần Đảo Những Ô Số", description: "Khám phá tìm kiếm và sắp xếp trên mảng.", color: "#9bb983", lessons: ARRAYS },
-  { id: "linear-structures", name: "Danh sách", topics: "Linked List · Stack · Queue", place: "Bến Liên Kết", description: "Khám phá Linked List, ngăn xếp Stack và hàng đợi Queue.", color: "#dfb175", lessons: LINEAR_STRUCTURES },
+  { id: "linear-structures", name: "Danh sách", topics: "6 thuật toán Linked List", place: "Bến Liên Kết", description: "Lắp, duyệt, tìm, chèn, xóa và đảo ngược danh sách liên kết.", color: "#dfb175", lessons: LINEAR_STRUCTURES },
   { id: "trees", name: "Cây", topics: "Cây cơ bản · BST", place: "Rừng Cây Tri Thức", description: "Từ kiến thức cây đến tìm kiếm, thêm và xóa trên BST.", color: "#8ebc9a", lessons: TREES },
   { id: "graph", name: "Đồ thị", topics: "Đỉnh · Cạnh · Thuật toán", place: "Cao Nguyên Kết Nối", description: "Hiểu đỉnh và cạnh, rồi khám phá DFS, BFS và Dijkstra.", color: "#b0a0cb", lessons: GRAPH },
 ];
 export const ALL_LESSONS = REGIONS.flatMap(region => region.lessons);
 export function arrayRouteForLesson(id: TrackId) { return ARRAY_ROUTES.find(route => route.lessons.some(lesson => lesson.id === id)); }
-export function lessonAvailable(id: TrackId) { return id === "bubble" || id === "selection" || id === "insertion" || id === "quick"; }
+export function lessonAvailable(id: TrackId) { return id === "bubble" || id === "selection" || id === "insertion" || id === "quick" || LINEAR_STRUCTURES.some(lesson => lesson.id === id); }
 export function regionForLesson(id: TrackId) { return REGIONS.find(region => region.lessons.some(lesson => lesson.id === id))!; }
 export function regionComplete(id: RegionId, progress: Progress) { return REGIONS.find(region => region.id === id)!.lessons.every(lesson => progress[lesson.id]); }
 export function regionUnlocked(id: RegionId, progress: Progress) {
+  // Lists can be explored alongside Arrays while the unfinished Array lessons are built.
+  if (id === "linear-structures") return true;
   const index = REGIONS.findIndex(region => region.id === id);
   return REGIONS.slice(0, index).every(region => regionComplete(region.id, progress));
 }
@@ -60,6 +65,7 @@ export function lessonUnlocked(id: TrackId, progress: Progress) {
   return regionUnlocked(regionForLesson(id).id, progress) && lessonPrerequisites(id).every(lesson => progress[lesson.id]);
 }
 export function lessonPrerequisites(id: TrackId) {
+  if (LINEAR_STRUCTURES.some(lesson => lesson.id === id)) return [];
   const route = arrayRouteForLesson(id);
   const lessons = route?.lessons ?? regionForLesson(id).lessons;
   const previous = lessons.slice(0, lessons.findIndex(lesson => lesson.id === id));
@@ -85,8 +91,8 @@ export function readTrackProgress(): Partial<Record<TrackId, boolean>> {
     if (!data || typeof data !== "object") return {};
     const progress: Partial<Record<TrackId, boolean>> = {};
     // Completion IDs stay the same when the old combined route is split.
-    for (const item of ALL_LESSONS)
-      if ((data as Record<string, unknown>)[item.id] === true) progress[item.id] = true;
+    for (const id of [...ALL_LESSONS.map(item => item.id), "stack", "queue"] as TrackId[])
+      if ((data as Record<string, unknown>)[id] === true) progress[id] = true;
     return progress;
   } catch { return {}; }
 }

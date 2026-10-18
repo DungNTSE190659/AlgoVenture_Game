@@ -5,12 +5,15 @@ import InsertionGame from "./components/InsertionGame";
 import SelectionGame from "./components/SelectionGame";
 import DemoLesson from "./components/DemoLesson";
 import BubbleGame from "./components/BubbleGame";
+import LinkedListGame from "./components/LinkedListGame";
+import LinkedAlgorithmGame from "./components/LinkedAlgorithmGame";
 import { arrayRouteForLesson, currentRouteLesson, currentLesson, lessonAvailable, lessonUnlocked, nextLesson, readTrackProgress, regionForLesson, REGIONS, regionUnlocked, saveTrackProgress, type ArrayRouteId, type RegionId, type TrackId } from "./engine/learningTrack";
 import ExpeditionPlay from "./components/ExpeditionPlay";
 import type { Difficulty } from "./engine/quicksort";
 import { gameAudio, readSoundPreference } from "./audio/gameAudio";
 import { stopHaptics } from "./audio/gameFeedback";
 import { useInterfaceAudio } from "./audio/useInterfaceAudio";
+import { completeLinkedLevel, linkedLevelUnlocked, readLinkedLevelProgress, saveLinkedLevelProgress, type LinkedLevel, type LinkedTrackId } from "./engine/linkedCurriculum";
 
 export default function App() {
   useInterfaceAudio();
@@ -20,6 +23,8 @@ export default function App() {
   const [worldLocation, setWorldLocation] = useState<RegionId>(() => regionForLesson(currentLesson(readTrackProgress()).id).id);
   const [worldArrival, setWorldArrival] = useState<RegionId | null>(null);
   const [completed, setCompleted] = useState(readTrackProgress);
+  const [linkedLevels, setLinkedLevels] = useState(() => readLinkedLevelProgress(readTrackProgress()));
+  const [linkedLevel, setLinkedLevel] = useState<LinkedLevel>(1);
   const [arrivalFrom, setArrivalFrom] = useState<TrackId | null>(null);
   const [algorithm, setAlgorithm] = useState<TrackId>(() => currentLesson(readTrackProgress()).id);
   const [arrayRoute, setArrayRoute] = useState<ArrayRouteId>(() => arrayRouteForLesson(currentLesson(readTrackProgress()).id)?.id ?? "sort");
@@ -37,6 +42,7 @@ export default function App() {
     gameAudio.setEnabled(sound);
   }, [sound]);
   useEffect(() => { saveTrackProgress(completed); }, [completed]);
+  useEffect(() => { saveLinkedLevelProgress(linkedLevels); }, [linkedLevels]);
   useEffect(() => {
     const stop = () => { if (document.hidden) { gameAudio.stop(); stopHaptics(); } };
     document.addEventListener("visibilitychange", stop);
@@ -53,7 +59,23 @@ export default function App() {
     gameAudio.unlock();
     gameAudio.play("enter");
     setSession((value) => value + 1);
+    setLinkedLevel(algorithm === "linked-search" || algorithm === "linked-insertion" || algorithm === "linked-deletion" ? 2 : 3);
     setScene(mode);
+  }
+  function startLinkedLevel(id: LinkedTrackId, level: LinkedLevel) {
+    if (!lessonAvailable(id) || !lessonUnlocked(id, completed) || !linkedLevelUnlocked(id, level, linkedLevels)) return;
+    gameAudio.unlock();
+    gameAudio.play("enter");
+    setAlgorithm(id);
+    setLinkedLevel(level);
+    setSession(value => value + 1);
+    setScene("play");
+  }
+  function finishLinkedLevel() {
+    const id = algorithm as LinkedTrackId;
+    const next = completeLinkedLevel(linkedLevels, id, linkedLevel);
+    setLinkedLevels(next);
+    complete();
   }
   function back() {
     gameAudio.stop();
@@ -113,6 +135,8 @@ export default function App() {
         region={region}
         arrayRoute={arrayRoute}
         onArrayRoute={changeArrayRoute}
+        linkedLevels={linkedLevels}
+        onLinkedLevel={startLinkedLevel}
         onWorld={() => { setArrivalFrom(null); setMapView("world"); }}
         onStart={start}
         completed={completed}
@@ -144,6 +168,8 @@ export default function App() {
         onSpeedChange={setSpeed}
       />
     );
+  if (algorithm === "linked-list") return <LinkedListGame key={`${session}:${scene}:${linkedLevel}`} mode={scene} level={linkedLevel} sound={sound} onSoundChange={changeSound} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={finishLinkedLevel} onNextLevel={() => { if (linkedLevel < 3) { setLinkedLevel((linkedLevel + 1) as LinkedLevel); setSession(value => value + 1); } }} />;
+  if (regionForLesson(algorithm).id === "linear-structures") return <LinkedAlgorithmGame mode={scene} onPlay={() => start("play")} key={`${session}:${scene}:${linkedLevel}`} algorithm={algorithm as Exclude<LinkedTrackId, "linked-list">} level={linkedLevel} sound={sound} onSoundChange={changeSound} onBack={back} onChooseMap={chooseMap} onComplete={finishLinkedLevel} onNextLevel={() => { if (linkedLevel < 3) { setLinkedLevel((linkedLevel + 1) as LinkedLevel); setSession(value => value + 1); } }} />;
   if (scene === "demo")
     return (
       <DemoLesson
