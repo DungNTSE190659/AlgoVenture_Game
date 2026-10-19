@@ -22,8 +22,12 @@
 .linked-bank-cell { display: grid; place-items: center; flex: 0 0 154px; min-width: 0; }
 .linked-bank-empty { display: grid; place-items: center; width: 132px; min-height: 73px; border: 2px dashed #d9d8be; border-radius: 17px; color: #bdbea9; font-size: 12px; }
 .linked-flow-arrow { display: grid; place-items: center; justify-self: center; width: 38px; height: 26px; border-radius: 12px; background: #e8eedb; color: #8eaa78; transform: rotate(90deg); }
-.linked-assembly-scroll { min-width: 0; overflow-x: auto; overflow-y: hidden; padding: 20px 3px 8px; scrollbar-color: #c4d0ab transparent; }
+.linked-assembly-scroll { min-width: 0; overflow-x: auto; overflow-y: hidden; padding: 20px 3px 8px; scrollbar-width: none; }
+.linked-assembly-scroll::-webkit-scrollbar { display: none; }
 .linked-board { position: relative; display: grid; grid-template-columns: repeat(3,180px); gap: 80px; align-items: center; width: 700px; min-height: 144px; margin: 0 auto; }
+.construction-null { position: absolute; left: calc(100% - 90px); top: 50%; transform: translateY(-50%); }
+.construction-null .ll-hole { left: -14px; }
+.construction-null .linked-null-target { margin: 0; padding-left: 25px; }
 .linked-slot { position: relative; display: grid; place-items: center; width: 180px; height: 130px; border: 2px dashed #d5d7b8; border-radius: 24px; background: #f5f5e7b8; transition: background .2s,border-color .2s; }
 .linked-slot.slot-available { border-color: #a9c78b; background: #edf5de; cursor: pointer; }
 .linked-slot-label { position: absolute; top: -17px; left: 12px; padding: 2px 8px; border-radius: 7px; background: #e5edda; color: #7b9b75; font-size: 10px; letter-spacing: .1em; font-weight: 1000; }

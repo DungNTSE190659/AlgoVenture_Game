@@ -77,6 +77,31 @@
 .linked-algorithm-slot .linked-static-hole, .linked-algorithm-slot .linked-static-nail { cursor: crosshair; touch-action: none; }
 .linked-algorithm-slot .linked-node-body:not(:disabled) { cursor: pointer; touch-action: none; }
 .linked-action-ghost { z-index: 50; display: grid; place-items: center; min-width: 54px; height: 40px; padding: 5px; border: 2px solid #84b18b; border-radius: 12px; background: #e0efda; color: #4e7558; font-weight: 900; pointer-events: none; }
+.journey-chain { position: relative; display: flex; align-items: center; gap: 45px; width: max-content; min-width: 100%; padding: 65px 16px 26px; }
+.journey-wires { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 3; }
+.journey-wires path { fill: none; stroke: #dfbf87; stroke-width: 5px; stroke-linecap: round; }
+.journey-piece { display: flex; align-items: center; gap: 12px; }
+.journey-slot { flex: none; }
+.journey-current { border-color: #88b57a; background: #e6f0d8; }
+.journey-pig { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); pointer-events: none; }
+.journey-pig .pig { display: block; width: 60px; height: 67px; }
+.journey-pig-pickup { display: grid; justify-items: center; border: 2px dashed #9bb98e; border-radius: 16px; padding: 8px 18px; background: #eef4df; color: #607652; cursor: grab; touch-action: none; }
+.journey-pig-pickup .pig { width: 60px; height: 67px; }
+.journey-next-link { position: absolute; top: calc(100% + 5px); left: 50%; transform: translateX(-50%); padding: 5px 10px; white-space: nowrap; border: 2px solid #d6bc87; border-radius: 10px; background: #fff2cd; color: #79603e; cursor: pointer; touch-action: none; font-weight: 850; }
+.journey-next-link:disabled { opacity: 1; cursor: default; }
+.journey-next-link { pointer-events: none; }
+.journey-nail:disabled { opacity: 1; cursor: default; pointer-events: none; }
+.journey-nail-selected { outline: 3px solid #e9cf76; outline-offset: 3px; border-radius: 50%; }
+.journey-empty { border: 0; background: none; color: #7c9670; padding: 28px; cursor: pointer; }
+.journey-plus { flex: none; width: 38px; height: 46px; border: 2px dashed #89ad79; border-radius: 12px; background: #edf6df; color: #68895a; font-size: 26px; cursor: pointer; }
+.journey-null { position: relative; flex: none; }
+.journey-null .linked-null-target { padding-left: 24px; }
+.journey-null-hole { left: -14px; }
+.journey-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 20px auto; }
+.journey-controls .chunky-button { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; }
+.journey-world .linked-bank-row { min-height: 138px; padding-bottom: 18px; }
+.journey-world .linked-node-body { cursor: pointer; }
+.journey-world .linked-node-body:disabled, .journey-world .ll-hole:disabled { opacity: 1; cursor: default; }
 @media (max-width:700px) { .linked-action-guide { padding: 10px; } .linked-action-guide .pig { flex-basis: 52px; width: 52px; height: 60px; } }
 
 .linked-algorithm-slot .play-link-open .linked-static-rope, .linked-algorithm-slot .play-link-open .linked-static-nail { opacity: .28; filter: grayscale(.7); }
