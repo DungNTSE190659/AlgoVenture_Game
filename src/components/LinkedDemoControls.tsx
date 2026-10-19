@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw, SkipBack, SkipForward } from "lucide-react";
 import Pig from "./Pig";
+import { gameAudio } from "../audio/gameAudio";
 
 type Props = {
   step: number;
@@ -15,6 +16,11 @@ export default function LinkedDemoControls({ step, count, narration, onStep, onS
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const done = step === count - 1;
+  const wasDone = useRef(false);
+  useEffect(() => {
+    if (done && !wasDone.current) gameAudio.play("finish");
+    wasDone.current = done;
+  }, [done]);
 
   useEffect(() => {
     if (!playing || done) return;
@@ -24,20 +30,21 @@ export default function LinkedDemoControls({ step, count, narration, onStep, onS
 
   return <div className="linked-demo-player">
     <div className="linked-demo-dialogue">
-      <Pig mood="explaining" />
+      <Pig mood={done ? "celebrate" : "explaining"} />
       <p aria-live="polite">{narration}</p>
     </div>
     <footer className="linked-demo-controls">
       <div className="linked-demo-playback">
-        <button className="round-button" aria-label="Bước trước" disabled={step === 0} onClick={() => { setPlaying(false); onStep(step - 1); }}><SkipBack size={22} /></button>
+        <button className="round-button" aria-label="Bước trước" disabled={step === 0} onClick={() => { gameAudio.unlock(); setPlaying(false); onStep(step - 1); }}><SkipBack size={22} /></button>
         <button className={`chunky-button ${done ? "button-green" : "button-purple"}`} onClick={() => {
+          gameAudio.unlock();
           if (done) onPlay();
           else setPlaying(value => !value);
         }}>
           {playing && !done ? <Pause size={23} /> : <Play size={23} />}
           {done ? "Tự mình thử" : playing ? "Tạm dừng" : step === 0 ? "Bắt đầu" : "Tiếp tục"}
         </button>
-        <button className="round-button" aria-label={done ? "Xem lại từ đầu" : "Bước tiếp"} onClick={() => { setPlaying(false); onStep(done ? 0 : step + 1); }}>{done ? <RotateCcw size={22} /> : <SkipForward size={22} />}</button>
+        <button className="round-button" aria-label={done ? "Xem lại từ đầu" : "Bước tiếp"} onClick={() => { gameAudio.unlock(); setPlaying(false); onStep(done ? 0 : step + 1); }}>{done ? <RotateCcw size={22} /> : <SkipForward size={22} />}</button>
       </div>
       <div className="linked-demo-step-status">
         <span>{step + 1} / {count}</span>

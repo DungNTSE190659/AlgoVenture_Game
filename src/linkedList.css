@@ -152,8 +152,6 @@
 .linked-nail-head::before,.linked-nail-head::after { content: ''; position: absolute; left: 6px; top: 12px; width: 17px; height: 5px; border-radius: 2px; background: #235875; transform: rotate(45deg); box-shadow: 0 1px 0 #9ce5ed; }
 .linked-nail-head::after { transform: rotate(-45deg); }
 .linked-nail-tip { z-index: -1; }
-.linked-nail:nth-of-type(3n+2) .linked-nail-head { filter: hue-rotate(70deg); }
-.linked-nail:nth-of-type(3n) .linked-nail-head { filter: hue-rotate(180deg); }
 .linked-rope { stroke: #f0d7a1; stroke-width: 7; filter: drop-shadow(0 2px 1px #7d593b88); }
 .linked-rope.rope-plugged { stroke: #e4c38c; }
 .demo-node-active { outline: 5px solid #98c37d; outline-offset: 6px; transform: translateY(-6px); }

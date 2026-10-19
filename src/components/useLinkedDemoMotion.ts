@@ -28,10 +28,37 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
   const paths = useRef(new Map<string, string>());
   const flights = useRef(new Map<string, Flight>());
   const wireAnimations = useRef(new Map<string, Animation>());
+  const hiddenHardware = useRef(new Map<HTMLElement | SVGElement, string>());
+
+  function restoreHardware() {
+    for (const [element, visibility] of hiddenHardware.current) element.style.visibility = visibility;
+    hiddenHardware.current.clear();
+  }
+
+  function syncHardware() {
+    restoreHardware();
+    const root = ref.current;
+    if (!root) return;
+    const hide = (element: HTMLElement | SVGElement) => {
+      if (!hiddenHardware.current.has(element)) hiddenHardware.current.set(element, element.style.visibility);
+      element.style.visibility = "hidden";
+    };
+    for (const key of flights.current.keys()) {
+      if (!key.startsWith("node-")) continue;
+      const id = key.slice(5);
+      root.querySelectorAll<HTMLElement | SVGElement>(`[data-demo-wire="${id}"], [data-demo-nail="${id}"], [data-demo-node="${id}"] .ll-hole, [data-demo-node="${id}"] .ll-rope-anchor`).forEach(hide);
+      const nailGhost = flights.current.get(`nail-${id}`)?.ghost;
+      if (nailGhost) {
+        hide(nailGhost as HTMLElement);
+        nailGhost.querySelectorAll<HTMLElement | SVGElement>("*").forEach(hide);
+      }
+    }
+  }
 
   useLayoutEffect(() => {
     const root = ref.current;
     if (!root || !enabled) return;
+    restoreHardware();
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced || step === 0) {
       for (const flight of flights.current.values()) flight.finish();
@@ -74,7 +101,7 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
       Object.assign(ghost.style, { position: "fixed", left: `${box.left}px`, top: `${box.top}px`, right: "auto", bottom: "auto", width: `${box.width}px`, height: `${box.height}px`, margin: "0", transform: "none", transformOrigin: "center", pointerEvents: "none", zIndex: "100", transition: "none" });
       document.body.append(ghost);
       const target = element as HTMLElement | SVGElement;
-      const visibility = target.style.visibility;
+      const visibility = hiddenHardware.current.get(target) ?? target.style.visibility;
       target.style.visibility = "hidden";
       const x = activeBox ? activeBox.left - box.left : dx;
       const y = activeBox ? activeBox.top - box.top : dy;
@@ -82,12 +109,13 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
         { transform: `translate(${x}px, ${y}px)` },
         { transform: `translate(${x / 2}px, ${y / 2 - (key.startsWith("node") ? 24 : 0)}px)`, offset: .5 },
         { transform: "translate(0, 0)" },
-      ] : [{ opacity: 0, transform: "scale(.75)" }, { opacity: 1, transform: "scale(1)" }], { duration, easing: "cubic-bezier(.22,.61,.36,1)" });
+      ] : [{ transform: "scale(.75)" }, { transform: "scale(1)" }], { duration, easing: "cubic-bezier(.22,.61,.36,1)" });
       const finish = () => {
         animation.cancel();
         ghost.remove();
         target.style.visibility = visibility;
         if (flights.current.get(key)?.animation === animation) flights.current.delete(key);
+        syncHardware();
       };
       flights.current.set(key, { ghost, animation, finish });
       animation.onfinish = finish;
@@ -105,16 +133,18 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
       const active = wireAnimations.current.get(key);
       const current = active ? getComputedStyle(path).getPropertyValue("d") : previous ? `path("${previous}")` : null;
       active?.cancel();
-      const animation = path.animate(current ? [{ d: current }, { d: `path("${d}")` }] : [{ opacity: 0 }, { opacity: 1 }], { duration, easing: "cubic-bezier(.22,.61,.36,1)" });
+      const animation = path.animate(current ? [{ d: current }, { d: `path("${d}")` }] : [{ strokeDashoffset: 12 }, { strokeDashoffset: 0 }], { duration, easing: "cubic-bezier(.22,.61,.36,1)" });
       wireAnimations.current.set(key, animation);
       animation.onfinish = () => { animation.cancel(); wireAnimations.current.delete(key); };
     });
     paths.current = nextPaths;
+    syncHardware();
   });
 
   useLayoutEffect(() => () => {
     for (const flight of flights.current.values()) flight.finish();
     for (const animation of wireAnimations.current.values()) animation.cancel();
+    restoreHardware();
     snapshots.current.clear();
     paths.current.clear();
   }, [enabled]);

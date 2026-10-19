@@ -200,9 +200,9 @@ export default function LinkedJourneyGame(props: Props) {
         const a = source.getBoundingClientRect(), b = target?.getBoundingClientRect();
         const x1 = a.left + a.width / 2 - rect.left, y1 = a.top + a.height / 2 - rect.top;
         const dragging = drag?.kind === "link" && drag.value === Number(from);
-        const x2 = dragging ? drag.x - rect.left : b ? b.left + b.width / 2 - rect.left : x1;
-        const y2 = dragging ? drag.y - rect.top : b ? b.top + b.height / 2 - rect.top : y1 + 60;
-        paths.push({ from: Number(from), to: to ?? null, x: x2, y: y2, path: `M ${x1} ${y1} C ${x1 + 25} ${y1 + 45}, ${x2 - 20} ${y2 + 30}, ${x2} ${y2}` });
+        const x2 = dragging ? drag.x - rect.left : b ? b.left + b.width / 2 - rect.left : x1 + 40;
+        const y2 = dragging ? drag.y - rect.top : b ? b.top + b.height / 2 - rect.top : y1;
+        paths.push({ from: Number(from), to: to ?? null, x: x2, y: y2, path: `M ${x1} ${y1} L ${x2} ${y2}` });
       }
       setWires(paths);
     };
@@ -256,6 +256,7 @@ export default function LinkedJourneyGame(props: Props) {
   const card = (value: number, bank = false) => <div data-demo-node={value} className={`linked-node linked-node-${["peach", "mint", "lavender"][Math.max(0, values.indexOf(value)) % 3]} ${shown.held?.value === value && shown.held.kind === "node" ? "node-selected" : ""}`}>
     {!bank && <button className="ll-hole" disabled={demo} data-journey-target={value} aria-label={`Lỗ của khối ${value}`} onClick={() => dispatch({ kind: "target", value })}><span /></button>}
     <button className="linked-node-body" disabled={demo} data-journey-target={value} aria-label={`Khối ${value}${bank ? " ở khay" : " ở hàng lắp"}`} onPointerDown={event => { if (bank || shown.phase === "build" || shown.phase === "reverse" || (algorithm === "linked-deletion" && ["delete", "bypass", "remove", "review"].includes(shown.phase))) begin({ kind: "node", value }, event); }} onClick={event => { event.stopPropagation(); if (bank || shown.phase === "build" || shown.phase === "reverse") dispatch({ kind: "select", held: { kind: "node", value } }); else dispatch({ kind: "target", value }); }}><span className="linked-node-value">{value}</span></button>
+    {demo && finished && !bank && <span className="linked-complete-check" role="img" aria-label="Hoàn thành"><Check size={16} /></span>}
     {!bank && <span className="ll-rope-anchor" data-wire-source={value} data-wire-target={shown.links[value] ?? "null"} aria-hidden="true" />}
   </div>;
 
@@ -276,7 +277,7 @@ export default function LinkedJourneyGame(props: Props) {
             {shown.slots.map((value, index) => <div className="journey-piece" key={value ?? `slot-${index}`}>
               {shown.phase === "insert" && <button className="journey-plus" data-journey-slot={index} aria-label={`Chèn vào vị trí ${index}`} onClick={() => dispatch({ kind: "slot", index })}>+</button>}
               <div className={`linked-slot journey-slot ${shown.cursor === value && shown.started ? "journey-current" : ""}`} data-journey-slot={index} onClick={() => { if (shown.phase === "build" || shown.phase === "reverse") dispatch({ kind: "slot", index }); }}>
-                <span className="linked-slot-label">{(shown.phase === "build" || shown.phase === "reverse" ? index === 0 : shown.head !== null && value === shown.head) ? "HEAD" : `VỊ TRÍ ${index + 1}`}</span>
+                <span className="linked-slot-label">{(shown.phase === "build" || shown.phase === "reverse" ? index === 0 : shown.head !== null && value === shown.head) ? "HEAD" : index === shown.slots.length - 1 ? "TAIL" : `VỊ TRÍ ${index + 1}`}</span>
                 {value !== null ? card(value) : <button className="journey-empty" aria-label={`Đặt khối vào ô ${index + 1}`} disabled={demo}>+ Đặt khối</button>}
                 {value !== null && shown.cursor === value && shown.started && <div className="journey-pig"><Pig small /></div>}
               </div>
@@ -301,6 +302,6 @@ export default function LinkedJourneyGame(props: Props) {
     {demo && <LinkedDemoControls step={demoStep} count={script.length + 1} narration={guidance} onStep={setDemoStep} onSpeedChange={demoMotion.onSpeedChange} onPlay={props.onPlay} />}
     {!demo && <GameFooter><button className="linked-reset" onClick={reset}><RotateCcw size={17} /> Làm lại</button></GameFooter>}
     {settings && <div className="linked-settings-backdrop" onClick={() => setSettings(false)}><section className="linked-settings" role="dialog" aria-modal="true" aria-label="Tùy chọn" onClick={event => event.stopPropagation()}><button className="round-button" aria-label="Đóng tùy chọn" onClick={() => setSettings(false)}><X /></button><h2>Tùy chọn</h2><button className="chunky-button button-green" onClick={() => props.onSoundChange(!props.sound)}>{props.sound ? <Volume2 /> : <VolumeX />} Âm thanh: {props.sound ? "Bật" : "Tắt"}</button></section></div>}
-    {drag && drag.kind !== "link" && <div className="linked-drag-ghost" style={{ left: drag.x, top: drag.y }} aria-hidden="true">{drag.kind === "pig" ? <Pig small /> : drag.value}</div>}
+    {drag && drag.kind !== "link" && <div className="linked-drag-ghost" style={{ left: drag.x, top: drag.y }} aria-hidden="true">{drag.kind === "pig" ? <Pig small /> : <div className={`linked-node linked-node-${["peach", "mint", "lavender"][Math.max(0, values.indexOf(drag.value)) % 3]}`}><span className="linked-node-body"><span className="linked-node-value">{drag.value}</span></span></div>}</div>}
   </GameLayout>;
 }

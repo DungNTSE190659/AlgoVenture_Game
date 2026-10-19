@@ -25,7 +25,7 @@ type Point = { x: number; y: number };
 type Geometry = { anchors: Record<string, Point>; holes: Record<string, Point> };
 type Drag = { kind: "node" | "nail"; id: string; x: number; y: number; startX: number; startY: number; original: string | null };
 
-const FREE_ROPE_OFFSET = { x: 0, y: 60 };
+const FREE_ROPE_OFFSET = { x: 40, y: 0 };
 
 const DEMO_LINES = [
   "Mỗi khối là một nút. Ô lớn chứa dữ liệu; phần bên phải chứa con trỏ next.",
@@ -220,11 +220,11 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
                 if (!id || !geometry.anchors[id]) return null;
                 const start = geometry.anchors[id];
                 const target = drag?.kind === "nail" && drag.id === id ? { x: drag.x - (boardRef.current?.getBoundingClientRect().left ?? 0), y: drag.y - (boardRef.current?.getBoundingClientRect().top ?? 0) } : linkTarget(id) && geometry.holes[linkTarget(id)!] ? geometry.holes[linkTarget(id)!] : { x: start.x + FREE_ROPE_OFFSET.x, y: start.y + FREE_ROPE_OFFSET.y };
-                return <path key={id} data-demo-wire={id} className={`linked-rope ${linkTarget(id) ? "rope-plugged" : ""}`} d={`M ${start.x} ${start.y} C ${start.x + 20} ${start.y + 52}, ${target.x - 20} ${target.y + 42}, ${target.x} ${target.y}`} />;
+                return <path key={id} data-demo-wire={id} className={`linked-rope ${linkTarget(id) ? "rope-plugged" : ""}`} d={`M ${start.x} ${start.y} L ${target.x} ${target.y}`} />;
               })}</svg>
               {shown.slots.map((id, index) => <div key={index} className={`linked-slot ${selectedNode ? "slot-available" : ""}`} data-linked-slot={index} role={selectedNode ? "button" : undefined} tabIndex={selectedNode ? 0 : -1} aria-label={selectedNode ? `Đặt khối vào ô ${index + 1}` : undefined} onClick={() => { if (selectedNode && !demo) putNode(selectedNode, index); }} onKeyDown={event => { if (selectedNode && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); putNode(selectedNode, index); } }}>
                  <span className="linked-slot-label">{index === 0 ? "HEAD" : index === shown.slots.length - 1 ? "TAIL" : `VỊ TRÍ ${index + 1}`}</span>
-                 {id ? <NodeCard node={nodes.find(node => node.id === id)!} assembled selected={selectedNode === id} onPointerDown={event => beginDrag("node", id, event)} onKeyboard={() => { setSelectedNode(id); setSelectedNail(null); }} onHole={() => { if (selectedNail) plugNail(selectedNail, id); }} holeActive={Boolean(selectedNail && selectedNail !== id)} /> : <div className="linked-empty-slot"><span>+</span><small>Đặt khối</small></div>}
+                 {id ? <NodeCard node={nodes.find(node => node.id === id)!} assembled complete={demo && demoStep === DEMO_LINES.length - 1} selected={selectedNode === id} onPointerDown={event => beginDrag("node", id, event)} onKeyboard={() => { setSelectedNode(id); setSelectedNail(null); }} onHole={() => { if (selectedNail) plugNail(selectedNail, id); }} holeActive={Boolean(selectedNail && selectedNail !== id)} /> : <div className="linked-empty-slot">+ Đặt khối</div>}
               </div>)}
               <div className="construction-null"><button className={`ll-hole ${selectedNail ? "hole-active" : ""}`} data-node="null" type="button" disabled={demo} aria-label="Lỗ NULL" onClick={() => { if (selectedNail) plugNail(selectedNail, "null"); }}><span /></button><button className="linked-null-target" type="button" disabled={demo} onClick={() => { if (selectedNail) plugNail(selectedNail, "null"); }}>NULL</button></div>
               {shown.slots.map(id => {
@@ -243,19 +243,19 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
     {demo && <LinkedDemoControls step={demoStep} count={DEMO_LINES.length} narration={DEMO_LINES[demoStep]} onStep={setDemoStep} onSpeedChange={demoMotion.onSpeedChange} onPlay={onPlay} />}
     {!demo && <GameFooter className="linked-footer"><button className="linked-reset" onClick={reset}><RotateCcw size={17} /> Làm lại</button><GameHintButton aria-expanded={hint} onClick={() => { setHint(value => !value); playCue("hint"); }} />{hint && <div className="linked-hint"><Pig mood="thinking" /><p>{hintText()}</p><button className="round-button" aria-label="Đóng gợi ý" onClick={() => setHint(false)}><X size={17} /></button></div>}</GameFooter>}
     {settings && <div className="linked-settings-backdrop" role="presentation" onClick={() => setSettings(false)}><section className="linked-settings" role="dialog" aria-modal="true" aria-label="Tùy chọn Linked List" onClick={event => event.stopPropagation()}><button className="round-button linked-settings-close" aria-label="Đóng tùy chọn" onClick={() => setSettings(false)}><X size={18} /></button><h2>Tùy chọn</h2><button className="chunky-button button-green" onClick={() => onSoundChange(!sound)}>{sound ? <Volume2 /> : <VolumeX />}{sound ? "Âm thanh: Bật" : "Âm thanh: Tắt"}</button><button className="linked-settings-reset" onClick={() => { reset(); setSettings(false); }}><RotateCcw size={17} /> Bắt đầu lại</button></section></div>}
-      {drag && <div className={`linked-drag-ghost ghost-${drag.kind}`} style={{ left: drag.x, top: drag.y }} aria-hidden="true">{drag.kind === "node" ? <span>{valueOf(drag.id)}</span> : <><span className="linked-nail-head" /><span className="linked-nail-tip" /></>}</div>}
+      {drag && <div className={`linked-drag-ghost ghost-${drag.kind}`} style={{ left: drag.x, top: drag.y }} aria-hidden="true">{drag.kind === "node" ? <div className={`linked-node linked-node-${nodes.find(node => node.id === drag.id)!.color}`}><span className="linked-node-body"><span className="linked-node-value">{valueOf(drag.id)}</span></span></div> : <><span className="linked-nail-head" /><span className="linked-nail-tip" /></>}</div>}
   </GameLayout>;
 }
 
-function NodeCard({ node, assembled = false, selected, onPointerDown, onKeyboard, onHole, holeActive = false }: {
-  node: LinkedPuzzle["nodes"][number]; assembled?: boolean; selected: boolean;
+function NodeCard({ node, assembled = false, complete = false, selected, onPointerDown, onKeyboard, onHole, holeActive = false }: {
+  node: LinkedPuzzle["nodes"][number]; assembled?: boolean; complete?: boolean; selected: boolean;
   onPointerDown: (event: PointerEvent<HTMLElement>) => void; onKeyboard: () => void;
   onHole?: () => void; holeActive?: boolean;
 }) {
   return <div data-demo-node={node.id} className={`linked-node linked-node-${node.color} ${selected ? "node-selected" : ""} ${assembled ? "node-assembled" : ""}`}>
     {assembled && <button className={`ll-hole ${holeActive ? "hole-active" : ""}`} data-node={node.id} type="button" aria-label={`Lỗ của khối ${node.value}`} onClick={event => { event.stopPropagation(); onHole?.(); }}><span /></button>}
     <button className="linked-node-body" type="button" aria-label={`Khối ${node.value}${assembled ? " ở hàng lắp" : " ở khay"}`} onPointerDown={onPointerDown} onClick={event => { if (event.detail === 0) onKeyboard(); }}><span className="linked-node-value">{node.value}</span></button>
-    <span className="ll-rope-anchor" data-node={node.id} aria-hidden="true" />
-    {!assembled && <span className="linked-bank-rope" aria-hidden="true"><span className="linked-mini-nail" /></span>}
+    {complete && <span className="linked-complete-check" role="img" aria-label="Hoàn thành"><Check size={16} /></span>}
+    {assembled && <span className="ll-rope-anchor" data-node={node.id} aria-hidden="true" />}
   </div>;
 }

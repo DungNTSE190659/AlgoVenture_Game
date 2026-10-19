@@ -15,11 +15,18 @@ for (const [index, lesson] of LINEAR_STRUCTURES.entries()) {
     await next.click();
     const moving = page.locator('[data-linked-demo-motion^="node-"]').first();
     await expect(moving).toHaveCount(1);
+    const movingId = (await moving.getAttribute('data-linked-demo-motion'))!.slice(5);
+    const wire = page.locator(`[data-demo-wire="${movingId}"]`);
+    const nail = page.locator(`.linked-world [data-demo-nail="${movingId}"]`);
+    if (await wire.count()) await expect(wire).toHaveCSS('visibility', 'hidden');
+    if (await nail.count()) await expect(nail).toHaveCSS('visibility', 'hidden');
     const start = await moving.boundingBox();
     await page.waitForTimeout(180);
     const middle = await moving.boundingBox();
     expect(Math.hypot(middle!.x - start!.x, middle!.y - start!.y)).toBeGreaterThan(5);
     await expect(page.locator('[data-linked-demo-motion]')).toHaveCount(0);
+    if (await wire.count()) await expect(wire).toHaveCSS('visibility', 'visible');
+    if (await nail.count()) await expect(nail).toHaveCSS('visibility', 'visible');
     await expect(page.locator('.linked-demo .linked-node-body[style*="hidden"]')).toHaveCount(0);
     // Rapid forward/back navigation must clean up every temporary flight.
     await next.click();

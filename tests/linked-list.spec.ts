@@ -29,12 +29,24 @@ for (const [index, lesson] of LINEAR_STRUCTURES.entries()) {
     await expect(page.locator('.linked-panel')).toHaveCount(2);
     await expect(page.locator('.linked-algorithm-slot, .linked-slot')).toHaveCount([4,4,4,3,3,4][index]);
     const count = Number(await page.locator('.linked-demo-step-status progress').getAttribute('max')) + 1;
+    await page.evaluate(async () => {
+      const { gameAudio } = await import('/src/audio/gameAudio.ts');
+      const original = gameAudio.play.bind(gameAudio);
+      (window as any).linkedDemoCues = [];
+      gameAudio.play = (cue: any) => { (window as any).linkedDemoCues.push(cue); original(cue); };
+    });
     await expect(page.locator('.linked-question-card')).toHaveCount(0);
     for (let frame = 1; frame < count; frame++) {
       await page.locator('.linked-demo-player .round-button').last().click();
       await expect(page.locator('.linked-demo-step-status')).toContainText(`${frame + 1} / ${count}`);
 
     }
+    await expect(page.locator('.linked-assembly .linked-complete-check')).toHaveCount([4,4,4,4,2,4][index]);
+    expect(await page.evaluate(() => (window as any).linkedDemoCues.filter((cue: string) => cue === 'finish').length)).toBe(1);
+    await page.getByRole('button', { name: 'Bước trước', exact: true }).click();
+    await expect(page.locator('.linked-complete-check')).toHaveCount(0);
+    await page.getByRole('button', { name: 'Bước tiếp', exact: true }).click();
+    expect(await page.evaluate(() => (window as any).linkedDemoCues.filter((cue: string) => cue === 'finish').length)).toBe(2);
     await page.locator('.linked-demo-player .button-green').click();
     await expect(page.locator('.linked-demo-player')).toHaveCount(0);
     await expect(page.locator(index === 0 ? '.linked-board' : '.journey-chain')).toBeVisible();

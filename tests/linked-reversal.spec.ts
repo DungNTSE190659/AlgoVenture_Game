@@ -31,7 +31,7 @@ test('Reversal starts connected and supports manual disassembly and rebuilding',
     await node(value).dragTo(page.locator('[data-journey-bank]'));
     await expect(page.getByRole('button', { name: `Khối ${value} ở khay`, exact: true })).toBeVisible();
     expect((await page.locator('.linked-bank').boundingBox())!.height).toBe(bankHeight);
-    await expect(page.locator('.journey-slot .linked-slot-label')).toHaveText(['HEAD', 'VỊ TRÍ 2', 'VỊ TRÍ 3', 'VỊ TRÍ 4']);
+    await expect(page.locator('.journey-slot .linked-slot-label')).toHaveText(['HEAD', 'VỊ TRÍ 2', 'VỊ TRÍ 3', 'TAIL']);
   }
   for (const [index, value] of reversed.entries()) {
     await page.getByRole('button', { name: `Khối ${value} ở khay`, exact: true }).dragTo(page.getByRole('button', { name: `Đặt khối vào ô ${index + 1}` }));
