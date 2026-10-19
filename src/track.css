@@ -50,7 +50,6 @@
 .buta-resting .buta-body { translate: 59px 0; }
 .buta-here { position: absolute; left: 50px; top: -17px; font-size: 9px; white-space: nowrap; background: #fffdf1; color: #8d826b; border: 1px solid #e5ddbe; border-radius: 8px; padding: 3px 7px; }
 .buta-walking .buta-body { animation: buta-step .24s ease-in-out infinite alternate; }
-.buta-walking .pig-legs { transform-box: fill-box; transform-origin: center; animation: buta-feet .24s ease-in-out infinite alternate; }
 .track-destination, .track-start-mark { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 9px; font-weight: 900; letter-spacing: 1px; color: #9ca58b; display: flex; align-items: center; gap: 6px; }
 .track-destination { top: 45px; }
 .track-start-mark { top: 1173px; font-size: 8px; }
@@ -85,7 +84,6 @@
 .track-enter { background: #92b77b; border: 2px solid #b1cb99; border-radius: 18px; color: #fffef2; box-shadow: 0 5px #71945d; min-height: 56px; padding: 0 24px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 16px; font-weight: 1000; }
 .welcome-note { font-size: 10px; color: #97a083; margin-top: 24px; }
 @keyframes buta-step { from { transform: translateY(0) rotate(-4deg); } to { transform: translateY(-5px) rotate(4deg); } }
-@keyframes buta-feet { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
 @keyframes road-awake { from { stroke: #fff0c3; } to { stroke: #e3d0a6; } }
 @media (max-width: 600px) {
   .learning-map { --sheet-height: 164px; --track-top: 116px; }

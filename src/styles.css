@@ -642,15 +642,6 @@ p {
   overflow: visible;
   filter: drop-shadow(0 5px 1px #7d8e670a);
 }
-.pig-happy {
-  animation: pig-float 3.5s infinite ease-in-out;
-}
-.pig-celebrate {
-  animation: celebrate 0.7s ease-in-out;
-}
-.pig-oops {
-  animation: shake 0.4s ease-in-out;
-}
 .map-companion .pig {
   width: 118px;
 }
@@ -1551,15 +1542,6 @@ p {
   }
   to {
     opacity: 1;
-  }
-}
-@keyframes pig-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-1deg);
-  }
-  50% {
-    transform: translateY(-3px) rotate(1deg);
   }
 }
 @keyframes shake {
