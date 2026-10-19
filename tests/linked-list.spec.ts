@@ -12,7 +12,7 @@ test('all six Linked List stops open for a new player', async ({ page }) => {
   await expect(page.locator('.sheet-demo')).toBeEnabled();
   await expect(page.locator('.sheet-challenge')).toBeEnabled();
   await page.locator('.sheet-challenge').click();
-  await expect(page.getByRole('heading', {name: 'Đảo 4 nút'})).toBeVisible();
+  await expect(page.getByRole('heading', {name: 'Linked List Reversal'})).toBeVisible();
 });
 
 for (const [index, lesson] of LINEAR_STRUCTURES.entries()) {
@@ -28,18 +28,43 @@ for (const [index, lesson] of LINEAR_STRUCTURES.entries()) {
     await expect(page.locator('.linked-demo-player')).toBeVisible();
     await expect(page.locator('.linked-panel')).toHaveCount(2);
     await expect(page.locator('.linked-algorithm-slot, .linked-slot')).toHaveCount([4,4,4,3,3,4][index]);
-    const count = Number((await page.locator('.linked-demo-player').innerText()).match(/Bước 1\/(\d+)/)![1]);
+    const count = Number(await page.locator('.linked-demo-step-status progress').getAttribute('max')) + 1;
     await expect(page.locator('.linked-question-card')).toHaveCount(0);
     for (let frame = 1; frame < count; frame++) {
       await page.locator('.linked-demo-player .round-button').last().click();
-      await expect(page.locator('.linked-demo-player')).toContainText(`${frame + 1}/${count}`);
+      await expect(page.locator('.linked-demo-step-status')).toContainText(`${frame + 1} / ${count}`);
 
     }
     await page.locator('.linked-demo-player .button-green').click();
     await expect(page.locator('.linked-demo-player')).toHaveCount(0);
-    await expect(page.locator(index === 0 ? '.linked-board' : '.linked-action-guide')).toBeVisible();
+    await expect(page.locator(index === 0 ? '.linked-board' : '.journey-chain')).toBeVisible();
   });
 }
+
+test('all Linked List demo and challenge screens scroll to their controls', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 600 });
+  for (const lesson of LINEAR_STRUCTURES) {
+    for (const mode of ['demo', 'challenge'] as const) {
+      await page.goto('/');
+      await page.locator('.topic-dots button').nth(1).click();
+      await page.locator('.atlas-enter').click();
+      await page.getByRole('button', { name: lesson.name, exact: true }).click();
+      await page.locator(mode === 'demo' ? '.sheet-demo' : '.sheet-challenge').click();
+      const screen = page.locator(mode === 'demo' ? '.linked-content' : '.linked-world');
+      const overflows = await screen.evaluate(element => element.scrollHeight > element.clientHeight);
+      if (mode === 'demo') {
+        await expect(page.getByRole('button', { name: 'Bắt đầu', exact: true })).toBeInViewport();
+        await expect(page.locator('.linked-demo-dialogue')).toBeInViewport();
+      }
+      if (overflows) {
+        await page.mouse.move(640, 350);
+        await page.mouse.wheel(0, 700);
+        await expect.poll(() => screen.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+      }
+      await expect(mode === 'demo' ? page.locator('.linked-demo-player') : page.getByRole('button', { name: 'Kiểm tra', exact: true })).toBeInViewport();
+    }
+  }
+});
 
 test('four block construction fits phone and connects by tapping', async ({ page }) => {
   await page.setViewportSize({width:390,height:844});
@@ -49,10 +74,12 @@ test('four block construction fits phone and connects by tapping', async ({ page
   await page.locator('.sheet-challenge').click();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
   const bank = page.locator('.linked-bank .linked-node-body');
+  const bankHeight = (await page.locator('.linked-bank').boundingBox())!.height;
   await expect(bank).toHaveCount(4);
   for (const [value,index] of [[7,0],[2,1],[9,2],[4,3]]) {
     await page.locator('.linked-bank .linked-node-body').filter({hasText:String(value)}).click();
     await page.locator(`[data-linked-slot="${index}"]`).click();
+    expect((await page.locator('.linked-bank').boundingBox())!.height).toBe(bankHeight);
   }
   const order = ['a','b','c','d'];
   for (let index=0;index<3;index++) {

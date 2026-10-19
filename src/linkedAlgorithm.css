@@ -87,9 +87,6 @@
 .journey-pig .pig { display: block; width: 60px; height: 67px; }
 .journey-pig-pickup { display: grid; justify-items: center; border: 2px dashed #9bb98e; border-radius: 16px; padding: 8px 18px; background: #eef4df; color: #607652; cursor: grab; touch-action: none; }
 .journey-pig-pickup .pig { width: 60px; height: 67px; }
-.journey-next-link { position: absolute; top: calc(100% + 5px); left: 50%; transform: translateX(-50%); padding: 5px 10px; white-space: nowrap; border: 2px solid #d6bc87; border-radius: 10px; background: #fff2cd; color: #79603e; cursor: pointer; touch-action: none; font-weight: 850; }
-.journey-next-link:disabled { opacity: 1; cursor: default; }
-.journey-next-link { pointer-events: none; }
 .journey-nail:disabled { opacity: 1; cursor: default; pointer-events: none; }
 .journey-nail-selected { outline: 3px solid #e9cf76; outline-offset: 3px; border-radius: 50%; }
 .journey-empty { border: 0; background: none; color: #7c9670; padding: 28px; cursor: pointer; }

@@ -785,7 +785,8 @@
   }
 }
 
-.bubble-demo {
+.bubble-demo,
+.linked-world.linked-demo {
   background:
     radial-gradient(ellipse at 15% 90%, #e7eedb 0, transparent 46%),
     radial-gradient(ellipse at 90% 3%, #eaf2ed 0, transparent 40%), #f8f8ee;

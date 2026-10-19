@@ -21,16 +21,16 @@ test('placed blocks swap on occupied cards and return to the bank with links det
   // Allow the moving nail to render over the hole before releasing the mouse.
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
   await page.mouse.up();
-  await expect(page.locator('.journey-slot').first()).toContainText('next → 1');
+  await expect(page.locator('.journey-slot').first().locator('[data-wire-source]')).toHaveAttribute('data-wire-target', '1');
   await page.getByRole('button', { name: 'Đinh của khối 5', exact: true }).click();
   await page.getByRole('button', { name: 'Lỗ của khối 8', exact: true }).click();
-  await expect(page.locator('.journey-slot').first()).toContainText('next → 8');
+  await expect(page.locator('.journey-slot').first().locator('[data-wire-source]')).toHaveAttribute('data-wire-target', '8');
   await page.getByRole('button', { name: 'Đinh của khối 5', exact: true }).click();
   await page.getByRole('button', { name: 'Lỗ của khối 1', exact: true }).click();
   await page.getByRole('button', { name: 'Khối 1 ở hàng lắp', exact: true }).dragTo(page.locator('[data-journey-bank]'));
   await expect(page.getByRole('button', { name: 'Khối 1 ở khay', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Đặt khối vào ô 2' })).toBeVisible();
-  await expect(page.locator('.journey-slot').first()).toContainText('next → NULL');
+  await expect(page.locator('.journey-slot').first().locator('[data-wire-source]')).toHaveAttribute('data-wire-target', 'null');
   await page.getByRole('button', { name: 'Khối 1 ở khay', exact: true }).dragTo(page.getByRole('button', { name: 'Đặt khối vào ô 2' }));
   await expect(page.locator('.journey-slot').nth(1)).toContainText('1');
 });
@@ -72,12 +72,12 @@ for (const lesson of ['Traversal', 'Search', 'Insertion', 'Deletion']) {
         await expect(page.getByRole('button', { name: 'Đinh của khối 3', exact: true })).toBeEnabled();
         await expect(page.getByRole('button', { name: 'Đinh của khối 5', exact: true })).toBeEnabled();
         await page.getByRole('button', { name: 'Đinh của khối 3', exact: true }).click();
-        await expect(page.locator('.journey-slot').nth(1)).toContainText('next → NULL');
+        await expect(page.locator('.journey-slot').nth(1).locator('[data-wire-source]')).toHaveAttribute('data-wire-target', 'null');
         await page.getByRole('button', { name: 'Đinh của khối 5', exact: true }).dragTo(page.getByRole('button', { name: 'Lỗ của khối 6', exact: true }));
-        await expect(page.locator('.journey-slot').nth(2)).toContainText('next → 6');
+        await expect(page.locator('.journey-slot').nth(2).locator('[data-wire-source]')).toHaveAttribute('data-wire-target', '6');
         // Detach the newly connected wire again, then reconnect it.
         await page.getByRole('button', { name: 'Đinh của khối 5', exact: true }).click();
-        await expect(page.locator('.journey-slot').nth(2)).toContainText('next → NULL');
+        await expect(page.locator('.journey-slot').nth(2).locator('[data-wire-source]')).toHaveAttribute('data-wire-target', 'null');
         await page.getByRole('button', { name: 'Lỗ của khối 6', exact: true }).click();
         await page.getByRole('button', { name: 'Đinh của khối 3', exact: true }).dragTo(page.getByRole('button', { name: 'Lỗ của khối 5', exact: true }));
       }
@@ -86,7 +86,7 @@ for (const lesson of ['Traversal', 'Search', 'Insertion', 'Deletion']) {
         await page.getByRole('button', { name: 'Khối 3 ở hàng lắp', exact: true }).click();
         await page.getByRole('button', { name: 'Khối 3 ở hàng lắp', exact: true }).dragTo(page.locator('[data-journey-bank]'));
         await expect(page.getByRole('button', { name: 'Khối 3 ở hàng lắp', exact: true })).toBeVisible();
-        await expect(page.locator('.linked-action-guide')).toContainText('Khối vẫn còn dây nối');
+        await expect(page.locator('.linked-play-feedback')).toContainText('Khối vẫn còn dây nối');
         await page.getByRole('button', { name: 'Đinh của khối 3', exact: true }).click();
         await page.getByRole('button', { name: 'Đinh của khối 8', exact: true }).dragTo(page.getByRole('button', { name: 'Lỗ của khối 6', exact: true }));
         await expect(page.getByRole('button', { name: 'Đưa nút 3 về khay' })).toHaveCount(0);
@@ -99,7 +99,7 @@ for (const lesson of ['Traversal', 'Search', 'Insertion', 'Deletion']) {
       await page.getByRole('button', { name: 'Đinh của khối 5', exact: true }).click();
       await page.getByRole('button', { name: 'Kiểm tra', exact: true }).click();
       await expect(page.locator('.victory-screen')).toHaveCount(0);
-      await expect(page.locator('.linked-action-guide')).toContainText('Chưa hoàn thành');
+      await expect(page.locator('.linked-play-feedback')).toContainText('Chưa hoàn thành');
       await page.getByRole('button', { name: 'Đinh của khối 5', exact: true }).dragTo(page.getByRole('button', { name: 'Lỗ của khối 6', exact: true }));
     }
     await page.getByRole('button', { name: 'Kiểm tra', exact: true }).click();

@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowLeft, ArrowRight, AudioLines, CircleDot, Check, Eye, Flag, Footprints, Gamepad2, GitMerge, Layers3, LockKeyhole, Search, Shuffle, Trophy, ListOrdered, Link, Network, Route, ScanSearch, TreePine, GalleryVerticalEnd } from "lucide-react";
 import World from "./World";
+import LinkedWorld from "./LinkedWorld";
 import Pig from "./Pig";
 import { REGIONS, ARRAY_ROUTES, lessonPrerequisites, lessonAvailable, lessonUnlocked, regionUnlocked, type ArrayRouteId, type RegionId, type TrackId } from "../engine/learningTrack";
 import { type LinkedLevel, type LinkedLevelProgress, type LinkedTrackId } from "../engine/linkedCurriculum";
@@ -146,7 +147,7 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
   }
 
   return <main className={`adventure-map learning-map region-${region} ${route ? "has-route-picker" : ""} ${walking || locked || !available ? "map-has-status" : ""}`}>
-    <World map />
+    {region === "linear-structures" ? <LinkedWorld map /> : <World map />}
     <header className="track-header">
       <button className="track-back" aria-label="Bản đồ thế giới" onClick={onWorld} disabled={walking}><ArrowLeft size={20} /></button>
       <div><h1>{territory.name}</h1></div>
