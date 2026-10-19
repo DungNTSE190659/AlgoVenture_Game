@@ -1,3 +1,4 @@
+import { useDemoPlayback, useDemoMotionSpeed } from "./useDemoPlayback";
 import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
 import {
   useEffect,
@@ -114,14 +115,8 @@ export default function BubbleGame({
     if (paused || !sound) gameAudio.stop();
     if (paused) stopHaptics();
   }, [paused, sound]);
-  useEffect(() => {
-    if (!demo || !playing || paused || done) return;
-    const timer = setTimeout(
-      () => setCursor((v) => v + 1),
-      frame.duration / speed,
-    );
-    return () => clearTimeout(timer);
-  }, [demo, playing, paused, done, cursor, frame.duration, speed]);
+  useDemoPlayback(cursor, frame.duration, speed, demo && playing && !paused && !done, () => setCursor(value => Math.min(value + 1, frames.length - 1)));
+  const motionRoot = useDemoMotionSpeed(demo ? speed : 1);
   useEffect(() => {
     if (!demo || paused || cursor === 0 || lastCue.current === cursor) return;
     gameAudio.play(
@@ -227,7 +222,7 @@ export default function BubbleGame({
           ? `Hai số cùng bằng ${a}, nên mình giữ nguyên thứ tự của chúng. Bấm Giữ nguyên để chuyển sang cặp tiếp theo nhé.`
           : `${a} nhỏ hơn ${b}, nên hai số đã đúng thứ tự từ bé đến lớn. Bấm Giữ nguyên để xét cặp tiếp theo, không cần đổi chỗ nhé.`;
   return (
-    <GameLayout play={!demo}
+    <GameLayout ref={motionRoot} play={!demo}
       className={`bubble-world ${demo ? "bubble-demo" : "bubble-play"}`}
       data-busy={!!busy}
       onPointerDownCapture={(event) => {

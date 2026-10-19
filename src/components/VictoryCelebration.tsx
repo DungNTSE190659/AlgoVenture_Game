@@ -5,6 +5,7 @@ import { LEVELS } from "../engine/gameConfig";
 import type { Difficulty } from "../engine/quicksort";
 
 type Props = {
+  title?: string;
   className: string;
   stars: number;
   difficulty: Difficulty;
@@ -14,6 +15,7 @@ type Props = {
   onMap: () => void;
 };
 export default function VictoryCelebration({
+  title: heading = "Mảng đã được sắp xếp!",
   className,
   stars,
   difficulty,
@@ -46,7 +48,7 @@ export default function VictoryCelebration({
           ref={title}
           tabIndex={-1}
         >
-          Mảng đã được sắp xếp!
+          {heading}
         </h2>
         <div className="victory-buta">
           <Pig mood="celebrate" />

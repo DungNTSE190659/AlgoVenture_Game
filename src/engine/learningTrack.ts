@@ -48,7 +48,7 @@ export const REGIONS: { id: RegionId; name: string; topics: string; place: strin
 ];
 export const ALL_LESSONS = REGIONS.flatMap(region => region.lessons);
 export function arrayRouteForLesson(id: TrackId) { return ARRAY_ROUTES.find(route => route.lessons.some(lesson => lesson.id === id)); }
-export function lessonAvailable(id: TrackId) { return id === "bubble" || id === "selection" || id === "insertion" || id === "quick"; }
+export function lessonAvailable(id: TrackId) { return id === "binary" || id === "linear" || id === "bubble" || id === "selection" || id === "insertion" || id === "quick"; }
 export function regionForLesson(id: TrackId) { return REGIONS.find(region => region.lessons.some(lesson => lesson.id === id))!; }
 export function regionComplete(id: RegionId, progress: Progress) { return REGIONS.find(region => region.id === id)!.lessons.every(lesson => progress[lesson.id]); }
 export function regionUnlocked(id: RegionId, progress: Progress) {
