@@ -48,15 +48,19 @@ export const REGIONS: { id: RegionId; name: string; topics: string; place: strin
 ];
 export const ALL_LESSONS = REGIONS.flatMap(region => region.lessons);
 export function arrayRouteForLesson(id: TrackId) { return ARRAY_ROUTES.find(route => route.lessons.some(lesson => lesson.id === id)); }
-export function lessonAvailable(id: TrackId) { return id === "binary" || id === "linear" || id === "bubble" || id === "selection" || id === "insertion" || id === "quick"; }
+export function lessonAvailable(id: TrackId) { return id === "bubble" || id === "selection" || id === "insertion" || id === "quick" || id === "bfs"; }
 export function regionForLesson(id: TrackId) { return REGIONS.find(region => region.lessons.some(lesson => lesson.id === id))!; }
 export function regionComplete(id: RegionId, progress: Progress) { return REGIONS.find(region => region.id === id)!.lessons.every(lesson => progress[lesson.id]); }
 export function regionUnlocked(id: RegionId, progress: Progress) {
+  // TEMPORARY: Unlock graph region for testing BFS
+  if (id === "graph") return true;
   const index = REGIONS.findIndex(region => region.id === id);
   return REGIONS.slice(0, index).every(region => regionComplete(region.id, progress));
 }
 export function lessonUnlocked(id: TrackId, progress: Progress) {
   if (!ALL_LESSONS.some(lesson => lesson.id === id)) return false;
+  // TEMPORARY: BFS is always unlocked for testing
+  if (id === "bfs") return true;
   return regionUnlocked(regionForLesson(id).id, progress) && lessonPrerequisites(id).every(lesson => progress[lesson.id]);
 }
 export function lessonPrerequisites(id: TrackId) {
@@ -65,7 +69,10 @@ export function lessonPrerequisites(id: TrackId) {
   const previous = lessons.slice(0, lessons.findIndex(lesson => lesson.id === id));
   // Unfinished Sort placeholders do not block the shipped games. Search has
   // its own sequence and never requires completion of a Sort lesson.
-  return route?.id === "sort" ? previous.filter(lesson => lessonAvailable(lesson.id)) : previous;
+  // TEMPORARY: BFS has no prerequisites for testing
+  if (id === "bfs") return [];
+  if (route?.id === "sort") return previous.filter(lesson => lessonAvailable(lesson.id));
+  return previous;
 }
 export function currentRouteLesson(routeId: ArrayRouteId, progress: Progress) {
   const lessons = ARRAY_ROUTES.find(route => route.id === routeId)!.lessons;

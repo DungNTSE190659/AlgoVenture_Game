@@ -13,9 +13,7 @@ import "./atlas.css";
 import "./insertion.css";
 import "./selection.css";
 import "./gameHud.css";
-import "./linear.css";
-import "./binary.css";
-import "./linear-cards.css";
+import "./graph.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

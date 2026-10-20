@@ -14,6 +14,9 @@ import type { Difficulty } from "./engine/quicksort";
 import { gameAudio, readSoundPreference } from "./audio/gameAudio";
 import { stopHaptics } from "./audio/gameFeedback";
 import { useInterfaceAudio } from "./audio/useInterfaceAudio";
+import GraphGame from "./components/GraphGame";
+import GraphLesson from "./components/GraphLesson";
+import type { GraphDifficulty } from "./engine/graph";
 
 export default function App() {
   useInterfaceAudio();
@@ -28,6 +31,7 @@ export default function App() {
   const [arrayRoute, setArrayRoute] = useState<ArrayRouteId>(() => arrayRouteForLesson(currentLesson(readTrackProgress()).id)?.id ?? "sort");
   const [input, setInput] = useState([8, 3, 6, 2, 5]);
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
+  const [graphDifficulty, setGraphDifficulty] = useState<GraphDifficulty>("tutorial");
   const [sound, setSound] = useState(readSoundPreference);
   const [speed, setSpeed] = useState(1);
   const [session, setSession] = useState(0);
@@ -147,10 +151,31 @@ export default function App() {
         onSpeedChange={setSpeed}
       />
     );
-  if (algorithm === "binary") return <BinarySearchGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
-  if (algorithm === "linear") return scene === "play"
-    ? <LinearSearchPlay key={session} sound={sound} onBack={back} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} />
-    : <LinearSearchGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
+  if (algorithm === "bfs")
+    return (
+      scene === "demo" ? (
+        <GraphLesson
+          key={`${session}:${graphDifficulty}`}
+          difficulty={graphDifficulty}
+          onBack={back}
+          onPlay={() => start("play")}
+          onChange={setGraphDifficulty}
+          sound={sound}
+          onSoundChange={changeSound}
+        />
+      ) : (
+        <GraphGame
+          key={`${session}:${graphDifficulty}`}
+          difficulty={graphDifficulty}
+          sound={sound}
+          onBack={back}
+          onChooseMap={chooseMap}
+          onComplete={complete}
+          onChange={setGraphDifficulty}
+          onSoundChange={changeSound}
+        />
+      )
+    );
   if (scene === "demo")
     return (
       <DemoLesson
