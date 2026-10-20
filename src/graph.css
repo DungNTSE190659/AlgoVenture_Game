@@ -1,0 +1,329 @@
+.graph-world {
+  position: relative;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #e9f4f1 0%, #f3f6e5 48%, #f5efd7 100%);
+}
+
+.graph-world > .graph-content,
+.graph-world > .graph-stats,
+.graph-world > .graph-play-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.graph-content {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  width: min(980px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 18px 0 24px;
+}
+
+.graph-intro {
+  width: 100%;
+  text-align: center;
+}
+
+.graph-kicker {
+  color: #6f8e7e;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+}
+
+.graph-content h2 {
+  margin: 5px 0;
+  color: #596e58;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 1000;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.graph-task {
+  max-width: 640px;
+  margin: 0 auto;
+  color: #79765f;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.graph-queue-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: min(600px, 100%);
+  min-height: 64px;
+  padding: 10px 16px;
+  border: 2px solid #fff;
+  border-radius: 18px;
+  background: #ffffffc9;
+  box-shadow: 0 4px 0 #cad8c6;
+}
+
+.graph-queue-panel > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.graph-queue-panel strong {
+  color: #506c5b;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.graph-queue-panel > div span {
+  color: #85816d;
+  font-size: 11px;
+}
+
+.graph-queue-panel ol {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.graph-queue-panel li {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 2px solid #c4d5df;
+  border-radius: 11px;
+  background: #e6f1f7;
+  color: #4c6c7b;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.graph-queue-panel li.is-front {
+  border-color: #e8b84e;
+  background: #fff3ce;
+  color: #805e15;
+  box-shadow: 0 2px 0 #e6d09a;
+}
+
+.graph-queue-panel li.queue-empty {
+  width: auto;
+  padding: 0 10px;
+  border-color: #ddd9ca;
+  background: #f5f3eb;
+  color: #8a877b;
+  font-size: 12px;
+}
+
+.graph-board {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  max-height: min(42vh, 390px);
+  overflow: visible;
+  margin: 0 auto;
+}
+
+.graph-board g[role="button"] {
+  cursor: pointer;
+  outline: none;
+}
+
+.graph-board g[role="button"]:focus-visible circle {
+  stroke: #273f35;
+  stroke-width: 5;
+}
+
+.graph-board circle {
+  transition: all 0.25s ease;
+}
+
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  color: #777560;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.graph-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.graph-legend i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-start { background: #f39c12; }
+.legend-queue { background: #3498db; }
+.legend-visited { background: #2ecc71; }
+.legend-goal { background: #e87565; }
+
+.graph-feedback {
+  width: min(600px, 100%);
+  margin: 0;
+  padding: 11px 16px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.graph-feedback.is-success {
+  border-color: #b3dfc4;
+  background: #e0f4e7;
+  color: #23653d;
+}
+
+.graph-feedback.is-error {
+  border-color: #edc0b9;
+  background: #fff0ed;
+  color: #963f34;
+}
+
+.graph-play-footer {
+  width: min(640px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 10px 0 max(18px, env(safe-area-inset-bottom));
+}
+
+.graph-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border: 2px solid #fff4ca;
+  border-radius: 16px;
+  background: #fffcf0;
+  box-shadow: 0 3px 0 #91b47750;
+}
+
+.graph-hint p {
+  flex: 1;
+  margin: 0;
+  color: #77745f;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.graph-hint .pig {
+  width: 42px;
+  height: 42px;
+}
+
+.graph-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.graph-controls .game-hint-button {
+  min-width: 190px;
+}
+
+.graph-result-path {
+  margin: 10px 0 0;
+  color: #42674c;
+  font-weight: 900;
+}
+
+.graph-victory {
+  z-index: 10;
+}
+
+@media (min-width: 900px) and (min-height: 760px) {
+  .graph-content {
+    padding-top: 22px;
+    gap: 16px;
+  }
+
+  .graph-board {
+    max-height: 390px;
+  }
+}
+
+@media (max-width: 600px) {
+  .graph-content {
+    width: calc(100% - 28px);
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  .graph-task {
+    font-size: 13px;
+  }
+
+  .graph-queue-panel {
+    min-height: 58px;
+    padding: 8px 11px;
+  }
+
+  .graph-queue-panel > div span {
+    max-width: 105px;
+    font-size: 10px;
+  }
+
+  .graph-queue-panel li {
+    width: 30px;
+    height: 30px;
+  }
+
+  .graph-board {
+    max-height: 36vh;
+  }
+
+  .graph-legend {
+    gap: 7px 12px;
+    font-size: 11px;
+  }
+
+  .graph-play-footer {
+    width: calc(100% - 24px);
+  }
+
+  .graph-controls {
+    gap: 8px;
+  }
+
+  .graph-controls .game-hint-button {
+    min-width: 0;
+    flex: 1;
+  }
+}
+
+@media (max-height: 650px) {
+  .graph-content {
+    gap: 8px;
+    padding: 8px 0 14px;
+  }
+
+  .graph-board {
+    max-height: 32vh;
+  }
+
+  .graph-play-footer {
+    padding-top: 4px;
+  }
+}

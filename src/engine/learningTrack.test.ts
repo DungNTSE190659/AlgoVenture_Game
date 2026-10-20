@@ -16,7 +16,7 @@ describe("curriculum and progress", () => {
     expect(lessonUnlocked("linear", { array: true })).toBe(true);
     expect(lessonUnlocked("binary", { array: true, linear: true })).toBe(true);
   });
-  it("opens the next region only after every lesson in the previous regions", () => {
+  it("keeps demo preview regions open and gates trees by completion", () => {
     expect(regionUnlocked("arrays", {})).toBe(true);
     expect(regionUnlocked("linear-structures", {})).toBe(true);
     expect(regionComplete("arrays", completedArrays)).toBe(true);
@@ -27,7 +27,7 @@ describe("curriculum and progress", () => {
     expect(nextLesson("linked-reversal")?.id).toBe("tree-basics");
     const linear = { ...completedArrays, ...Object.fromEntries(LINEAR_STRUCTURES.map(lesson => [lesson.id, true])) };
     expect(regionUnlocked("trees", linear)).toBe(true);
-    expect(regionUnlocked("graph", { ...linear, bst: true })).toBe(false);
+    expect(regionUnlocked("graph", {})).toBe(true); // BFS preview from main.
     const trees = { ...linear, "tree-basics": true, bst: true, "bst-search": true, "bst-insert": true, "bst-delete": true };
     expect(regionUnlocked("graph", trees)).toBe(true);
     expect(lessonUnlocked("dfs", trees)).toBe(false);

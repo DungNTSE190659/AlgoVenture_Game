@@ -51,17 +51,21 @@ export const REGIONS: { id: RegionId; name: string; topics: string; place: strin
 ];
 export const ALL_LESSONS = REGIONS.flatMap(region => region.lessons);
 export function arrayRouteForLesson(id: TrackId) { return ARRAY_ROUTES.find(route => route.lessons.some(lesson => lesson.id === id)); }
-export function lessonAvailable(id: TrackId) { return id === "binary" || id === "linear" || id === "bubble" || id === "selection" || id === "insertion" || id === "quick" || LINEAR_STRUCTURES.some(lesson => lesson.id === id); }
+export function lessonAvailable(id: TrackId) { return id === "bfs" || id === "binary" || id === "linear" || id === "bubble" || id === "selection" || id === "insertion" || id === "quick" || LINEAR_STRUCTURES.some(lesson => lesson.id === id); }
 export function regionForLesson(id: TrackId) { return REGIONS.find(region => region.lessons.some(lesson => lesson.id === id))!; }
 export function regionComplete(id: RegionId, progress: Progress) { return REGIONS.find(region => region.id === id)!.lessons.every(lesson => progress[lesson.id]); }
 export function regionUnlocked(id: RegionId, progress: Progress) {
   // Lists can be explored alongside Arrays while the unfinished Array lessons are built.
   if (id === "linear-structures") return true;
+  // Keep the BFS preview from main available.
+  if (id === "graph") return true;
   const index = REGIONS.findIndex(region => region.id === id);
   return REGIONS.slice(0, index).every(region => regionComplete(region.id, progress));
 }
 export function lessonUnlocked(id: TrackId, progress: Progress) {
   if (!ALL_LESSONS.some(lesson => lesson.id === id)) return false;
+  // TEMPORARY: BFS is always unlocked for testing
+  if (id === "bfs") return true;
   return regionUnlocked(regionForLesson(id).id, progress) && lessonPrerequisites(id).every(lesson => progress[lesson.id]);
 }
 export function lessonPrerequisites(id: TrackId) {
@@ -71,7 +75,10 @@ export function lessonPrerequisites(id: TrackId) {
   const previous = lessons.slice(0, lessons.findIndex(lesson => lesson.id === id));
   // Unfinished Sort placeholders do not block the shipped games. Search has
   // its own sequence and never requires completion of a Sort lesson.
-  return route?.id === "sort" ? previous.filter(lesson => lessonAvailable(lesson.id)) : previous;
+  // TEMPORARY: BFS has no prerequisites for testing
+  if (id === "bfs") return [];
+  if (route?.id === "sort") return previous.filter(lesson => lessonAvailable(lesson.id));
+  return previous;
 }
 export function currentRouteLesson(routeId: ArrayRouteId, progress: Progress) {
   const lessons = ARRAY_ROUTES.find(route => route.id === routeId)!.lessons;
