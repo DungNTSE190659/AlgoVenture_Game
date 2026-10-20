@@ -42,12 +42,16 @@ test("first interaction sounds once; topic arrows, keyboard and mouse drags have
   expect((await sounds(page)).at(-1)).toBe("topic-prev");
 });
 
-test("island footsteps follow walking, mute immediately, resume and stop at arrival; locked islands have a soft cue", async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem("algoventure.world-progress.v3", '{"bubble":true}'));
+test("new unlock footsteps follow walking; browsing old lessons stays silent and locked lessons have a soft cue", async ({ page }) => {
   await page.goto("/");
   await page.locator(".atlas-enter").click();
+  await page.getByRole("button", { name: "Thử thách", exact: true }).click();
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, 2");
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
+  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
   await trace(page);
-  await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();
+  await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
   await expect(page.locator(".buta-walking")).toBeVisible();
   await expect.poll(async () => (await sounds(page)).filter(cue => cue.startsWith("step-")).length).toBeGreaterThanOrEqual(2);
   expect((await sounds(page)).filter(cue => cue.startsWith("step-")).slice(0, 2)).toEqual(["step-left", "step-right"]);
@@ -62,6 +66,16 @@ test("island footsteps follow walking, mute immediately, resume and stop at arri
   const steps = (await sounds(page)).filter(cue => cue.startsWith("step-")).length;
   await page.waitForTimeout(350);
   expect((await sounds(page)).filter(cue => cue.startsWith("step-")).length).toBe(steps);
+  const position = await page.locator(".track-buta").getAttribute("style");
+  await clear(page);
+  await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();
+  await expect(page.locator("#track-sheet-title")).toHaveText("Bubble Sort");
+  await expect(page.locator(".track-buta")).toHaveAttribute("style", position!);
+  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Selection Sort");
+  await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeEnabled();
+  await page.waitForTimeout(400);
+  expect(await sounds(page)).toEqual(["island-select"]);
+  await expect(page.locator(".buta-walking")).toHaveCount(0);
   await clear(page);
   await page.getByRole("button", { name: "Quick Sort", exact: true }).click();
   await expect.poll(() => sounds(page)).toEqual(["locked"]);

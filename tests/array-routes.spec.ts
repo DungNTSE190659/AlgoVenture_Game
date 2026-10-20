@@ -43,7 +43,7 @@ test("Linear unlocks Binary without Sort; winning Bubble stays on Sort and prese
   await route(page, "Search");
   await expect(page.locator("#track-sheet-title")).toHaveText("Binary Search");
   await expect(page.locator(".stop-locked")).toHaveCount(0);
-  await expect(page.locator(".sheet-description")).toHaveText("Đang phát triển.");
+  await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeEnabled();
   await expect(page.locator(".track-progress")).toContainText("1/2");
   await route(page, "Sort");
   await page.getByRole("button", { name: "Thử thách", exact: true }).click();
