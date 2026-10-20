@@ -6,4 +6,4 @@ export const LEVELS: Record<Difficulty, { label: string; count: number }> = {
   hard: { label: "Khó", count: 8 },
 };
 
-export type Algorithm = "quick" | "bubble";
+export type Algorithm = "quick" | "bubble" | "bfs";
