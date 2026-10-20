@@ -1,6 +1,7 @@
+import LinkedStats, { emptyLinkedCounters } from "./LinkedStats";
 import useLinkedDemoMotion from "./useLinkedDemoMotion";
 import LinkedDemoControls from "./LinkedDemoControls";
-import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { Check, RotateCcw, Volume2, VolumeX, X } from "lucide-react";
 import { GameFooter, GameHeader, GameHintButton, GameLayout } from "./GameHud";
 import VictoryCelebration from "./VictoryCelebration";
@@ -22,10 +23,10 @@ type Props = {
   onNextLevel: () => void;
 };
 type Point = { x: number; y: number };
-type Geometry = { anchors: Record<string, Point>; holes: Record<string, Point> };
+type Geometry = { anchors: Record<string, Point>; holes: Record<string, Point>; freeOffset: Point };
 type Drag = { kind: "node" | "nail"; id: string; x: number; y: number; startX: number; startY: number; original: string | null };
 
-const FREE_ROPE_OFFSET = { x: 40, y: 0 };
+const FREE_ROPE_OFFSET = { x: 0, y: 16 };
 
 const DEMO_LINES = [
   "Mỗi khối là một nút. Ô lớn chứa dữ liệu; phần bên phải chứa con trỏ next.",
@@ -36,7 +37,7 @@ const DEMO_LINES = [
   "Kéo đinh của 7 tới lỗ của 2 để nối 7 → 2.",
   "Nối tiếp đinh của 2 vào lỗ của 9: ta có 7 → 2 → 9.",
   "Nối 9 → 4 để giữ danh sách liền mạch.",
-  "Cắm đinh của nút cuối 4 vào lỗ NULL để kết thúc danh sách.",
+  "Mình cắm đinh của nút cuối 4 vào NULL. Hoàn thành! Danh sách 7 → 2 → 9 → 4 đã nối liền từ HEAD đến TAIL.",
 ];
 
 function demoPuzzle(step: number): LinkedPuzzle {
@@ -57,13 +58,14 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
   const [nullDock, setNullDock] = useState<string | null>(null);
   const [selectedNail, setSelectedNail] = useState<string | null>(null);
   const [drag, setDrag] = useState<Drag | null>(null);
-  const [geometry, setGeometry] = useState<Geometry>({ anchors: {}, holes: {} });
+  const [geometry, setGeometry] = useState<Geometry>({ anchors: {}, holes: {}, freeOffset: FREE_ROPE_OFFSET });
   const [hint, setHint] = useState(false);
   const [settings, setSettings] = useState(false);
   const [message, setMessage] = useState("");
   const [messageError, setMessageError] = useState(false);
   function showMessage(text: string, error = false) { setMessage(text); setMessageError(error); }
   const [mistakes, setMistakes] = useState(0);
+  const [counters, setCounters] = useState(emptyLinkedCounters);
   const boardRef = useRef<HTMLDivElement>(null);
   const [confirmed, setConfirmed] = useState(false);
   const finished = !demo && confirmed && linkedPuzzleComplete(puzzle) && nullDock === puzzle.order.at(-1);
@@ -78,6 +80,10 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
   const bank = CONSTRUCTION_LEVELS[level].bank.map(id => puzzle.nodes.find(node => node.id === id)!);
   const placed = puzzle.slots.filter(Boolean).length;
   const correctLinks = puzzle.order.slice(0, -1).filter((id, index) => puzzle.links[id] === puzzle.order[index + 1]).length;
+  const shownCounters = demo ? { placements: Math.min(demoStep, 4), connections: Math.max(0, demoStep - 4), checks: 0, visits: [] } : counters;
+  const correctPositions = shown.slots.filter((id, index) => id === order[index]).length;
+  const correctConnections = order.filter((id, index) => shown.slots.includes(id) && (index === order.length - 1 ? shownDock === id : shown.links[id] === order[index + 1])).length;
+  const score = Math.max(0, (correctPositions + correctConnections) * 100 - (demo ? 0 : mistakes * 25));
 
   useEffect(() => {
     if (!finished || completedRef.current) return;
@@ -101,7 +107,7 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
         });
         return result;
       };
-      setGeometry({ anchors: locate(".ll-rope-anchor"), holes: locate(".ll-hole") });
+      setGeometry({ anchors: locate(".ll-rope-anchor"), holes: locate(".ll-hole"), freeOffset: FREE_ROPE_OFFSET });
     };
     measure();
     const observer = new ResizeObserver(measure);
@@ -116,6 +122,7 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
   }
   function putNode(id: string, slot: number | null) {
     const next = placeLinkedNode(puzzle, id, slot);
+    if (slot !== null && next.slots.some((value, index) => value !== puzzle.slots[index])) setCounters(current => ({ ...current, placements: current.placements + 1 }));
     setPuzzle(next);
     setNullDock(current => current && next.slots.includes(current) ? current : null);
     setSelectedNode(null);
@@ -131,6 +138,7 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
       playCue("retry");
       return;
     }
+    if (target !== null && (target === "null" ? nullDock !== id : puzzle.links[id] !== target)) setCounters(current => ({ ...current, connections: current.connections + 1 }));
     setPuzzle(next);
     setNullDock(current => target === "null" ? id : current === id ? null : current);
     setSelectedNail(null);
@@ -177,6 +185,7 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
   }, [drag, puzzle]);
 
   function checkPuzzle() {
+    setCounters(current => ({ ...current, checks: current.checks + 1 }));
     if (linkedPuzzleComplete(puzzle) && nullDock === order.at(-1)) { setConfirmed(true); return; }
     if (placed < order.length) showMessage(`Còn ${order.length - placed} khối chưa đặt lên hàng lắp.`);
     else if (puzzle.slots.some((id, index) => id !== order[index])) showMessage(`Thứ tự khối cần là ${sequence}. Kéo khối trên hàng lắp sang ô khác để đổi chỗ.`);
@@ -187,6 +196,7 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
     playCue("hint");
   }
   function reset() {
+    setCounters(emptyLinkedCounters());
     setConfirmed(false);
     setNullDock(null);
     setPuzzle(createLinkedPuzzle(level));
@@ -205,6 +215,7 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
   return <GameLayout className={`linked-world linked-${mode}`} play={!demo}>
     {!demo && <LinkedWorld map />}
     <GameHeader title="Linked List" onBack={onBack} onSettings={() => setSettings(true)} />
+    <LinkedStats score={score} counters={shownCounters} />
     <section className="linked-content">
        {!demo && <div className="linked-intro"><p>{`Đặt các khối theo thứ tự ${sequence}. Nối các nút liên tiếp và cắm đinh cuối vào lỗ NULL.`}</p></div>}
       <div className="linked-workspace" ref={demoMotion.ref}>
@@ -215,11 +226,11 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
         <div className="linked-panel linked-assembly">
           <div className="linked-panel-heading"><h3>Hàng lắp</h3></div>
           <div className="linked-assembly-scroll">
-             <div className="linked-board" ref={boardRef} style={{ gridTemplateColumns: `repeat(${shown.slots.length}, var(--linked-slot-width))`, gap: "var(--linked-chain-gap)", width: `calc(${shown.slots.length} * var(--linked-slot-width) + ${shown.slots.length - 1} * var(--linked-chain-gap) + 120px)` }}>
+             <div className="linked-board" ref={boardRef} style={{ "--linked-count": shown.slots.length } as CSSProperties}>
               <svg className="linked-ropes" aria-hidden="true">{shown.slots.map(id => {
                 if (!id || !geometry.anchors[id]) return null;
                 const start = geometry.anchors[id];
-                const target = drag?.kind === "nail" && drag.id === id ? { x: drag.x - (boardRef.current?.getBoundingClientRect().left ?? 0), y: drag.y - (boardRef.current?.getBoundingClientRect().top ?? 0) } : linkTarget(id) && geometry.holes[linkTarget(id)!] ? geometry.holes[linkTarget(id)!] : { x: start.x + FREE_ROPE_OFFSET.x, y: start.y + FREE_ROPE_OFFSET.y };
+                const target = drag?.kind === "nail" && drag.id === id ? { x: drag.x - (boardRef.current?.getBoundingClientRect().left ?? 0), y: drag.y - (boardRef.current?.getBoundingClientRect().top ?? 0) } : linkTarget(id) && geometry.holes[linkTarget(id)!] ? geometry.holes[linkTarget(id)!] : { x: start.x + geometry.freeOffset.x, y: start.y + geometry.freeOffset.y };
                 return <path key={id} data-demo-wire={id} className={`linked-rope ${linkTarget(id) ? "rope-plugged" : ""}`} d={`M ${start.x} ${start.y} L ${target.x} ${target.y}`} />;
               })}</svg>
               {shown.slots.map((id, index) => <div key={index} className={`linked-slot ${selectedNode ? "slot-available" : ""}`} data-linked-slot={index} role={selectedNode ? "button" : undefined} tabIndex={selectedNode ? 0 : -1} aria-label={selectedNode ? `Đặt khối vào ô ${index + 1}` : undefined} onClick={() => { if (selectedNode && !demo) putNode(selectedNode, index); }} onKeyDown={event => { if (selectedNode && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); putNode(selectedNode, index); } }}>
@@ -229,7 +240,7 @@ export default function LinkedListGame({ mode, sound, onSoundChange, onBack, onP
               <div className="construction-null"><button className={`ll-hole ${selectedNail ? "hole-active" : ""}`} data-node="null" type="button" disabled={demo} aria-label="Lỗ NULL" onClick={() => { if (selectedNail) plugNail(selectedNail, "null"); }}><span /></button><button className="linked-null-target" type="button" disabled={demo} onClick={() => { if (selectedNail) plugNail(selectedNail, "null"); }}>NULL</button></div>
               {shown.slots.map(id => {
                 if (!id || !geometry.anchors[id] || drag?.kind === "nail" && drag.id === id) return null;
-                const at = linkTarget(id) && geometry.holes[linkTarget(id)!] ? geometry.holes[linkTarget(id)!] : { x: geometry.anchors[id].x + FREE_ROPE_OFFSET.x, y: geometry.anchors[id].y + FREE_ROPE_OFFSET.y };
+                const at = linkTarget(id) && geometry.holes[linkTarget(id)!] ? geometry.holes[linkTarget(id)!] : { x: geometry.anchors[id].x + geometry.freeOffset.x, y: geometry.anchors[id].y + geometry.freeOffset.y };
                 return <button key={id} data-demo-nail={id} className={`linked-nail ${linkTarget(id) ? "nail-plugged" : ""} ${selectedNail === id ? "nail-selected" : ""}`} style={{ left: at.x, top: at.y }} type="button" aria-label={`Đinh của khối ${valueOf(id)}${shown.links[id] ? ` đang cắm vào khối ${valueOf(shown.links[id]!)}` : shownDock === id ? " đang cắm vào NULL" : " đang rời"}`} disabled={demo} onPointerDown={event => beginDrag("nail", id, event)} onClick={event => { if (event.detail === 0 && !demo) { setNullDock(current => current === id ? null : current); setSelectedNail(id); setPuzzle(before => connectLinkedNode(before, id, null)); } }}><span className="linked-nail-head" /><span className="linked-nail-tip" /></button>;
               })}
             </div>

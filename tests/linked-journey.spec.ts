@@ -82,7 +82,8 @@ for (const lesson of ['Traversal', 'Search', 'Insertion', 'Deletion']) {
         await page.getByRole('button', { name: 'Đinh của khối 3', exact: true }).dragTo(page.getByRole('button', { name: 'Lỗ của khối 5', exact: true }));
       }
       if (lesson === 'Deletion') {
-        await page.getByRole('button', { name: 'Xóa nút này' }).click();
+        await expect(page.getByRole('button', { name: 'Xóa nút này' })).toHaveCount(0);
+        await expect(page.getByRole('button', { name: 'Đinh của khối 3', exact: true })).toBeEnabled();
         await page.getByRole('button', { name: 'Khối 3 ở hàng lắp', exact: true }).click();
         await page.getByRole('button', { name: 'Khối 3 ở hàng lắp', exact: true }).dragTo(page.locator('[data-journey-bank]'));
         await expect(page.getByRole('button', { name: 'Khối 3 ở hàng lắp', exact: true })).toBeVisible();

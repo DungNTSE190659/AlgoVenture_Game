@@ -1,4 +1,12 @@
 /* Scale the boards themselves so pointer targets and measured wires stay aligned. */
+.linked-world,
+.linked-world .linked-content,
+.linked-world .linked-bank-row,
+.linked-world .linked-assembly-scroll { scrollbar-width: none; }
+.linked-world::-webkit-scrollbar,
+.linked-world .linked-content::-webkit-scrollbar,
+.linked-world .linked-bank-row::-webkit-scrollbar,
+.linked-world .linked-assembly-scroll::-webkit-scrollbar { display: none; }
 .linked-world {
   --linked-slot-width: clamp(140px, 14vw, 210px);
   --linked-chain-gap: clamp(24px, 3vw, 50px);
@@ -144,16 +152,18 @@
 }
 .linked-world .journey-empty { width: 100%; height: 100%; }
 .linked-world .journey-empty:disabled { opacity: 1; }
-.linked-world .linked-board { min-height: clamp(120px, 14dvh, 170px); }
+.linked-world .linked-board {
+  min-height: clamp(120px, 14dvh, 170px);
+  grid-template-columns: repeat(var(--linked-count), var(--linked-slot-width));
+  gap: var(--linked-chain-gap);
+  width: calc(var(--linked-count) * var(--linked-slot-width) + (var(--linked-count) - 1) * var(--linked-chain-gap) + 120px);
+}
 .linked-world .journey-chain { justify-content: center; gap: var(--linked-chain-gap); padding-top: clamp(55px, 7dvh, 80px); }
 .linked-world .linked-assembly-scroll {
   max-width: 100%;
-  scrollbar-width: thin;
-  scrollbar-color: #b4c39d #edf0df;
+  scrollbar-width: none;
   padding-bottom: 16px;
 }
-.linked-world .linked-assembly-scroll::-webkit-scrollbar { display: block; height: 7px; }
-.linked-world .linked-assembly-scroll::-webkit-scrollbar-thumb { border-radius: 8px; background: #b4c39d; }
 .linked-world .linked-tail-note { flex-wrap: wrap; }
 .linked-world .linked-action-guide { width: min(100%, 1000px); }
 .linked-world .linked-play-feedback {
@@ -208,3 +218,125 @@
   .linked-world .linked-demo-dialogue { align-items: flex-start; }
   .linked-world .linked-demo-dialogue p { min-width: 0; }
 }
+
+/* Both columns follow the list vertically on every screen size. */
+  .linked-world { --linked-slot-width: clamp(124px, 35vw, 164px); --linked-node-width: clamp(88px, 24vw, 108px); --linked-chain-gap: 38px; }
+  .linked-world .linked-workspace { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: stretch; gap: 8px; }
+  .linked-world .linked-workspace > .linked-panel { padding: 10px 4px; }
+  .linked-world .linked-panel-heading { justify-content: center; }
+  .linked-world .linked-panel-heading h3 { font-size: 14px; }
+  .linked-world.linked-demo { display: flex; flex-direction: column; }
+  .linked-world.linked-demo .linked-content { flex: 1 1 auto; min-height: 0; overflow-y: auto; scroll-padding-block: 28px; }
+  .linked-world .linked-bank-row { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; height: auto; min-height: 580px; gap: 70px; padding: 44px 0 16px; overflow: visible; }
+  .linked-world .linked-bank-cell { flex: 0 0 68px; width: 100%; }
+  .linked-world .linked-bank .linked-node { height: 68px; }
+  .linked-world .linked-bank-empty { min-height: 68px; }
+  .linked-world .linked-assembly-scroll { overflow: visible; margin: 0; padding: 24px 0 16px; }
+  .linked-world .linked-board,
+  .linked-world .journey-chain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    gap: var(--linked-chain-gap);
+    padding: 20px 0;
+  }
+  .linked-world .journey-piece { flex-direction: column; gap: 24px; }
+  .linked-world .linked-slot { flex: none; height: 100px; }
+  .linked-world .linked-slot-label { left: 8px; }
+  .linked-world .linked-slot .linked-node .ll-hole {
+    left: 50%; top: -10px; transform: translate(-50%, -50%);
+  }
+  .linked-world .ll-rope-anchor { left: 50%; right: auto; top: 100%; transform: translate(-50%, -50%); }
+  .linked-world .construction-null { position: relative; left: auto; top: auto; transform: none; flex: none; margin-top: 24px; }
+  .linked-world .journey-null { margin-top: 24px; }
+  .linked-world .construction-null .linked-null-target,
+  .linked-world .journey-null .linked-null-target { margin: 0; padding: 8px 18px; }
+  .linked-world .construction-null .ll-hole,
+  .linked-world .journey-null-hole { left: 50%; top: -12px; transform: translate(-50%, -50%); }
+  .linked-world .journey-pig { bottom: auto; top: 30px; left: -3px; transform: none; }
+  .linked-world .journey-pig .pig { width: 30px; height: 35px; }
+  .linked-world .journey-pig-pickup { padding: 8px 4px; font-size: 12px; max-width: 100%; }
+  .linked-world .linked-bank-empty { width: calc(var(--linked-node-width) + 10px); }
+  .linked-world .linked-demo-dialogue p { font-size: 14px; line-height: 1.45; }
+  .linked-world .linked-demo-dialogue .pig { width: 52px; height: 60px; }
+
+.linked-world .linked-hud { position: relative; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; flex: 0 0 auto; min-height: 44px; padding: 4px 12px 12px; gap: 8px 20px; }
+.linked-world .linked-hud .play-score { position: static; transform: none; margin: 0; }
+@media (min-width: 601px) {
+  .linked-world { --linked-slot-width: 200px; --linked-node-width: 132px; --linked-chain-gap: 38px; }
+  .linked-world .linked-content { width: min(1050px, 100%); }
+  .linked-world .linked-workspace { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 32px; }
+  .linked-world .linked-workspace > .linked-panel { padding: 16px 20px; }
+  .linked-world .linked-panel-heading h3 { font-size: 19px; }
+  .linked-world .linked-bank-row { padding-top: 46px; gap: 70px; }
+  .linked-world .linked-demo-dialogue p { font-size: clamp(17px, 2.3dvh, 22px); }
+  .linked-world .linked-demo-dialogue .pig { width: 84px; height: 94px; }
+  .linked-world .journey-pig { left: -8px; top: 24px; }
+  .linked-world .journey-pig .pig { width: 38px; height: 44px; }
+}
+@media (max-height: 540px) {
+  .linked-world.linked-demo { display: block; }
+  .linked-world.linked-demo .linked-content { overflow: visible; }
+}
+
+/* Compact vertical boards: reserve space for the whole chain instead of tall cards. */
+.linked-world {
+  --linked-slot-width: clamp(124px, 27vw, 180px);
+  --linked-node-width: clamp(94px, 20vw, 128px);
+  --linked-chain-gap: 34px;
+  --linked-row-height: clamp(64px, 8.5dvh, 86px);
+  --linked-block-height: clamp(48px, 6.5dvh, 64px);
+  --linked-space: 6px;
+}
+.linked-world .lesson-header { min-height: 44px; flex-basis: 44px; padding-block: 2px; margin-block: 0; }
+.linked-world .lesson-header h1 { margin-block: 0; line-height: 1.15; }
+.linked-world .lesson-header h1 { font-size: clamp(18px, 2vw, 27px); }
+.linked-world .lesson-header .round-button { width: 40px; height: 40px; }
+.linked-world .linked-hud { min-height: 30px; margin-block: 0; padding-block: 0 2px; font-size: 11px; gap: 3px 14px; }
+.linked-world .linked-hud .play-score { padding: 3px 10px; }
+.linked-world .linked-intro { margin: 0 auto 4px; }
+.linked-world .linked-intro p { margin-block: 3px 5px; line-height: 1.25; font-size: clamp(16px, 1.4vw, 21px); }
+.linked-world .linked-content { width: min(860px, 100%); padding-block: 4px; }
+.linked-world .linked-workspace { gap: clamp(8px, 2vw, 24px); }
+.linked-world .linked-workspace > .linked-panel { padding: 8px 4px; }
+.linked-world .linked-panel-heading { min-height: 24px; }
+.linked-world .linked-panel-heading h3 { font-size: 15px; }
+.linked-world .linked-assembly-scroll { padding: 8px 0 4px; }
+.linked-world .linked-board, .linked-world .journey-chain { padding: 12px 0; }
+.linked-world .linked-slot { height: var(--linked-row-height); border-radius: 18px; }
+.linked-world .linked-node, .linked-world .linked-bank .linked-node { height: var(--linked-block-height); }
+.linked-world .linked-node-body { height: var(--linked-block-height); border-width: 3px; border-radius: 15px; }
+.linked-world .linked-node-value { font-size: clamp(26px, 3.3dvh, 33px); }
+.linked-world .linked-bank-row {
+  min-height: calc(4 * var(--linked-row-height) + 4 * var(--linked-chain-gap) + 60px);
+  padding: calc(20px + (var(--linked-row-height) - var(--linked-block-height)) / 2) 0 12px;
+  gap: calc(var(--linked-row-height) + var(--linked-chain-gap) - var(--linked-block-height));
+}
+.linked-world .linked-bank-cell { flex-basis: var(--linked-block-height); }
+.linked-world .linked-bank-empty { min-height: var(--linked-block-height); }
+.linked-world .linked-slot-label { font-size: 9px; top: -13px; }
+.linked-world .linked-slot .linked-node .ll-hole { top: -4px; }
+.linked-world .ll-hole { width: 26px; height: 26px; border-width: 2px; }
+.linked-world .ll-hole span { width: 19px; height: 19px; }
+.linked-world .linked-nail-head { width: 26px; height: 26px; top: 5px; left: 5px; }
+.linked-world .linked-nail-head::before, .linked-world .linked-nail-head::after { width: 14px; height: 4px; left: 4px; top: 9px; }
+.linked-world .linked-nail-tip { left: 25px; top: 14px; width: 11px; height: 8px; }
+.linked-world .construction-null, .linked-world .journey-null { margin-top: 10px; }
+.linked-world .construction-null .ll-hole, .linked-world .journey-null-hole { top: -8px; }
+.linked-world .linked-ropes path, .linked-world .journey-wires path { stroke-width: 4px; }
+.linked-world .linked-demo-player { padding-top: 4px; padding-bottom: 8px; }
+.linked-world .linked-demo-dialogue { gap: 12px; padding-bottom: 6px; }
+.linked-world .linked-demo-dialogue .pig { width: 56px; height: 62px; }
+.linked-world .linked-demo-dialogue p { padding: 8px 14px; font-size: clamp(14px, 2.1dvh, 18px); line-height: 1.4; }
+.linked-world .linked-demo-controls { gap: 6px; }
+.linked-world .linked-demo-playback .chunky-button { min-height: 42px; min-width: 160px; font-size: 16px; }
+.linked-world .linked-demo-playback .round-button { width: 40px; height: 40px; }
+.linked-world .journey-controls, .linked-world .linked-actions { margin: 8px auto; }
+.linked-world .linked-check-button { min-height: 44px; font-size: 17px; }
+.linked-world .game-play-footer { min-height: 48px; padding: 8px 12px 12px; }
+.linked-world .journey-pig { top: 12px; }
+.linked-world .journey-pig .pig { width: 28px; height: 32px; }

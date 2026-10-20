@@ -29,6 +29,7 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
   const flights = useRef(new Map<string, Flight>());
   const wireAnimations = useRef(new Map<string, Animation>());
   const hiddenHardware = useRef(new Map<HTMLElement | SVGElement, string>());
+  const lastStep = useRef(step);
 
   function restoreHardware() {
     for (const [element, visibility] of hiddenHardware.current) element.style.visibility = visibility;
@@ -59,6 +60,18 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
     const root = ref.current;
     if (!root || !enabled) return;
     restoreHardware();
+    const stepChanged = lastStep.current !== step;
+    lastStep.current = step;
+    if (stepChanged) {
+      const rootBox = root.getBoundingClientRect();
+      const movedNode = [...root.querySelectorAll<HTMLElement>(".linked-slot [data-demo-node]")].find(node => {
+        const previous = snapshots.current.get(`node-${node.dataset.demoNode}`);
+        const box = node.querySelector(".linked-node-body")?.getBoundingClientRect();
+        return previous && box && Math.abs(box.top - rootBox.top - previous.bounds.top) > 2;
+      });
+      const focus = root.querySelector(".journey-pig, .node-selected, .journey-nail-selected") ?? movedNode;
+      focus?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+    }
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced || step === 0) {
       for (const flight of flights.current.values()) flight.finish();
