@@ -55,6 +55,15 @@ test('Traversal animates wire endpoints and the pig; autoplay uses the same move
   await page.getByRole('button', { name: 'Tiếp tục', exact: true }).click();
   await expect(page.locator('[data-linked-demo-motion="pig"]')).toHaveCount(1);
   await page.getByRole('button', { name: 'Tạm dừng', exact: true }).click();
+  const paused = page.locator('[data-linked-demo-motion="pig"]');
+  await expect(paused).toHaveCount(1);
+  await expect.poll(() => paused.evaluate(el => el.getAnimations().every(animation => animation.playState === 'paused'))).toBe(true);
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  const position = await paused.boundingBox();
+  await page.waitForTimeout(150);
+  const held = await paused.boundingBox();
+  expect(Math.abs(held!.y - position!.y)).toBeLessThan(1);
+  await page.getByRole('button', { name: 'Tiếp tục', exact: true }).click();
   await expect(page.locator('[data-linked-demo-motion]')).toHaveCount(0);
   await page.getByRole('button', { name: 'Về bản đồ', exact: true }).click();
   await expect(page.locator('[data-linked-demo-motion]')).toHaveCount(0);

@@ -1,4 +1,5 @@
 import LinkedStats, { emptyLinkedCounters, type LinkedCounters } from "./LinkedStats";
+import useLinkedDialog from "./useLinkedDialog";
 import { linkedNarration } from "../engine/linkedNarration";
 import useLinkedDemoMotion from "./useLinkedDemoMotion";
 import { useEffect, useLayoutEffect, useRef, useState, type PointerEvent } from "react";
@@ -35,6 +36,9 @@ export default function LinkedJourneyGame(props: Props) {
   const [demoStep, setDemoStep] = useState(0);
   const demoMotion = useLinkedDemoMotion(demo, demoStep);
   const [settings, setSettings] = useState(false);
+  useLinkedDialog(settings, () => setSettings(false));
+  const pointer = useRef<number | null>(null);
+  const beforeDrag = useRef<State | null>(null);
   const [drag, setDrag] = useState<(Held & { x: number; y: number; startX: number; startY: number }) | null>(null);
   const done = useRef(false);
   const chainRef = useRef<HTMLDivElement>(null);
@@ -225,7 +229,7 @@ export default function LinkedJourneyGame(props: Props) {
         const a = source.getBoundingClientRect(), b = target?.getBoundingClientRect();
         const x1 = a.left + a.width / 2 - rect.left, y1 = a.top + a.height / 2 - rect.top;
         const dragging = drag?.kind === "link" && drag.value === Number(from);
-        const x2 = dragging ? drag.x - rect.left : b ? b.left + b.width / 2 - rect.left : x1;
+        const x2 = dragging ? drag.x - rect.left : b ? b.left + b.width / 2 - rect.left : x1 + 38;
         const y2 = dragging ? drag.y - rect.top : b ? b.top + b.height / 2 - rect.top : y1 + 16;
         paths.push({ from: Number(from), to: to ?? null, x: x2, y: y2, path: `M ${x1} ${y1} L ${x2} ${y2}` });
       }
@@ -241,19 +245,31 @@ export default function LinkedJourneyGame(props: Props) {
     chainRef.current?.querySelector(".journey-pig")?.parentElement?.scrollIntoView({ block: "nearest", inline: "center", behavior: "auto" });
   }, [shown.cursor, shown.started]);
   useEffect(() => { if (!demo && finished && !done.current) { done.current = true; gameAudio.play("finish"); props.onComplete(); } }, [demo, finished, props.onComplete]);
+  const lastFeedback = useRef(state);
+  useEffect(() => {
+    const previous = lastFeedback.current;
+    lastFeedback.current = state;
+    if (demo || previous === state || state.phase === "done") return;
+    if (state.messageError && (state.message !== previous.message || state.mistakes !== previous.mistakes)) gameAudio.play("retry");
+    else if (state.slots !== previous.slots || state.links !== previous.links || state.cursor !== previous.cursor) gameAudio.play("correct");
+  }, [state, demo]);
   function dispatch(action: Action) {
     if (demo) return;
     gameAudio.unlock();
     setState(current => { const next = transition(current, action); return next; });
   }
   function begin(held: Held, event: PointerEvent<HTMLElement>) {
-    if (demo) return;
+    if (demo || !event.isPrimary || pointer.current !== null) return;
+    pointer.current = event.pointerId;
+    beforeDrag.current = state;
     event.preventDefault(); dispatch({ kind: "select", held }); setDrag({ ...held, x: event.clientX, y: event.clientY, startX: event.clientX, startY: event.clientY });
   }
   useEffect(() => {
     if (!drag) return;
-    const move = (event: globalThis.PointerEvent) => setDrag(current => current && { ...current, x: event.clientX, y: event.clientY });
+    const move = (event: globalThis.PointerEvent) => { if (event.pointerId === pointer.current) setDrag(current => current && { ...current, x: event.clientX, y: event.clientY }); };
     const up = (event: globalThis.PointerEvent) => {
+      if (event.pointerId !== pointer.current) return;
+      pointer.current = null;
       if (Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) <= 7) { setDrag(null); return; }
       const hit = document.elementFromPoint(event.clientX, event.clientY);
       if (drag.kind === "node") {
@@ -266,8 +282,13 @@ export default function LinkedJourneyGame(props: Props) {
       }
       setDrag(null);
     };
-    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up, { once: true });
-    return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); };
+    const cancel = () => { pointer.current = null; setDrag(null); if (beforeDrag.current) setState(beforeDrag.current); };
+    const pointerCancel = (event: globalThis.PointerEvent) => { if (event.pointerId === pointer.current) cancel(); };
+    const hidden = () => { if (document.hidden) cancel(); };
+    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", pointerCancel); window.addEventListener("blur", cancel);
+    document.addEventListener("visibilitychange", hidden);
+    return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); window.removeEventListener("pointercancel", pointerCancel); window.removeEventListener("blur", cancel); document.removeEventListener("visibilitychange", hidden); };
   }, [drag]);
   function reset() { setState(initial()); setDemoStep(0); setDrag(null); done.current = false; }
   const card = (value: number, bank = false) => <div data-demo-node={value} className={`linked-node linked-node-${["peach", "mint", "lavender"][Math.max(0, values.indexOf(value)) % 3]} ${shown.held?.value === value && shown.held.kind === "node" ? "node-selected" : ""}`}>
@@ -279,12 +300,11 @@ export default function LinkedJourneyGame(props: Props) {
 
   return <GameLayout className={`linked-world linked-algorithm-world journey-world ${demo ? "linked-demo" : ""}`} play={!demo}>
     {!demo && <LinkedWorld map />}
-    <GameHeader title={`Linked List ${labels[algorithm]}`} onBack={props.onBack} onSettings={() => setSettings(true)} />
-    <LinkedStats score={score} counters={shown.counters} />
+    <GameHeader title={`Linked List ${labels[algorithm]}`} beforeSettings={<LinkedStats score={score} counters={shown.counters} />} onBack={props.onBack} onSettings={() => setSettings(true)} />
     <section className="linked-content">
-      <div className="linked-intro"><p>{algorithm === "linked-search" ? `Tìm số ${searchValue}` : algorithm === "linked-insertion" ? `Lắp ${values.join(" → ")}, sau đó ${challenge.instruction.charAt(0).toLocaleLowerCase("vi-VN")}${challenge.instruction.slice(1)}` : challenge.instruction}</p></div>
+      <div className="linked-intro"><p>{algorithm === "linked-search" ? `Tìm số ${searchValue}` : algorithm === "linked-traversal" ? `Lắp theo thứ tự ${values.join(" → ")}. ${challenge.instruction}` : algorithm === "linked-insertion" ? `Lắp ${values.join(" → ")}, sau đó ${challenge.instruction.charAt(0).toLocaleLowerCase("vi-VN")}${challenge.instruction.slice(1)}` : challenge.instruction}</p></div>
       <div className="linked-workspace" ref={demoMotion.ref}>
-        <div className="linked-panel linked-bank" data-journey-bank="true" onClick={() => dispatch({ kind: "bank" })}><div className="linked-panel-heading"><h3>Khay khối</h3></div><div className="linked-bank-row">
+        <div className="linked-panel linked-bank" data-journey-bank="true" role={!demo ? "button" : undefined} tabIndex={!demo ? 0 : -1} aria-label="Trả khối về khay" onKeyDown={event => { if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); dispatch({ kind: "bank" }); } }} onClick={() => dispatch({ kind: "bank" })}><div className="linked-panel-heading"><h3>Khay khối</h3></div><div className="linked-bank-row">
           {[...values].reverse().filter(value => !shown.slots.includes(value)).map(value => <div className="linked-bank-cell" key={value}>{card(value, true)}</div>)}
           {shown.phase === "insert" && <div className="linked-bank-cell">{card(added, true)}</div>}
           {shown.phase === "walk" && !shown.started && <button className="journey-pig-pickup" aria-label="Cầm heo nhỏ" onPointerDown={event => begin({ kind: "pig", value: 0 }, event)} onClick={() => dispatch({ kind: "select", held: { kind: "pig", value: 0 } })}><Pig small /><span>Đặt heo lên HEAD</span></button>}
@@ -294,7 +314,7 @@ export default function LinkedJourneyGame(props: Props) {
             {wires.map(wire => <button key={wire.from} data-demo-nail={wire.from} className={`linked-nail journey-nail ${shown.held?.kind === "link" && shown.held.value === wire.from ? "journey-nail-selected" : ""}`} style={{ left: wire.x, top: wire.y, pointerEvents: drag?.kind === "link" && drag.value === wire.from ? "none" : undefined }} disabled={demo || !["reverse", "build", "new-link", "previous-link", "bypass", "remove", "review"].includes(shown.phase)} aria-label={`Đinh của khối ${wire.from}`} data-null-docked={wire.to === null && shown.nullDock === wire.from || undefined} data-journey-target={wire.to ?? (shown.nullDock === wire.from ? "null" : undefined)} onPointerDown={event => begin({ kind: "link", value: wire.from }, event)} onClick={event => { if (event.detail === 0) dispatch({ kind: "select", held: { kind: "link", value: wire.from } }); }}><span className="linked-nail-head" /><span className="linked-nail-tip" /></button>)}
             {shown.slots.map((value, index) => <div className="journey-piece" key={value ?? `slot-${index}`}>
               {shown.phase === "insert" && <button className="journey-plus" data-journey-slot={index} aria-label={`Chèn vào vị trí ${index}`} onClick={() => dispatch({ kind: "slot", index })}>+</button>}
-              <div className={`linked-slot journey-slot ${shown.cursor === value && shown.started ? "journey-current" : ""}`} data-journey-slot={index} onClick={() => { if (shown.phase === "build" || shown.phase === "reverse") dispatch({ kind: "slot", index }); }}>
+              <div className={`linked-slot journey-slot ${shown.cursor === value && shown.started ? "journey-current" : ""}`} data-journey-slot={index} role={!demo ? "button" : undefined} tabIndex={!demo ? 0 : -1} aria-label={`Ô lắp ${index + 1}`} onKeyDown={event => { if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); dispatch({ kind: "slot", index }); } }} onClick={() => { if (shown.phase === "build" || shown.phase === "reverse") dispatch({ kind: "slot", index }); }}>
                 <span className="linked-slot-label">{(shown.phase === "build" || shown.phase === "reverse" ? index === 0 : shown.head !== null && value === shown.head) ? "HEAD" : index === shown.slots.length - 1 ? "TAIL" : `VỊ TRÍ ${index + 1}`}</span>
                 {value !== null ? card(value) : <button className="journey-empty" aria-label={`Đặt khối vào ô ${index + 1}`} disabled={demo}>+ Đặt khối</button>}
                 {value !== null && shown.cursor === value && shown.started && <div className="journey-pig"><Pig small /></div>}
@@ -306,7 +326,7 @@ export default function LinkedJourneyGame(props: Props) {
         </div>
       </div>
       {!demo && !finished && <div className="journey-controls">
-        <button className="chunky-button bubble-keep-button linked-check-button" onClick={() => dispatch({ kind: "check" })}><Check size={23} /> Kiểm tra</button>
+        <button className={`chunky-button bubble-keep-button linked-check-button ${["review", "reverse"].includes(shown.phase) ? "" : "linked-secondary-check"}`} onClick={() => dispatch({ kind: "check" })}><Check size={23} /> Kiểm tra</button>
         {shown.phase === "build" && <button className="chunky-button button-green" onClick={() => dispatch({ kind: "ready" })}>Lắp xong · Bắt đầu duyệt</button>}
         {shown.phase === "walk" && <>
           <button className="chunky-button button-green" aria-label="Đi theo next" disabled={!shown.started || shown.cursor === null} onClick={() => dispatch({ kind: "next" })}><ArrowRight /> Đi theo next</button>
@@ -317,7 +337,7 @@ export default function LinkedJourneyGame(props: Props) {
       {!demo && !finished && <p key={`${shown.mistakes}:${shown.message}`} className={`bubble-feedback linked-play-feedback ${shown.messageError ? "is-error" : ""}`} role="status">{shown.message}</p>}
       {!demo && finished && <VictoryCelebration className="linked-victory" title="Hoàn thành!" nextLabel="Màn tiếp theo" stars={shown.mistakes === 0 ? 3 : shown.mistakes < 3 ? 2 : 1} difficulty="hard" onReplay={reset} onHarder={props.onNextLevel} onMap={props.onChooseMap}><strong>{challenge.after.join(" → ")} → NULL</strong><p>{shown.message || (algorithm === "linked-traversal" ? `Heo đã đi qua ${values.length} nút và tới NULL.` : challenge.instruction)}</p></VictoryCelebration>}
     </section>
-    {demo && <LinkedDemoControls step={demoStep} count={script.length + 1} narration={narration} onStep={setDemoStep} onSpeedChange={demoMotion.onSpeedChange} onPlay={props.onPlay} />}
+    {demo && <LinkedDemoControls step={demoStep} count={script.length + 1} narration={narration} onStep={setDemoStep} suspended={settings} onPauseChange={demoMotion.onPauseChange} onSpeedChange={demoMotion.onSpeedChange} onPlay={props.onPlay} />}
     {!demo && <GameFooter><button className="linked-reset" onClick={reset}><RotateCcw size={17} /> Làm lại</button></GameFooter>}
     {settings && <div className="linked-settings-backdrop" onClick={() => setSettings(false)}><section className="linked-settings" role="dialog" aria-modal="true" aria-label="Tùy chọn" onClick={event => event.stopPropagation()}><button className="round-button" aria-label="Đóng tùy chọn" onClick={() => setSettings(false)}><X /></button><h2>Tùy chọn</h2><button className="chunky-button button-green" onClick={() => props.onSoundChange(!props.sound)}>{props.sound ? <Volume2 /> : <VolumeX />} Âm thanh: {props.sound ? "Bật" : "Tắt"}</button></section></div>}
     {drag && drag.kind !== "link" && <div className="linked-drag-ghost" style={{ left: drag.x, top: drag.y }} aria-hidden="true">{drag.kind === "pig" ? <Pig small /> : <div className={`linked-node linked-node-${["peach", "mint", "lavender"][Math.max(0, values.indexOf(drag.value)) % 3]}`}><span className="linked-node-body"><span className="linked-node-value">{drag.value}</span></span></div>}</div>}

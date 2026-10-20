@@ -162,5 +162,17 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
     paths.current.clear();
   }, [enabled]);
 
-  return { ref, onSpeedChange: (value: number) => { speed.current = value; } };
+  return {
+    ref,
+    onPauseChange: (paused: boolean) => {
+      for (const flight of flights.current.values()) paused ? flight.animation.pause() : flight.animation.play();
+      for (const animation of wireAnimations.current.values()) paused ? animation.pause() : animation.play();
+    },
+    onSpeedChange: (value: number) => {
+      const ratio = value / speed.current;
+      speed.current = value;
+      for (const flight of flights.current.values()) flight.animation.updatePlaybackRate(flight.animation.playbackRate * ratio);
+      for (const animation of wireAnimations.current.values()) animation.updatePlaybackRate(animation.playbackRate * ratio);
+    },
+  };
 }
