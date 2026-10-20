@@ -1,0 +1,405 @@
+/* Scale the boards themselves so pointer targets and measured wires stay aligned. */
+.linked-world,
+.linked-world .linked-content,
+.linked-world .linked-bank-row,
+.linked-world .linked-assembly-scroll { scrollbar-width: none; }
+.linked-world::-webkit-scrollbar,
+.linked-world .linked-content::-webkit-scrollbar,
+.linked-world .linked-bank-row::-webkit-scrollbar,
+.linked-world .linked-assembly-scroll::-webkit-scrollbar { display: none; }
+.linked-world {
+  --linked-slot-width: clamp(140px, 14vw, 210px);
+  --linked-chain-gap: clamp(24px, 3vw, 50px);
+  --linked-node-width: clamp(96px, 10vw, 140px);
+  --linked-space: clamp(10px, 1.6dvh, 22px);
+}
+.linked-world > .world-scenery {
+  position: fixed;
+  z-index: -1;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.linked-scenery {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #E6D4AD;
+  pointer-events: none;
+}
+.linked-scenery .linked-terrain { display: block; width: 100%; height: 100%; }
+.linked-scenery .linked-terrain-tree { position: absolute; width: clamp(28px, 2.5vw, 46px); height: auto; }
+.linked-terrain-tree.tree-one { left: 2%; top: 76%; }
+.linked-terrain-tree.tree-two { left: 81%; bottom: 3%; }
+.linked-terrain-tree.tree-three { left: 3%; top: 14%; }
+.linked-map-scenery .tree-four { left: 15%; top: 28%; }
+.linked-map-scenery .tree-five { left: 18%; top: 33%; }
+.linked-map-scenery .tree-six { right: 20%; top: 20%; }
+.linked-map-scenery .tree-seven { right: 16%; top: 25%; }
+.linked-map-scenery .tree-eight { left: 12%; top: 63%; }
+.linked-map-scenery .tree-nine { right: 19%; top: 64%; }
+.region-linear-structures .track-roads .road-shadow { stroke: #8B9C6B; stroke-width: 32px; opacity: .55; }
+.region-linear-structures .track-roads .road-fill { stroke: #A88758; stroke-width: 26px; }
+.region-linear-structures .track-roads .road-open .road-fill { animation: linked-road-awake 1.2s ease-out; }
+@keyframes linked-road-awake { from { stroke: #C2A26C; } to { stroke: #A88758; } }
+.region-linear-structures .track-roads .road-dashes { stroke: #FFF8DD; stroke-width: 4px; stroke-dasharray: 3 12; }
+.region-linear-structures .track-roads .road-locked { opacity: .6; }
+.region-linear-structures .track-roads .road-locked .road-fill { stroke: #ADAA91; }
+.linked-scenery .linked-terrain-bridge { position: absolute; right: 3.7%; top: 70%; width: 52px; height: 44px; }
+.linked-scenery .linked-terrain-flower { position: absolute; width: 22px; height: 20px; }
+.linked-terrain-flower.flower-one { left: 9%; bottom: 7%; }
+.linked-terrain-flower.flower-two { right: 12%; top: 11%; }
+.linked-terrain-flower.flower-three { left: 72%; bottom: 2%; }
+.linked-terrain-grass { position: absolute; width: 25px; height: 8px; background: #A0B47E; border-radius: 50%; }
+.linked-terrain-grass.grass-one { left: 19%; bottom: 3%; }
+.linked-terrain-grass.grass-two { right: 10%; bottom: 14%; }
+@media (max-width: 600px) {
+  .linked-scenery .linked-terrain-bridge { width: 36px; right: 1%; }
+  .linked-terrain-tree.tree-three, .linked-terrain-flower.flower-two { display: none; }
+}
+.linked-world .linked-assembly {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.linked-world.linked-demo .linked-demo-player {
+  background: transparent;
+  box-shadow: none;
+}
+.linked-world .linked-content {
+  width: min(1500px, 100%);
+  padding: var(--linked-space) clamp(12px, 3vw, 48px) var(--linked-space);
+}
+.linked-world .lesson-header { flex-shrink: 0; gap: 12px; }
+.linked-world .lesson-header h1 { font-size: clamp(18px, 2.2vw, 32px); text-align: center; }
+.linked-world .lesson-header .round-button { flex-shrink: 0; }
+.linked-world .linked-intro { margin-bottom: var(--linked-space); }
+.linked-world .linked-intro p {
+  font-size: clamp(17px, 1.6vw, 24px);
+  font-weight: 900;
+  line-height: 1.5;
+  color: #566f60;
+}
+.linked-world .linked-intro h2 { font-size: clamp(24px, 3vw, 42px); }
+.linked-world .linked-workspace { gap: var(--linked-space); }
+.linked-world .linked-panel { padding: var(--linked-space) clamp(10px, 1.5vw, 24px); }
+.linked-world .linked-bank {
+  background: rgb(248 244 230 / 55%);
+  border-color: rgb(255 249 225 / 60%);
+  border-bottom-color: rgb(207 201 169 / 55%);
+  box-shadow: 0 6px 0 rgb(153 151 117 / 14%), 0 14px 28px rgb(101 112 89 / 6%);
+}
+.linked-world .linked-drag-ghost:not(.ghost-nail) {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.linked-world .linked-drag-ghost .linked-node-body { margin: 0; }
+.linked-world .linked-nail:disabled,
+.linked-world .linked-null-target:disabled,
+.linked-world .linked-node-body:disabled,
+.linked-world .ll-hole:disabled { opacity: 1; }
+.linked-world .linked-panel-heading { min-height: 30px; flex-wrap: wrap; }
+.linked-world .linked-panel-heading h3 { margin: 0; }
+.linked-world .linked-bank-row {
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: safe center;
+  gap: 14px clamp(12px, 2vw, 32px);
+  height: 140px;
+  min-height: 140px;
+  padding: var(--linked-space) 4px 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.linked-world .linked-bank { container-type: inline-size; }
+@container (max-width: 540px) {
+  .linked-world .linked-bank-row { height: 210px; min-height: 210px; }
+}
+.linked-world .linked-bank-cell { flex: 0 0 calc(var(--linked-node-width) + 24px); }
+.linked-world .linked-bank-empty { width: 100%; min-height: 64px; }
+.linked-world .linked-node { width: calc(var(--linked-node-width) + 10px); height: 76px; }
+.linked-world .linked-node-body { width: var(--linked-node-width); height: clamp(62px, 7dvh, 78px); }
+.linked-world .linked-node-value { font-size: clamp(26px, 2.6vw, 36px); }
+.linked-complete-check {
+  position: absolute;
+  right: 2px;
+  bottom: -3px;
+  z-index: 7;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #82ad64;
+  color: white;
+}
+.linked-world .linked-slot { width: var(--linked-slot-width); height: clamp(100px, 12dvh, 150px); }
+.linked-world .linked-empty-slot,
+.linked-world .journey-empty {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #7c9670;
+  font: inherit;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.linked-world .journey-empty { width: 100%; height: 100%; }
+.linked-world .journey-empty:disabled { opacity: 1; }
+.linked-world .linked-board {
+  min-height: clamp(120px, 14dvh, 170px);
+  grid-template-columns: repeat(var(--linked-count), var(--linked-slot-width));
+  gap: var(--linked-chain-gap);
+  width: calc(var(--linked-count) * var(--linked-slot-width) + (var(--linked-count) - 1) * var(--linked-chain-gap) + 120px);
+}
+.linked-world .journey-chain { justify-content: center; gap: var(--linked-chain-gap); padding-top: clamp(55px, 7dvh, 80px); }
+.linked-world .linked-assembly-scroll {
+  max-width: 100%;
+  scrollbar-width: none;
+  padding-bottom: 16px;
+}
+.linked-world .linked-tail-note { flex-wrap: wrap; }
+.linked-world .linked-action-guide { width: min(100%, 1000px); }
+.linked-world .linked-play-feedback {
+  max-width: 1000px;
+  min-height: 24px;
+  margin: 0 auto;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #879679;
+  line-height: 1.5;
+  text-align: center;
+}
+.linked-world .linked-play-feedback.is-error { color: #b57460; animation: bubble-text-in .25s; }
+.linked-world .linked-check-button { margin: 0; min-width: 200px; min-height: 54px; padding: 12px 26px; font-size: 20px; font-weight: 950; }
+.linked-world .journey-controls { gap: 10px; margin: var(--linked-space) auto 16px; }
+.linked-world .linked-actions { margin-bottom: 16px; }
+.linked-world .game-play-footer { min-height: 68px; flex-wrap: wrap; }
+.linked-world .linked-demo-dialogue { max-width: 1400px; }
+.linked-world .linked-demo-dialogue p { width: min(100%, 1000px); font-size: clamp(14px, 2.3dvh, 23px); }
+.linked-world .linked-demo-dialogue .pig { width: clamp(60px, 10dvh, 115px); height: clamp(68px, 11dvh, 125px); }
+.linked-world .linked-demo-player { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+
+/* Reduce vertical spacing on laptops while preserving readable cards and hit areas. */
+@media (min-width: 701px) and (max-height: 800px) {
+  .linked-world { --linked-space: 8px; }
+  .linked-world .linked-intro h2 { font-size: clamp(24px, 2.5vw, 32px); }
+  .linked-world .linked-slot { height: 100px; }
+  .linked-world .journey-chain { padding-top: 50px; }
+  .linked-world .linked-demo-dialogue p { padding: 10px 18px; }
+  .linked-world .linked-demo-playback .chunky-button { min-height: 46px; }
+  .linked-world .linked-demo-playback .round-button { width: 44px; height: 44px; }
+}
+
+@media (max-width: 700px) {
+  .linked-world .linked-check-button { min-width: 180px; min-height: 48px; font-size: 18px; }
+  .linked-world .linked-play-feedback { font-size: 12px; }
+  .linked-world { --linked-slot-width: 140px; --linked-chain-gap: 28px; --linked-node-width: 96px; }
+  .linked-world .linked-stats { flex-wrap: wrap; gap: 6px 14px; padding: 6px 12px; }
+  .linked-world .linked-demo-step-status { gap: 8px; }
+  .linked-world .linked-demo-step-status progress { width: clamp(80px, 30vw, 160px); }
+  .linked-world .linked-demo-playback { gap: 10px; }
+  .linked-world .linked-demo-playback .chunky-button { min-width: 140px; }
+  .linked-world .linked-swipe-hint { display: inline; }
+}
+
+/* On phones and short landscape windows, let the whole lesson scroll.
+   Narration must never consume all the space available for the board. */
+@media (max-width: 600px), (max-height: 540px) {
+  .linked-world.linked-demo { display: block; }
+  .linked-world.linked-demo .linked-content { overflow: visible; }
+  .linked-world .linked-demo-dialogue { align-items: flex-start; }
+  .linked-world .linked-demo-dialogue p { min-width: 0; }
+}
+
+/* Both columns follow the list vertically on every screen size. */
+  .linked-world { --linked-slot-width: clamp(124px, 35vw, 164px); --linked-node-width: clamp(88px, 24vw, 108px); --linked-chain-gap: 38px; }
+  .linked-world .linked-workspace { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: stretch; gap: 8px; }
+  .linked-world .linked-workspace > .linked-panel { padding: 10px 4px; }
+  .linked-world .linked-panel-heading { justify-content: center; }
+  .linked-world .linked-panel-heading h3 { font-size: 14px; }
+  .linked-world.linked-demo { display: flex; flex-direction: column; }
+  .linked-world.linked-demo .linked-content { flex: 1 1 auto; min-height: 0; overflow-y: auto; scroll-padding-block: 28px; }
+  .linked-world .linked-bank-row { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; height: auto; min-height: 580px; gap: 70px; padding: 44px 0 16px; overflow: visible; }
+  .linked-world .linked-bank-cell { flex: 0 0 68px; width: 100%; }
+  .linked-world .linked-bank .linked-node { height: 68px; }
+  .linked-world .linked-bank-empty { min-height: 68px; }
+  .linked-world .linked-assembly-scroll { overflow: visible; margin: 0; padding: 24px 0 16px; }
+  .linked-world .linked-board,
+  .linked-world .journey-chain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    gap: var(--linked-chain-gap);
+    padding: 20px 0;
+  }
+  .linked-world .journey-piece { flex-direction: column; gap: 24px; }
+  .linked-world .linked-slot { flex: none; height: 100px; }
+  .linked-world .linked-slot-label { left: 8px; }
+  .linked-world .linked-slot .linked-node .ll-hole {
+    left: 50%; top: -10px; transform: translate(-50%, -50%);
+  }
+  .linked-world .ll-rope-anchor { left: 50%; right: auto; top: 100%; transform: translate(-50%, -50%); }
+  .linked-world .construction-null { position: relative; left: auto; top: auto; transform: none; flex: none; margin-top: 24px; }
+  .linked-world .journey-null { margin-top: 24px; }
+  .linked-world .construction-null .linked-null-target,
+  .linked-world .journey-null .linked-null-target { margin: 0; padding: 8px 18px; }
+  .linked-world .construction-null .ll-hole,
+  .linked-world .journey-null-hole { left: 50%; top: -12px; transform: translate(-50%, -50%); }
+  .linked-world .journey-pig { bottom: auto; top: 30px; left: -3px; transform: none; }
+  .linked-world .journey-pig .pig { width: 30px; height: 35px; }
+  .linked-world .journey-pig-pickup { padding: 8px 4px; font-size: 12px; max-width: 100%; }
+  .linked-world .linked-bank-empty { width: calc(var(--linked-node-width) + 10px); }
+  .linked-world .linked-demo-dialogue p { font-size: 14px; line-height: 1.45; }
+  .linked-world .linked-demo-dialogue .pig { width: 52px; height: 60px; }
+
+.linked-world .linked-hud { position: relative; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; flex: 0 0 auto; min-height: 44px; padding: 4px 12px 12px; gap: 8px 20px; }
+.linked-world .linked-hud .play-score { position: static; transform: none; margin: 0; }
+@media (min-width: 601px) {
+  .linked-world { --linked-slot-width: 200px; --linked-node-width: 132px; --linked-chain-gap: 38px; }
+  .linked-world .linked-content { width: min(1050px, 100%); }
+  .linked-world .linked-workspace { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 32px; }
+  .linked-world .linked-workspace > .linked-panel { padding: 16px 20px; }
+  .linked-world .linked-panel-heading h3 { font-size: 19px; }
+  .linked-world .linked-bank-row { padding-top: 46px; gap: 70px; }
+  .linked-world .linked-demo-dialogue p { font-size: clamp(17px, 2.3dvh, 22px); }
+  .linked-world .linked-demo-dialogue .pig { width: 84px; height: 94px; }
+  .linked-world .journey-pig { left: -8px; top: 24px; }
+  .linked-world .journey-pig .pig { width: 38px; height: 44px; }
+}
+@media (max-height: 540px) {
+  .linked-world.linked-demo { display: block; }
+  .linked-world.linked-demo .linked-content { overflow: visible; }
+}
+
+/* Compact vertical boards: reserve space for the whole chain instead of tall cards. */
+.linked-world {
+  --linked-slot-width: clamp(116px, 25vw, 148px);
+  --linked-node-width: clamp(78px, 18vw, 96px);
+  --linked-chain-gap: 28px;
+  --linked-row-height: clamp(68px, 8dvh, 80px);
+  --linked-block-height: clamp(52px, 6.5dvh, 64px);
+  --linked-space: 6px;
+}
+.linked-world .lesson-header { display: grid; grid-template-columns: 40px minmax(0, 1fr) max-content 40px; min-height: 44px; flex-basis: 44px; padding-block: 2px; margin-block: 0; }
+.linked-world .lesson-header h1 { margin-block: 0; line-height: 1.15; }
+.linked-world .lesson-header h1 { font-size: clamp(18px, 2vw, 27px); }
+.linked-world .lesson-header .round-button { width: 40px; height: 40px; }
+.linked-world.game-play-layout .lesson-header {
+  margin-top: max(12px, env(safe-area-inset-top));
+}
+.linked-world .linked-hud { height: auto; min-height: 0; margin: 0; padding: 0; font-size: 11px; }
+.linked-world .linked-hud .play-score {
+  position: static;
+  left: auto;
+  right: 3%;
+  top: 12px;
+  bottom: auto;
+  width: max-content;
+  min-width: 0;
+  padding: 3px 10px;
+}
+.linked-world .linked-intro { margin: 0 auto 4px; }
+.linked-world .linked-intro p { margin-block: 3px 5px; line-height: 1.25; font-size: clamp(16px, 1.4vw, 21px); }
+.linked-world .linked-content { width: min(860px, 100%); padding-block: 2px; }
+.linked-world .linked-workspace { gap: clamp(8px, 2vw, 24px); }
+.linked-world .linked-workspace > .linked-panel { padding: 8px 4px; }
+.linked-world .linked-panel-heading { min-height: 24px; }
+.linked-world .linked-panel-heading h3 { font-size: 15px; }
+.linked-world .linked-assembly-scroll { padding: 8px 0 4px; }
+.linked-world .linked-board, .linked-world .journey-chain { padding: 12px 0; }
+.linked-world .linked-slot { height: var(--linked-row-height); border-radius: 18px; }
+.linked-world .linked-node, .linked-world .linked-bank .linked-node { height: var(--linked-block-height); }
+.linked-world .linked-node-body { height: var(--linked-block-height); padding: 5px 5px calc(var(--linked-block-height) * .28); border-width: 3px; border-radius: 15px; }
+.linked-world .linked-node-body::after {
+  inset: auto 0 0;
+  width: auto;
+  height: 28%;
+  border-left: 0;
+  border-top: 2px solid #66513d30;
+  border-radius: 0 0 12px 12px;
+}
+.linked-world .linked-node-value { font-size: clamp(26px, 3.3dvh, 33px); }
+.linked-world .linked-bank-row {
+  min-height: 0;
+  padding: calc(20px + (var(--linked-row-height) - var(--linked-block-height)) / 2) 0 12px;
+  gap: calc(var(--linked-row-height) + var(--linked-chain-gap) - var(--linked-block-height));
+}
+.linked-world .linked-bank-cell { flex-basis: var(--linked-block-height); }
+.linked-world .linked-bank-empty { min-height: var(--linked-block-height); }
+.linked-world .linked-slot-label { font-size: 9px; top: -13px; }
+.linked-world .linked-slot .linked-node .ll-hole { top: -4px; }
+.linked-world .ll-hole { width: 26px; height: 26px; border-width: 2px; }
+.linked-world .ll-hole span { width: 19px; height: 19px; }
+.linked-world .linked-nail-head { width: 26px; height: 26px; top: 5px; left: 5px; }
+.linked-world .linked-nail-head::before, .linked-world .linked-nail-head::after { width: 14px; height: 4px; left: 4px; top: 9px; }
+.linked-world .linked-nail-tip { left: 25px; top: 14px; width: 11px; height: 8px; }
+.linked-world .construction-null, .linked-world .journey-null { margin-top: 10px; }
+.linked-world .construction-null .ll-hole, .linked-world .journey-null-hole { top: -8px; }
+.linked-world .linked-ropes path, .linked-world .journey-wires path { stroke-width: 4px; }
+.linked-world .linked-demo-player { padding-top: 4px; padding-bottom: 8px; }
+.linked-world .linked-demo-dialogue { gap: 12px; padding-bottom: 6px; }
+.linked-world .linked-demo-dialogue .pig { width: 56px; height: 62px; }
+.linked-world .linked-demo-dialogue p { padding: 8px 14px; font-size: clamp(14px, 2.1dvh, 18px); line-height: 1.4; }
+.linked-world .linked-demo-controls { gap: 6px; }
+.linked-world .linked-demo-playback .chunky-button { min-height: 42px; min-width: 160px; font-size: 16px; }
+.linked-world .linked-demo-playback .round-button { width: 40px; height: 40px; }
+.linked-world .journey-controls, .linked-world .linked-actions { margin: 8px auto; }
+.linked-world .linked-check-button { min-height: 44px; font-size: 17px; }
+.linked-world .game-play-footer { min-height: 48px; padding: 8px 12px 12px; }
+.linked-world .journey-pig {
+  left: -26px;
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+  z-index: 7;
+}
+.linked-world .journey-pig .pig { width: 28px; height: 32px; }
+
+/* Input feedback stays local to the object; board geometry never scales. */
+.linked-world button:focus-visible,
+.linked-world [role="button"]:focus-visible { outline: 3px solid #39756d; outline-offset: 4px; }
+.linked-world .linked-node-body { transition: transform 120ms ease-out, outline-color 120ms ease-out; }
+.linked-world .linked-node-body:not(:disabled):active { transform: translateY(2px); }
+.linked-world .linked-node.node-selected .linked-node-body { outline: 3px solid #b28732; outline-offset: 3px; }
+.linked-world .linked-workspace:has(.node-selected) .journey-slot { border-color: #92ad7d; background: #edf5de; }
+.linked-world .ll-hole.hole-active { animation: none; }
+.linked-world .linked-slot:hover:has(.node-selected),
+.linked-world .slot-available:hover { border-style: solid; }
+.linked-world .linked-secondary-check { background: #f6f4e8; color: #687d64; box-shadow: 0 3px 0 #b8c1a7; }
+.linked-world .linked-reset { min-height: 44px; padding: 8px 12px; }
+.linked-world .linked-demo-playback .round-button,
+.linked-world .lesson-header .round-button,
+.linked-world .linked-settings .round-button { min-width: 44px; min-height: 44px; }
+.linked-world .lesson-speed-button { min-height: 44px; padding-inline: 12px; }
+.linked-world .ll-hole {
+  width: 44px; height: 44px; border: 0; box-shadow: none;
+  background: radial-gradient(circle, #fff9df 0 10px, #c6aa79 11px 13px, transparent 14px);
+}
+.linked-world .linked-nail { width: 44px; height: 44px; }
+.linked-world .linked-nail-head { left: 9px; top: 9px; }
+.linked-world .linked-nail-tip { left: 29px; top: 18px; }
+.linked-world .journey-controls { flex-wrap: wrap; }
+.linked-world .linked-play-feedback { min-height: 24px; }
+@media (prefers-reduced-motion: reduce) {
+  .linked-world .linked-node-body { transition: none; }
+}
+
+@media (max-width: 700px) {
+  .linked-world .lesson-header { gap: 8px; }
+  .linked-world .lesson-header h1 { font-size: clamp(14px, 3.6vw, 20px); }
+  .linked-world .linked-hud .play-score { gap: 4px; padding: 3px 6px; }
+  .linked-world .linked-hud .play-score strong { font-size: 13px; }
+  .linked-world .linked-intro { padding-right: 0; }
+}

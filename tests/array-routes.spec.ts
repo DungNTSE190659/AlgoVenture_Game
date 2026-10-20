@@ -77,7 +77,7 @@ test("old combined saves keep both routes and the world total", async ({ page })
   await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
   await expect(page.locator(".atlas-region-progress")).toHaveText("5/7");
   await page.getByRole("button", { name: "Xem chủ đề Danh sách", exact: true }).click();
-  await expect(page.locator(".atlas-enter")).toBeDisabled();
+  await expect(page.locator(".atlas-enter")).toBeEnabled();
 });
 
 test("both route maps fit desktop, phone portrait and landscape without overlapping controls", async ({ page }) => {

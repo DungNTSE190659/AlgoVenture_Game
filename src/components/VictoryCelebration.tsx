@@ -5,8 +5,9 @@ import { LEVELS } from "../engine/gameConfig";
 import type { Difficulty } from "../engine/quicksort";
 
 type Props = {
-  title?: string;
   className: string;
+  title?: string;
+  nextLabel?: string;
   stars: number;
   difficulty: Difficulty;
   children: ReactNode;
@@ -15,8 +16,9 @@ type Props = {
   onMap: () => void;
 };
 export default function VictoryCelebration({
-  title: heading = "Mảng đã được sắp xếp!",
   className,
+  title = "Mảng đã được sắp xếp!",
+  nextLabel = "Tăng độ khó",
   stars,
   difficulty,
   children,
@@ -25,11 +27,11 @@ export default function VictoryCelebration({
   onMap,
 }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const title = useRef<HTMLHeadingElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     const panel = dialog.current;
     panel?.showModal();
-    title.current?.focus({ preventScroll: true });
+    titleRef.current?.focus({ preventScroll: true });
     return () => panel?.close();
   }, []);
   const next =
@@ -45,10 +47,10 @@ export default function VictoryCelebration({
         <h2
           className="victory-title"
           id="victory-screen-title"
-          ref={title}
+          ref={titleRef}
           tabIndex={-1}
         >
-          {heading}
+          {title}
         </h2>
         <div className="victory-buta">
           <Pig mood="celebrate" />
@@ -84,7 +86,7 @@ export default function VictoryCelebration({
               onClick={() => onHarder(next)}
               title={`${LEVELS[next].label} · ${LEVELS[next].count} số`}
             >
-              <Sparkles size={19} /> Tăng độ khó
+              <Sparkles size={19} /> {nextLabel}
             </button>
           )}
           <button className="victory-map-button" onClick={onMap}>

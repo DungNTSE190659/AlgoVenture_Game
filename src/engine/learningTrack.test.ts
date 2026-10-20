@@ -1,12 +1,13 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ALL_LESSONS, ARRAYS, ARRAY_ROUTES, REGIONS, arrayRouteForLesson, currentRouteLesson, currentLesson, lessonUnlocked, nextLesson, readTrackProgress, regionComplete, regionForLesson, regionUnlocked, STORAGE_KEY, type Progress } from "./learningTrack";
+import { ALL_LESSONS, ARRAYS, ARRAY_ROUTES, LINEAR_STRUCTURES, REGIONS, arrayRouteForLesson, currentRouteLesson, currentLesson, lessonUnlocked, nextLesson, readTrackProgress, regionComplete, regionForLesson, regionUnlocked, STORAGE_KEY, type Progress } from "./learningTrack";
 afterEach(() => vi.unstubAllGlobals());
 const completedArrays = Object.fromEntries(ARRAYS.map(lesson => [lesson.id, true])) as Progress;
 describe("curriculum and progress", () => {
   it("teaches sorting and searching inside Array without BST prerequisites", () => {
     expect(REGIONS.map(region => region.id)).toEqual(["arrays", "linear-structures", "trees", "graph"]);
-    expect(ALL_LESSONS).toHaveLength(19);
-    expect(new Set(ALL_LESSONS.map(lesson => lesson.id)).size).toBe(19);
+    expect(ALL_LESSONS).toHaveLength(22);
+    expect(new Set(ALL_LESSONS.map(lesson => lesson.id)).size).toBe(22);
+    expect(LINEAR_STRUCTURES.map(lesson => lesson.id)).toEqual(["linked-list", "linked-traversal", "linked-search", "linked-insertion", "linked-deletion", "linked-reversal"]);
     expect(ARRAYS.map(lesson => lesson.id)).toEqual(["bubble", "selection", "insertion", "merge", "quick", "linear", "binary"]);
     expect(regionForLesson("bubble").id).toBe("arrays");
     expect(regionForLesson("binary").id).toBe("arrays");
@@ -15,17 +16,18 @@ describe("curriculum and progress", () => {
     expect(lessonUnlocked("linear", { array: true })).toBe(true);
     expect(lessonUnlocked("binary", { array: true, linear: true })).toBe(true);
   });
-  it("opens the next region only after every lesson in the previous regions", () => {
+  it("keeps demo preview regions open and gates trees by completion", () => {
     expect(regionUnlocked("arrays", {})).toBe(true);
-    expect(regionUnlocked("linear-structures", { array: true })).toBe(false);
+    expect(regionUnlocked("linear-structures", {})).toBe(true);
     expect(regionComplete("arrays", completedArrays)).toBe(true);
     expect(regionUnlocked("linear-structures", completedArrays)).toBe(true);
     expect(lessonUnlocked("linked-list", completedArrays)).toBe(true);
+    expect(LINEAR_STRUCTURES.every(lesson => lessonUnlocked(lesson.id, {}))).toBe(true);
     expect(nextLesson("binary")?.id).toBe("linked-list");
-    expect(nextLesson("queue")?.id).toBe("tree-basics");
-    const linear = { ...completedArrays, "linked-list": true, stack: true, queue: true };
+    expect(nextLesson("linked-reversal")?.id).toBe("tree-basics");
+    const linear = { ...completedArrays, ...Object.fromEntries(LINEAR_STRUCTURES.map(lesson => [lesson.id, true])) };
     expect(regionUnlocked("trees", linear)).toBe(true);
-    expect(regionUnlocked("graph", { ...linear, bst: true })).toBe(false);
+    expect(regionUnlocked("graph", {})).toBe(true); // BFS preview from main.
     const trees = { ...linear, "tree-basics": true, bst: true, "bst-search": true, "bst-insert": true, "bst-delete": true };
     expect(regionUnlocked("graph", trees)).toBe(true);
     expect(lessonUnlocked("dfs", trees)).toBe(false);
@@ -59,7 +61,7 @@ describe("curriculum and progress", () => {
     expect(lessonUnlocked("insertion", { bubble: true })).toBe(false);
     expect(lessonUnlocked("insertion", { bubble: true, selection: true })).toBe(true);
     expect(lessonUnlocked("quick", { bubble: true, selection: true, insertion: true })).toBe(true);
-    expect(regionUnlocked("linear-structures", { bubble: true, insertion: true, quick: true })).toBe(false);
+    expect(regionUnlocked("linear-structures", { bubble: true, insertion: true, quick: true })).toBe(true);
   });
   it("keeps Search and Sort independent, with local lesson order and progress", () => {
     expect(ARRAY_ROUTES.map(route => [route.id, route.lessons.map(lesson => lesson.id)])).toEqual([
@@ -74,7 +76,7 @@ describe("curriculum and progress", () => {
     expect(lessonUnlocked("insertion", { linear: true, binary: true })).toBe(false);
     expect(nextLesson("linear")?.id).toBe("binary");
     expect(nextLesson("quick")?.id).toBe("linked-list");
-    expect(regionUnlocked("linear-structures", { bubble: true, selection: true, insertion: true, merge: true, quick: true })).toBe(false);
+    expect(regionUnlocked("linear-structures", { bubble: true, selection: true, insertion: true, merge: true, quick: true })).toBe(true);
   });
   it("splits saved progress by existing IDs without losing either route", () => {
     vi.stubGlobal("localStorage", { getItem: () => '{"linear":true,"binary":true,"bubble":true,"insertion":true}' });
