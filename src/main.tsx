@@ -15,6 +15,9 @@ import "./selection.css";
 import "./gameHud.css";
 import "./linkedList.css";
 import "./linkedAlgorithm.css";
+import "./linear.css";
+import "./binary.css";
+import "./linear-cards.css";
 import "./linkedResponsive.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

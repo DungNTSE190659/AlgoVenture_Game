@@ -7,6 +7,9 @@ import DemoLesson from "./components/DemoLesson";
 import BubbleGame from "./components/BubbleGame";
 import LinkedListGame from "./components/LinkedListGame";
 import LinkedAlgorithmGame from "./components/LinkedAlgorithmGame";
+import LinearSearchGame from "./components/LinearSearchGame";
+import LinearSearchPlay from "./components/LinearSearchPlay";
+import BinarySearchGame from "./components/BinarySearchGame";
 import { arrayRouteForLesson, currentRouteLesson, currentLesson, lessonAvailable, lessonUnlocked, nextLesson, readTrackProgress, regionForLesson, REGIONS, regionUnlocked, saveTrackProgress, type ArrayRouteId, type RegionId, type TrackId } from "./engine/learningTrack";
 import ExpeditionPlay from "./components/ExpeditionPlay";
 import type { Difficulty } from "./engine/quicksort";
@@ -170,6 +173,10 @@ export default function App() {
     );
   if (algorithm === "linked-list") return <LinkedListGame key={`${session}:${scene}:${linkedLevel}`} mode={scene} level={linkedLevel} sound={sound} onSoundChange={changeSound} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={finishLinkedLevel} onNextLevel={() => { if (linkedLevel < 3) { setLinkedLevel((linkedLevel + 1) as LinkedLevel); setSession(value => value + 1); } }} />;
   if (regionForLesson(algorithm).id === "linear-structures") return <LinkedAlgorithmGame mode={scene} onPlay={() => start("play")} key={`${session}:${scene}:${linkedLevel}`} algorithm={algorithm as Exclude<LinkedTrackId, "linked-list">} level={linkedLevel} sound={sound} onSoundChange={changeSound} onBack={back} onChooseMap={chooseMap} onComplete={finishLinkedLevel} onNextLevel={() => { if (linkedLevel < 3) { setLinkedLevel((linkedLevel + 1) as LinkedLevel); setSession(value => value + 1); } }} />;
+  if (algorithm === "binary") return <BinarySearchGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
+  if (algorithm === "linear") return scene === "play"
+    ? <LinearSearchPlay key={session} sound={sound} onBack={back} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} />
+    : <LinearSearchGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (scene === "demo")
     return (
       <DemoLesson

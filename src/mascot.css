@@ -1,350 +1,72 @@
-.pig .pig-head,
-.pig .pig-ear-left,
-.pig .pig-ear-right,
-.pig .pig-arm-left,
-.pig .pig-arm-right,
-.pig .pig-mouth,
-.pig .pig-rig,
-.pig .pig-eyes,
-.pig .pig-tail,
-.pig .pig-confetti,
-.pig .pig-shadow {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 0.3s;
+/* Each transparent 2x2 sheet contains four genuinely different drawn poses. */
+.pig {
+  position: relative;
+  display: block;
+  height: auto;
+  aspect-ratio: 180 / 200;
+  flex-shrink: 0;
+  user-select: none;
+  transform-origin: 50% 94%;
+  animation: none;
+  --buta-loop: 4.6s;
 }
-.pig .pig-rig {
-  transform-origin: 50% 92%;
+.pig-small { width: 84px; }
+.pig-still {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  -webkit-user-drag: none;
 }
-.pig .pig-head {
-  transform-origin: 50% 90%;
+.pig-clip {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
 }
-.pig .pig-ear-left {
-  transform-origin: 80% 100%;
+.pig-sheet {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200%;
+  height: 200%;
+  max-width: none;
+  -webkit-user-drag: none;
+  animation: buta-gesture var(--buta-loop) steps(1, end) infinite;
 }
-.pig .pig-ear-right {
-  transform-origin: 20% 100%;
+.pig[data-animated="true"] .pig-still { visibility: hidden; }
+.pig[data-animated="true"] .pig-clip { visibility: visible; }
+.pig-explaining { --buta-loop: 3.8s; }
+.pig-thinking { --buta-loop: 5.4s; }
+.pig-celebrate { --buta-loop: 2.8s; }
+.pig-oops { --buta-loop: 4.9s; }
+.pig-proud { --buta-loop: 5s; }
+.pig-surprised { --buta-loop: 4.2s; }
+
+/* A brief gesture + blink, then a longer rest; avoid constant distracting motion. */
+@keyframes buta-gesture {
+  0%, 100% { transform: translate(0, 0); }
+  5% { transform: translate(-50%, 0); }
+  10% { transform: translate(0, -50%); }
+  13% { transform: translate(-50%, -50%); }
+  18% { transform: translate(-50%, 0); }
+  24% { transform: translate(0, 0); }
 }
-.pig .pig-arm-left {
-  transform-origin: 90% 20%;
-}
-.pig .pig-arm-right {
-  transform-origin: 10% 20%;
-}
-.pig-happy .pig-head {
-  animation: pig-head-idle 4s ease-in-out infinite;
-}
-.pig:not(.pig-celebrate):not(.pig-proud) .pig-eyes {
-  animation: pig-blink 5.3s infinite;
-}
-.pig .pig-tail {
-  animation: pig-tail-wiggle 3s ease-in-out infinite;
-}
-.pig-thinking .pig-head {
-  transform: rotate(-8deg);
-  animation: pig-think-tilt 3s ease-in-out infinite;
-}
-.pig-thinking .pig-arm-left {
-  animation: pig-chin-tap 2.1s ease-in-out infinite;
-}
-.pig-thinking .pig-thought {
-  animation: pig-thought-pop 1.8s ease-in-out infinite;
-}
-.pig-pointing .pig-arm-right {
-  animation: pig-teacher-point 2.4s ease-in-out infinite;
-}
-.pig-pointing .pig-head {
-  transform: rotate(5deg);
-}
-.pig-pointing .pig-ear-right {
-  animation: pig-ear-flick 3.5s infinite;
-}
-.pig-explaining .pig-mouth {
-  animation: pig-talk 0.4s ease-in-out infinite alternate;
-}
-.pig-explaining .pig-arm-left {
-  animation: pig-explain-hand 2.3s ease-in-out infinite;
-}
-.pig-explaining .pig-head {
-  animation: pig-explain-nod 2.3s ease-in-out infinite;
-}
-.pig-surprised .pig-rig {
-  animation: pig-gasp 0.65s cubic-bezier(0.3, 1.4, 0.4, 1);
-}
-.pig-surprised .pig-ear-left {
-  transform: rotate(-9deg);
-}
-.pig-surprised .pig-ear-right {
-  transform: rotate(9deg);
-}
-.pig-surprised .pig-mouth {
-  animation: pig-ooh 2.4s ease-in-out infinite;
-}
-.pig-proud .pig-head {
-  animation: pig-proud-nod 1.4s ease-in-out;
-}
-.pig-proud .pig-arm-right {
-  animation: pig-proud-wave 2.8s ease-in-out infinite;
-}
-.pig-proud .pig-ear-left {
-  transform: rotate(-8deg);
-}
-.pig-celebrate .pig-rig {
-  animation: pig-victory-hop 1.8s ease-in-out infinite;
-}
-.pig-celebrate .pig-arm-left {
-  animation: pig-victory-left 0.65s ease-in-out infinite alternate;
-}
-.pig-celebrate .pig-arm-right {
-  animation: pig-victory-right 0.65s ease-in-out infinite alternate;
-}
-.pig-celebrate .pig-confetti {
-  animation: pig-confetti-pop 1.8s ease-out infinite;
-}
-.pig-celebrate .pig-shadow {
-  animation: pig-shadow-hop 1.8s ease-in-out infinite;
-}
-.pig-oops .pig-head {
-  transform: rotate(-6deg);
-}
-.pig-oops .pig-arm-left {
-  animation: pig-reassure 2.4s ease-in-out infinite;
-}
-.pig-oops .pig-sweat {
-  animation: pig-thought-pop 2.4s infinite;
-}
-@keyframes pig-blink {
-  0%,
-  39%,
-  43%,
-  79%,
-  83%,
-  100% {
-    transform: scaleY(1);
-  }
-  41%,
-  81% {
-    transform: scaleY(0.08);
-  }
-}
-@keyframes pig-head-idle {
-  0%,
-  100% {
-    rotate: -2deg;
-  }
-  50% {
-    rotate: 2deg;
-  }
-}
-@keyframes pig-tail-wiggle {
-  0%,
-  75%,
-  100% {
-    rotate: 0;
-  }
-  82% {
-    rotate: -8deg;
-  }
-  90% {
-    rotate: 8deg;
-  }
-}
-@keyframes pig-think-tilt {
-  0%,
-  100% {
-    rotate: 0;
-  }
-  50% {
-    rotate: 4deg;
-  }
-}
-@keyframes pig-chin-tap {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 1px -2px;
-  }
-}
-@keyframes pig-thought-pop {
-  0%,
-  100% {
-    opacity: 0.4;
-    translate: 0 1px;
-  }
-  50% {
-    opacity: 1;
-    translate: 0 -3px;
-  }
-}
-@keyframes pig-teacher-point {
-  0%,
-  100% {
-    rotate: -3deg;
-  }
-  50% {
-    rotate: 8deg;
-  }
-}
-@keyframes pig-ear-flick {
-  0%,
-  70%,
-  100% {
-    rotate: 0;
-  }
-  78% {
-    rotate: 10deg;
-  }
-  86% {
-    rotate: -3deg;
-  }
-}
-@keyframes pig-talk {
-  from {
-    transform: scaleY(0.6);
-  }
-  to {
-    transform: scaleY(1.2);
-  }
-}
-@keyframes pig-explain-hand {
-  0%,
-  100% {
-    rotate: -3deg;
-  }
-  50% {
-    rotate: 13deg;
-  }
-}
-@keyframes pig-explain-nod {
-  0%,
-  100% {
-    rotate: 0;
-  }
-  45% {
-    rotate: 4deg;
-  }
-}
-@keyframes pig-gasp {
-  0% {
-    transform: scale(1);
-  }
-  45% {
-    transform: translateY(-4px) scale(0.96, 1.06);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes pig-ooh {
-  0%,
-  100% {
-    transform: scale(0.85);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-@keyframes pig-proud-nod {
-  0% {
-    rotate: 0;
-  }
-  35% {
-    rotate: -7deg;
-  }
-  70% {
-    rotate: 3deg;
-  }
-  100% {
-    rotate: 0;
-  }
-}
-@keyframes pig-proud-wave {
-  0%,
-  70%,
-  100% {
-    rotate: 0;
-  }
-  80% {
-    rotate: -15deg;
-  }
-  90% {
-    rotate: 5deg;
-  }
-}
-@keyframes pig-victory-hop {
-  0%,
-  30%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  12% {
-    transform: translateY(-10px) scale(0.98, 1.03);
-  }
-  22% {
-    transform: translateY(0) scale(1.04, 0.96);
-  }
-}
-@keyframes pig-victory-left {
-  from {
-    rotate: -8deg;
-  }
-  to {
-    rotate: 5deg;
-  }
-}
-@keyframes pig-victory-right {
-  from {
-    rotate: 8deg;
-  }
-  to {
-    rotate: -5deg;
-  }
-}
-@keyframes pig-confetti-pop {
-  0% {
-    opacity: 0;
-    scale: 0.7;
-  }
-  20% {
-    opacity: 1;
-    scale: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    scale: 1.1;
-  }
-}
-@keyframes pig-shadow-hop {
-  0%,
-  30%,
-  100% {
-    scale: 1;
-  }
-  12% {
-    scale: 0.82;
-  }
-  22% {
-    scale: 1.05;
-  }
-}
-@keyframes pig-reassure {
-  0%,
-  100% {
-    rotate: 0;
-  }
-  50% {
-    rotate: 8deg;
-  }
+[data-motion-paused="true"] .pig-sheet,
+[data-paused="true"] .pig-sheet,
+body:has(dialog[open], [role="dialog"]) .pig-sheet {
+  animation-play-state: paused;
 }
 @media (prefers-reduced-motion: reduce) {
-  .pig,
-  .pig * {
-    animation: none !important;
-    transition: none !important;
-  }
+  .pig-sheet { animation: none !important; }
+  .pig[data-animated="true"] .pig-still { visibility: visible; }
+  .pig[data-animated="true"] .pig-clip { visibility: hidden; }
 }

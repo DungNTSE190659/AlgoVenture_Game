@@ -1,3 +1,4 @@
+import { useDemoPlayback, useDemoMotionSpeed } from "./useDemoPlayback";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -69,23 +70,8 @@ export default function DemoLesson({
     document.addEventListener("visibilitychange", visibility);
     return () => document.removeEventListener("visibilitychange", visibility);
   }, []);
-  useEffect(() => {
-    if (!playing || settings || !visible || done) return;
-    const timeout = setTimeout(
-      () => setCursor((value) => Math.min(value + 1, frames.length - 1)),
-      frame.duration / speed,
-    );
-    return () => clearTimeout(timeout);
-  }, [
-    playing,
-    settings,
-    visible,
-    done,
-    cursor,
-    frame.duration,
-    speed,
-    frames.length,
-  ]);
+  useDemoPlayback(cursor, frame.duration, speed, playing && !settings && visible && !done, () => setCursor(value => Math.min(value + 1, frames.length - 1)));
+  const motionRoot = useDemoMotionSpeed(speed);
   useEffect(() => {
     if (done) setPlaying(false);
   }, [done]);
@@ -160,6 +146,7 @@ export default function DemoLesson({
       : null);
   return (
     <main
+      ref={motionRoot}
       className={`lesson-world lesson-state-${frame.kind.toLowerCase()}`}
       data-frame={cursor}
       data-kind={frame.kind}

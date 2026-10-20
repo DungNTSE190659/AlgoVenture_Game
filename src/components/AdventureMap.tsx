@@ -47,17 +47,18 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
   const route = region === "arrays" ? ARRAY_ROUTES.find(item => item.id === arrayRoute)! : null;
   const TRACK = route?.lessons ?? territory.lessons;
   const { point, curve, positionOnRoad, height: worldHeight } = geometry(TRACK.length);
+  const openThrough = TRACK.reduce((last, item, index) => lessonUnlocked(item.id, completed) ? index : last, -1);
   const initial = Math.max(0, TRACK.findIndex(item => item.id === (arrivalFrom ?? algorithm)));
+  const initialLocation = arrivalFrom ? initial : Math.max(0, openThrough);
   const [selected, setSelected] = useState(initial);
-  const [location, setLocation] = useState(initial);
-  const [traveler, setTraveler] = useState(point(initial));
+  const [location, setLocation] = useState(initialLocation);
+  const [traveler, setTraveler] = useState(point(initialLocation));
   const [walking, setWalking] = useState(false);
   const mapAudio = useMapAudio();
   const viewport = useRef<HTMLDivElement>(null);
   const animation = useRef(0);
   const arrivalHandled = useRef(false);
   const walkingRef = useRef(false);
-  const openThrough = TRACK.reduce((last, item, index) => lessonUnlocked(item.id, completed) ? index : last, -1);
   const active = TRACK[selected];
   const locked = selected > openThrough;
   const available = lessonAvailable(active.id);
@@ -79,7 +80,7 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
   }, [location]);
   useEffect(() => () => cancelAnimationFrame(animation.current), []);
 
-  function travel(destination: number) {
+  function travel(destination: number, newlyUnlocked = false) {
     if (walkingRef.current) return;
     gameAudio.unlock();
     gameAudio.play(destination > openThrough ? "locked" : "island-select");
@@ -90,6 +91,8 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
     }
     const id = TRACK[destination].id;
     onAlgorithm(id);
+    // Browsing a lesson changes the selection; Buta stays at the latest stop.
+    if (!newlyUnlocked) { center(point(destination).y); return; }
     if (destination === location) { center(point(destination).y); return; }
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
@@ -106,7 +109,7 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
     const distance = Math.abs(destination - origin);
     const direction = Math.sign(destination - origin);
     const started = performance.now();
-    // Visit every intermediate island, including when returning to an older lesson.
+    // Celebrate the newly unlocked lesson along the route.
     function frame(now: number) {
       mapAudio.tick(now - started);
       const progress = Math.min(distance, (now - started) / 1450);
@@ -133,7 +136,8 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
     if (origin < 0) { onArrived(); return; }
     const nextPlayable = TRACK.findIndex((item, index) => index > origin && index <= openThrough && lessonAvailable(item.id));
     const destination = nextPlayable >= 0 ? nextPlayable : Math.min(origin + 1, openThrough);
-    const timer = window.setTimeout(() => { travel(destination); onArrived(); }, 350);
+    const newlyUnlocked = !lessonUnlocked(TRACK[destination].id, { ...completed, [arrivalFrom]: false });
+    const timer = window.setTimeout(() => { travel(destination, newlyUnlocked); onArrived(); }, 350);
     return () => { window.clearTimeout(timer); arrivalHandled.current = false; };
   }, [arrivalFrom]);
 

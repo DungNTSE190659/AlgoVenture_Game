@@ -72,6 +72,29 @@ test("winning Bubble persists progress and Buta walks along the newly opened roa
   await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Selection Sort");
 });
 
+test("revisiting and replaying completed lessons keeps Buta at the newest unlocked stop", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("algoventure.world-progress.v3", '{"bubble":true,"selection":true}'));
+  await openMap(page);
+  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Insertion Sort");
+  const position = await page.locator(".track-buta").getAttribute("style");
+  for (const lesson of ["Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort", "Bubble Sort"]) {
+    await page.getByRole("button", { name: lesson, exact: true }).click();
+    await expect(page.locator("#track-sheet-title")).toHaveText(lesson);
+    await expect(page.locator(".buta-walking")).toHaveCount(0);
+    await expect(page.locator(".track-buta")).toHaveAttribute("style", position!);
+  }
+  await page.getByRole("button", { name: "Thử thách", exact: true }).click();
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, 2");
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
+  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
+  await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
+  await expect(page.locator("#track-sheet-title")).toHaveText("Bubble Sort");
+  await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Insertion Sort");
+  await page.waitForTimeout(600);
+  await expect(page.locator(".buta-walking")).toHaveCount(0);
+});
+
 test("portrait and landscape layouts keep both actions and Buta inside the viewport", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   for (const [width, height] of [[390,844],[375,667],[320,568],[1440,900],[1280,720],[844,390],[667,375]]) {

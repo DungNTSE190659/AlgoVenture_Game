@@ -1,3 +1,4 @@
+import { useDemoPlayback, useDemoMotionSpeed } from "./useDemoPlayback";
 import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { Check, Pause, Play, RotateCcw, SkipBack, SkipForward, Volume2, VolumeX, X } from "lucide-react";
@@ -56,11 +57,8 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
     panel?.showModal();
     return () => { panel?.close(); previous?.focus(); };
   }, [settings]);
-  useEffect(() => {
-    if (!demo || !playing || paused || done) return;
-    const timer = setTimeout(() => setCursor(value => value + 1), Math.max(2000, frame.narration.split(/\s+/).length * 160) / speed);
-    return () => clearTimeout(timer);
-  }, [demo, playing, paused, done, cursor, frame, speed]);
+  useDemoPlayback(cursor, Math.max(2000, frame.narration.split(/\s+/).length * 160), speed, demo && playing && !paused && !done, () => setCursor(value => Math.min(value + 1, frames.length - 1)));
+  const motionRoot = useDemoMotionSpeed(demo ? speed : 1);
   useEffect(() => {
     if (!demo || paused || cursor === 0 || lastCue.current === cursor) return;
     gameAudio.play(frame.cue);
@@ -118,7 +116,7 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
   }
   const title = demo ? frame.title : done ? "Bạn đã làm được!" : "Sắp xếp từ bé đến lớn";
   const instruction = done ? "Mảng đã được sắp xếp!" : "Kéo thả để sắp xếp dãy số.";
-  return <GameLayout play={!demo} className={`insertion-world ${demo ? "insertion-demo" : "insertion-play"}`} data-busy={busy}>
+  return <GameLayout ref={motionRoot} play={!demo} className={`insertion-world ${demo ? "insertion-demo" : "insertion-play"}`} data-busy={busy}>
     {!demo && <World />}
     <GameHeader title="Insertion Sort" className="insertion-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
     <GameStats className="insertion-stats" scoreClassName="insertion-score" score={demo ? undefined : score}>

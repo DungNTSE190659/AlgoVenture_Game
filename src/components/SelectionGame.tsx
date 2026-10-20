@@ -1,3 +1,4 @@
+import { useDemoPlayback, useDemoMotionSpeed } from "./useDemoPlayback";
 import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { Check, Crown, Pause, Play, RotateCcw, Search, SkipBack, SkipForward, Sparkles, Volume2, VolumeX, X } from "lucide-react";
@@ -56,11 +57,8 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     if (paused || motionPaused || !sound) gameAudio.stop();
     if (paused) stopHaptics();
   }, [paused, motionPaused, sound]);
-  useEffect(() => {
-    if (!demo || !playing || paused || done) return;
-    const timer = setTimeout(() => setCursor(value => value + 1), Math.max(1800, frame.narration.split(/\s+/).length * 145 + 500) / speed);
-    return () => clearTimeout(timer);
-  }, [demo, playing, paused, done, frame, speed]);
+  useDemoPlayback(cursor, Math.max(1800, frame.narration.split(/\s+/).length * 145 + 500), speed, demo && playing && !paused && !done, () => setCursor(value => Math.min(value + 1, frames.length - 1)));
+  const motionRoot = useDemoMotionSpeed(demo ? speed : 1);
   useEffect(() => {
     if (!demo || paused || motionPaused || cursor === 0 || lastCue.current === cursor) return;
     gameAudio.play(frame.cue);
@@ -132,7 +130,7 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     : chosen?.id === shown.items[shown.start]?.id ? "Số nhỏ nhất đã ở đúng ô. Bấm Giữ nguyên vị trí để đi tiếp."
     : `Kéo ${chosen?.value} về ô ${shown.start}, hoặc chạm vào ô đó để đổi chỗ.`;
 
-  return <GameLayout play={!demo} className={`selection-world selection-${mode}`} data-busy={busy} data-phase={shown.phase} data-motion-paused={paused || motionPaused}
+  return <GameLayout ref={motionRoot} play={!demo} className={`selection-world selection-${mode}`} data-busy={busy} data-phase={shown.phase} data-motion-paused={paused || motionPaused}
     onPointerDownCapture={event => { touchStart.current = { x: event.clientX, y: event.clientY }; }}
     onPointerUpCapture={event => {
       const start = touchStart.current;
