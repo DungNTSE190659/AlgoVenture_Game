@@ -25,7 +25,7 @@ type Props = {
   arrivalFrom: TrackId | null;
   onArrived: () => void;
 };
-const icons = { bubble: CircleDot, selection: Search, insertion: Layers3, merge: GitMerge, quick: Shuffle, array: Layers3, stack: GalleryVerticalEnd, queue: ListOrdered, "linked-list": Link, "linked-traversal": Route, "linked-search": Search, "linked-insertion": GitMerge, "linked-deletion": Layers3, "linked-reversal": Shuffle, "tree-basics": TreePine, bst: TreePine, "bst-search": Search, "bst-insert": GitMerge, "bst-delete": TreePine, linear: ScanSearch, binary: Search, "graph-basics": Network, dfs: Route, bfs: Network, dijkstra: Flag };
+const icons = { bubble: CircleDot, selection: Search, insertion: Layers3, merge: GitMerge, quick: Shuffle, array: Layers3, stack: GalleryVerticalEnd, queue: ListOrdered, "linked-list": Link, "linked-traversal": Route, "linked-search": Search, "linked-insertion": GitMerge, "linked-deletion": Layers3, "linked-reversal": Shuffle, "tree-basics": TreePine, "tree-traversal": Route, bst: TreePine, "bst-search": Search, "bst-insert": GitMerge, "bst-delete": TreePine, linear: ScanSearch, binary: Search, "graph-basics": Network, dfs: Route, bfs: Network, dijkstra: Flag };
 function geometry(count: number) {
   const point = (index: number) => ({ x: index % 2 ? 270 : 130, y: 160 + (count - 1 - index) * 220 });
   const curve = (from: number, to: number) => {

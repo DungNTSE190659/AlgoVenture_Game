@@ -1,6 +1,6 @@
 import type { Algorithm } from "./gameConfig";
 
-export type TrackId = Algorithm | "selection" | "insertion" | "merge" | "array" | "stack" | "queue" | "linked-list" | "linked-traversal" | "linked-search" | "linked-insertion" | "linked-deletion" | "linked-reversal" | "tree-basics" | "bst" | "bst-search" | "bst-insert" | "bst-delete" | "linear" | "binary" | "graph-basics" | "dfs" | "bfs" | "dijkstra";
+export type TrackId = Algorithm | "selection" | "insertion" | "merge" | "array" | "stack" | "queue" | "linked-list" | "linked-traversal" | "linked-search" | "linked-insertion" | "linked-deletion" | "linked-reversal" | "tree-basics" | "tree-traversal" | "bst" | "bst-search" | "bst-insert" | "bst-delete" | "linear" | "binary" | "graph-basics" | "dfs" | "bfs" | "dijkstra";
 export type RegionId = "arrays" | "linear-structures" | "trees" | "graph";
 export type ArrayRouteId = "sort" | "search";
 export type Progress = Partial<Record<TrackId, boolean>>;
@@ -22,6 +22,7 @@ export const LINEAR_STRUCTURES: Lesson[] = [
 ];
 export const TREES: Lesson[] = [
   { id: "tree-basics", name: "Cây cơ bản", place: "Mầm Cây Đầu Tiên", description: "Làm quen với gốc, nút, cạnh và quan hệ cha con trong cây.", color: "#a8c88c", dark: "#708e55" },
+  { id: "tree-traversal", name: "Duyệt cây", place: "Lối Mòn Qua Tán Lá", description: "Thu hoạch theo preorder, inorder, postorder và từng tầng.", color: "#99b9a0", dark: "#668d70" },
   { id: "bst", name: "BST", place: "Cây Cửa Ngõ", description: "Khám phá cây tìm kiếm nhị phân: nhỏ bên trái, lớn bên phải.", color: "#9abc83", dark: "#63824e" },
   { id: "bst-search", name: "Tìm kiếm trên BST", place: "Theo Nhánh Tìm Số", description: "So sánh với nút hiện tại để chọn nhánh trái hoặc phải.", color: "#8ebbb1", dark: "#5d8d82" },
   { id: "bst-insert", name: "Thêm nút vào BST", place: "Ươm Một Nhánh Mới", description: "Tìm vị trí phù hợp để thêm nút, giữ tính chất cây tìm kiếm nhị phân.", color: "#c3bf86", dark: "#94915c" },
@@ -46,17 +47,19 @@ export const ARRAYS = ARRAY_ROUTES.flatMap(route => route.lessons);
 export const REGIONS: { id: RegionId; name: string; topics: string; place: string; description: string; color: string; lessons: Lesson[] }[] = [
   { id: "arrays", name: "Mảng", topics: "Sort · Search", place: "Quần Đảo Những Ô Số", description: "Khám phá tìm kiếm và sắp xếp trên mảng.", color: "#9bb983", lessons: ARRAYS },
   { id: "linear-structures", name: "Danh sách", topics: "6 thuật toán Linked List", place: "Bến Liên Kết", description: "Lắp, duyệt, tìm, chèn, xóa và đảo ngược danh sách liên kết.", color: "#dfb175", lessons: LINEAR_STRUCTURES },
-  { id: "trees", name: "Cây", topics: "Cây cơ bản · BST", place: "Rừng Cây Tri Thức", description: "Từ kiến thức cây đến tìm kiếm, thêm và xóa trên BST.", color: "#8ebc9a", lessons: TREES },
+  { id: "trees", name: "Cây", topics: "6 bài Tree · BST", place: "Rừng Cây Tri Thức", description: "Từ kiến thức cây đến tìm kiếm, thêm và xóa trên BST.", color: "#8ebc9a", lessons: TREES },
   { id: "graph", name: "Đồ thị", topics: "Đỉnh · Cạnh · Thuật toán", place: "Cao Nguyên Kết Nối", description: "Hiểu đỉnh và cạnh, rồi khám phá DFS, BFS và Dijkstra.", color: "#b0a0cb", lessons: GRAPH },
 ];
 export const ALL_LESSONS = REGIONS.flatMap(region => region.lessons);
 export function arrayRouteForLesson(id: TrackId) { return ARRAY_ROUTES.find(route => route.lessons.some(lesson => lesson.id === id)); }
-export function lessonAvailable(id: TrackId) { return id === "bfs" || id === "binary" || id === "linear" || id === "bubble" || id === "selection" || id === "insertion" || id === "quick" || LINEAR_STRUCTURES.some(lesson => lesson.id === id); }
+export function lessonAvailable(id: TrackId) { return id === "bfs" || id === "binary" || id === "linear" || id === "bubble" || id === "selection" || id === "insertion" || id === "quick" || LINEAR_STRUCTURES.some(lesson => lesson.id === id) || TREES.some(lesson => lesson.id === id); }
 export function regionForLesson(id: TrackId) { return REGIONS.find(region => region.lessons.some(lesson => lesson.id === id))!; }
 export function regionComplete(id: RegionId, progress: Progress) { return REGIONS.find(region => region.id === id)!.lessons.every(lesson => progress[lesson.id]); }
 export function regionUnlocked(id: RegionId, progress: Progress) {
   // Lists can be explored alongside Arrays while the unfinished Array lessons are built.
   if (id === "linear-structures") return true;
+  // Trees have their own sequence, independent of unfinished Array lessons.
+  if (id === "trees") return true;
   // Keep the BFS preview from main available.
   if (id === "graph") return true;
   const index = REGIONS.findIndex(region => region.id === id);

@@ -19,6 +19,8 @@ import { useInterfaceAudio } from "./audio/useInterfaceAudio";
 import { completeLinkedLevel, linkedLevelUnlocked, readLinkedLevelProgress, saveLinkedLevelProgress, type LinkedLevel, type LinkedTrackId } from "./engine/linkedCurriculum";
 import GraphGame from "./components/GraphGame";
 import GraphLesson from "./components/GraphLesson";
+import TreeGame from "./components/TreeGame";
+import type { TreeLessonId } from "./engine/tree";
 import type { GraphDifficulty } from "./engine/graph";
 
 export default function App() {
@@ -92,7 +94,7 @@ export default function App() {
   }
   function chooseMap() {
     const next = nextLesson(algorithm);
-    if (arrivalFrom && next && regionForLesson(next.id).id !== region && lessonUnlocked(next.id, completed)) {
+    if (arrivalFrom && next && lessonAvailable(next.id) && regionForLesson(next.id).id !== region && lessonUnlocked(next.id, completed)) {
       gameAudio.stop();
       const destination = regionForLesson(next.id).id;
       setWorldArrival(region);
@@ -157,6 +159,7 @@ export default function App() {
     );
   if (algorithm === "selection") return <SelectionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "insertion") return <InsertionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
+  if (regionForLesson(algorithm).id === "trees") return <TreeGame key={`${session}:${scene}:${algorithm}`} algorithm={algorithm as TreeLessonId} mode={scene} sound={sound} onSoundChange={changeSound} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} />;
   if (algorithm === "bubble")
     return (
       <BubbleGame
