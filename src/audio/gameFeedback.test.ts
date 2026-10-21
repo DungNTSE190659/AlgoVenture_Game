@@ -30,6 +30,8 @@ describe("gameplay feedback", () => {
     vi.stubGlobal("navigator", { vibrate, userActivation: { hasBeenActive: false } });
     playFeedback("correct");
     expect(vibrate).not.toHaveBeenCalled();
+    stopHaptics();
+    expect(vibrate).not.toHaveBeenCalled();
     vi.stubGlobal("document", { hidden: true });
     playFeedback("retry");
     expect(vibrate).not.toHaveBeenCalled();

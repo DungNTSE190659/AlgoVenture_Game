@@ -12,13 +12,13 @@ async function choose(page: Page, name: string) {
   await expect(page.locator("#atlas-title")).toHaveText(name);
 }
 
-test("Lists opens from the world map while later locked topics stay inaccessible", async ({ page }) => {
+test("Lists and Tree open independently from the world map", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   await page.goto("/");
   await expect(page.locator(".atlas-slide")).toHaveCount(4);
   await expect(page.locator(".slide-selected")).toHaveCount(1);
-  await expect(page.locator(".region-locked")).toHaveCount(2);
+  await expect(page.locator(".region-locked")).toHaveCount(0);
   await expect(page.locator(".atlas-buta")).toHaveAttribute("aria-label", "Buta đang ở Mảng");
   await choose(page, "Danh sách");
   await expect(page.getByRole("button", { name: "Danh sách", exact: true })).toBeEnabled();
@@ -35,14 +35,14 @@ test("Lists opens from the world map while later locked topics stay inaccessible
   expect(errors).toEqual([]);
 });
 
-test("only complete subjects unlock subsequent subjects, with every topic's correct lessons", async ({ page }) => {
+test("each subject shows its current lessons while local prerequisites remain intact", async ({ page }) => {
   // Each fixture has exactly the preceding subjects completed, never the next subject.
   let progress: Record<string, boolean> = {};
   for (const [index, region] of REGIONS.entries()) {
     await page.goto("/");
     await page.evaluate(data => localStorage.setItem("algoventure.world-progress.v3", JSON.stringify(data)), progress);
     await page.reload();
-    await expect(page.locator(".region-locked")).toHaveCount(index === 0 ? 2 : REGIONS.length - index - 1);
+    await expect(page.locator(".region-locked")).toHaveCount(0);
     await choose(page, region.name);
     await page.locator(".atlas-enter").click();
     if (region.id === "arrays") {
@@ -66,7 +66,7 @@ test("unfinished Array challenges do not block Lists", async ({ page }) => {
   await choose(page, "Danh sách");
   await expect(page.locator(".atlas-enter")).toBeEnabled();
   await expect(page.getByRole("button", { name: "Danh sách", exact: true })).toBeEnabled();
-  await expect(page.locator(".region-locked")).toHaveCount(2);
+  await expect(page.locator(".region-locked")).toHaveCount(0);
 });
 
 test("Bubble demo never unlocks Selection Sort", async ({ page }) => {
@@ -91,7 +91,7 @@ test("Bubble victory opens Selection Sort and Buta walks there", async ({ page }
   await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Selection Sort");
   await expect(page.locator(".stop-locked")).toHaveCount(3);
   await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
-  await expect(page.locator(".region-locked")).toHaveCount(2);
+  await expect(page.locator(".region-locked")).toHaveCount(0);
   await page.reload();
   await expect(page.locator(".atlas-region-progress")).toHaveText("1/7");
   await page.locator(".atlas-enter").click();
@@ -177,7 +177,7 @@ test("old saves preserve completed lessons without bypassing subject prerequisit
   await page.addInitScript(() => localStorage.setItem("algoventure.learning-track.v1", '{"bubble":true}'));
   await page.goto("/");
   await expect(page.locator("#atlas-title")).toHaveText("Mảng");
-  await expect(page.locator(".region-locked")).toHaveCount(2);
+  await expect(page.locator(".region-locked")).toHaveCount(0);
   await page.getByRole("button", { name: "Mảng", exact: true }).click();
   await expect(page.locator(".stop-complete")).toHaveCount(1);
   await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();

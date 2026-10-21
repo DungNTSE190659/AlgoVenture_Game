@@ -5,8 +5,8 @@ const completedArrays = Object.fromEntries(ARRAYS.map(lesson => [lesson.id, true
 describe("curriculum and progress", () => {
   it("teaches sorting and searching inside Array without BST prerequisites", () => {
     expect(REGIONS.map(region => region.id)).toEqual(["arrays", "linear-structures", "trees", "graph"]);
-    expect(ALL_LESSONS).toHaveLength(22);
-    expect(new Set(ALL_LESSONS.map(lesson => lesson.id)).size).toBe(22);
+    expect(ALL_LESSONS).toHaveLength(23);
+    expect(new Set(ALL_LESSONS.map(lesson => lesson.id)).size).toBe(23);
     expect(LINEAR_STRUCTURES.map(lesson => lesson.id)).toEqual(["linked-list", "linked-traversal", "linked-search", "linked-insertion", "linked-deletion", "linked-reversal"]);
     expect(ARRAYS.map(lesson => lesson.id)).toEqual(["bubble", "selection", "insertion", "merge", "quick", "linear", "binary"]);
     expect(regionForLesson("bubble").id).toBe("arrays");
@@ -16,8 +16,13 @@ describe("curriculum and progress", () => {
     expect(lessonUnlocked("linear", { array: true })).toBe(true);
     expect(lessonUnlocked("binary", { array: true, linear: true })).toBe(true);
   });
-  it("keeps demo preview regions open and gates trees by completion", () => {
+  it("opens Tree independently and gates its own lessons by completion", () => {
     expect(regionUnlocked("arrays", {})).toBe(true);
+    expect(regionUnlocked("trees", {})).toBe(true);
+    expect(lessonUnlocked("tree-basics", {})).toBe(true);
+    expect(lessonUnlocked("tree-traversal", {})).toBe(false);
+    expect(lessonUnlocked("tree-traversal", { "tree-basics": true })).toBe(true);
+    expect(lessonUnlocked("bst", { "tree-basics": true })).toBe(false);
     expect(regionUnlocked("linear-structures", {})).toBe(true);
     expect(regionComplete("arrays", completedArrays)).toBe(true);
     expect(regionUnlocked("linear-structures", completedArrays)).toBe(true);
@@ -39,7 +44,8 @@ describe("curriculum and progress", () => {
     expect(progress).toEqual({ bubble: true, bst: true });
     expect(currentLesson(progress).id).toBe("selection");
     expect(lessonUnlocked("quick", progress)).toBe(false);
-    expect(regionUnlocked("trees", progress)).toBe(false);
+    expect(regionUnlocked("trees", progress)).toBe(true);
+    expect(lessonUnlocked("bst-search", progress)).toBe(false);
   });
   it("imports v1 saves and prefers the current save when it exists", () => {
     vi.stubGlobal("localStorage", { getItem: (key: string) => key === "algoventure.learning-track.v1" ? '{"bubble":true}' : null });

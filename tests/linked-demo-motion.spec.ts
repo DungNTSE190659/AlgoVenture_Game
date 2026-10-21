@@ -49,7 +49,9 @@ test('Traversal animates wire endpoints and the pig; autoplay uses the same move
   // Finish building (16 actions), ready, pick up pig, place on HEAD.
   for (let step = 10; step < 19; step++) await next.click();
   await expect(page.locator('[data-linked-demo-motion="pig"]')).toHaveCount(1);
+  await expect(page.locator('.journey-pig .pig')).toHaveCSS('opacity', '0');
   await expect(page.locator('[data-linked-demo-motion]')).toHaveCount(0);
+  await expect(page.locator('.journey-pig .pig')).toHaveCSS('opacity', '1');
   await page.getByRole('button', { name: /Tốc độ demo/ }).click();
   await page.getByRole('button', { name: /Tốc độ demo/ }).click();
   await page.getByRole('button', { name: 'Tiếp tục', exact: true }).click();

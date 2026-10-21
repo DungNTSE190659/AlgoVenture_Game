@@ -20,6 +20,7 @@ import "./binary.css";
 import "./linear-cards.css";
 import "./linkedResponsive.css";
 import "./graph.css";
+import "./tree.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

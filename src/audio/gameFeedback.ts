@@ -11,7 +11,9 @@ export function readHapticsPreference() {
   catch { return preference; }
 }
 export function stopHaptics() {
-  try { if (typeof navigator !== "undefined") navigator.vibrate?.(0); } catch { /* Optional hardware. */ }
+  try {
+    if (typeof navigator !== "undefined" && navigator.userActivation?.hasBeenActive !== false) navigator.vibrate?.(0);
+  } catch { /* Optional hardware. */ }
 }
 export function setHapticsEnabled(enabled: boolean) {
   preference = enabled;
