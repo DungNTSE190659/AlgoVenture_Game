@@ -223,7 +223,7 @@ export default function BubbleGame({
           : `${a} nhỏ hơn ${b}, nên hai số đã đúng thứ tự từ bé đến lớn. Bấm Giữ nguyên để xét cặp tiếp theo, không cần đổi chỗ nhé.`;
   return (
     <GameLayout ref={motionRoot} play={!demo}
-      className={`bubble-world ${demo ? "bubble-demo" : "bubble-play"}`}
+      className={`bubble-world ${demo ? "bubble-demo algorithm-demo" : "bubble-play"}`}
       data-busy={!!busy}
       onPointerDownCapture={(event) => {
         touchStart.current = { x: event.clientX, y: event.clientY };
@@ -375,7 +375,7 @@ export default function BubbleGame({
         )}
       </section>
       {demo ? (
-        <>
+        <div className="demo-panel">
           <div className="bubble-dialogue">
             <Pig mood={frame.mood} />
             <p aria-live="polite">{frame.narration}</p>
@@ -391,7 +391,7 @@ export default function BubbleGame({
                 <SkipBack size={22} />
               </button>
               <button
-                className="chunky-button button-purple"
+                className={`chunky-button ${done ? "button-green" : "button-purple"}`}
                 onClick={() => {
                   gameAudio.unlock();
                   if (done) onPlay();
@@ -444,7 +444,7 @@ export default function BubbleGame({
               </button>
             </div>
           </footer>
-        </>
+        </div>
       ) : (
         !done && (
           <GameFooter className="bubble-play-footer">

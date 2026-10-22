@@ -147,7 +147,7 @@ export default function DemoLesson({
   return (
     <main
       ref={motionRoot}
-      className={`lesson-world lesson-state-${frame.kind.toLowerCase()}`}
+      className={`lesson-world algorithm-demo lesson-state-${frame.kind.toLowerCase()}`}
       data-frame={cursor}
       data-kind={frame.kind}
       data-motion-paused={motionPaused || settings || !visible}
@@ -292,6 +292,7 @@ export default function DemoLesson({
           )}
         </div>
       </section>
+      <div className="demo-panel">
       <div className="lesson-narrator">
         <div className="lesson-pig-stage">
           <Pig key={`${cursor}-${frame.mood}`} mood={frame.mood} />
@@ -383,6 +384,7 @@ export default function DemoLesson({
           </button>
         </div>
       </footer>
+      </div>
       {settings && (
         <LessonSettings onClose={() => setSettings(false)}>
           <button

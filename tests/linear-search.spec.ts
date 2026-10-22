@@ -165,7 +165,7 @@ test("demo steps backward, pauses autoplay and never awards completion", async (
   await expect(previousStep).toBeEnabled();
   await previousStep.click();
   await expect(previousStep).toBeDisabled();
-  await page.getByRole("button", { name: "Tự động chạy", exact: true }).click();
+  await page.getByRole("button", { name: "Bắt đầu", exact: true }).click();
   await page.getByRole("button", { name: "Tạm dừng", exact: true }).click();
   const pausedProgress = await page.getByRole("progressbar").getAttribute("value");
   await page.waitForTimeout(2000);

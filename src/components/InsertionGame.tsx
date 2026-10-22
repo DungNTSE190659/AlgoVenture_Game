@@ -116,7 +116,7 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
   }
   const title = demo ? frame.title : done ? "Bạn đã làm được!" : "Sắp xếp từ bé đến lớn";
   const instruction = done ? "Mảng đã được sắp xếp!" : "Kéo thả để sắp xếp dãy số.";
-  return <GameLayout ref={motionRoot} play={!demo} className={`insertion-world ${demo ? "insertion-demo" : "insertion-play"}`} data-busy={busy}>
+  return <GameLayout ref={motionRoot} play={!demo} className={`insertion-world ${demo ? "insertion-demo algorithm-demo" : "insertion-play"}`} data-busy={busy}>
     {!demo && <World />}
     <GameHeader title="Insertion Sort" className="insertion-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
     <GameStats className="insertion-stats" scoreClassName="insertion-score" score={demo ? undefined : score}>
@@ -135,11 +135,11 @@ export default function InsertionGame({ mode, input, difficulty, sound, speed, o
         <GameHintButton className="bubble-hint-button" aria-expanded={hint} disabled={busy || paused} onClick={() => { gameAudio.unlock(); playFeedback("hint"); setHint(value => !value); }} />
         {hint && <div className="insertion-dialogue insertion-hint"><Pig mood="thinking" /><p>{insertionInstruction(shown)}</p><button className="round-button" aria-label="Đóng gợi ý" onClick={() => setHint(false)}><X size={18} /></button></div>}
     </GameFooter>}
-    {demo && <footer className="insertion-controls">
+    {demo && <footer className="insertion-controls demo-panel">
       <div className="insertion-dialogue"><Pig mood={done ? "celebrate" : frame.cue === "pivot" ? "thinking" : "explaining"} /><p aria-live="polite">{frame.narration}</p></div>
       <div className="insertion-playback">
         <button className="round-button" aria-label="Bước trước" disabled={cursor === 0} onClick={() => step(-1)}><SkipBack size={22} /></button>
-        <button className="chunky-button button-purple" onClick={() => { gameAudio.unlock(); if (done) onPlay(); else { setMotionPaused(playing); setPlaying(value => !value); } }}>{playing && !done ? <Pause size={22} /> : <Play size={22} />}{done ? "Tự mình thử" : playing ? "Tạm dừng" : cursor === 0 ? "Bắt đầu" : "Tiếp tục"}</button>
+        <button className={`chunky-button ${done ? "button-green" : "button-purple"}`} onClick={() => { gameAudio.unlock(); if (done) onPlay(); else { setMotionPaused(playing); setPlaying(value => !value); } }}>{playing && !done ? <Pause size={22} /> : <Play size={22} />}{done ? "Tự mình thử" : playing ? "Tạm dừng" : cursor === 0 ? "Bắt đầu" : "Tiếp tục"}</button>
         <button className="round-button" aria-label={done ? "Xem lại từ đầu" : "Bước tiếp"} onClick={() => done ? reset() : step(1)}>{done ? <RotateCcw size={22} /> : <SkipForward size={22} />}</button>
       </div>
       <div className="insertion-demo-progress"><span>{cursor + 1}/{frames.length}</span><progress value={cursor} max={frames.length - 1} aria-label="Tiến trình demo" /><button className="lesson-speed-button" aria-label={`Tốc độ demo: ${speed}x. Bấm để đổi tốc độ`} onClick={() => onSpeedChange(speed === 1 ? 1.5 : speed === 1.5 ? 2 : 1)}>{speed}x</button></div>

@@ -1,0 +1,292 @@
+/* Shared presentation for sorting, search, Stack and Queue demos. Algorithm boards retain
+   their own state colors and geometry; learner-facing chrome uses one scale. */
+.algorithm-demo {
+  --demo-pig: clamp(76px, 12dvh, 108px);
+  --demo-copy: clamp(20px, 2.6dvh, 23px);
+  --demo-primary-width: 180px;
+  --demo-primary-height: 48px;
+  --demo-control-gap: 14px;
+  --demo-progress-width: 150px;
+  --demo-purple: #a284cc;
+  --demo-purple-shadow: #8161a6;
+  --demo-green: #8eb472;
+  --demo-green-shadow: #6d9252;
+  --demo-text: #56694e;
+  background: radial-gradient(ellipse at 15% 90%, #e7eedb, transparent 46%),
+    radial-gradient(ellipse at 90% 3%, #eaf2ed, transparent 40%), #f8f8ee;
+  color: var(--demo-text);
+  overflow: auto;
+}
+.algorithm-demo.lesson-world { grid-template-rows: 64px minmax(0, 1fr) auto; }
+.algorithm-demo .lesson-header {
+  flex: 0 0 64px;
+  height: 64px;
+  min-height: 64px;
+  padding: 8px 32px;
+}
+.algorithm-demo .lesson-header h1 { font-size: 23px; color: #5c695b; }
+.algorithm-demo .lesson-header .round-button { width: 44px; height: 44px; border-radius: 14px; }
+.algorithm-demo .lesson-header svg { width: 23px; height: 23px; }
+.algorithm-demo > :is(.bubble-content, .selection-content, .insertion-content, .merge-content) { min-height: 300px; }
+.algorithm-demo :is(.lesson-title, .bubble-content h2, .selection-content h2, .insertion-content h2) {
+  font-size: clamp(26px, 4dvh, 36px);
+  font-weight: 1000;
+  color: #56694e;
+}
+.algorithm-demo .demo-panel {
+  grid-column: 1 / -1;
+  grid-row: auto;
+  flex-shrink: 0;
+  width: 100%;
+  min-width: 0;
+  padding: 0 20px max(14px, env(safe-area-inset-bottom));
+}
+.algorithm-demo :is(.lesson-narrator, .bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: auto;
+  justify-content: center;
+  gap: 16px;
+  width: min(100%, 1000px);
+  max-width: 1000px;
+  min-height: 0;
+  padding: 0;
+  margin: 0 auto 12px;
+}
+.algorithm-demo .lesson-narrator .lesson-pig-stage {
+  order: 0;
+  width: var(--demo-pig);
+  height: auto;
+  flex: 0 0 var(--demo-pig);
+  align-self: center;
+}
+.algorithm-demo :is(.lesson-pig-stage, .bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) .pig {
+  width: var(--demo-pig);
+  height: calc(var(--demo-pig) * 10 / 9);
+  max-height: none;
+  flex: 0 0 var(--demo-pig);
+  filter: drop-shadow(0 5px 0 #485b3907);
+}
+.algorithm-demo :is(.bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) p,
+.algorithm-demo .lesson-narrator .lesson-narration {
+  order: 1;
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  max-width: 880px;
+  margin: 0;
+  padding: 14px 20px;
+  border: 2px solid #e2e8d5;
+  border-radius: 22px;
+  background: #fffef7;
+  box-shadow: 0 4px 0 #d3dec355;
+  color: var(--demo-text);
+  font-size: var(--demo-copy);
+  font-weight: 850;
+  line-height: 1.55;
+}
+.algorithm-demo .lesson-narrator .lesson-narration p { margin: 0; color: inherit; font-size: inherit; font-weight: inherit; line-height: inherit; }
+.algorithm-demo :is(.bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) p::before,
+.algorithm-demo .lesson-narrator .lesson-narration::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: calc(50% - 7px);
+  bottom: auto;
+  width: 12px;
+  height: 12px;
+  background: #fffef7;
+  border: 2px solid #e2e8d5;
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(45deg);
+  rotate: none;
+}
+.algorithm-demo :is(.lesson-controls, .bubble-controls) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  grid-column: auto;
+  grid-row: auto;
+}
+.algorithm-demo :is(.lesson-control-buttons, .bubble-playback, .selection-playback, .insertion-playback, .merge-playback, .stack-playback) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--demo-control-gap);
+}
+.algorithm-demo :is(.lesson-control-buttons, .bubble-playback, .selection-playback, .insertion-playback, .merge-playback, .stack-playback) > .round-button {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 2px solid #fff;
+  border-radius: 14px;
+  color: #8e78aa;
+  background: #f3edf9;
+  box-shadow: 0 3px 0 #c6b5d8;
+}
+.algorithm-demo :is(.lesson-control-buttons, .bubble-playback, .selection-playback, .insertion-playback, .merge-playback, .stack-playback) > .chunky-button {
+  width: var(--demo-primary-width);
+  min-width: var(--demo-primary-width);
+  height: var(--demo-primary-height);
+  min-height: var(--demo-primary-height);
+  padding: 0 16px;
+  border-radius: 16px;
+  border: 3px solid #ffffff6b;
+  font-size: 17px;
+  color: #fff;
+  gap: 8px;
+  background: var(--demo-purple);
+  box-shadow: 0 5px 0 var(--demo-purple-shadow);
+}
+.algorithm-demo :is(.lesson-control-buttons, .bubble-playback, .selection-playback, .insertion-playback, .merge-playback, .stack-playback) > .button-green {
+  background: var(--demo-green);
+  box-shadow: 0 5px 0 var(--demo-green-shadow);
+}
+.algorithm-demo .demo-panel button:active:not(:disabled) { translate: 0 2px; }
+.algorithm-demo .demo-panel button > svg { width: 22px; height: 22px; fill: none; }
+.algorithm-demo :is(.lesson-playback-status, .bubble-step-status, .selection-demo-progress, .insertion-demo-progress, .merge-demo-progress, .linear-demo-progress, .binary-demo-progress, .stack-demo-progress) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0 0;
+  color: #7c8972;
+  font-size: 12px;
+}
+.algorithm-demo .lesson-progress.step-indicator { gap: 10px; font-size: inherit; color: inherit; line-height: 1; }
+.algorithm-demo :is(.demo-panel progress, .lesson-progress > div) {
+  appearance: none;
+  width: var(--demo-progress-width);
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: #dfe5d5;
+  overflow: hidden;
+  accent-color: var(--demo-purple);
+}
+.algorithm-demo .demo-panel progress::-webkit-progress-bar { background: #dfe5d5; }
+.algorithm-demo .demo-panel progress::-webkit-progress-value { border-radius: 8px; background: var(--demo-purple); }
+.algorithm-demo .demo-panel progress::-moz-progress-bar { border-radius: 8px; background: var(--demo-purple); }
+.algorithm-demo .lesson-progress > div > i { background: var(--demo-purple); }
+.algorithm-demo .lesson-speed-button { height: 30px; min-width: 54px; font-size: 13px; border-radius: 10px; }
+
+/* Search uses the same guide panel as Sort; its number grid can scroll
+   independently when the available board area is small. */
+.algorithm-demo:is(.linear-demo, .binary-demo) {
+  display: grid;
+  height: 100dvh;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 64px 26px minmax(0, 1fr) auto;
+}
+.algorithm-demo > :is(.linear-content, .binary-content) {
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  padding: 8px 16px;
+}
+.algorithm-demo :is(.linear-content, .binary-content) h2 {
+  font-size: clamp(26px, 4dvh, 36px);
+  color: var(--demo-text);
+}
+.algorithm-demo :is(.linear-stats, .binary-stats) { min-height: 26px; font-size: 12px; }
+.algorithm-demo :is(.linear-board-scroll, .binary-board-scroll) { min-height: 0; }
+.algorithm-demo .binary-step-explanation { flex-shrink: 0; }
+
+@media (max-width: 700px) {
+  .algorithm-demo { --demo-pig: 76px; --demo-copy: 14px; --demo-primary-width: 166px; --demo-progress-width: 120px; --demo-control-gap: 10px; }
+  .algorithm-demo .lesson-header { padding: 8px 16px; }
+  .algorithm-demo .lesson-header h1 { font-size: 21px; }
+  .algorithm-demo :is(.linear-content, .binary-content) h2 { font-size: 26px; }
+  .algorithm-demo :is(.lesson-title, .bubble-content h2, .selection-content h2, .insertion-content h2) { font-size: 26px; }
+  .algorithm-demo .demo-panel { padding-left: 14px; padding-right: 14px; }
+  .algorithm-demo :is(.lesson-narrator, .bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) { gap: 10px; }
+  .algorithm-demo :is(.bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) p,
+  .algorithm-demo .lesson-narrator .lesson-narration { padding: 11px 13px; border-radius: 18px; }
+  .algorithm-demo :is(.lesson-control-buttons, .bubble-playback, .selection-playback, .insertion-playback, .merge-playback, .stack-playback) > .chunky-button { font-size: 16px; }
+  .algorithm-demo .lesson-speed-button { min-width: 49px; height: 28px; font-size: 12px; }
+}
+@media (min-width: 1024px) and (min-height: 521px) {
+  .algorithm-demo.bubble-demo { grid-template-rows: 64px minmax(0, 1fr) auto; }
+  .algorithm-demo > :is(.bubble-content, .selection-content, .insertion-content, .merge-content) { min-height: 0; }
+}
+@media (min-width: 701px) and (min-height: 521px) and (max-height: 650px) {
+  .algorithm-demo { --demo-copy: 17px; --demo-pig: 64px; }
+  .algorithm-demo :is(.bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) p,
+  .algorithm-demo .lesson-narrator .lesson-narration { padding: 10px 16px; }
+  .algorithm-demo .bubble-board-area { margin-top: 20px; margin-bottom: 0; }
+  .algorithm-demo .bubble-board { --tile: min(64px, calc((100vw - 82px - (var(--count) - 1) * 14px) / var(--count))); }
+}
+@media (max-width: 700px) and (max-height: 700px) and (orientation: portrait) {
+  .algorithm-demo { --demo-pig: 64px; --demo-copy: 13px; }
+  .algorithm-demo > :is(.bubble-content, .selection-content, .insertion-content, .merge-content) { min-height: 0; }
+}
+@media (max-width: 700px) and (max-height: 610px) and (orientation: portrait) {
+  .algorithm-demo { --demo-copy: 12px; }
+  .algorithm-demo .lesson-stage { grid-template-rows: 50px minmax(128px, 1fr) 74px; }
+}
+/* Short landscape displays give the board and guide their own columns,
+   keeping narration and playback on screen throughout every demo. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .algorithm-demo, .algorithm-demo.lesson-world, .algorithm-demo:is(.linear-demo, .binary-demo) {
+    --demo-pig: 64px;
+    --demo-copy: 12px;
+    --demo-primary-width: 145px;
+    --demo-primary-height: 44px;
+    --demo-control-gap: 9px;
+    --demo-progress-width: 105px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(290px, 37%);
+    grid-template-rows: 56px auto minmax(0, 1fr);
+  }
+  .algorithm-demo .lesson-header { grid-column: 1 / -1; grid-row: 1; height: 56px; min-height: 56px; padding: 6px 16px; }
+  .algorithm-demo .lesson-header h1 { font-size: 21px; }
+  .algorithm-demo > :is(.selection-stats, .insertion-stats) { grid-column: 1; grid-row: 2; font-size: 11px; padding: 0 8px; }
+  .algorithm-demo > :is(.bubble-content, .selection-content, .insertion-content, .merge-content, .lesson-stage) {
+    grid-column: 1;
+    grid-row: 2 / 4;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    padding: 4px 10px;
+  }
+  .algorithm-demo > :is(.selection-content, .insertion-content) { grid-row: 3; }
+  .algorithm-demo > :is(.linear-stats, .binary-stats) { grid-column: 1; grid-row: 2; font-size: 11px; padding: 0 8px; }
+  .algorithm-demo > :is(.linear-content, .binary-content, .stack-content, .queue-content) {
+    grid-column: 1;
+    grid-row: 2 / 4;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    min-width: 0;
+    padding: 4px 10px;
+  }
+  .algorithm-demo > :is(.linear-content, .binary-content) { grid-row: 3; }
+  .algorithm-demo :is(.linear-content, .binary-content) h2 { font-size: 22px; margin: 4px 0; }
+  .algorithm-demo .linear-target { margin-top: 4px; padding: 4px 10px; }
+  .algorithm-demo .linear-target strong { font-size: 23px; }
+  .algorithm-demo .linear-board-scroll { padding-top: 28px; }
+  .algorithm-demo .binary-content { gap: 4px; }
+  .algorithm-demo .binary-range { font-size: 11px; }
+  .algorithm-demo .binary-grid { grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); gap: 26px 8px; padding: 12px 6px 25px; }
+  .algorithm-demo .binary-tile { min-height: 44px; }
+  .algorithm-demo .demo-panel { grid-column: 2; grid-row: 2 / 4; align-self: center; max-height: 100%; overflow: auto; padding: 8px 12px 12px; }
+  .algorithm-demo :is(.lesson-narrator, .bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) { gap: 10px; }
+  .algorithm-demo :is(.bubble-dialogue, .selection-dialogue, .insertion-dialogue, .merge-dialogue) p,
+  .algorithm-demo .lesson-narrator .lesson-narration { padding: 10px 12px; border-radius: 16px; }
+  .algorithm-demo :is(.lesson-control-buttons, .bubble-playback, .selection-playback, .insertion-playback, .merge-playback, .stack-playback) > .chunky-button { font-size: 14px; }
+  .algorithm-demo :is(.lesson-title, .bubble-content h2, .selection-content h2, .insertion-content h2) { font-size: 22px; margin: 4px 0; }
+  .algorithm-demo :is(.selection-task, .insertion-task, .bubble-rule) { font-size: 12px; }
+  .algorithm-demo .lesson-stage { grid-template-rows: 42px minmax(100px, 1fr) 68px; }
+  .algorithm-demo .selection-board-scroll { padding-top: 38px; padding-bottom: 0; }
+  .algorithm-demo .insertion-board-scroll { padding-top: 8px; padding-bottom: 0; }
+  .algorithm-demo .insertion-board { --tile: 48px; --step: 58px; height: 176px; }
+  .algorithm-demo .insertion-content { justify-content: flex-start; }
+  .algorithm-demo .bubble-board-area { margin: 30px 0 0; }
+}

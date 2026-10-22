@@ -84,14 +84,14 @@ test("touch controls reject a false FLAG and wrong POP without consuming the bra
   await page.getByRole("button",{name:"PUSH",exact:true}).tap();await expect(page.locator(".stack-world")).toHaveAttribute("data-index","1");await expect(page.locator(".stack-tower [data-stack-value]")).toHaveText([token!]);await expect(page.locator(".stack-world")).toHaveAttribute("data-hearts","1");await context.close();
 });
 
-test("Demo illustration and Buta speech stay large on desktop and phones",async({page})=>{
+test("Demo illustration stays legible and Buta follows the shared responsive scale",async({page})=>{
   for(const[width,height]of [[1440,900],[1280,580],[390,844],[320,568],[844,390]]){
     await page.setViewportSize({width,height});await enter(page,true);await page.getByRole("button",{name:"Bước tiếp",exact:true}).click();await page.getByRole("button",{name:"Bước tiếp",exact:true}).click();
     const sizes=await page.locator(".stack-demo").evaluate(n=>{
       const p=n.querySelector(".stack-dialogue p")!,tube=n.querySelector(".stack-tube")!,token=n.querySelector(".stack-token")!;
       return {pig:n.querySelector(".stack-dialogue .pig")!.getBoundingClientRect().width,font:parseFloat(getComputedStyle(p).fontSize),speech:p.getBoundingClientRect().width,tube:tube.getBoundingClientRect().width,token:parseFloat(getComputedStyle(token).fontSize)};
     });
-    expect(sizes.tube).toBeGreaterThanOrEqual(width>1000?240:168);expect(sizes.token).toBeGreaterThanOrEqual(29);expect(sizes.font).toBeGreaterThanOrEqual(width>1000?20:14);expect(sizes.speech).toBeGreaterThan(width>1000?400:130);expect(sizes.pig).toBeGreaterThanOrEqual(width>1000?132:86);
+    expect(sizes.tube).toBeGreaterThanOrEqual(width>1000?240:168);expect(sizes.token).toBeGreaterThanOrEqual(29);expect(sizes.font).toBeGreaterThanOrEqual(width>1000?(height>650?20:17):(height>700?14:12));expect(sizes.speech).toBeGreaterThan(width>1000?400:130);expect(sizes.pig).toBeCloseTo(width>1000?(height>650?108:64):(width<=700&&height>700?76:64),1);
     await expect(page.locator(".stack-world code")).toHaveCount(0);await page.screenshot({path:`.qa/stack-large-${width}.png`});
   }
 });
@@ -107,10 +107,10 @@ test("wave result is a compact inline notice, stays paused with hints and clears
 });
 
 
-test("Stack reuses Search speech styling with a content-sized bubble",async({page})=>{
+test("Stack reuses Search speech styling with a stable bubble width",async({page})=>{
   await page.setViewportSize({width:1440,height:900});await enter(page,true);
   const measure=()=>page.locator(".stack-dialogue .lesson-narration").evaluate(n=>({width:n.getBoundingClientRect().width,height:n.getBoundingClientRect().height,padding:getComputedStyle(n).padding,radius:getComputedStyle(n).borderRadius,background:getComputedStyle(n).backgroundColor,minimum:getComputedStyle(n).minHeight}));
-  const long=await measure();await page.getByRole("button",{name:"Bước tiếp",exact:true}).click();const short=await measure();expect(short.width).toBeLessThan(long.width-100);expect(["auto","0px"]).toContain(short.minimum);
+  const long=await measure();await page.getByRole("button",{name:"Bước tiếp",exact:true}).click();const short=await measure();expect(short.width).toBeCloseTo(long.width,1);expect(short.height).toBeLessThanOrEqual(long.height);expect(["auto","0px"]).toContain(short.minimum);
   const pig=await page.locator(".stack-dialogue .pig").evaluate(n=>n.getBoundingClientRect().width);
   await page.getByRole("button",{name:"Về bản đồ",exact:true}).click();await page.getByRole("button",{name:"Lộ trình Search",exact:true}).click();await page.getByRole("button",{name:"Linear Search",exact:true}).click();await page.getByRole("button",{name:"Xem demo",exact:true}).click();
   const search=await page.locator(".linear-dialogue .lesson-narration").evaluate(n=>({padding:getComputedStyle(n).padding,radius:getComputedStyle(n).borderRadius,background:getComputedStyle(n).backgroundColor}));expect({padding:short.padding,radius:short.radius,background:short.background}).toEqual(search);expect(pig).toBe(await page.locator(".linear-dialogue .pig").evaluate(n=>n.getBoundingClientRect().width));

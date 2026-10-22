@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowRight, AudioLines, Check, ChevronLeft, ChevronRight, Compass, Flag, LockKeyhole } from "lucide-react";
+import { ArrowRight, AudioLines, Check, ChevronLeft, ChevronRight, Compass, Flag, GraduationCap, LockKeyhole } from "lucide-react";
+import ClassroomHub from "./ClassroomHub";
 import Pig from "./Pig";
 import RegionLandmark from "./RegionLandmark";
 import { gameAudio } from "../audio/gameAudio";
@@ -37,6 +38,7 @@ function RegionTerrain({ index }: { index: number }) {
 }
 
 export default function WorldMap({ completed, sound, onSound, onEnter, location, onLocation, arrivalFrom, onArrived }: Props) {
+  const [classroomOpen, setClassroomOpen] = useState(false);
   const initial = REGIONS.findIndex(region => region.id === location);
   const [selected, setSelected] = useState(initial);
   const audibleTopic = useRef(initial);
@@ -140,7 +142,8 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
   }, [arrivalFrom]);
 
   return <main className={`adventure-map atlas-map ${locked || walking ? "atlas-has-status" : ""}`}>
-    <header className="track-header atlas-header"><span className="atlas-compass"><Compass size={27} /></span><div><h1>Chủ đề</h1></div><button className="track-sound" onClick={onSound} aria-label={sound ? "Tắt âm thanh" : "Bật âm thanh"} aria-pressed={sound}><AudioLines size={20} />{!sound && <span />}</button></header>
+    <header className="track-header atlas-header"><span className="atlas-compass"><Compass size={27} /></span><div><h1>Chủ đề</h1></div><button className="class-launch" onClick={() => setClassroomOpen(true)}><GraduationCap size={19} />Lớp học của tôi</button><button className="track-sound" onClick={onSound} aria-label={sound ? "Tắt âm thanh" : "Bật âm thanh"} aria-pressed={sound}><AudioLines size={20} />{!sound && <span />}</button></header>
+    {classroomOpen && <ClassroomHub onClose={() => setClassroomOpen(false)} />}
     <div className="atlas-subtitle" aria-label={`Chủ đề ${selected + 1} trên ${REGIONS.length}`}><span>0{selected + 1} / 0{REGIONS.length}</span></div>
     <div className={`atlas-carousel ${walking ? "carousel-walking" : ""}`} ref={carousel} data-selected={selected} role="region" aria-label="Bản đồ chủ đề, vuốt trái phải để chuyển" aria-roledescription="carousel" onScroll={event => {
       const area = event.currentTarget;

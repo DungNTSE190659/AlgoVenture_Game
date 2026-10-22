@@ -120,9 +120,9 @@ export default function LinearSearchGame({ mode, sound, speed, onBack, onPlay, o
     ? `Ô chỉ số ${shown.cursor} chứa ${value}. ${value === challenge.target ? "Hai số bằng nhau: đã tìm thấy, dừng tại đây." : last ? "Đây là ô cuối và hai số khác nhau. Có thể kết luận không có trong mảng." : "Hai số khác nhau: chọn Xét ô tiếp, không bỏ qua ô nào."}`
     : "Buta đi từ trái sang phải, so sánh từng ô với số cần tìm. Chỉ số của ô đầu tiên là 0.";
 
-  return <GameLayout ref={motionRoot} play className={`linear-world ${demo ? "linear-demo" : "linear-play"}`}>
+  return <GameLayout ref={motionRoot} play={!demo} className={`linear-world ${demo ? "linear-demo algorithm-demo" : "linear-play"}`}>
     {!demo && <World />}
-    <GameHeader title="Linear Search" play onBack={onBack} onSettings={() => { setDraft(challenge.values.join(", ")); setTargetDraft(String(challenge.target)); setError(""); setSettings(true); }} />
+    <GameHeader title="Linear Search" play={!demo} onBack={onBack} onSettings={() => { setDraft(challenge.values.join(", ")); setTargetDraft(String(challenge.target)); setError(""); setSettings(true); }} />
     <GameStats className="linear-stats" score={demo ? undefined : score}>
       {!demo && <span>{custom ? "Mảng của bạn" : `Chặng ${round + 1} / 3`}</span>}
       <span>{shown.comparisons} lần so sánh</span>
@@ -150,15 +150,15 @@ export default function LinearSearchGame({ mode, sound, speed, onBack, onPlay, o
       {done && <div className="linear-result">Kết quả: <b>{shown.result}</b> · {shown.comparisons} lần so sánh{shown.result !== -1 && <span> · ô thứ {(shown.result ?? 0) + 1}</span>}</div>}
       {!demo && done && !victory && <button className="chunky-button button-green" onClick={nextRound}>Chặng tiếp theo <ArrowRight size={20} /></button>}
     </section>
-    {demo ? <><div className="lesson-narrator linear-dialogue"><div className="lesson-pig-stage"><Pig mood={done ? "celebrate" : "explaining"} /></div><div className="lesson-narration"><p aria-live="polite">{narration}</p></div></div>
+    {demo ? <div className="demo-panel"><div className="lesson-narrator linear-dialogue"><div className="lesson-pig-stage"><Pig mood={done ? "celebrate" : "explaining"} /></div><div className="lesson-narration"><p aria-live="polite">{narration}</p></div></div>
       <footer className="lesson-controls linear-controls">
         <div className="lesson-control-buttons linear-playback">
           <button className="round-button" aria-label="Bước trước" disabled={cursor === 0} onClick={() => moveFrame(-1)}><SkipBack size={21} /></button>
-          {done ? <button className="chunky-button button-green" onClick={() => { gameAudio.stop(); onPlay(); }}>Tự mình thử <ArrowRight size={22} /></button> : <button className="chunky-button button-purple" onClick={() => { gameAudio.unlock(); setPlaying(v => !v); }}>{playing ? <Pause size={22} fill="currentColor" /> : <Play size={22} fill="currentColor" />}{playing ? "Tạm dừng" : "Tự động chạy"}</button>}
+          {done ? <button className="chunky-button button-green" onClick={() => { gameAudio.stop(); onPlay(); }}>Tự mình thử <ArrowRight size={22} /></button> : <button className="chunky-button button-purple" onClick={() => { gameAudio.unlock(); setPlaying(v => !v); }}>{playing ? <Pause size={22} fill="currentColor" /> : <Play size={22} fill="currentColor" />}{playing ? "Tạm dừng" : cursor === 0 ? "Bắt đầu" : "Tiếp tục"}</button>}
           <button className="round-button" aria-label={done ? "Xem lại từ đầu" : "Bước tiếp"} onClick={() => done ? restart(challenge, round, !!custom) : moveFrame(1)}>{done ? <RotateCcw size={23} /> : <SkipForward size={23} fill="currentColor" />}</button>
         </div>
         <div className="linear-demo-progress"><span>{cursor + 1} / {frames.length}</span><progress value={cursor} max={frames.length - 1} aria-label="Tiến trình demo" /><button className="lesson-speed-button" aria-label={`Tốc độ demo: ${speed}x`} onClick={() => onSpeedChange(speed === 1 ? 1.5 : speed === 1.5 ? 2 : 1)}>{speed}x</button></div>
-      </footer></> : !victory && <GameFooter className="linear-footer">
+      </footer></div> : !victory && <GameFooter className="linear-footer">
         {hint && <div className="linear-hint"><Pig mood="thinking" /><p>{narration}</p><button className="round-button" aria-label="Đóng gợi ý" onClick={() => setHint(false)}><X size={18} /></button></div>}
         <GameHintButton aria-expanded={hint} onClick={() => { setHint(v => !v); playFeedback("hint"); }} />
       </GameFooter>}

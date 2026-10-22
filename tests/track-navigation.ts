@@ -7,6 +7,7 @@ export async function enterTrack(page: Page, algorithm: string, mode: string) {
   await page.getByRole("button", { name: "Xem chủ đề Mảng", exact: true }).click();
   await page.locator(".atlas-enter").click();
   await page.emulateMedia({ reducedMotion: "reduce" });
+  if (["Linear Search", "Binary Search"].includes(algorithm)) await page.getByRole("button", { name: "Lộ trình Search", exact: true }).click();
   if (["Stack", "Queue"].includes(algorithm)) await page.getByRole("button", { name: "Lộ trình Stack & Queue", exact: true }).click();
   await page.getByRole("button", { name: algorithm, exact: true }).click();
   await page.emulateMedia({ reducedMotion: "no-preference" });

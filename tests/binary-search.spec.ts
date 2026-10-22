@@ -155,7 +155,11 @@ test("demo narration and controls never overlap the grid or equation on short sc
     const dialogue = (await page.locator(".binary-dialogue").boundingBox())!;
     const controls = (await page.locator(".binary-controls").boundingBox())!;
     expect(board.y + board.height).toBeLessThanOrEqual(math.y + 1);
-    expect(math.y + math.height).toBeLessThanOrEqual(dialogue.y + 1);
+    if (height <= 520 && width > height) {
+      expect(board.x + board.width).toBeLessThanOrEqual(dialogue.x + 1);
+      expect(math.x + math.width).toBeLessThanOrEqual(dialogue.x + 1);
+      expect(math.y + math.height).toBeLessThanOrEqual(height + 1);
+    } else expect(math.y + math.height).toBeLessThanOrEqual(dialogue.y + 1);
     expect(dialogue.y + dialogue.height).toBeLessThanOrEqual(controls.y + 1);
     await page.getByRole("button", { name: "Bước tiếp", exact: true }).scrollIntoViewIfNeeded();
     await expect(page.getByRole("button", { name: "Bước tiếp", exact: true })).toBeInViewport();

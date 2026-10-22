@@ -73,7 +73,7 @@ export default function MergeGame({mode,input,difficulty,sound,speed,onBack,onPl
     if(tokens.length<2||tokens.length>8||tokens.some(token=>!/^[-+]?\d+$/.test(token))||values.some(value=>!Number.isInteger(value)||value< -99||value>99)) {setError("Nhập từ 2 đến 8 số nguyên từ −99 đến 99.");return;}
     onChange(values,difficulty);
   }
-  return <GameLayout play={!demo} className={`merge-world merge-${mode}`} data-phase={dividing?"split":state.phase} data-race-status={run.status} data-opening={opening} data-motion-paused={demo?paused||motionPaused:flowPaused||run.status!=="running"}>
+  return <GameLayout play={!demo} className={`merge-world merge-${mode} ${demo ? "algorithm-demo" : ""}`} data-phase={dividing?"split":state.phase} data-race-status={run.status} data-opening={opening} data-motion-paused={demo?paused||motionPaused:flowPaused||run.status!=="running"}>
     {!demo&&<div className="factory-background" aria-hidden="true"><img src={factoryAsset("factory")} alt=""/><div/></div>}
     <GameHeader title="Merge Sort" play={!demo} onBack={onBack} onSettings={()=>{gameAudio.unlock();setSettings(true);}}/>
     {!demo&&<GameStats className="merge-stats" scoreClassName="merge-score" score={mergeRaceScore(run)}><span>{state.completed}/{state.tasks.length} nhóm đã ghép</span><span className="factory-level">{level.label}</span></GameStats>}
@@ -83,9 +83,9 @@ export default function MergeGame({mode,input,difficulty,sound,speed,onBack,onPl
     {!demo&&!done&&<GameFooter className="merge-footer"><GameHintButton disabled={dividing||run.status==="lost"} aria-expanded={hint} onClick={()=>{gameAudio.unlock();playFeedback("hint");setHint(value=>!value);}}/>
       {hint&&<div className="merge-dialogue bubble-dialogue merge-hint"><Pig mood="thinking"/><p>{mergeHint(state)}</p><button className="round-button" aria-label="Đóng gợi ý" onClick={()=>setHint(false)}><X size={18}/></button></div>}
     </GameFooter>}
-    {demo&&<footer className="merge-controls"><div className="merge-dialogue bubble-dialogue"><Pig mood={done?"celebrate":"explaining"}/><p aria-live="polite">{frame.narration}</p></div>
+    {demo&&<footer className="merge-controls demo-panel"><div className="merge-dialogue bubble-dialogue"><Pig mood={done?"celebrate":"explaining"}/><p aria-live="polite">{frame.narration}</p></div>
       <div className="merge-playback"><button className="round-button" aria-label="Bước trước" disabled={cursor===0} onClick={()=>step(-1)}><SkipBack size={21}/></button>
-      <button className="chunky-button button-purple" onClick={()=>{gameAudio.unlock();if(done)onPlay();else{setMotionPaused(playing);setPlaying(value=>!value);}}}>{playing&&!done?<Pause size={21}/>:<Play size={21}/>} {done?"Tự mình thử":playing?"Tạm dừng":cursor===0?"Bắt đầu":"Tiếp tục"}</button>
+      <button className={`chunky-button ${done ? "button-green" : "button-purple"}`} onClick={()=>{gameAudio.unlock();if(done)onPlay();else{setMotionPaused(playing);setPlaying(value=>!value);}}}>{playing&&!done?<Pause size={21}/>:<Play size={21}/>} {done?"Tự mình thử":playing?"Tạm dừng":cursor===0?"Bắt đầu":"Tiếp tục"}</button>
       <button className="round-button" aria-label={done?"Xem lại từ đầu":"Bước tiếp"} onClick={()=>done?reset():step(1)}>{done?<RotateCcw size={21}/>:<SkipForward size={21}/>}</button></div>
       <div className="merge-demo-progress"><span>{cursor+1}/{frames.length}</span><progress value={cursor} max={frames.length-1} aria-label="Tiến trình demo"/><button className="lesson-speed-button" aria-label={`Tốc độ demo: ${speed}x. Bấm để đổi tốc độ`} onClick={()=>onSpeedChange(speed===1?1.5:speed===1.5?2:1)}>{speed}x</button></div>
     </footer>}
