@@ -6,11 +6,11 @@ export type ArrayRouteId = "sort" | "search" | "stack-queue";
 export type Progress = Partial<Record<TrackId, boolean>>;
 export type Lesson = { id: TrackId; name: string; place: string; description: string; color: string; dark: string; group?: string };
 export const TRACK: Lesson[] = [
-  { id: "bubble", name: "Bubble Sort", place: "Suối Bong Bóng", description: "Đổi chỗ hai số cạnh nhau, đưa số lớn nhất về cuối.", color: "#89c4da", dark: "#4e91ae" },
-  { id: "selection", name: "Selection Sort", place: "Vườn Tuyển Chọn", description: "Tìm số nhỏ nhất và đưa về đầu phần chưa sắp xếp.", color: "#e9bc6b", dark: "#a77c36" },
+  { id: "bubble", name: "Bubble Sort", place: "Cầu Gỗ Tình Bạn", description: "Đổi chỗ hai số cạnh nhau, đưa số lớn nhất về cuối.", color: "#89c4da", dark: "#4e91ae" },
+  { id: "selection", name: "Selection Sort", place: "Trại Hành Trang", description: "Tìm số nhỏ nhất và đưa về đầu phần chưa sắp xếp.", color: "#e9bc6b", dark: "#a77c36" },
   { id: "insertion", name: "Insertion Sort", place: "Làng Xếp Hàng", description: "Chèn từng số vào đúng chỗ trong phần đã có thứ tự.", color: "#9abb80", dark: "#62884c" },
   { id: "merge", name: "Merge Sort", place: "Suối Hợp Nhất", description: "Chia nhóm lá rồi ghép hai nhánh suối theo thứ tự.", color: "#91bfad", dark: "#558f7d" },
-  { id: "quick", name: "Quick Sort", place: "Pháo Đài Chốt", description: "Chọn chốt, chia hai nhóm và chinh phục từng mảng con.", color: "#e9a18c", dark: "#b87160" },
+  { id: "quick", name: "Quick Sort", place: "Ngã Ba Khám Phá", description: "Chọn mốc ở ngã ba, chia ba nhóm và khám phá từng nhánh.", color: "#e9a18c", dark: "#b87160" },
 ];
 export const LINEAR_STRUCTURES: Lesson[] = [
   { id: "linked-list", name: "Linked List Construction", place: "Lối Đi Mắt Xích", description: "Lắp nút và nối con trỏ next để tạo danh sách.", color: "#f7b83d", dark: "#a96712" },

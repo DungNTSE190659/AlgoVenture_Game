@@ -1,3 +1,4 @@
+import QuickForestGame from "./components/QuickForestGame";
 import QueueGame from "./components/QueueGame";
 import { useEffect, useState } from "react";
 import AdventureMap from "./components/AdventureMap";
@@ -160,6 +161,7 @@ export default function App() {
         onSound={() => changeSound(!sound)}
       />
     );
+  if (algorithm === "quick") return <QuickForestGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "queue") return <QueueGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={()=>start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed}/>;
   if (algorithm === "stack") return <StackGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={()=>start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed}/>;
   if (algorithm === "selection") return <SelectionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;

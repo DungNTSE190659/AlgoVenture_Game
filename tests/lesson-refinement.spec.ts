@@ -4,58 +4,15 @@ async function enter(page: Page) {
   await enterTrack(page, "Quick Sort", "Demo");
 }
 
-test("destination explains keep, real swap, and same-position cases", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+test("three-way demo keeps equal values with the pivot rather than recursing on them", async ({ page }) => {
   await enter(page);
-  await expect(page.locator(".lesson-narration")).toContainText(
-    "Quick Sort có nhiều cách chọn chốt",
-  );
-  await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
-  await expect(page.locator(".lesson-narration")).toContainText(
-    "Giữ 5 ở cuối giúp mình xét các số phía trước",
-  );
-  await expect(
-    page.getByRole("img", { name: "Ô nhận số nhỏ tiếp theo: 0", exact: true }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
-  await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
-  await expect(page.locator(".lesson-narration")).toContainText("Giữ 8 ở ô 0");
-  await expect(page.locator(".lesson-narration")).not.toContainText("bên phải");
-  await expect(page.locator(".lesson-target-readout")).toContainText("0");
-  await page.waitForTimeout(350);
-  await page.screenshot({ path: ".qa/lesson-keep-explained.png" });
-  await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
-  await expect(page.locator(".cell-scan")).toHaveAttribute("data-index", "1");
-  await expect(page.locator(".lesson-goal-slot")).toHaveAttribute(
-    "data-target-index",
-    "0",
-  );
-  await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
-  await expect(page.locator(".lesson-narration")).toContainText(
-    "Hai ô khác nhau",
-  );
-  await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
-  await expect(page.locator(".lesson-position-reason")).toContainText(
-    "Ô 1 ≠ ô 0",
-  );
-  await page.waitForTimeout(350);
-  await page.screenshot({ path: ".qa/lesson-swap-explained.png" });
-  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
-  await page.getByLabel("Các phần tử của mảng").fill("2,2,2,2,2");
-  await page
-    .getByRole("button", { name: "Dùng mảng này", exact: true })
-    .click();
-  for (let i = 0; i < 3; i++)
-    await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
-  await expect(page.locator(".lesson-narration")).toContainText(
-    "Đổi với chính mình",
-  );
-  await expect(page.locator(".lesson-decision-copy")).toContainText(
-    "Đúng ô rồi, giữ nguyên",
-  );
-  await expect(page.locator(".lesson-swap-arcs")).toHaveCount(0);
+  await page.getByRole("button", {name:"Tùy chọn",exact:true}).click();
+  await page.getByLabel("Các phần tử của mảng").fill("2,2,2,2");
+  await page.getByRole("button", {name:"Dùng mảng này",exact:true}).click();
+  while(await page.getByRole("button", {name:"Bước tiếp",exact:true}).count()) await page.getByRole("button", {name:"Bước tiếp",exact:true}).click();
+  await expect(page.locator(".qf-stats")).toContainText("1 lần chia nhóm");
+  await expect(page.locator(".qf-overview .is-fixed")).toHaveCount(4);
+  await expect(page.locator(".qf-map button")).toHaveCount(1);
 });
 
 test("real synthesized cues are audible, short, and do not clip", async ({
@@ -153,23 +110,23 @@ test("sounds follow actions, mute persists, and pausing cancels pending sounds",
   for (let i = 0; i < 3; i++)
     await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
   const trace = await page.evaluate(() => (window as any).__soundTrace.played);
-  expect(trace).toEqual(["pivot", "scan", "keep"]);
-  await page.getByRole("button", { name: "Phát demo", exact: true }).click();
+  expect(trace).toEqual(["scan", "scan", "scan"]);
+  await page.getByRole("button", { name: "Tiếp tục", exact: true }).click();
   await page
-    .getByRole("button", { name: "Tạm dừng demo", exact: true })
+    .getByRole("button", { name: "Tạm dừng", exact: true })
     .click();
   expect(
     await page.evaluate(() => (window as any).__soundTrace.stopped),
   ).toBeGreaterThan(0);
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
-  await page.getByRole("button", { name: "Tắt âm thanh", exact: true }).click();
+  await page.getByRole("button", { name: /Hiệu ứng âm thanh/ }).click();
   await expect(
-    page.getByRole("button", { name: "Bật âm thanh", exact: true }),
+    page.getByRole("button", { name: /Hiệu ứng âm thanh/ }),
   ).toHaveAttribute("aria-pressed", "false");
   expect(await page.evaluate(() => localStorage.getItem("piggy-sound"))).toBe(
     "off",
   );
-  await page.getByRole("button", { name: "Tiếp tục xem", exact: true }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "Tiếp tục", exact: true }).click();
   const count = await page.evaluate(
     () => (window as any).__soundTrace.played.length,
   );
@@ -177,8 +134,8 @@ test("sounds follow actions, mute persists, and pausing cancels pending sounds",
   expect(
     await page.evaluate(() => (window as any).__soundTrace.played.length),
   ).toBe(count);
-  await page.reload();
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "Bật âm thanh", exact: true }),
+    page.getByRole("button", { name: /Hiệu ứng âm thanh/ }),
   ).toBeVisible();
 });

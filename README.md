@@ -15,7 +15,7 @@ Game casual về cấu trúc dữ liệu và thuật toán bằng tiếng Việt
 - **Bản thử hiện tại:** Bubble, Selection, Insertion, Merge và Quick có Demo / Thử thách. Sáu nốt Linked List có một bài Demo và một Thử thách mỗi nốt. Construction lắp khối và nối dây; Traversal, Search, Insertion và Deletion lắp danh sách trước, đặt heo lên HEAD rồi bấm mũi tên duyệt theo next; chèn/xóa mở sau khi duyệt tới đúng vị trí, Reversal mở danh sách nối sẵn: tự tháo đinh, đưa khối về khay, đổi vị trí và nối lại theo thứ tự đảo ngược; chỉ hoàn thành sau khi bấm Kiểm tra. Cây và các bài Đồ thị khác đang phát triển.
 - `src/engine/learningTrack.ts`: bốn chủ đề, 22 ải, luật mở khóa và lưu tiến trình. `src/engine/linkedCurriculum.ts`: dữ liệu màn và tương thích tiến trình cũ. `src/components/WorldMap.tsx` / `src/atlas.css`: chọn chủ đề bằng các bản đồ lớn vuốt ngang. `src/components/AdventureMap.tsx` / `src/track.css`: lộ trình cuộn dọc bên trong.
 
-Quick Sort Demo dùng **Lomuto partition** với phần tử cuối làm chốt và phép so sánh **≤**.
+Quick Sort Demo và Play dùng **chia ba nhóm**: nhỏ hơn, bằng và lớn hơn pivot. Người chơi tự chọn pivot và thứ tự khám phá nhánh.
 
 ## Chạy trên máy
 
@@ -48,26 +48,26 @@ Muốn thử trên điện thoại cùng Wi-Fi: chạy `npx vite --host 0.0.0.0`
 - Kéo khối đã lắp sang ô khác để đổi chỗ. Liên kết đi theo khối, không đi theo vị trí. Trả khối về khay sẽ tháo các liên kết tới khối đó. Không cho phép tự nối hoặc tạo vòng.
 - Logic lắp ghép trong `src/engine/linkedList.ts`, giao diện trong `src/components/LinkedListGame.tsx` và `src/linkedList.css`. Luồng lắp → đặt heo → duyệt → chèn/xóa dùng `src/components/LinkedJourneyGame.tsx`; Demo phát lại cùng luồng. Dữ liệu các bài nằm trong `src/engine/linkedChallenges.ts` và `src/components/LinkedAlgorithmGame.tsx`.
 
-## Bubble Sort
+## Bubble Sort – Buta dọn đường
 
-- Vào chủ đề Mảng rồi chọn đảo Bubble Sort. Cả năm thuật toán Sort đều có nhánh Demo / Thử thách và dấu hoàn thành riêng.
-- Demo minh họa từng cặp cạnh nhau: quan sát, giải thích vì sao đổi hoặc giữ nguyên, chuyển động đổi chỗ, số lớn nhất về cuối sau mỗi lượt. Hai số bằng nhau giữ thứ tự. Một lượt không đổi chỗ cho phép dừng sớm. Có lùi bước, tạm dừng, tốc độ 1x / 1.5x / 2x và mảng riêng từ 2 đến 8 số.
-- **Play – Đường đua bong bóng:** chọn một trong hai bong bóng của cặp đang sáng và kéo sang bong bóng còn lại. Khi số trái lớn hơn số phải, có thể kéo số trái sang phải hoặc số phải sang trái để đổi chỗ. Khi cặp đã đúng thứ tự hoặc hai số bằng nhau, phải bấm Giữ nguyên; kéo bong bóng bên phải không chuyển sang cặp kế tiếp. Giữ tay để đi qua nhiều ô trong một lần kéo; khi gặp hàng xóm lớn hơn hoặc bằng, thả tay và bấm Giữ nguyên trước khi xét cặp kế tiếp. Nút Giữ nguyên luôn hiện dưới mảng khi xét một cặp: bấm khi số trái nhỏ hơn hoặc bằng số phải để chuyển sang cặp kế tiếp. Bấm sai giữ nguyên trạng thái và giải thích để thử lại. Kéo liên tiếp chỉ tiếp tục qua các cặp cần đổi chỗ. Bàn phím dùng Tab chọn một trong hai bong bóng rồi nhấn phím mũi tên trái/phải hoặc Enter để đổi chỗ. Cuối mỗi lượt, số lớn nhất chuyển xanh tại đích; lượt sau quay về đầu, phần cần xét ngắn hơn.
-- Mỗi cặp đúng được 100 điểm; thao tác sai trừ 25 điểm. Buta chỉ giải thích khi bấm gợi ý. Có âm thanh và biểu cảm ăn mừng khi hoàn tất.
-- Logic so sánh dùng chung cho Demo và Play trong `src/engine/bubbleSort.ts`; giao diện trong `src/components/BubbleGame.tsx`, thao tác tiếp sức liên tục trong `src/components/BubbleRunBoard.tsx`, bố cục trong `src/bubble.css`.
+- Cả đoàn thú rừng đứng trên cầu gỗ, mang bảng số; Buta đi theo từng cặp cạnh nhau trên lối đất nối hai đầu cầu; trại ở sát đầu phải. Hai bạn đang xét được dành cùng diện tích lớn hơn, không phân biệt số lớn/nhỏ. Mỗi bạn có khuôn mặt và khăn theo ID, giữ nguyên danh tính khi đổi chỗ. Hiển thị 2–8 bạn trên cả điện thoại, không cần vuốt ngang.
+- Trái lớn hơn phải: kéo một trong hai bạn sang bạn còn lại rồi thả. Hỗ trợ cả hai chiều. Cặp đã đúng thứ tự hoặc bằng nhau: bấm **Giữ nguyên · Đi tiếp**. Kéo không tự tính thành giữ nguyên; thả hụt/hủy kéo không đổi mảng hay điểm. Chỉ hai bạn đang xét được tương tác; không tô màu đáp án.
+- Mỗi lần kéo chỉ xử lý một cặp. Hai bạn bước vòng qua nhau và Buta đi đến cặp kế tiếp. Trong lúc di chuyển, thao tác được khóa để tránh chọn nhầm. Có Enter/Space và phím mũi tên; nút giữ nguyên riêng.
+- Cuối lượt, bạn mang số lớn nhất nghỉ ở trại cuối cầu, có cờ đánh dấu. Buta quay về đầu, bỏ qua các bạn đã xong. Một lượt không đổi chỗ sẽ dừng sớm. Thắng mới ghi hoàn thành và mở Selection Sort.
+- Demo dùng cùng cầu và nhân vật, giải thích từng quyết định; có bước trước/sau, phát/tạm dừng, tốc độ 1x/1.5x/2x và mảng riêng. Cài đặt hoặc ẩn tab dừng chuyển động. Hỗ trợ số âm, số trùng và thứ tự ổn định của các số bằng nhau.
 
 ## Kết thúc màn chơi
 
 Cả năm thuật toán Sort dùng chung Buta ăn mừng và sao thưởng. Chơi lại bắt đầu lại đúng mảng vừa chơi; Tăng độ khó tạo mảng mới ở mức kế tiếp (Dễ, Vừa, Khó), và không xuất hiện khi đã ở mức Khó. Đi tiếp cùng Buta trở về hành trình để di chuyển tới màn có nội dung tiếp theo vừa mở.
 
-## Selection Sort – Chọn bé nhất, xếp trước
+## Selection Sort – Buta chuẩn bị hành trang
 
-- **Thử thách:** tìm số nhỏ nhất trong các ô chưa xanh, chạm để chọn rồi chạm ô đầu phần chưa xếp hoặc bấm Đưa về ô. Có thể kéo thẳng số nhỏ nhất vào khung vàng trong một lần giữ. Hai số đổi chỗ theo cung; mỗi lượt cố định thêm một ô xanh. Nếu số nhỏ nhất đã ở đúng ô, chọn Giữ nguyên vị trí; số cuối cùng tự hoàn tất.
-- Chọn đúng cộng 100 điểm; đặt đúng cộng 150 điểm; mỗi 3 lượt liên tục không sai thưởng 50 điểm. Chọn sai trừ 25 điểm và giải thích để thử lại, không mất mảng. Thả hụt không trừ điểm và vẫn giữ lựa chọn. Không có giới hạn giờ hay hết lượt; Buta gợi ý miễn phí khi được gọi.
-- **Demo:** lần lượt xét toàn bộ phần chưa xếp, theo dõi số nhỏ nhất tạm thời, rồi mới đổi chỗ với ô đầu. Có lùi/tiến từng bước, phát/tạm dừng cả animation, tốc độ 1x / 1.5x / 2x. Demo không cấp hoàn thành; cuối demo có nút Tự mình thử.
-- Chấp nhận số âm, số trùng; khi có nhiều số nhỏ nhất bằng nhau, chọn số nào cũng đúng. Demo chọn lần xuất hiện đầu tiên. Phép đổi trực tiếp của Selection Sort không bảo đảm giữ thứ tự tương đối của các phần tử bằng nhau.
-- Mảng riêng từ 2 đến 8 số nguyên −99…99; Dễ/Vừa/Khó lần lượt 5/7/8 số. Có chơi lại đúng mảng, tăng độ khó, điểm/sao, âm thanh và rung theo cài đặt chung. Kéo chuột, cảm ứng, chạm và bàn phím đều được hỗ trợ; mảng dài cuộn ngang và tự cuộn theo tay kéo.
-- `src/engine/selectionSort.ts`: engine thuần và timeline Demo dùng chung phép chọn/đổi. `src/components/SelectionGame.tsx` / `src/selection.css`: màn chơi, cài đặt, animation và bố cục riêng; không thay đổi bố cục các game khác.
+- Các món đồ thám hiểm có thẻ số, đặt trên thảm tối đa hai hàng. Đọc từ trái sang phải ở hàng trên rồi xuống hàng dưới. Các ô đánh số từ 1, có cờ tại đầu phần chưa xếp. Mỗi món giữ hình và ID khi đổi chỗ; màu hình không phụ thuộc giá trị.
+- Tự tìm thẻ nhỏ nhất trong các món chưa buộc dây, chạm chọn rồi kéo/chạm ô cờ hoặc bấm Đưa về ô. Kéo thẳng từ món nhỏ nhất vào ô cờ cũng được. Món ở ô cờ đổi về vị trí cũ của món vừa chọn; không lấy phần tử ra khỏi mảng. Nút Giữ nguyên vị trí luôn hiện: nếu ô cờ đã là số nhỏ nhất thì cố định ngay, còn bấm sai trừ 25 điểm và giữ nguyên mảng. Không cần chọn số trước khi giữ nguyên. Món đã xong có dây và dấu kiểm, không tương tác lại được.
+- Không highlight đáp án trong Play. Chọn sai giải thích để tự tìm lại, không đổi mảng; thả hụt giữ món đã chọn để đặt tiếp. Chọn đúng +100, đặt đúng +150; ba lượt liên tục đúng thưởng +50; sai −25. Không giới hạn thời gian hay hết lượt.
+- Demo dùng cùng thảm, xét hết phần chưa xếp trước khi đổi chỗ; có bước trước/sau, phát/tạm dừng, tốc độ 1x/1.5x/2x. Chuyển động đổi chỗ đi được giữa hai hàng, dừng khi tạm dừng, mở cài đặt hoặc ẩn tab. Demo không ghi hoàn thành.
+- Mảng 2–8 số nguyên −99…99; Dễ/Vừa/Khó là 5/7/8 món. Số trùng nhỏ nhất nào cũng chọn được; Selection Sort dùng phép đổi trực tiếp nên không đảm bảo ổn định. Hỗ trợ chuột, cảm ứng, bàn phím; không cần cuộn ngang, kể cả 8 món trên điện thoại.
+- `src/components/SelectionPackBoard.tsx` hiển thị thảm và xử lý kéo thả; `src/components/SelectionGame.tsx` quản lý màn chơi; engine ở `src/engine/selectionSort.ts`. Hoàn thành mở Insertion Sort.
 
 ## Insertion Sort và phản hồi thao tác
 
@@ -80,7 +80,7 @@ Cả năm thuật toán Sort dùng chung Buta ăn mừng và sao thưởng. Chơ
 - Logic thuần ở `src/engine/insertionSort.ts`; giao diện và chuyển động ở `src/components/InsertionGame.tsx`, `src/components/InsertionCardTable.tsx` / `src/insertion.css`; phản hồi dùng chung ở `src/audio/gameFeedback.ts`.
 - Bản đồ có tiếng lướt trái/phải khi đổi chủ đề bằng vuốt, kéo chuột, mũi tên hoặc bàn phím; chọn đảo có tiếng riêng, đảo khóa có tiếng báo nhẹ. Bước chân trái/phải chạy theo nhịp Buta 240 ms và dừng khi đến nơi hoặc rời màn; đến đảo/chủ đề mới có một đoạn nhạc ngắn. Nút mở/đóng bảng và nút bấm thường có tiếng riêng, tránh phát chồng với âm thanh thao tác thuật toán. Nút bật tiếng có âm xác nhận; toàn bộ âm thanh này dùng chung cài đặt âm thanh hiện có, không có nhạc tự phát khi mới tải trang.
 
-Bubble Sort Play bỏ chú thích màu dưới mảng. Bubble Sort Demo dùng nền sáng như Quick Sort Demo và các bong bóng tròn.
+Bubble Sort Demo và Play dùng cảnh cầu gỗ cùng đoàn thú rừng; Play không highlight đáp án.
 
 ## Merge Sort – Suối Hợp Nhất
 
@@ -111,18 +111,14 @@ Bubble Sort Play bỏ chú thích màu dưới mảng. Bubble Sort Demo dùng n�
 - Có âm riêng cho PUSH, POP, PEEK, lỗi và hoàn thành dòng; Demo phát theo bước thao tác cả khi chạy tự động. Dùng thiết lập âm thanh chung và dừng âm khi tạm dừng, mở cài đặt hoặc ẩn tab.
 - Bố cục dùng màu pastel, Buta và HUD hiện có, vừa điện thoại dọc/ngang và desktop. Luật và dữ liệu nằm ở `src/engine/stack.ts`, cân chỉnh ở `stackConfig.ts`, timeline ở `stackLesson.ts`; giao diện ở `src/components/StackGame.tsx` và `src/stack.css`. [Biên bản kiểm tra](docs/stack-qa.md).
 
-## Cách chơi Quick Sort
+## Quick Sort – Chọn mốc và chia nhóm
 
-- **Bản đồ:** hoàn thành Bubble, Selection, Insertion và Merge để mở Quick. Chạm đảo Quick Sort rồi chọn Xem demo hoặc Thử thách trong bảng đáy.
-- **Demo:** Một bài học riêng, tách nhịp quan sát → kết quả so sánh → chuẩn bị đổi → chuyển động → cố định chốt → chia mảng con. Phép so sánh lớn, nhóm ≤ chốt / > chốt hiện dưới mảng. Có phát/tạm dừng (dừng cả chuyển động), bước trước/sau. Nút tốc độ nằm ngay dưới nút phát, bấm để đổi lần lượt 1x, 1.5x, 2x. Mảng riêng nhận từ 2 đến 8 số nguyên trong khoảng từ −99 đến 99, không phụ thuộc số phần tử của mảng mẫu; tốc độ được giữ khi đổi mảng. Cuối bài có nút chuyển sang Play.
-- Lời Buta dùng câu nói đầy đủ, không viết tắt, ký hiệu so sánh hay mũi tên. Đầu bài giải thích Quick Sort có nhiều cách chọn chốt; cách Lomuto trong game giữ chốt ở cuối để xét các số phía trước rồi mới đặt chốt vào vị trí đúng.
-- **Play – Chia kho báu:** Kéo một khối bất kỳ vào bệ chốt, tự kéo những khối còn lại vào hai nhóm theo thứ tự tùy ý. Có thể đổi chốt, kéo lại về kho, chuyển nhóm và hoàn tác. Sau khi chia hết các khối, bấm Kiểm tra để kiểm tra hai nhóm và cố định chốt. Chốt đúng vị trí chuyển vàng; mảng con trở thành đảo mới để tự chọn nhánh làm trước. Nhóm có một số tự hoàn thành.
-- Demo dùng Lomuto với số cuối làm chốt. Play cho thử bất kỳ chốt nào, phân nhóm trực tiếp rồi ghép lại; số nhỏ hơn hoặc bằng chốt đứng trước và số lớn hơn đứng sau.
-- **Dễ:** 5 số, không giới hạn giờ. **Vừa:** 7 số, không giới hạn giờ. **Khó:** 8 số có trùng lặp, 60 giây mỗi đảo. Mảng riêng nhận từ 2 đến 8 số ở mọi cấp.
-- Bắt đầu với 1.000 điểm. Mỗi khối mới cố định được cộng 100 điểm, chia cân bằng thưởng 50 điểm. Chốt sai nhóm hoặc hết giờ trừ 50 điểm, giữ mảng để tự sửa. Gợi ý trừ 50 điểm một lần mỗi đảo; Buta chỉ xuất hiện khi được gọi và đồng hồ tạm dừng. Kỷ lục lưu riêng từng cấp bằng localStorage.
-- **Bánh răng:** đổi cấp độ, âm thanh, cách chơi, nhập mảng riêng (số nguyên −99…99), chơi lại. Đổi mảng/cấp/chế độ bắt đầu lượt mới. Sau khi thắng có thể chơi lại mảng hiện tại, tăng độ khó với mảng mới hoặc chọn thuật toán khác trên bản đồ.
-- Play có nút về bản đồ, bánh răng, hoàn tác và gợi ý. Pointer Events hỗ trợ chuột và cảm ứng, có khối nổi theo tay, vùng nhận sáng và hiệu ứng tiếp đất. Bàn phím dùng Enter để nhấc khối rồi chọn vùng nhận. Giữ khối gần mép màn hình để bàn chơi tự cuộn.
-- Cài đặt, hướng dẫn, hộp nhập mảng, rời màn chơi và ẩn tab đều tạm dừng bộ đếm. Hiệu ứng âm thanh bật mặc định, chỉ phát sau thao tác của người chơi; bật/tắt trong bánh răng hoặc trên bản đồ, lựa chọn được lưu trên thiết bị.
+- Demo và Play dùng biến thể chia ba nhóm: nhỏ hơn, bằng, lớn hơn pivot. Người chơi chọn mốc bất kỳ rồi kéo từng thẻ số vào nhóm; có chạm chọn rồi chạm tiêu đề nhóm và thao tác bàn phím.
+- Giao diện rừng tối giản theo cảnh dẫn đoàn qua cổng: pivot đứng trên bục giữa, hai lối đất dẫn sang nhóm nhỏ hơn và lớn hơn; các bạn bằng mốc đứng cùng khu vực giữa. Bạn đang chờ xuất hiện phía trước, đoàn thú đã chọn xếp thành hàng ngắn bên mỗi lối. Số lớn, cây thưa và không highlight đáp án. Danh tính theo ID/khăn được giữ khi đổi nhóm. Buta xuất hiện trong Demo và gợi ý.
+- Kiểm tra sau khi chia hết. Sai −25 điểm, giữ nguyên nhóm để tự sửa; có hoàn tác, đưa lại hàng chờ và đổi pivot. Đúng cố định pivot cùng các số bằng mốc, cộng 100 mỗi số mới cố định và 100 mỗi lần chia.
+- Chọn nhánh nhỏ/lớn tiếp theo tùy ý. Nhóm chỉ có một số tự xong; nhóm bằng pivot không cần chia lại. Thứ tự toàn mảng hiện sau khi có số được cố định; chỉ hoàn thành khi mọi nhánh xong.
+- Demo dùng cùng bàn và quy tắc, có bước trước/sau, phát/tạm dừng và tốc độ 1x/1.5x/2x. Cài đặt và tab ẩn dừng chuyển động. Mảng riêng 2–8 số nguyên −99…99; hỗ trợ số âm và trùng. Dễ/Vừa/Khó là 5/7/8 số, không giới hạn thời gian.
+- Engine: `src/engine/quickTrail.ts`; giao diện: `src/components/QuickForestGame.tsx`, `src/quickForest.css`. Các bản Lomuto và Expedition trước vẫn được giữ trong mã nguồn, không dùng ở màn Quick Sort hiện tại.
 
 ## Kiến trúc
 
@@ -160,7 +156,7 @@ Bubble Sort Play bỏ chú thích màu dưới mảng. Bubble Sort Demo dùng n�
 - `src/engine/lesson.test.ts`: kiểm tra snapshot, giá trị từng nhóm, chốt cố định, thứ tự các nhịp dạy và mảng con đệ quy.
 - `tests/lesson.spec.ts`: kiểm tra chữ lớn trên laptop, quan hệ so sánh, animation đổi chỗ/tạm dừng, biểu cảm theo ngữ cảnh và bố cục bài học.
 - `tests/game.spec.ts`: kiểm tra bản đồ và trình phát demo.
-- `tests/expedition.spec.ts`: kiểm tra kéo thả chuột, cảm ứng, bàn phím, tự sửa nhóm, chọn nhánh, chơi hết màn, đồng hồ và bố cục.
+- `tests/expedition.spec.ts`: kiểm tra Quick Sort ngã ba với chuột, cảm ứng, bàn phím, tự sửa nhóm, chọn nhánh, số bằng mốc và bố cục.
 
 ## Kiểm tra và build
 

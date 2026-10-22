@@ -52,3 +52,64 @@ test("desktop demo keeps every section visible without scrolling at browser zoom
   await page.setViewportSize({ width: 1536, height: 707 });
   await page.screenshot({ path: ".qa/bubble-desktop-fit.png" });
 });
+
+test("bridge play fits eight friends and their camp on phones, landscape and desktop", async ({ page }) => {
+  await enterTrack(page, "Bubble Sort", "Play");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng của bạn", { exact: true }).fill("3,3,-1,99,0,1,-99,8");
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
+  const sizes = [[320,568], [390,844], [844,390], [1280,580], [1440,900]];
+  async function check(stage: string) {
+    for (const [width, height] of sizes) {
+      await page.setViewportSize({ width, height });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+      expect(await page.locator(".bubble-world").evaluate(node => node.scrollHeight - node.clientHeight), `${stage} ${width}`).toBeLessThanOrEqual(2);
+      await expect(page.locator('.bubble-tile[data-active="true"]')).toHaveCount(stage === "pair" ? 2 : 0);
+      await expect(page.locator(".bubble-overview-item")).toHaveCount(8);
+      for (const node of await page.locator(".bubble-tile,.bubble-overview-item").all()) await expect(node).toBeInViewport({ ratio: 1 });
+      await expect(page.getByRole("button", { name: "Buta gợi ý", exact: true })).toBeInViewport();
+      await expect(page.getByRole("button", { name: stage === "pair" ? "Giữ nguyên" : "Lượt tiếp theo", exact: true })).toBeInViewport();
+      await page.screenshot({ path: `.qa/bubble-bridge-${stage}-${width}.png` });
+    }
+  }
+  await check("pair");
+  for (let step = 0; step < 7; step++) {
+    const values = await page.locator('.bubble-tile[data-active="true"]').evaluateAll(nodes => nodes.map(node => Number(node.getAttribute("data-value"))));
+    if (values[0] > values[1]) await page.locator('.bubble-tile[data-active="true"]').first().press("Enter");
+    else await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
+    await expect(page.locator(".bubble-world")).toHaveAttribute("data-busy", "false");
+  }
+  await expect(page.locator(".bubble-overview-item.is-settled")).toHaveCount(1);
+  await check("bank");
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng của bạn", { exact: true }).fill("3,2,6,5,8");
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
+  await page.locator('.bubble-tile[data-active="true"]').first().press("Enter");
+  await expect(page.locator(".bubble-world")).toHaveAttribute("data-busy", "false");
+  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
+  await expect(page.locator(".bubble-world")).toHaveAttribute("data-busy", "false");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: ".qa/bubble-bridge-preview.png" });
+});
+
+test("demo bridge, adjacent pair and narration fit every frame on phones and landscape", async ({ page }) => {
+  await enterTrack(page, "Bubble Sort", "Demo"); await page.emulateMedia({ reducedMotion: "reduce" });
+  const input = [3, 3, -1, 99, 0, 1, -99, 8], frames = createBubbleLesson(input);
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng của bạn", { exact: true }).fill(input.join(","));
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
+  const checkpoints = new Set([0, 1, 2, 3, frames.findIndex(frame => frame.kind === "pass"), frames.length - 1]);
+  for (let cursor = 0; cursor < frames.length; cursor++) {
+    if (checkpoints.has(cursor)) for (const [width, height] of [[320,568], [390,844], [844,390]]) {
+      await page.setViewportSize({ width, height });
+      expect(await page.locator(".bubble-world").evaluate(node => node.scrollHeight - node.clientHeight), `${width} ${frames[cursor].kind}`).toBeLessThanOrEqual(2);
+      for (const node of await page.locator(".bubble-tile,.bubble-overview-item,.bubble-dialogue,.bubble-controls").all()) await expect(node).toBeInViewport({ ratio: 1 });
+      const stage = (await page.locator(".bubble-board-area").boundingBox())!, speech = (await page.locator(".bubble-dialogue").boundingBox())!;
+      if (height > 500) expect(stage.y + stage.height).toBeLessThanOrEqual(speech.y + 1);
+    }
+    if (cursor < frames.length - 1) await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: ".qa/bubble-bridge-demo.png" });
+});
