@@ -166,7 +166,7 @@ export default function BubbleGame({
           ? a === b
             ? `Hai số đều bằng ${a}. Bấm Giữ nguyên để xét cặp tiếp theo nhé.`
             : `${a} nhỏ hơn ${b}, nên cặp này đã đúng thứ tự. Bấm Giữ nguyên để đi tiếp nhé.`
-          : "Bong bóng bên trái lớn hơn. Kéo nó qua hàng xóm để đổi chỗ nhé.",
+          : "Bong bóng bên trái lớn hơn. Kéo một trong hai bong bóng sang bong bóng còn lại để đổi chỗ nhé.",
       );
       playFeedback("retry");
       return false;
@@ -217,7 +217,7 @@ export default function BubbleGame({
     state.phase === "pass"
       ? "Sau một lượt đi từ trái sang phải, số lớn nhất của phần vừa xét đã về cuối. Lượt sau mình bỏ qua những ô màu xanh nhé."
       : a > b
-        ? `${a} lớn hơn ${b}. Giữ bong bóng ${a}, kéo sang phải qua ${b} để đổi chỗ. Bạn có thể giữ tay để đưa nó đi qua nhiều hàng xóm nhé.`
+        ? `${a} lớn hơn ${b}. Kéo ${a} sang phải qua ${b}, hoặc kéo ${b} sang trái qua ${a} để đổi chỗ. Khi kéo sang phải, bạn có thể giữ tay để đi qua nhiều hàng xóm nhé.`
         : a === b
           ? `Hai số cùng bằng ${a}, nên mình giữ nguyên thứ tự của chúng. Bấm Giữ nguyên để chuyển sang cặp tiếp theo nhé.`
           : `${a} nhỏ hơn ${b}, nên hai số đã đúng thứ tự từ bé đến lớn. Bấm Giữ nguyên để xét cặp tiếp theo, không cần đổi chỗ nhé.`;
@@ -296,7 +296,8 @@ export default function BubbleGame({
               const left = state.items[state.pair],
                 right = state.items[state.pair + 1];
               if (id !== left?.id && id !== right?.id) return false;
-              return answer(id === left?.id);
+              // Either bubble can request a swap; only the keep button requests no swap.
+              return answer(true);
             }}
             onHandoff={() => { setOutcome("");
               setFeedback(

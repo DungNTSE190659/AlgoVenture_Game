@@ -25,7 +25,7 @@ async function push(page: Page, side: 0 | 1) {
   const goal =
     side === 0
       ? b.x + b.width / 2 + 2
-      : Math.min(page.viewportSize()!.width - 10, x + (b.x - a.x) * 0.75);
+      : a.x + a.width / 2 - 2;
   await page.mouse.move(x, y);
   await page.mouse.down();
   await page.mouse.move(goal, y, { steps: 10 });
@@ -47,7 +47,8 @@ async function solve(page: Page) {
     const pair = await blocks.evaluateAll((nodes) =>
       nodes.map((n) => Number(n.getAttribute("data-value"))),
     );
-    await push(page, pair[0] > pair[1] ? 0 : 1);
+    if (pair[0] > pair[1]) await push(page, 0);
+    else await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
     await expect(page.locator(".bubble-play")).toHaveAttribute(
       "data-busy",
       "false",
@@ -55,7 +56,7 @@ async function solve(page: Page) {
   }
   throw new Error("Bubble game did not finish");
 }
-test("relay play rejects the smaller carrier and sorts through adjacent passes", async ({
+test("relay play accepts the smaller bubble dragged left and sorts through adjacent passes", async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -63,10 +64,12 @@ test("relay play rejects the smaller carrier and sorts through adjacent passes",
   await enter(page);
   await custom(page, "4, 1, 3, 2");
   await push(page, 1);
-  await expect(page.getByRole("status")).toContainText(
-    "Bong bóng bên trái lớn hơn",
-  );
-  await expect(page.locator(".bubble-topline")).toContainText("0 lần so sánh");
+  await expect(page.locator(".bubble-play")).toHaveAttribute("data-busy", "false");
+  await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
+  await expect(page.locator(".bubble-topline")).toContainText("1 lần đổi chỗ");
+  expect(await page.locator(".bubble-tile").evaluateAll(nodes =>
+    nodes.map(node => Number(node.getAttribute("data-value"))),
+  )).toEqual([1, 4, 3, 2]);
   await solve(page);
   expect(
     await page
@@ -85,6 +88,30 @@ test("relay play rejects the smaller carrier and sorts through adjacent passes",
   expect(errors).toEqual([]);
 });
 
+test("either bubble swaps the highlighted pair once, including the 6 and 5 example", async ({ page }) => {
+  await enter(page);
+  for (const side of [0, 1] as const) {
+    await custom(page, "3, 2, 6, 5, 8");
+    await push(page, 0);
+    const keep = page.getByRole("button", { name: "Giữ nguyên", exact: true });
+    await expect(keep).toBeEnabled();
+    await keep.click();
+    await expect(page.locator(".bubble-play")).toHaveAttribute("data-busy", "false");
+    await push(page, side);
+    await expect(page.locator(".bubble-play")).toHaveAttribute("data-busy", "false");
+    expect(await page.locator(".bubble-tile").evaluateAll(nodes =>
+      nodes.map(node => Number(node.getAttribute("data-value"))),
+    )).toEqual([2, 3, 5, 6, 8]);
+    await expect(page.locator(".bubble-topline")).toContainText("3 lần so sánh");
+    await expect(page.locator(".bubble-topline")).toContainText("2 lần đổi chỗ");
+    await expect(page.locator(".bubble-score")).toHaveText("300");
+  }
+  await custom(page, "6, 5");
+  await page.locator('.bubble-tile[data-active="true"]').nth(1).press("ArrowLeft");
+  await expect(page.locator(".bubble-victory")).toBeVisible();
+  await expect(page.locator(".bubble-topline")).toContainText("1 lần đổi chỗ");
+});
+
 test("visible keep action advances ordered pairs once and rejects an inverted pair", async ({
   page,
 }) => {
@@ -92,6 +119,15 @@ test("visible keep action advances ordered pairs once and rejects an inverted pa
   await custom(page, "3, 6, 2");
   const keep = page.getByRole("button", { name: "Giữ nguyên", exact: true });
   await expect(keep).toBeVisible();
+  await push(page, 1);
+  await expect(page.getByRole("status")).toContainText("Bấm Giữ nguyên");
+  await expect(page.locator(".bubble-topline")).toContainText("0 lần so sánh");
+  await expect(page.locator(".bubble-score")).toHaveText("0");
+  expect(await page.locator(".bubble-tile").evaluateAll(nodes =>
+    nodes.map(node => Number(node.getAttribute("data-value"))),
+  )).toEqual([3, 6, 2]);
+  await page.locator('.bubble-tile[data-active="true"]').nth(1).press("ArrowRight");
+  await expect(page.locator(".bubble-topline")).toContainText("0 lần so sánh");
   await keep.dblclick();
   await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
   await expect(keep).toBeEnabled();
@@ -127,6 +163,9 @@ test("keep is discoverable for equal values and works by touch and keyboard at t
   await enter(page);
   await custom(page, "2, 2, 3");
   const keep = page.getByRole("button", { name: "Giữ nguyên", exact: true });
+  await page.locator('.bubble-tile[data-active="true"]').nth(1).press("Enter");
+  await expect(page.getByRole("status")).toContainText("Bấm Giữ nguyên");
+  await expect(page.locator(".bubble-topline")).toContainText("0 lần so sánh");
   await keep.tap();
   await expect(keep).toBeEnabled();
   await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
@@ -200,7 +239,7 @@ test("touch relay and keyboard both finish without duplicate comparisons", async
     const goal =
       side === 0
         ? b.x + b.width / 2 + 2
-        : Math.min(380, x + (b.x - a.x) * 0.75);
+        : a.x + a.width / 2 - 2;
     await cdp.send("Input.dispatchTouchEvent", {
       type: "touchStart",
       touchPoints: [{ x, y, id: 1 }],
@@ -215,14 +254,20 @@ test("touch relay and keyboard both finish without duplicate comparisons", async
       touchPoints: [],
     });
   }
-  await touchPush(0);
+  await touchPush(1);
   await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
   await touchPush(1);
+  await expect(page.getByRole("status")).toContainText("Bấm Giữ nguyên");
+  await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
+  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).tap();
   await page.getByRole("button", { name: "Lượt tiếp theo", exact: true }).tap();
   const right = page.locator('.bubble-tile[data-active="true"]').nth(1);
   await expect(right).toBeEnabled();
   await right.focus();
   await page.keyboard.press("ArrowRight");
+  await expect(page.getByRole("status")).toContainText("Bấm Giữ nguyên");
+  await expect(page.locator(".bubble-topline")).toContainText("2 lần so sánh");
+  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).press("Enter");
   await expect(page.locator(".bubble-victory")).toBeVisible();
   await expect(page.locator(".bubble-topline")).toContainText("3 lần so sánh");
   await context.close();

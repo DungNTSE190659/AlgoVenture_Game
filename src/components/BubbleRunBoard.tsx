@@ -74,22 +74,17 @@ export default function BubbleRunBoard({
       setGhost(null);
       return;
     }
+    const fromLeft = gesture.id === left.id;
     const target = ref.current?.querySelector<HTMLElement>(
-      `[data-bubble-id="${right.id}"]`,
+      `[data-bubble-id="${fromLeft ? right.id : left.id}"]`,
     );
     if (!target) return;
     const box = target.getBoundingClientRect();
-    const stride = box.width + (window.innerWidth <= 700 ? 8 : 14);
-    const goal =
-      gesture.id === left.id
-        ? box.left + box.width * 0.5
-        : Math.min(
-            window.innerWidth - 12,
-            box.left + box.width * 0.5 + stride * 0.65,
-          );
+    const goal = box.left + box.width * 0.5;
+    const direction = fromLeft ? 1 : -1;
     if (
-      gesture.x < goal ||
-      gesture.x - gesture.startX < 12 ||
+      (gesture.x - goal) * direction < 0 ||
+      (gesture.x - gesture.startX) * direction < 12 ||
       Math.abs(gesture.y - (box.top + box.height / 2)) > 100
     )
       return;
@@ -208,7 +203,7 @@ export default function BubbleRunBoard({
               if (event.detail === 0) current.current.onPush(item.id);
             }}
             onKeyDown={(event) => {
-              if (event.key === "ArrowRight") {
+              if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
                 event.preventDefault();
                 current.current.onPush(item.id);
               }
@@ -304,7 +299,7 @@ function RunBubble({
       className={`bubble-tile bubble-run-tile ${active ? "is-active" : ""} ${settled ? "is-settled" : ""} ${held ? "is-dragging" : ""}`}
       style={{ left: `calc(var(--step) * ${index})` }}
       disabled={!enabled}
-      aria-label={`Bong bóng ${item.value}, vị trí ${index + 1}. Kéo sang phải hoặc nhấn phím sang phải`}
+      aria-label={`Bong bóng ${item.value}, vị trí ${index + 1}. Kéo sang số bên cạnh hoặc nhấn phím mũi tên để đổi chỗ`}
       data-bubble-id={item.id}
       data-value={item.value}
       data-index={index}
