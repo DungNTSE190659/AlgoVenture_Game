@@ -1,0 +1,102 @@
+/* Portable artwork for the Linked List route; CSS places the sprites. */
+.learning-map.region-linear-structures {
+  --map-sheet: url('/assets/hybrid-casual-ui/linked/map/svg/sheet-desktop.svg');
+  --map-sheet-status: url('/assets/hybrid-casual-ui/linked/map/svg/sheet-status-desktop.svg');
+  --map-island: url('/assets/hybrid-casual-ui/linked/map/svg/island-desktop.svg');
+  --map-caption: url('/assets/hybrid-casual-ui/linked/map/svg/caption-desktop.svg');
+  --map-demo-normal: url('/assets/hybrid-casual-ui/linked/map/svg/button-demo-desktop-normal.svg');
+  --map-demo-hover: url('/assets/hybrid-casual-ui/linked/map/svg/button-demo-desktop-hover.svg');
+  --map-demo-pressed: url('/assets/hybrid-casual-ui/linked/map/svg/button-demo-desktop-pressed.svg');
+  --map-demo-disabled: url('/assets/hybrid-casual-ui/linked/map/svg/button-demo-desktop-disabled.svg');
+  --map-challenge-normal: url('/assets/hybrid-casual-ui/linked/map/svg/button-challenge-desktop-normal.svg');
+  --map-challenge-hover: url('/assets/hybrid-casual-ui/linked/map/svg/button-challenge-desktop-hover.svg');
+  --map-challenge-pressed: url('/assets/hybrid-casual-ui/linked/map/svg/button-challenge-desktop-pressed.svg');
+  --map-challenge-disabled: url('/assets/hybrid-casual-ui/linked/map/svg/button-challenge-desktop-disabled.svg');
+  background: transparent;
+}
+.region-linear-structures .linked-map-icon { display: inline-block; object-fit: contain; flex: 0 0 auto; pointer-events: none; }
+.region-linear-structures .stop-button > .linked-map-icon { width: 56px; height: 56px; }
+.region-linear-structures .linked-map-road-assets picture { position: absolute; left: 0; width: 100%; display: block; }
+.region-linear-structures .linked-map-road-assets img { width: 100%; height: 100%; display: block; }
+.region-linear-structures .stop-land {
+  height: 88px; border: 0; box-shadow: none;
+  background: transparent var(--map-island) center / contain no-repeat;
+}
+.region-linear-structures .stop-land > * { display: none; }
+.region-linear-structures .stop-button,
+.region-linear-structures .stop-button:hover:not(:disabled),
+.region-linear-structures .stop-button:active:not(:disabled) {
+  width: 82px; height: 84px; border: 0; outline: none; box-shadow: none;
+  background: transparent var(--map-tile-desktop-normal) center / contain no-repeat;
+  filter: none;
+}
+.learning-map.region-linear-structures .stop-selected .stop-button { background-image: var(--map-tile-desktop-selected); }
+.learning-map.region-linear-structures .stop-locked .stop-button { background-image: var(--map-tile-desktop-locked); }
+.region-linear-structures .stop-selected.stop-locked .stop-button { outline: 3px solid #fff9cc; outline-offset: 2px; }
+.region-linear-structures .stop-button:focus-visible { outline: 3px solid #426C86; outline-offset: 4px; }
+.region-linear-structures .stop-number {
+  border: 0; box-shadow: none;
+  background: transparent url('/assets/hybrid-casual-ui/linked/map/svg/badge-number.svg') center / contain no-repeat;
+}
+.region-linear-structures .stop-badge {
+  border: 0; box-shadow: none;
+  background: transparent url('/assets/hybrid-casual-ui/linked/map/svg/badge-open.svg') center / contain no-repeat;
+}
+.region-linear-structures .stop-complete .stop-badge { background-image: url('/assets/hybrid-casual-ui/linked/map/svg/badge-complete.svg'); }
+.region-linear-structures .stop-locked .stop-badge { background-image: url('/assets/hybrid-casual-ui/linked/map/svg/badge-locked.svg'); }
+.region-linear-structures .stop-caption,
+.region-linear-structures .stop-locked .stop-caption {
+  width: 150px; min-height: 60px; justify-content: center;
+  background: transparent var(--map-caption) center / 100% 100% no-repeat;
+  border: 0; box-shadow: none;
+}
+.region-linear-structures .track-sheet {
+  border: 0; box-shadow: none;
+  background: transparent var(--map-sheet) center / 100% 100% no-repeat;
+}
+.region-linear-structures.map-has-status .track-sheet { background-image: var(--map-sheet-status); }
+.region-linear-structures .sheet-handle { background: transparent url('/assets/hybrid-casual-ui/linked/map/svg/sheet-handle.svg') center / contain no-repeat; }
+.region-linear-structures .sheet-number { border: 0; border-radius: 0; background: transparent var(--map-number-desktop) center / contain no-repeat; }
+.region-linear-structures .sheet-demo { --map-button-normal: var(--map-demo-normal); --map-button-hover: var(--map-demo-hover); --map-button-pressed: var(--map-demo-pressed); --map-button-disabled: var(--map-demo-disabled); }
+.region-linear-structures .sheet-challenge { --map-button-normal: var(--map-challenge-normal); --map-button-hover: var(--map-challenge-hover); --map-button-pressed: var(--map-challenge-pressed); --map-button-disabled: var(--map-challenge-disabled); }
+.learning-map.region-linear-structures .sheet-actions button {
+  border: 0; box-shadow: none; filter: none; opacity: 1;
+  background: transparent var(--map-button-normal) center / 100% 100% no-repeat;
+}
+.learning-map.region-linear-structures .sheet-actions button:hover:not(:disabled) { background-image: var(--map-button-hover); filter: none; }
+.learning-map.region-linear-structures .sheet-actions button:active:not(:disabled) { background-image: var(--map-button-pressed); filter: none; }
+.learning-map.region-linear-structures .sheet-actions button:disabled { background-image: var(--map-button-disabled); color: #8a9880; }
+.learning-map.region-linear-structures :is(.track-back, .track-sound, .track-locate) {
+  border: 0; box-shadow: none; filter: none;
+  background: transparent url('/assets/hybrid-casual-ui/linked/map/svg/button-icon-normal.svg') center / contain no-repeat;
+}
+.learning-map.region-linear-structures :is(.track-back, .track-sound, .track-locate):hover:not(:disabled) { background-image: url('/assets/hybrid-casual-ui/linked/map/svg/button-icon-hover.svg'); filter: none; }
+.learning-map.region-linear-structures :is(.track-back, .track-sound, .track-locate):active:not(:disabled) { background-image: url('/assets/hybrid-casual-ui/linked/map/svg/button-icon-pressed.svg'); filter: none; }
+.learning-map.region-linear-structures :is(.track-back, .track-sound, .track-locate):disabled { background-image: url('/assets/hybrid-casual-ui/linked/map/svg/button-icon-disabled.svg'); opacity: 1; }
+.region-linear-structures .track-progress > div { height: 8px; background: transparent url('/assets/hybrid-casual-ui/linked/map/svg/progress-track.svg') center / 100% 100% no-repeat; }
+.region-linear-structures .track-progress i { background: transparent url('/assets/hybrid-casual-ui/linked/map/svg/progress-fill.svg') left center / 530px 100% no-repeat; }
+.region-linear-structures .track-decoration { width: 24px; height: 24px; font-size: 0; text-shadow: none; background: transparent url('/assets/hybrid-casual-ui/linked/map/svg/decoration-flower.svg') center / contain no-repeat; }
+@media (max-width: 700px) {
+  .learning-map.region-linear-structures {
+    --map-sheet: url('/assets/hybrid-casual-ui/linked/map/svg/sheet-mobile.svg');
+    --map-sheet-status: url('/assets/hybrid-casual-ui/linked/map/svg/sheet-status-mobile.svg');
+    --map-island: url('/assets/hybrid-casual-ui/linked/map/svg/island-mobile.svg');
+    --map-caption: url('/assets/hybrid-casual-ui/linked/map/svg/caption-mobile.svg');
+    --map-demo-normal: url('/assets/hybrid-casual-ui/linked/map/svg/button-demo-mobile-normal.svg');
+    --map-demo-hover: url('/assets/hybrid-casual-ui/linked/map/svg/button-demo-mobile-hover.svg');
+    --map-demo-pressed: url('/assets/hybrid-casual-ui/linked/map/svg/button-demo-mobile-pressed.svg');
+    --map-demo-disabled: url('/assets/hybrid-casual-ui/linked/map/svg/button-demo-mobile-disabled.svg');
+    --map-challenge-normal: url('/assets/hybrid-casual-ui/linked/map/svg/button-challenge-mobile-normal.svg');
+    --map-challenge-hover: url('/assets/hybrid-casual-ui/linked/map/svg/button-challenge-mobile-hover.svg');
+    --map-challenge-pressed: url('/assets/hybrid-casual-ui/linked/map/svg/button-challenge-mobile-pressed.svg');
+    --map-challenge-disabled: url('/assets/hybrid-casual-ui/linked/map/svg/button-challenge-mobile-disabled.svg');
+  }
+  .region-linear-structures .stop-land { width: 132px; left: 9px; }
+  .region-linear-structures .stop-button,
+  .region-linear-structures .stop-button:hover:not(:disabled),
+  .region-linear-structures .stop-button:active:not(:disabled) { width: 76px; height: 80px; background-image: var(--map-tile-mobile-normal); }
+  .learning-map.region-linear-structures .stop-selected .stop-button { background-image: var(--map-tile-mobile-selected); }
+  .learning-map.region-linear-structures .stop-locked .stop-button { background-image: var(--map-tile-mobile-locked); }
+  .region-linear-structures .sheet-number { background-image: var(--map-number-mobile); }
+  .region-linear-structures .stop-button > .linked-map-icon { width: 52px; height: 52px; }
+}

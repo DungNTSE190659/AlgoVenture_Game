@@ -14,14 +14,17 @@ export default function RegionLandmark({ region }: { region: RegionId }) {
       {[0, 1, 2].map(i => <g key={i}><rect x={54 + i * 25} y="105" width="22" height="15" rx="4" fill="#FDF9E8" stroke="#A6B683" strokeWidth="2" /><text x={65 + i * 25} y="116" textAnchor="middle" fontSize="10" fill="#819968" fontWeight="900">{i}</text></g>)}
     </> : region === "linear-structures" ? <>
       <path d="M12 104Q56 74 107 82T178 108L154 116H34Z" fill="#DBCE9D" />
-      <path d="M19 104V54h47v50" fill="#FFF0CF" stroke="#B9A37B" strokeWidth="3" />
-      {[0,1,2].map(i => <rect key={i} x="25" y={90-i*16} width="35" height="13" rx="4" fill={['#A3BFCE','#BAA3CB','#D4B787'][i]} stroke="#FFF8DE" strokeWidth="2" />)}
-      <path d="M41 47V28m-6 6 6-6 6 6" stroke="#A48C69" strokeWidth="3" strokeLinecap="round" />
-      <rect x="90" y="52" width="77" height="37" rx="6" fill="#F4E5BF" stroke="#BDA77B" strokeWidth="3" />
-      {[0,1,2].map(i => <g key={i}><rect x={96+i*23} y="60" width="18" height="20" rx="4" fill="#A6BE9B" stroke="#FDF8DC" strokeWidth="2" /><circle cx={105+i*23} cy="70" r="3" fill="#FDF8DC" /></g>)}
-      <path d="m78 69 10 0m-5-5 5 5-5 5m87-5h10m-5-5 5 5-5 5" stroke="#B19B70" strokeWidth="3" strokeLinecap="round" />
-      <path d="M79 106h18m23 0h18" stroke="#B69E73" strokeWidth="4" strokeLinecap="round" />
-      {[77,115,153].map((x,i) => <g key={x}><rect x={x-13} y="94" width="27" height="23" rx="6" fill="#FFF3D2" stroke="#BDA77B" strokeWidth="2" /><text x={x} y="110" textAnchor="middle" fontSize="12" fontWeight="900" fill="#A58E66">{i+1}</text></g>)}
+      <path d="M28 42h34m45 0h34" stroke="#A89171" strokeWidth="5" strokeLinecap="round" />
+      <path d="m58 37 8 5-8 5m48-10 8 5-8 5" stroke="#A89171" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      {[29,78,127].map((x,i) => <g key={x}>
+        <rect x={x-9} y="58" width="43" height="39" rx="10" fill={['#EBC999','#B9D4C2','#C8B7D8'][i]} stroke="#FFF7DF" strokeWidth="3" />
+        <circle cx={x-9} cy="77" r="5" fill="#FFF9E9" stroke="#AD9678" strokeWidth="2" />
+        <path d={`M${x+34} 77h9`} stroke="#9B8063" strokeWidth="4" strokeLinecap="round" />
+        <circle cx={x+43} cy="77" r="3" fill="#A48D75" />
+        <text x={x+12} y="83" textAnchor="middle" fontSize="18" fontWeight="900" fill="#6D665D">{[8,3,6][i]}</text>
+      </g>)}
+      <path d="M63 77c6 0 6 0 6 0m43 0h6" stroke="#AA8A68" strokeWidth="3" strokeLinecap="round" />
+      <text x="22" y="51" fontSize="9" fontWeight="900" fill="#8F896C">HEAD</text><text x="157" y="52" fontSize="9" fontWeight="900" fill="#8F896C">NULL</text>
     </> : region === "trees" ? <>
       <path d="M8 108Q30 75 91 85T181 104L164 116H25Z" fill="#BDD5B7" />
       <path d="M95 108V31M95 45 56 69M95 45l39 24M56 74 35 101M56 74l23 27M134 74l23 27" stroke="#96AB78" strokeWidth="7" strokeLinecap="round" />

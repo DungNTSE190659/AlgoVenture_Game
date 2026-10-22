@@ -24,7 +24,12 @@ export type SoundCue =
   | "finish"
   | "correct"
   | "retry"
-  | "hint";
+  | "hint"
+  | "stack-push"
+  | "stack-pop"
+  | "stack-peek"
+  | "stack-error"
+  | "stack-clear";
 type Tone = {
   at: number;
   frequency: number;
@@ -35,6 +40,23 @@ type Tone = {
   wave?: OscillatorType;
 };
 const melodies: Record<SoundCue, Tone[]> = {
+  "stack-push": [
+    {at:0,frequency:640,end:260,duration:.12,volume:.065,wave:"triangle"},
+    {at:.09,frequency:180,end:120,duration:.09,volume:.07,wave:"triangle"},
+  ],
+  "stack-pop": [
+    {at:0,frequency:320,end:820,duration:.14,volume:.07,wave:"triangle"},
+    {at:.07,frequency:980,duration:.1,volume:.035},
+  ],
+  "stack-peek": [
+    {at:0,frequency:880,duration:.1,volume:.045},
+    {at:.08,frequency:1320,duration:.14,volume:.04},
+  ],
+  "stack-error": [
+    {at:0,frequency:230,end:155,duration:.14,volume:.065,wave:"triangle"},
+    {at:.13,frequency:175,end:120,duration:.12,volume:.05,wave:"triangle"},
+  ],
+  "stack-clear": [523.25,659.25,880].map((frequency,index)=>({at:index*.075,frequency,duration:.17,volume:.055})),
   tap: [
     { at: 0, frequency: 620, end: 430, duration: 0.055, volume: 0.04 },
     { at: 0.025, frequency: 930, duration: 0.065, volume: 0.015 },

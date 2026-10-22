@@ -1,0 +1,2940 @@
+{
+  "version": 1,
+  "pixelsPerUnit": 100,
+  "alphaIsTransparency": true,
+  "spriteMeshType": "FullRect",
+  "filterMode": "Bilinear",
+  "compression": "None",
+  "assets": [
+    {
+      "id": "badge-complete",
+      "svg": "svg/badge-complete.svg",
+      "png": "png/badge-complete.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        30,
+        30,
+        30,
+        30
+      ]
+    },
+    {
+      "id": "badge-score-pill",
+      "svg": "svg/badge-score-pill.svg",
+      "png": "png/badge-score-pill.png",
+      "nativeSize": [
+        112,
+        50
+      ],
+      "pngSize": [
+        224,
+        100
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        48,
+        48,
+        48,
+        48
+      ]
+    },
+    {
+      "id": "badge-slot-default",
+      "svg": "svg/badge-slot-default.svg",
+      "png": "png/badge-slot-default.png",
+      "nativeSize": [
+        100,
+        36
+      ],
+      "pngSize": [
+        200,
+        72
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        34,
+        34,
+        34,
+        34
+      ]
+    },
+    {
+      "id": "badge-slot-head",
+      "svg": "svg/badge-slot-head.svg",
+      "png": "png/badge-slot-head.png",
+      "nativeSize": [
+        100,
+        36
+      ],
+      "pngSize": [
+        200,
+        72
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        34,
+        34,
+        34,
+        34
+      ]
+    },
+    {
+      "id": "btn-action-green-disabled",
+      "svg": "svg/btn-action-green-disabled.svg",
+      "png": "png/btn-action-green-disabled.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-action-green-hover",
+      "svg": "svg/btn-action-green-hover.svg",
+      "png": "png/btn-action-green-hover.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-action-green-pressed",
+      "svg": "svg/btn-action-green-pressed.svg",
+      "png": "png/btn-action-green-pressed.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-action-green",
+      "svg": "svg/btn-action-green.svg",
+      "png": "png/btn-action-green.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-action-purple-disabled",
+      "svg": "svg/btn-action-purple-disabled.svg",
+      "png": "png/btn-action-purple-disabled.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-action-purple-hover",
+      "svg": "svg/btn-action-purple-hover.svg",
+      "png": "png/btn-action-purple-hover.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-action-purple-pressed",
+      "svg": "svg/btn-action-purple-pressed.svg",
+      "png": "png/btn-action-purple-pressed.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-action-purple",
+      "svg": "svg/btn-action-purple.svg",
+      "png": "png/btn-action-purple.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-check-mint-disabled",
+      "svg": "svg/btn-check-mint-disabled.svg",
+      "png": "png/btn-check-mint-disabled.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-check-mint-hover",
+      "svg": "svg/btn-check-mint-hover.svg",
+      "png": "png/btn-check-mint-hover.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-check-mint-pressed",
+      "svg": "svg/btn-check-mint-pressed.svg",
+      "png": "png/btn-check-mint-pressed.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-check-mint",
+      "svg": "svg/btn-check-mint.svg",
+      "png": "png/btn-check-mint.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-hint-yellow-disabled",
+      "svg": "svg/btn-hint-yellow-disabled.svg",
+      "png": "png/btn-hint-yellow-disabled.png",
+      "nativeSize": [
+        264,
+        58
+      ],
+      "pngSize": [
+        528,
+        116
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-hint-yellow-hover",
+      "svg": "svg/btn-hint-yellow-hover.svg",
+      "png": "png/btn-hint-yellow-hover.png",
+      "nativeSize": [
+        264,
+        58
+      ],
+      "pngSize": [
+        528,
+        116
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-hint-yellow-pressed",
+      "svg": "svg/btn-hint-yellow-pressed.svg",
+      "png": "png/btn-hint-yellow-pressed.png",
+      "nativeSize": [
+        264,
+        58
+      ],
+      "pngSize": [
+        528,
+        116
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-hint-yellow",
+      "svg": "svg/btn-hint-yellow.svg",
+      "png": "png/btn-hint-yellow.png",
+      "nativeSize": [
+        264,
+        58
+      ],
+      "pngSize": [
+        528,
+        116
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "btn-icon-squircle-disabled",
+      "svg": "svg/btn-icon-squircle-disabled.svg",
+      "png": "png/btn-icon-squircle-disabled.png",
+      "nativeSize": [
+        52,
+        56
+      ],
+      "pngSize": [
+        104,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "btn-icon-squircle-hover",
+      "svg": "svg/btn-icon-squircle-hover.svg",
+      "png": "png/btn-icon-squircle-hover.png",
+      "nativeSize": [
+        52,
+        56
+      ],
+      "pngSize": [
+        104,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "btn-icon-squircle-pressed",
+      "svg": "svg/btn-icon-squircle-pressed.svg",
+      "png": "png/btn-icon-squircle-pressed.png",
+      "nativeSize": [
+        52,
+        56
+      ],
+      "pngSize": [
+        104,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "btn-icon-squircle",
+      "svg": "svg/btn-icon-squircle.svg",
+      "png": "png/btn-icon-squircle.png",
+      "nativeSize": [
+        52,
+        56
+      ],
+      "pngSize": [
+        104,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "btn-insert-plus",
+      "svg": "svg/btn-insert-plus.svg",
+      "png": "png/btn-insert-plus.png",
+      "nativeSize": [
+        52,
+        56
+      ],
+      "pngSize": [
+        104,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        50,
+        50,
+        50,
+        50
+      ]
+    },
+    {
+      "id": "btn-neutral-wide-disabled",
+      "svg": "svg/btn-neutral-wide-disabled.svg",
+      "png": "png/btn-neutral-wide-disabled.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "preserveAspect": false,
+      "usage": "Wide neutral actions: Try it yourself, reset, undo. Use Sprite Swap plus 9-slice for nearby sizes.",
+      "state": "disabled"
+    },
+    {
+      "id": "btn-neutral-wide-hover",
+      "svg": "svg/btn-neutral-wide-hover.svg",
+      "png": "png/btn-neutral-wide-hover.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "preserveAspect": false,
+      "usage": "Wide neutral actions: Try it yourself, reset, undo. Use Sprite Swap plus 9-slice for nearby sizes.",
+      "state": "hover"
+    },
+    {
+      "id": "btn-neutral-wide-pressed",
+      "svg": "svg/btn-neutral-wide-pressed.svg",
+      "png": "png/btn-neutral-wide-pressed.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "preserveAspect": false,
+      "usage": "Wide neutral actions: Try it yourself, reset, undo. Use Sprite Swap plus 9-slice for nearby sizes.",
+      "state": "pressed"
+    },
+    {
+      "id": "btn-neutral-wide",
+      "svg": "svg/btn-neutral-wide.svg",
+      "png": "png/btn-neutral-wide.png",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "pngSize": [
+        528,
+        124
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "preserveAspect": false,
+      "usage": "Wide neutral actions: Try it yourself, reset, undo. Use Sprite Swap plus 9-slice for nearby sizes.",
+      "state": "normal"
+    },
+    {
+      "id": "icon-arrow-left",
+      "svg": "svg/icon-arrow-left.svg",
+      "png": "png/icon-arrow-left.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-arrow-right",
+      "svg": "svg/icon-arrow-right.svg",
+      "png": "png/icon-arrow-right.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-check",
+      "svg": "svg/icon-check.svg",
+      "png": "png/icon-check.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-lightbulb",
+      "svg": "svg/icon-lightbulb.svg",
+      "png": "png/icon-lightbulb.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-pause",
+      "svg": "svg/icon-pause.svg",
+      "png": "png/icon-pause.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-play",
+      "svg": "svg/icon-play.svg",
+      "png": "png/icon-play.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-rotate-ccw",
+      "svg": "svg/icon-rotate-ccw.svg",
+      "png": "png/icon-rotate-ccw.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-settings",
+      "svg": "svg/icon-settings.svg",
+      "png": "png/icon-settings.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-skip-back",
+      "svg": "svg/icon-skip-back.svg",
+      "png": "png/icon-skip-back.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-skip-forward",
+      "svg": "svg/icon-skip-forward.svg",
+      "png": "png/icon-skip-forward.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-star",
+      "svg": "svg/icon-star.svg",
+      "png": "png/icon-star.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-undo-2",
+      "svg": "svg/icon-undo-2.svg",
+      "png": "png/icon-undo-2.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-volume-2",
+      "svg": "svg/icon-volume-2.svg",
+      "png": "png/icon-volume-2.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-volume-x",
+      "svg": "svg/icon-volume-x.svg",
+      "png": "png/icon-volume-x.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-x",
+      "svg": "svg/icon-x.svg",
+      "png": "png/icon-x.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-blue-selected",
+      "svg": "svg/node-block-blue-selected.svg",
+      "png": "png/node-block-blue-selected.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-blue",
+      "svg": "svg/node-block-blue.svg",
+      "png": "png/node-block-blue.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-lavender-assembly-selected",
+      "svg": "svg/node-block-lavender-assembly-selected.svg",
+      "png": "png/node-block-lavender-assembly-selected.png",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "pngSize": [
+        248,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: assembly; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-assembly",
+      "svg": "svg/node-block-lavender-assembly.svg",
+      "png": "png/node-block-lavender-assembly.png",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "pngSize": [
+        248,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: assembly; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-bank-mobile-selected",
+      "svg": "svg/node-block-lavender-bank-mobile-selected.svg",
+      "png": "png/node-block-lavender-bank-mobile-selected.png",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "pngSize": [
+        116,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-bank-mobile",
+      "svg": "svg/node-block-lavender-bank-mobile.svg",
+      "png": "png/node-block-lavender-bank-mobile.png",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "pngSize": [
+        116,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-bank-selected",
+      "svg": "svg/node-block-lavender-bank-selected.svg",
+      "png": "png/node-block-lavender-bank-selected.png",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "pngSize": [
+        232,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-bank",
+      "svg": "svg/node-block-lavender-bank.svg",
+      "png": "png/node-block-lavender-bank.png",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "pngSize": [
+        232,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-compact-selected",
+      "svg": "svg/node-block-lavender-compact-selected.svg",
+      "png": "png/node-block-lavender-compact-selected.png",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "pngSize": [
+        154,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: compact; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-compact",
+      "svg": "svg/node-block-lavender-compact.svg",
+      "png": "png/node-block-lavender-compact.png",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "pngSize": [
+        154,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: compact; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-mobile-selected",
+      "svg": "svg/node-block-lavender-mobile-selected.svg",
+      "png": "png/node-block-lavender-mobile-selected.png",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "pngSize": [
+        188,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: mobile; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-mobile",
+      "svg": "svg/node-block-lavender-mobile.svg",
+      "png": "png/node-block-lavender-mobile.png",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "pngSize": [
+        188,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: mobile; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-selected",
+      "svg": "svg/node-block-lavender-selected.svg",
+      "png": "png/node-block-lavender-selected.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-lavender",
+      "svg": "svg/node-block-lavender.svg",
+      "png": "png/node-block-lavender.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-mint-assembly-selected",
+      "svg": "svg/node-block-mint-assembly-selected.svg",
+      "png": "png/node-block-mint-assembly-selected.png",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "pngSize": [
+        248,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: assembly; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-assembly",
+      "svg": "svg/node-block-mint-assembly.svg",
+      "png": "png/node-block-mint-assembly.png",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "pngSize": [
+        248,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: assembly; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-bank-mobile-selected",
+      "svg": "svg/node-block-mint-bank-mobile-selected.svg",
+      "png": "png/node-block-mint-bank-mobile-selected.png",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "pngSize": [
+        116,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-bank-mobile",
+      "svg": "svg/node-block-mint-bank-mobile.svg",
+      "png": "png/node-block-mint-bank-mobile.png",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "pngSize": [
+        116,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-bank-selected",
+      "svg": "svg/node-block-mint-bank-selected.svg",
+      "png": "png/node-block-mint-bank-selected.png",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "pngSize": [
+        232,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-bank",
+      "svg": "svg/node-block-mint-bank.svg",
+      "png": "png/node-block-mint-bank.png",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "pngSize": [
+        232,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-compact-selected",
+      "svg": "svg/node-block-mint-compact-selected.svg",
+      "png": "png/node-block-mint-compact-selected.png",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "pngSize": [
+        154,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: compact; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-compact",
+      "svg": "svg/node-block-mint-compact.svg",
+      "png": "png/node-block-mint-compact.png",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "pngSize": [
+        154,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: compact; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-mobile-selected",
+      "svg": "svg/node-block-mint-mobile-selected.svg",
+      "png": "png/node-block-mint-mobile-selected.png",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "pngSize": [
+        188,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: mobile; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-mobile",
+      "svg": "svg/node-block-mint-mobile.svg",
+      "png": "png/node-block-mint-mobile.png",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "pngSize": [
+        188,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: mobile; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-selected",
+      "svg": "svg/node-block-mint-selected.svg",
+      "png": "png/node-block-mint-selected.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-mint",
+      "svg": "svg/node-block-mint.svg",
+      "png": "png/node-block-mint.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-peach-assembly-selected",
+      "svg": "svg/node-block-peach-assembly-selected.svg",
+      "png": "png/node-block-peach-assembly-selected.png",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "pngSize": [
+        248,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: assembly; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-assembly",
+      "svg": "svg/node-block-peach-assembly.svg",
+      "png": "png/node-block-peach-assembly.png",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "pngSize": [
+        248,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: assembly; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-bank-mobile-selected",
+      "svg": "svg/node-block-peach-bank-mobile-selected.svg",
+      "png": "png/node-block-peach-bank-mobile-selected.png",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "pngSize": [
+        116,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-bank-mobile",
+      "svg": "svg/node-block-peach-bank-mobile.svg",
+      "png": "png/node-block-peach-bank-mobile.png",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "pngSize": [
+        116,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-bank-selected",
+      "svg": "svg/node-block-peach-bank-selected.svg",
+      "png": "png/node-block-peach-bank-selected.png",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "pngSize": [
+        232,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-bank",
+      "svg": "svg/node-block-peach-bank.svg",
+      "png": "png/node-block-peach-bank.png",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "pngSize": [
+        232,
+        112
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: bank; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-compact-selected",
+      "svg": "svg/node-block-peach-compact-selected.svg",
+      "png": "png/node-block-peach-compact-selected.png",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "pngSize": [
+        154,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: compact; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-compact",
+      "svg": "svg/node-block-peach-compact.svg",
+      "png": "png/node-block-peach-compact.png",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "pngSize": [
+        154,
+        88
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: compact; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-mobile-selected",
+      "svg": "svg/node-block-peach-mobile-selected.svg",
+      "png": "png/node-block-peach-mobile-selected.png",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "pngSize": [
+        188,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: mobile; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-mobile",
+      "svg": "svg/node-block-peach-mobile.svg",
+      "png": "png/node-block-peach-mobile.png",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "pngSize": [
+        188,
+        128
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Node body: mobile; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-selected",
+      "svg": "svg/node-block-peach-selected.svg",
+      "png": "png/node-block-peach-selected.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-peach",
+      "svg": "svg/node-block-peach.svg",
+      "png": "png/node-block-peach.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-red-selected",
+      "svg": "svg/node-block-red-selected.svg",
+      "png": "png/node-block-red-selected.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-red",
+      "svg": "svg/node-block-red.svg",
+      "png": "png/node-block-red.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-yellow-selected",
+      "svg": "svg/node-block-yellow-selected.svg",
+      "png": "png/node-block-yellow-selected.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-block-yellow",
+      "svg": "svg/node-block-yellow.svg",
+      "png": "png/node-block-yellow.png",
+      "nativeSize": [
+        180,
+        88
+      ],
+      "pngSize": [
+        360,
+        176
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "null-target-block",
+      "svg": "svg/null-target-block.svg",
+      "png": "png/null-target-block.png",
+      "nativeSize": [
+        116,
+        52
+      ],
+      "pngSize": [
+        232,
+        104
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        50,
+        50,
+        50,
+        50
+      ]
+    },
+    {
+      "id": "panel-bank",
+      "svg": "svg/panel-bank.svg",
+      "png": "png/panel-bank.png",
+      "nativeSize": [
+        304,
+        228
+      ],
+      "pngSize": [
+        608,
+        456
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        64,
+        64,
+        64,
+        64
+      ]
+    },
+    {
+      "id": "panel-board",
+      "svg": "svg/panel-board.svg",
+      "png": "png/panel-board.png",
+      "nativeSize": [
+        524,
+        628
+      ],
+      "pngSize": [
+        1048,
+        1256
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        64,
+        64,
+        64,
+        64
+      ]
+    },
+    {
+      "id": "panel-dialog",
+      "svg": "svg/panel-dialog.svg",
+      "png": "png/panel-dialog.png",
+      "nativeSize": [
+        380,
+        280
+      ],
+      "pngSize": [
+        760,
+        560
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        64,
+        64,
+        64,
+        64
+      ]
+    },
+    {
+      "id": "panel-speech",
+      "svg": "svg/panel-speech.svg",
+      "png": "png/panel-speech.png",
+      "nativeSize": [
+        240,
+        160
+      ],
+      "pngSize": [
+        480,
+        320
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        64,
+        64,
+        64,
+        64
+      ]
+    },
+    {
+      "id": "pointer-nail-blue",
+      "svg": "svg/pointer-nail-blue.svg",
+      "png": "png/pointer-nail-blue.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "pointer-nail-plugged",
+      "svg": "svg/pointer-nail-plugged.svg",
+      "png": "png/pointer-nail-plugged.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "pointer-nail-selected",
+      "svg": "svg/pointer-nail-selected.svg",
+      "png": "png/pointer-nail-selected.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "progress-fill",
+      "svg": "svg/progress-fill.svg",
+      "png": "png/progress-fill.png",
+      "nativeSize": [
+        160,
+        12
+      ],
+      "pngSize": [
+        320,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "progress-track",
+      "svg": "svg/progress-track.svg",
+      "png": "png/progress-track.png",
+      "nativeSize": [
+        160,
+        12
+      ],
+      "pngSize": [
+        320,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "rope-anchor",
+      "svg": "svg/rope-anchor.svg",
+      "png": "png/rope-anchor.png",
+      "nativeSize": [
+        16,
+        16
+      ],
+      "pngSize": [
+        32,
+        32
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "rope-tile",
+      "svg": "svg/rope-tile.svg",
+      "png": "png/rope-tile.png",
+      "nativeSize": [
+        16,
+        8
+      ],
+      "pngSize": [
+        32,
+        16
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "screen-scrim",
+      "svg": "svg/screen-scrim.svg",
+      "png": "png/screen-scrim.png",
+      "nativeSize": [
+        8,
+        8
+      ],
+      "pngSize": [
+        16,
+        16
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "slot-frame-available",
+      "svg": "svg/slot-frame-available.svg",
+      "png": "png/slot-frame-available.png",
+      "nativeSize": [
+        204,
+        108
+      ],
+      "pngSize": [
+        408,
+        216
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "slot-frame-desktop-available",
+      "svg": "svg/slot-frame-desktop-available.svg",
+      "png": "png/slot-frame-desktop-available.png",
+      "nativeSize": [
+        148,
+        80
+      ],
+      "pngSize": [
+        296,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Assembly slot: desktop; available drop target. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "desktop",
+      "state": "available"
+    },
+    {
+      "id": "slot-frame-desktop",
+      "svg": "svg/slot-frame-desktop.svg",
+      "png": "png/slot-frame-desktop.png",
+      "nativeSize": [
+        148,
+        80
+      ],
+      "pngSize": [
+        296,
+        160
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Assembly slot: desktop; normal. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "desktop",
+      "state": "normal"
+    },
+    {
+      "id": "slot-frame-mobile-compact-available",
+      "svg": "svg/slot-frame-mobile-compact-available.svg",
+      "png": "png/slot-frame-mobile-compact-available.png",
+      "nativeSize": [
+        112,
+        52
+      ],
+      "pngSize": [
+        224,
+        104
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-compact; available drop target. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-compact",
+      "state": "available"
+    },
+    {
+      "id": "slot-frame-mobile-compact",
+      "svg": "svg/slot-frame-mobile-compact.svg",
+      "png": "png/slot-frame-mobile-compact.png",
+      "nativeSize": [
+        112,
+        52
+      ],
+      "pngSize": [
+        224,
+        104
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-compact; normal. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-compact",
+      "state": "normal"
+    },
+    {
+      "id": "slot-frame-mobile-medium-available",
+      "svg": "svg/slot-frame-mobile-medium-available.svg",
+      "png": "png/slot-frame-mobile-medium-available.png",
+      "nativeSize": [
+        131,
+        72
+      ],
+      "pngSize": [
+        262,
+        144
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-medium; available drop target. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-medium",
+      "state": "available"
+    },
+    {
+      "id": "slot-frame-mobile-medium",
+      "svg": "svg/slot-frame-mobile-medium.svg",
+      "png": "png/slot-frame-mobile-medium.png",
+      "nativeSize": [
+        131,
+        72
+      ],
+      "pngSize": [
+        262,
+        144
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-medium; normal. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-medium",
+      "state": "normal"
+    },
+    {
+      "id": "slot-frame-mobile-tall-available",
+      "svg": "svg/slot-frame-mobile-tall-available.svg",
+      "png": "png/slot-frame-mobile-tall-available.png",
+      "nativeSize": [
+        136,
+        96
+      ],
+      "pngSize": [
+        272,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-tall; available drop target. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-tall",
+      "state": "available"
+    },
+    {
+      "id": "slot-frame-mobile-tall",
+      "svg": "svg/slot-frame-mobile-tall.svg",
+      "png": "png/slot-frame-mobile-tall.png",
+      "nativeSize": [
+        136,
+        96
+      ],
+      "pngSize": [
+        272,
+        192
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-tall; normal. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-tall",
+      "state": "normal"
+    },
+    {
+      "id": "slot-frame",
+      "svg": "svg/slot-frame.svg",
+      "png": "png/slot-frame.png",
+      "nativeSize": [
+        204,
+        108
+      ],
+      "pngSize": [
+        408,
+        216
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Sliced",
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "socket-hole-active",
+      "svg": "svg/socket-hole-active.svg",
+      "png": "png/socket-hole-active.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "socket-hole",
+      "svg": "svg/socket-hole.svg",
+      "png": "png/socket-hole.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "speech-tail-up",
+      "svg": "svg/speech-tail-up.svg",
+      "png": "png/speech-tail-up.png",
+      "nativeSize": [
+        24,
+        20
+      ],
+      "pngSize": [
+        48,
+        40
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "preserveAspect": true,
+      "usage": "Mobile speech bubble pointing upward toward Buta. Separate from the sliced bubble body; do not stretch."
+    },
+    {
+      "id": "speech-tail",
+      "svg": "svg/speech-tail.svg",
+      "png": "png/speech-tail.png",
+      "nativeSize": [
+        20,
+        24
+      ],
+      "pngSize": [
+        40,
+        48
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "unityImageType": "Simple",
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "meadow-landscape",
+      "file": "backgrounds/meadow-landscape.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "meadow-portrait",
+      "file": "backgrounds/meadow-portrait.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    }
+  ]
+}

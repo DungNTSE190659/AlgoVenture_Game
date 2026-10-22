@@ -5,7 +5,7 @@ async function enter(page: Page) {
   await page.getByRole("button", { name: "Xem chủ đề Mảng", exact: true }).click();
   await page.locator(".atlas-enter").click();
 }
-async function route(page: Page, name: "Search" | "Sort") {
+async function route(page: Page, name: "Search" | "Sort" | "Stack & Queue") {
   await page.getByRole("button", { name: `Lộ trình ${name}`, exact: true }).click();
   await expect(page.getByRole("button", { name: `Lộ trình ${name}`, exact: true })).toHaveAttribute("aria-pressed", "true");
 }
@@ -75,9 +75,9 @@ test("old combined saves keep both routes and the world total", async ({ page })
   await route(page, "Search");
   await expect(page.locator(".stop-complete")).toHaveCount(2);
   await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
-  await expect(page.locator(".atlas-region-progress")).toHaveText("5/7");
+  await expect(page.locator(".atlas-region-progress")).toHaveText("5/9");
   await page.getByRole("button", { name: "Xem chủ đề Danh sách", exact: true }).click();
-  await expect(page.locator(".atlas-enter")).toBeDisabled();
+  await expect(page.locator(".atlas-enter")).toBeEnabled();
 });
 
 test("both route maps fit desktop, phone portrait and landscape without overlapping controls", async ({ page }) => {
@@ -85,7 +85,7 @@ test("both route maps fit desktop, phone portrait and landscape without overlapp
   await enter(page);
   for (const [width, height] of [[1440, 900], [1280, 720], [390, 844], [375, 667], [320, 568], [844, 390], [667, 375]]) {
     await page.setViewportSize({ width, height });
-    for (const name of ["Search", "Sort"] as const) {
+    for (const name of ["Search", "Sort", "Stack & Queue"] as const) {
       await route(page, name);
       for (const selector of [".track-routes", ".track-sheet", ".track-viewport", ".track-locate", ".track-buta"]) {
         const box = (await page.locator(selector).boundingBox())!;
@@ -98,7 +98,7 @@ test("both route maps fit desktop, phone portrait and landscape without overlapp
       const viewport = (await page.locator(".track-viewport").boundingBox())!;
       expect(tabs.y + tabs.height).toBeLessThanOrEqual(viewport.y);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
-      if ([1440, 390, 844].includes(width)) await page.screenshot({ path: `.qa/array-${name.toLowerCase()}-${width}.png` });
+      if ([1440, 390, 320, 844].includes(width)) await page.screenshot({ path: `.qa/array-${name.toLowerCase()}-${width}.png` });
     }
   }
 });
@@ -118,4 +118,19 @@ test("touch and keyboard switch routes without walking across the other road", a
   await page.getByRole("button", { name: "Về bản đồ", exact: true }).tap();
   await expect(page.getByRole("button", { name: "Lộ trình Sort", exact: true })).toHaveAttribute("aria-pressed", "true");
   await context.close();
+});
+
+test("Stack and Queue both open Demo and Challenge",async({page})=>{
+  const errors:string[]=[];page.on("pageerror",error=>errors.push(error.message));
+  await enter(page);await route(page,"Stack & Queue");
+  await expect(page.locator(".track-stop")).toHaveCount(2);await expect(page.locator(".stop-number")).toHaveText(["01","02"]);
+  await expect(page.getByRole("button",{name:"Lộ trình Stack & Queue",exact:true})).toContainText("0/2");
+  for(const name of ["Stack","Queue"]){
+    await page.getByRole("button",{name,exact:true}).click();await expect(page.locator("#track-sheet-title")).toHaveText(name);
+    await expect(page.locator(".sheet-description")).toHaveCount(0);
+    {await expect(page.getByRole("button",{name:"Xem demo",exact:true})).toBeEnabled();await expect(page.getByRole("button",{name:"Thử thách",exact:true})).toBeEnabled();}
+    await expect(page.locator(".stop-locked")).toHaveCount(0);
+  }
+  await route(page,"Sort");await expect(page.locator(".track-stop")).toHaveCount(5);await expect(page.getByRole("button",{name:"Thử thách",exact:true})).toBeEnabled();
+  await route(page,"Search");await expect(page.locator(".track-stop")).toHaveCount(2);expect(errors).toEqual([]);
 });

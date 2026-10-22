@@ -1,15 +1,15 @@
 import { useDemoPlayback, useDemoMotionSpeed } from "./useDemoPlayback";
 import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { Check, Crown, Pause, Play, RotateCcw, Search, SkipBack, SkipForward, Sparkles, Volume2, VolumeX, X } from "lucide-react";
-import { chooseSelection, createSelection, createSelectionLesson, placeSelection, selectionHint, selectionMinimum, type SelectionState } from "../engine/selectionSort";
-import { createArray, type Difficulty, type Item } from "../engine/quicksort";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Check, Pause, Play, RotateCcw, SkipBack, SkipForward, Sparkles, Volume2, VolumeX, X } from "lucide-react";
+import { chooseSelection, createSelection, createSelectionLesson, placeSelection, selectionHint } from "../engine/selectionSort";
+import { createArray, type Difficulty } from "../engine/quicksort";
 import { LEVELS } from "../engine/gameConfig";
 import { gameAudio } from "../audio/gameAudio";
 import { playFeedback, stopHaptics } from "../audio/gameFeedback";
 import HapticsToggle from "./HapticsToggle";
 import Pig from "./Pig";
-import World from "./World";
+import SelectionPackBoard from "./SelectionPackBoard";
 import VictoryCelebration from "./VictoryCelebration";
 import { activateTouchButton } from "./touchActivation";
 
@@ -88,12 +88,12 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     const next = chooseSelection(before, id);
     if (!next) {
       const value = before.items.find(item => item.id === id)?.value;
-      fail(`Còn số ${selectionMinimum(before)!.value} nhỏ hơn ${value}. Chỉ tìm trong các ô chưa xanh nhé!`, id);
+      fail(`Thẻ ${value} chưa phải nhỏ nhất. Quan sát tất cả các món chưa buộc dây rồi thử lại nhé!`, id);
       return false;
     }
     current.current = next; setState(next); setHint(false); setWrong(null);
     setScore(value => value + 100); setOutcome("correct");
-    setFeedback(next.items[next.start].id === id ? "Đúng rồi! Số nhỏ nhất đã ở ô đầu. Cố định số này nhé." : "Tìm đúng số nhỏ nhất rồi! Đưa số vàng vào ô sáng nhé.");
+    setFeedback(next.items[next.start].id === id ? "Đúng rồi! Món này đã ở ô cờ. Giữ vị trí và buộc dây nhé." : "Đúng rồi! Đưa món vừa chọn vào ô cờ. Món ở ô cờ sẽ đổi chỗ với nó.");
     playFeedback("pivot");
     return true;
   }
@@ -102,15 +102,31 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     if (demo || paused || lock.current || before.phase !== "place") return;
     gameAudio.unlock();
     const next = placeSelection(before, index);
-    if (!next) { fail(`Đưa số đã chọn về ô ${before.start}, ô đang có khung vàng nhé.`); return; }
+    if (!next) { fail(`Đưa món đã chọn về ô cờ ${before.start + 1} nhé.`); return; }
     const swapping = before.items[before.start].id !== before.chosen;
     const combo = streak + 1;
     const bonus = combo % 3 === 0 ? 50 : 0;
     lock.current = true; setBusy(true); setLanding(before.start);
     current.current = next; setState(next); setWrong(null); setHint(false);
     setScore(value => value + 150 + bonus); setStreak(combo); setOutcome("correct");
-    setFeedback(bonus ? "Ba lượt liền đúng! Thêm 50 điểm thưởng." : swapping ? "Đổi đúng chỗ! Bỏ qua ô xanh, tìm tiếp số nhỏ nhất nhé." : "Đã đúng chỗ, không cần đổi! Tiếp tục với phần còn lại nhé.");
+    setFeedback(bonus ? "Ba lượt liền đúng! Thêm 50 điểm thưởng." : swapping ? "Đã đổi chỗ và buộc dây! Tìm thẻ nhỏ nhất trong các món còn lại nhé." : "Đã đúng chỗ, không cần đổi! Tiếp tục với phần còn lại nhé.");
     playFeedback(swapping ? "bubble-swap" : "correct");
+  }
+  function keepPosition() {
+    const before = current.current;
+    if (demo || paused || hint || lock.current || before.phase === "done") return;
+    gameAudio.unlock();
+    const atFlag = before.items[before.start];
+    const kept = chooseSelection({ ...before, phase: "choose", chosen: null }, atFlag.id);
+    if (!kept) {
+      fail("Ô cờ chưa có số nhỏ nhất. Hãy tìm trong các món chưa buộc dây rồi đổi chỗ nhé.", atFlag.id);
+      return;
+    }
+    // A direct keep earns the same total as choosing and placing. A prior choice
+    // has already earned its 100 points, including an equal minimum elsewhere.
+    if (before.phase === "choose") setScore(value => value + 100);
+    current.current = kept; setState(kept);
+    place(before.start);
   }
   function reset() {
     gameAudio.stop(); stopHaptics();
@@ -124,11 +140,11 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     setPlaying(false); setMotionPaused(false);
     setCursor(value => Math.max(0, Math.min(frames.length - 1, value + delta)));
   }
-  const title = demo ? frame.title : done ? "Vườn số đã vào đúng chỗ!" : shown.phase === "choose" ? "Số nào bé nhất?" : "Đưa số vàng về ô sáng!";
-  const instruction = demo ? "Xét hết phần chưa xếp, rồi mới đổi chỗ."
-    : shown.phase === "choose" ? "Chạm số nhỏ nhất trong phần chưa xanh. Có thể kéo thẳng số đó về ô sáng."
+  const title = demo ? frame.title : "Chuẩn bị hành trang";
+  const instruction = demo ? "Tìm thẻ nhỏ nhất · Đổi vào ô cờ · Buộc dây."
+    : shown.phase === "choose" ? "Đưa thẻ nhỏ nhất vào ô cờ, hoặc giữ nguyên nếu đã đúng chỗ."
     : chosen?.id === shown.items[shown.start]?.id ? "Số nhỏ nhất đã ở đúng ô. Bấm Giữ nguyên vị trí để đi tiếp."
-    : `Kéo ${chosen?.value} về ô ${shown.start}, hoặc chạm vào ô đó để đổi chỗ.`;
+    : `Kéo thẻ ${chosen?.value} vào ô cờ ${shown.start + 1}, hoặc chạm ô đó để đổi chỗ.`;
 
   return <GameLayout ref={motionRoot} play={!demo} className={`selection-world selection-${mode}`} data-busy={busy} data-phase={shown.phase} data-motion-paused={paused || motionPaused}
     onPointerDownCapture={event => { touchStart.current = { x: event.clientX, y: event.clientY }; }}
@@ -142,7 +158,6 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
       event.preventDefault();
       activateTouchButton(button);
     }}>
-    {!demo && <World />}
     <GameHeader title="Selection Sort" className="selection-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
     <GameStats className="selection-stats" scoreClassName="selection-score" score={demo ? undefined : score}>
       <span>Lượt {Math.min(shown.rounds + 1, input.length - 1)} / {input.length - 1}</span>
@@ -152,12 +167,13 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     <section className="selection-content">
       <h2>{title}</h2>
       <p className="selection-task">{done ? "Mỗi lượt cố định một số nhỏ nhất. Bạn đã làm được!" : instruction}</p>
-      <SelectionBoard state={shown} target={target} candidate={demo ? frame.candidate : shown.chosen} scan={demo ? frame.scan : null} wrong={wrong} enabled={!demo && !paused && !busy && !done} paused={paused || motionPaused} onPick={pick} onPlace={place} onMiss={() => {
-        setOutcome(""); setFeedback("Thả số vào khung vàng, hoặc bấm nút Đưa về ô bên dưới nhé.");
+      <SelectionPackBoard state={shown} target={target} candidate={demo ? frame.candidate : shown.chosen} scan={demo ? frame.scan : null} wrong={wrong} enabled={!demo && !paused && !busy && !done && !hint} paused={paused || motionPaused} onPick={pick} onPlace={place} onMiss={() => {
+        setOutcome(""); setFeedback("Thả món đồ vào ô cờ, hoặc bấm nút Đưa về ô bên dưới nhé.");
       }} />
       {!demo && !done && <>
         <div className="selection-action">
-          {shown.phase === "place" && <button className="chunky-button button-green" disabled={busy || paused} onClick={() => place(shown.start)}><Check size={21} /> {chosen?.id === shown.items[shown.start]?.id ? "Giữ nguyên vị trí" : `Đưa về ô ${shown.start}`}</button>}
+          <button className="chunky-button button-green" disabled={busy || paused || hint} onClick={keepPosition}><Check size={18} /> Giữ nguyên vị trí</button>
+          {shown.phase === "place" && chosen?.id !== shown.items[shown.start]?.id && <button className="chunky-button button-green" disabled={busy || paused || hint} onClick={() => place(shown.start)}>{`Đưa về ô ${shown.start + 1}`}</button>}
         </div>
         <p key={`${score}:${mistakes}`} className={`selection-feedback outcome-${outcome}`} role="status">{feedback}</p>
 
@@ -181,101 +197,6 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     </footer>}
     {settings && <SelectionSettings {...{ input, difficulty, sound, onChange, onSoundChange }} onClose={() => setSettings(false)} onReset={reset} />}
   </GameLayout>;
-}
-
-function SelectionBoard({ state, target, candidate, scan, wrong, enabled, paused, onPick, onPlace, onMiss }: {
-  state: SelectionState; target: number; candidate: number | null; scan: number | null; wrong: number | null;
-  enabled: boolean; paused: boolean; onPick: (id: number) => boolean; onPlace: (index: number) => void; onMiss: () => void;
-}) {
-  const scroll = useRef<HTMLDivElement>(null);
-  const gesture = useRef<{ id: number; pointer: number; x: number; y: number; moved: boolean; accepted: boolean } | null>(null);
-  const suppressed = useRef(false);
-  const [ghost, setGhost] = useState<{ x: number; y: number; value: number } | null>(null);
-  const [over, setOver] = useState(false);
-  const latest = useRef({ state, enabled, onPick, onPlace, onMiss }); latest.current = { state, enabled, onPick, onPlace, onMiss };
-  const focusIndex = scan ?? (!enabled && candidate !== null ? state.items.findIndex(item => item.id === candidate) : target);
-  useEffect(() => { if (!enabled) { gesture.current = null; setGhost(null); setOver(false); } }, [enabled]);
-  useLayoutEffect(() => {
-    const area = scroll.current;
-    const tile = area?.querySelector<HTMLElement>(`[data-selection-index="${Math.min(focusIndex, state.items.length - 1)}"]`);
-    if (!area || !tile) return;
-    const box = tile.getBoundingClientRect(), view = area.getBoundingClientRect();
-    if (box.left < view.left + 20 || box.right > view.right - 20) area.scrollBy({ left: box.left - view.left - view.width / 2 + box.width / 2, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
-  }, [focusIndex, state.items.length]);
-  useEffect(() => {
-    if (!ghost) return;
-    const timer = setInterval(() => {
-      const area = scroll.current;
-      if (!area || !gesture.current?.accepted) return;
-      const box = area.getBoundingClientRect();
-      if (ghost.y < box.top || ghost.y > box.bottom) return;
-      const direction = ghost.x < box.left + 32 ? -1 : ghost.x > box.right - 32 ? 1 : 0;
-      if (direction) {
-        area.scrollBy({ left: direction * 10 });
-        setOver(!!document.elementFromPoint(ghost.x, ghost.y)?.closest("[data-selection-target]"));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [ghost]);
-  function begin(event: PointerEvent<HTMLButtonElement>, id: number) {
-    if (!enabled || event.button !== 0) return;
-    suppressed.current = false;
-    gesture.current = { id, pointer: event.pointerId, x: event.clientX, y: event.clientY, moved: false, accepted: false };
-  }
-  function move(event: PointerEvent<HTMLDivElement>) {
-    const drag = gesture.current, { state: active, enabled: allowed, onPick: pick } = latest.current;
-    if (!drag || drag.pointer !== event.pointerId || !allowed) return;
-    if (!drag.moved && Math.hypot(event.clientX - drag.x, event.clientY - drag.y) < 7) return;
-    if (!drag.moved) {
-      drag.moved = true; suppressed.current = true;
-      drag.accepted = active.phase === "place" ? active.chosen === drag.id : pick(drag.id);
-      event.currentTarget.setPointerCapture(event.pointerId);
-    }
-    if (!drag.accepted) return;
-    setGhost({ x: event.clientX, y: event.clientY, value: active.items.find(item => item.id === drag.id)!.value });
-    setOver(!!document.elementFromPoint(event.clientX, event.clientY)?.closest("[data-selection-target]"));
-  }
-  function end(event: PointerEvent<HTMLDivElement>) {
-    const drag = gesture.current;
-    if (!drag || drag.pointer !== event.pointerId) return;
-    gesture.current = null; setGhost(null); setOver(false);
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
-    if (!drag.moved || !drag.accepted) return;
-    const goal = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>("[data-selection-target]");
-    if (goal) latest.current.onPlace(Number(goal.dataset.selectionTarget));
-    else latest.current.onMiss();
-  }
-  return <div className="selection-board-scroll" ref={scroll}>
-    <div className="selection-board" style={{ "--count": state.items.length } as CSSProperties} aria-label="Mảng Selection Sort" onPointerMove={move} onPointerUp={end} onPointerCancel={() => { gesture.current = null; setGhost(null); setOver(false); }}>
-      {target < state.items.length && <div className={`selection-goal ${over ? "goal-over" : ""}`} style={{ left: `calc(var(--step) * ${target} - 5px)` }} aria-hidden="true"><span>VỀ Ô {target}</span></div>}
-      {state.items.map((item, index) => <SelectionTile key={item.id} item={item} index={index} settled={index < state.start} candidate={candidate === item.id} scanning={scan === index} wrong={wrong === item.id} held={ghost !== null && gesture.current?.id === item.id} target={index === target} paused={paused} enabled={enabled && index >= state.start && (state.phase === "choose" || state.chosen === item.id || index === state.start)} onPointerDown={event => begin(event, item.id)} onClick={() => {
-        if (suppressed.current) { suppressed.current = false; return; }
-        if (state.phase === "choose") onPick(item.id);
-        else if (index === state.start) onPlace(index);
-      }} />)}
-    </div>
-    {ghost && <div className="selection-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true"><Crown size={20} />{ghost.value}</div>}
-  </div>;
-}
-
-function SelectionTile({ item, index, settled, candidate, scanning, wrong, held, target, paused, enabled, onClick, onPointerDown }: {
-  item: Item; index: number; settled: boolean; candidate: boolean; scanning: boolean; wrong: boolean; held: boolean; target: boolean; paused: boolean; enabled: boolean;
-  onClick: () => void; onPointerDown: React.PointerEventHandler<HTMLButtonElement>;
-}) {
-  const ref = useRef<HTMLButtonElement>(null), previous = useRef(index), animation = useRef<Animation | null>(null);
-  useLayoutEffect(() => {
-    const old = previous.current; previous.current = index;
-    const node = ref.current;
-    if (!node || old === index || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const dx = (old - index) * (node.getBoundingClientRect().width + 10);
-    animation.current?.cancel();
-    animation.current = node.animate([{ transform: `translate(${dx}px, 0)` }, { transform: `translate(${dx * .5}px, ${old > index ? -46 : 40}px) scale(1.06)`, offset: .5 }, { transform: "translate(0,0)" }], { duration: 500, easing: "cubic-bezier(.2,.65,.35,1)" });
-  }, [index]);
-  useEffect(() => { if (paused) animation.current?.pause(); else if (animation.current?.playState === "paused") animation.current.play(); }, [paused, index]);
-  useEffect(() => () => animation.current?.cancel(), []);
-  return <button ref={ref} className={`selection-tile ${settled ? "tile-fixed" : ""} ${candidate ? "tile-candidate" : ""} ${scanning ? "tile-scan" : ""} ${wrong ? "tile-wrong" : ""} ${held ? "tile-held" : ""}`} style={{ left: `calc(var(--step) * ${index})` }} disabled={!enabled} data-selection-id={item.id} data-selection-index={index} data-value={item.value} data-selection-target={target ? index : undefined} aria-label={`Số ${item.value}, ô ${index}${settled ? ", đã xếp xong" : ""}`} aria-pressed={candidate} onClick={onClick} onPointerDown={onPointerDown}>
-    {candidate && <span className="selection-crown"><Crown size={19} /></span>}{scanning && <Search size={17} className="selection-scan-icon" />}<strong>{item.value}</strong>{settled && <Check className="selection-fixed-check" size={16} />}<small>{index}</small>
-  </button>;
 }
 
 function SelectionSettings({ input, difficulty, sound, onChange, onSoundChange, onClose, onReset }: Pick<Props, "input" | "difficulty" | "sound" | "onChange" | "onSoundChange"> & { onClose: () => void; onReset: () => void }) {

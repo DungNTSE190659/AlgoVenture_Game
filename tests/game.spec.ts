@@ -22,7 +22,7 @@ test("five Sort lessons offer optional demo and direct challenge; locked islands
   await page.getByRole("button", { name: "Insertion Sort", exact: true }).click();
   await expect(page.locator(".sheet-description")).toHaveText("Xong Selection Sort để mở.");
   await page.getByRole("button", { name: "Quick Sort", exact: true }).click();
-  await expect(page.locator(".sheet-description")).toHaveText("Xong Insertion Sort để mở.");
+  await expect(page.locator(".sheet-description")).toHaveText("Xong Merge Sort để mở.");
   await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();
   await page.getByRole("button", { name: "Thử thách", exact: true }).click();
   await expect(page.locator(".bubble-play")).toBeVisible();

@@ -1,12 +1,14 @@
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import { ChevronRight, Map, RotateCcw, Sparkles } from "lucide-react";
 import Pig from "./Pig";
+import * as TreeIcons from "./TreeAssetIcons";
 import { LEVELS } from "../engine/gameConfig";
 import type { Difficulty } from "../engine/quicksort";
 
 type Props = {
-  title?: string;
   className: string;
+  title?: string;
+  nextLabel?: string;
   stars: number;
   difficulty: Difficulty;
   children: ReactNode;
@@ -15,8 +17,9 @@ type Props = {
   onMap: () => void;
 };
 export default function VictoryCelebration({
-  title: heading = "Mảng đã được sắp xếp!",
   className,
+  title = "Mảng đã được sắp xếp!",
+  nextLabel = "Tăng độ khó",
   stars,
   difficulty,
   children,
@@ -25,11 +28,12 @@ export default function VictoryCelebration({
   onMap,
 }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const title = useRef<HTMLHeadingElement>(null);
+  const treeArtwork = className.split(" ").includes("tree-victory");
+  const titleRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     const panel = dialog.current;
     panel?.showModal();
-    title.current?.focus({ preventScroll: true });
+    titleRef.current?.focus({ preventScroll: true });
     return () => panel?.close();
   }, []);
   const next =
@@ -45,10 +49,10 @@ export default function VictoryCelebration({
         <h2
           className="victory-title"
           id="victory-screen-title"
-          ref={title}
+          ref={titleRef}
           tabIndex={-1}
         >
-          {heading}
+          {title}
         </h2>
         <div className="victory-buta">
           <Pig mood="celebrate" />
@@ -64,7 +68,7 @@ export default function VictoryCelebration({
               className={`victory-award ${index < stars ? "earned" : "unearned"}`}
               aria-hidden="true"
             >
-              <AwardStar earned={index < stars} />
+              {treeArtwork ? <img className="award-star" src={`/assets/hybrid-casual-ui/tree/svg/star-${index < stars ? "earned" : "unearned"}.svg`} alt="" /> : <AwardStar earned={index < stars} />}
             </span>
           ))}
         </div>
@@ -76,7 +80,7 @@ export default function VictoryCelebration({
             className={`chunky-button ${next ? "button-purple" : "button-green"}`}
             onClick={onReplay}
           >
-            <RotateCcw size={19} /> Chơi lại
+            {treeArtwork ? <TreeIcons.RotateCcw size={19} /> : <RotateCcw size={19} />} Chơi lại
           </button>
           {next && (
             <button
@@ -84,19 +88,19 @@ export default function VictoryCelebration({
               onClick={() => onHarder(next)}
               title={`${LEVELS[next].label} · ${LEVELS[next].count} số`}
             >
-              <Sparkles size={19} /> Tăng độ khó
+              <Sparkles size={19} /> {nextLabel}
             </button>
           )}
           <button className="victory-map-button" onClick={onMap}>
             <span className="victory-map-icon" aria-hidden="true">
-              <Map size={21} />
+              {treeArtwork ? <TreeIcons.Map size={21} /> : <Map size={21} />}
             </span>
             <span>Đi tiếp cùng Buta</span>
-            <ChevronRight
+            {treeArtwork ? <TreeIcons.ChevronRight className="victory-map-arrow" size={19} /> : <ChevronRight
               className="victory-map-arrow"
               size={19}
               aria-hidden="true"
-            />
+            />}
           </button>
         </div>
       </div>

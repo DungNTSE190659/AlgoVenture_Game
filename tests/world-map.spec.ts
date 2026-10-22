@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { REGIONS, ARRAY_ROUTES } from "../src/engine/learningTrack";
 
-const arrays = { array: true, linear: true, bubble: true, selection: true, insertion: true, merge: true, quick: true, binary: true };
+const arrays = { array: true, linear: true, bubble: true, selection: true, insertion: true, merge: true, quick: true, binary: true, stack: true, queue: true };
 async function enterArray(page: Page, mode = "Thử thách") {
   await page.goto("/");
   await page.getByRole("button", { name: "Mảng", exact: true }).click();
@@ -12,21 +12,20 @@ async function choose(page: Page, name: string) {
   await expect(page.locator("#atlas-title")).toHaveText(name);
 }
 
-test("one large topic is shown at a time and locked topics never open their lesson track", async ({ page }) => {
+test("Lists and Tree open independently from the world map", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   await page.goto("/");
   await expect(page.locator(".atlas-slide")).toHaveCount(4);
   await expect(page.locator(".slide-selected")).toHaveCount(1);
-  await expect(page.locator(".region-locked")).toHaveCount(3);
+  await expect(page.locator(".region-locked")).toHaveCount(0);
   await expect(page.locator(".atlas-buta")).toHaveAttribute("aria-label", "Buta đang ở Mảng");
   await choose(page, "Danh sách");
-  await expect(page.locator(".atlas-description")).toHaveText("Xong Mảng để mở.");
-  await expect(page.getByRole("button", { name: "Danh sách", exact: true })).toBeDisabled();
-  await expect(page.locator(".atlas-enter")).toBeDisabled();
-  await page.getByRole("button", { name: "Danh sách", exact: true }).dispatchEvent("click");
-  await expect(page.locator(".track-viewport")).toHaveCount(0);
-  await expect(page.locator(".atlas-buta")).toHaveAttribute("aria-label", "Buta đang ở Mảng");
+  await expect(page.getByRole("button", { name: "Danh sách", exact: true })).toBeEnabled();
+  await expect(page.locator(".atlas-enter")).toBeEnabled();
+  await page.locator(".atlas-enter").click();
+  await expect(page.locator(".track-viewport")).toBeVisible();
+  await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
   await choose(page, "Mảng");
   await page.getByRole("button", { name: "Mảng", exact: true }).click();
   await expect(page.locator(".track-stop")).toHaveCount(5);
@@ -36,14 +35,14 @@ test("one large topic is shown at a time and locked topics never open their less
   expect(errors).toEqual([]);
 });
 
-test("only complete subjects unlock subsequent subjects, with every topic's correct lessons", async ({ page }) => {
+test("each subject shows its current lessons while local prerequisites remain intact", async ({ page }) => {
   // Each fixture has exactly the preceding subjects completed, never the next subject.
   let progress: Record<string, boolean> = {};
   for (const [index, region] of REGIONS.entries()) {
     await page.goto("/");
     await page.evaluate(data => localStorage.setItem("algoventure.world-progress.v3", JSON.stringify(data)), progress);
     await page.reload();
-    await expect(page.locator(".region-locked")).toHaveCount(REGIONS.length - index - 1);
+    await expect(page.locator(".region-locked")).toHaveCount(0);
     await choose(page, region.name);
     await page.locator(".atlas-enter").click();
     if (region.id === "arrays") {
@@ -60,14 +59,14 @@ test("only complete subjects unlock subsequent subjects, with every topic's corr
   }
 });
 
-test("missing just the last Array challenge keeps the second topic locked", async ({ page }) => {
+test("unfinished Array challenges do not block Lists", async ({ page }) => {
   const { binary: _binary, ...partial } = arrays;
   await page.addInitScript(data => localStorage.setItem("algoventure.world-progress.v3", JSON.stringify(data)), partial);
   await page.goto("/");
   await choose(page, "Danh sách");
-  await expect(page.locator(".atlas-enter")).toBeDisabled();
-  await expect(page.getByRole("button", { name: "Danh sách", exact: true })).toBeDisabled();
-  await expect(page.locator(".region-locked")).toHaveCount(3);
+  await expect(page.locator(".atlas-enter")).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Danh sách", exact: true })).toBeEnabled();
+  await expect(page.locator(".region-locked")).toHaveCount(0);
 });
 
 test("Bubble demo never unlocks Selection Sort", async ({ page }) => {
@@ -79,7 +78,7 @@ test("Bubble demo never unlocks Selection Sort", async ({ page }) => {
   await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeDisabled();
 });
 
-test("Bubble victory opens Selection Sort and Buta walks there; the next topic stays locked", async ({ page }) => {
+test("Bubble victory opens Selection Sort and Buta walks there", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await enterArray(page);
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
@@ -92,9 +91,9 @@ test("Bubble victory opens Selection Sort and Buta walks there; the next topic s
   await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Selection Sort");
   await expect(page.locator(".stop-locked")).toHaveCount(3);
   await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
-  await expect(page.locator(".region-locked")).toHaveCount(3);
+  await expect(page.locator(".region-locked")).toHaveCount(0);
   await page.reload();
-  await expect(page.locator(".atlas-region-progress")).toHaveText("1/7");
+  await expect(page.locator(".atlas-region-progress")).toHaveText("1/9");
   await page.locator(".atlas-enter").click();
   await expect(page.locator("#track-sheet-title")).toHaveText("Selection Sort");
 });
@@ -111,8 +110,8 @@ test("Buta follows the enlarged map road when entering another unlocked topic", 
   await expect(page.locator(".atlas-buta.buta-walking")).toBeVisible();
   const before = await page.locator(".atlas-buta.buta-walking").getAttribute("style");
   await expect.poll(() => page.locator(".atlas-buta.buta-walking").getAttribute("style")).not.toBe(before);
-  await expect(page.locator("#track-sheet-title")).toHaveText("Linked List");
-  await expect(page.locator(".stop-locked")).toHaveCount(2);
+  await expect(page.locator("#track-sheet-title")).toHaveText("Linked List Construction");
+  await expect(page.locator(".stop-locked")).toHaveCount(0);
 });
 
 test("mouse dragging changes topics without activating the map, and keyboard arrows work", async ({ page }) => {
@@ -143,7 +142,7 @@ test("touch swipes change topics without opening them and a single map tap enter
   for (let step = 1; step <= 12; step++) await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: 340 - step * 23, y }] });
   await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
   await expect(page.locator("#atlas-title")).toHaveText("Danh sách");
-  await expect(page.locator(".atlas-enter")).toBeDisabled();
+  await expect(page.locator(".atlas-enter")).toBeEnabled();
   await expect(page.locator(".track-viewport")).toHaveCount(0);
   await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: 55, y }] });
   for (let step = 1; step <= 12; step++) await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: 55 + step * 23, y }] });
@@ -178,7 +177,7 @@ test("old saves preserve completed lessons without bypassing subject prerequisit
   await page.addInitScript(() => localStorage.setItem("algoventure.learning-track.v1", '{"bubble":true}'));
   await page.goto("/");
   await expect(page.locator("#atlas-title")).toHaveText("Mảng");
-  await expect(page.locator(".region-locked")).toHaveCount(3);
+  await expect(page.locator(".region-locked")).toHaveCount(0);
   await page.getByRole("button", { name: "Mảng", exact: true }).click();
   await expect(page.locator(".stop-complete")).toHaveCount(1);
   await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();

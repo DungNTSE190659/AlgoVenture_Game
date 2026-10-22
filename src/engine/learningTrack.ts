@@ -1,32 +1,40 @@
 import type { Algorithm } from "./gameConfig";
 
-export type TrackId = Algorithm | "selection" | "insertion" | "merge" | "array" | "stack" | "queue" | "linked-list" | "tree-basics" | "bst" | "bst-search" | "bst-insert" | "bst-delete" | "linear" | "binary" | "graph-basics" | "dfs" | "bfs" | "dijkstra";
+export type TrackId = Algorithm | "selection" | "insertion" | "merge" | "array" | "stack" | "queue" | "linked-list" | "linked-traversal" | "linked-search" | "linked-insertion" | "linked-deletion" | "linked-reversal" | "tree-basics" | "tree-traversal" | "bst" | "bst-search" | "bst-insert" | "bst-delete" | "linear" | "binary" | "graph-basics" | "dfs" | "bfs" | "dijkstra";
 export type RegionId = "arrays" | "linear-structures" | "trees" | "graph";
-export type ArrayRouteId = "sort" | "search";
+export type ArrayRouteId = "sort" | "search" | "stack-queue";
 export type Progress = Partial<Record<TrackId, boolean>>;
 export type Lesson = { id: TrackId; name: string; place: string; description: string; color: string; dark: string; group?: string };
 export const TRACK: Lesson[] = [
-  { id: "bubble", name: "Bubble Sort", place: "Suối Bong Bóng", description: "Đổi chỗ hai số cạnh nhau, đưa số lớn nhất về cuối.", color: "#89c4da", dark: "#4e91ae" },
-  { id: "selection", name: "Selection Sort", place: "Vườn Tuyển Chọn", description: "Tìm số nhỏ nhất và đưa về đầu phần chưa sắp xếp.", color: "#e9bc6b", dark: "#a77c36" },
+  { id: "bubble", name: "Bubble Sort", place: "Cầu Gỗ Tình Bạn", description: "Đổi chỗ hai số cạnh nhau, đưa số lớn nhất về cuối.", color: "#89c4da", dark: "#4e91ae" },
+  { id: "selection", name: "Selection Sort", place: "Trại Hành Trang", description: "Tìm số nhỏ nhất và đưa về đầu phần chưa sắp xếp.", color: "#e9bc6b", dark: "#a77c36" },
   { id: "insertion", name: "Insertion Sort", place: "Làng Xếp Hàng", description: "Chèn từng số vào đúng chỗ trong phần đã có thứ tự.", color: "#9abb80", dark: "#62884c" },
-  { id: "merge", name: "Merge Sort", place: "Cầu Hợp Nhất", description: "Chia nhỏ rồi hợp nhất những dãy đã có thứ tự.", color: "#af9bda", dark: "#7f66b2" },
-  { id: "quick", name: "Quick Sort", place: "Pháo Đài Chốt", description: "Chọn chốt, chia hai nhóm và chinh phục từng mảng con.", color: "#e9a18c", dark: "#b87160" },
+  { id: "merge", name: "Merge Sort", place: "Suối Hợp Nhất", description: "Chia nhóm lá rồi ghép hai nhánh suối theo thứ tự.", color: "#91bfad", dark: "#558f7d" },
+  { id: "quick", name: "Quick Sort", place: "Ngã Ba Khám Phá", description: "Chọn mốc ở ngã ba, chia ba nhóm và khám phá từng nhánh.", color: "#e9a18c", dark: "#b87160" },
 ];
 export const LINEAR_STRUCTURES: Lesson[] = [
-  { id: "linked-list", name: "Linked List", place: "Lối Đi Mắt Xích", description: "Nối từng nút dữ liệu để tạo nên một danh sách liên kết.", color: "#d7b57e", dark: "#a28756" },
-  { id: "stack", name: "Stack", place: "Tháp Xếp Chồng", description: "Đặt lên trên cùng, lấy ra trước tiên: làm quen với ngăn xếp.", color: "#c0a1cf", dark: "#9272a3" },
-  { id: "queue", name: "Queue", place: "Bến Đợi Đến Lượt", description: "Vào trước, ra trước: dẫn Buta qua hàng đợi.", color: "#8ebdc8", dark: "#5e8c9a" },
+  { id: "linked-list", name: "Linked List Construction", place: "Lối Đi Mắt Xích", description: "Lắp nút và nối con trỏ next để tạo danh sách.", color: "#f7b83d", dark: "#a96712" },
+  { id: "linked-traversal", name: "Linked List Traversal", place: "Đường Dây Dẫn Lối", description: "Đi theo từng liên kết từ HEAD đến NULL.", color: "#A1CDDF", dark: "#65A8CD" },
+  { id: "linked-search", name: "Linked List Search", place: "Trạm Tìm Dấu", description: "Duyệt lần lượt để tìm nút mang giá trị cần tìm.", color: "#39b8f2", dark: "#176b9c" },
+  { id: "linked-insertion", name: "Linked List Insertion", place: "Xưởng Nối Nút", description: "Chèn nút mới bằng cách đổi các liên kết.", color: "#ff9658", dark: "#ad4e25" },
+  { id: "linked-deletion", name: "Linked List Deletion", place: "Ngã Rẽ Tháo Nút", description: "Bỏ một nút và nối lại phần danh sách còn lại.", color: "#b777ed", dark: "#7540a5" },
+  { id: "linked-reversal", name: "Linked List Reversal", place: "Cầu Quay Ngược", description: "Đổi hướng từng liên kết để đảo ngược danh sách.", color: "#8ED4FF", dark: "#65A8CD" },
 ];
 export const TREES: Lesson[] = [
-  { id: "tree-basics", name: "Cây cơ bản", place: "Mầm Cây Đầu Tiên", description: "Làm quen với gốc, nút, cạnh và quan hệ cha con trong cây.", color: "#a8c88c", dark: "#708e55" },
-  { id: "bst", name: "BST", place: "Cây Cửa Ngõ", description: "Khám phá cây tìm kiếm nhị phân: nhỏ bên trái, lớn bên phải.", color: "#9abc83", dark: "#63824e" },
-  { id: "bst-search", name: "Tìm kiếm trên BST", place: "Theo Nhánh Tìm Số", description: "So sánh với nút hiện tại để chọn nhánh trái hoặc phải.", color: "#8ebbb1", dark: "#5d8d82" },
-  { id: "bst-insert", name: "Thêm nút vào BST", place: "Ươm Một Nhánh Mới", description: "Tìm vị trí phù hợp để thêm nút, giữ tính chất cây tìm kiếm nhị phân.", color: "#c3bf86", dark: "#94915c" },
-  { id: "bst-delete", name: "Xóa nút khỏi BST", place: "Chăm Sóc Tán Cây", description: "Xóa nút và nối lại cây để giữ tính chất cây tìm kiếm nhị phân.", color: "#c2a88e", dark: "#95795f" },
+  { id: "tree-basics", name: "Cây cơ bản", place: "Mầm Cây Đầu Tiên", description: "Làm quen với gốc, nút, cạnh và quan hệ cha con trong cây.", color: "#F7B83D", dark: "#A96712" },
+  { id: "tree-traversal", name: "Duyệt cây", place: "Lối Mòn Qua Tán Lá", description: "Thu hoạch theo preorder, inorder, postorder và từng tầng.", color: "#88B76D", dark: "#527B40" },
+  { id: "bst", name: "BST", place: "Cây Cửa Ngõ", description: "Khám phá cây tìm kiếm nhị phân: nhỏ bên trái, lớn bên phải.", color: "#B777ED", dark: "#7540A5" },
+  { id: "bst-search", name: "Tìm kiếm trên BST", place: "Theo Nhánh Tìm Số", description: "So sánh với nút hiện tại để chọn nhánh trái hoặc phải.", color: "#39B8F2", dark: "#176B9C" },
+  { id: "bst-insert", name: "Thêm nút vào BST", place: "Ươm Một Nhánh Mới", description: "Tìm vị trí phù hợp để thêm nút, giữ tính chất cây tìm kiếm nhị phân.", color: "#76A65B", dark: "#527B40" },
+  { id: "bst-delete", name: "Xóa nút khỏi BST", place: "Chăm Sóc Tán Cây", description: "Xóa nút và nối lại cây để giữ tính chất cây tìm kiếm nhị phân.", color: "#FF9658", dark: "#AD4E25" },
 ];
 export const SEARCHING: Lesson[] = [
   { id: "linear", name: "Linear Search", place: "Đường Mòn Dấu Chân", description: "Xét lần lượt từng phần tử để tìm con số đang ẩn mình.", color: "#8dbbb7", dark: "#5c8d88" },
   { id: "binary", name: "Binary Search", place: "Đài Quan Sát", description: "Tìm trong mảng đã sắp xếp, mỗi lần thu hẹp một nửa.", color: "#91b9d1", dark: "#5e87a3" },
+];
+export const STACK_QUEUE: Lesson[] = [
+  { id: "stack", name: "Stack", place: "Tháp Ngăn Xếp", description: "Thêm và lấy ở đỉnh: vào sau, ra trước (LIFO).", color: "#b8a2d3", dark: "#8670a3" },
+  { id: "queue", name: "Queue", place: "Bến Hàng Đợi", description: "Thêm ở cuối, lấy ở đầu: vào trước, ra trước (FIFO).", color: "#8ebfb0", dark: "#5e9483" },
 ];
 export const GRAPH: Lesson[] = [
   { id: "graph-basics", name: "Đồ thị cơ bản", place: "Bản Đồ Những Cây Cầu", description: "Làm quen với đỉnh, cạnh và cách biểu diễn các kết nối trong đồ thị.", color: "#a5b8c8", dark: "#778da2" },
@@ -37,22 +45,27 @@ export const GRAPH: Lesson[] = [
 export const ARRAY_ROUTES: { id: ArrayRouteId; name: string; description: string; lessons: Lesson[] }[] = [
   { id: "sort", name: "Sort", description: "Sắp xếp", lessons: TRACK.map(lesson => ({ ...lesson, group: "Sắp xếp trên mảng" })) },
   { id: "search", name: "Search", description: "Tìm kiếm", lessons: SEARCHING.map(lesson => ({ ...lesson, group: "Tìm kiếm trên mảng" })) },
+  { id: "stack-queue", name: "Stack & Queue", description: "Ngăn xếp · Hàng đợi", lessons: STACK_QUEUE.map(lesson => ({ ...lesson, group: "Stack và Queue trên mảng" })) },
 ];
-// Both independent routes contribute to the parent subject's progress.
+// Independent routes contribute to the parent subject's progress.
 export const ARRAYS = ARRAY_ROUTES.flatMap(route => route.lessons);
 export const REGIONS: { id: RegionId; name: string; topics: string; place: string; description: string; color: string; lessons: Lesson[] }[] = [
-  { id: "arrays", name: "Mảng", topics: "Sort · Search", place: "Quần Đảo Những Ô Số", description: "Khám phá tìm kiếm và sắp xếp trên mảng.", color: "#9bb983", lessons: ARRAYS },
-  { id: "linear-structures", name: "Danh sách", topics: "Linked List · Stack · Queue", place: "Bến Liên Kết", description: "Khám phá Linked List, ngăn xếp Stack và hàng đợi Queue.", color: "#dfb175", lessons: LINEAR_STRUCTURES },
-  { id: "trees", name: "Cây", topics: "Cây cơ bản · BST", place: "Rừng Cây Tri Thức", description: "Từ kiến thức cây đến tìm kiếm, thêm và xóa trên BST.", color: "#8ebc9a", lessons: TREES },
+  { id: "arrays", name: "Mảng", topics: "Sort · Search · Stack & Queue", place: "Quần Đảo Những Ô Số", description: "Khám phá sắp xếp, tìm kiếm, ngăn xếp và hàng đợi trên mảng.", color: "#9bb983", lessons: ARRAYS },
+  { id: "linear-structures", name: "Danh sách", topics: "6 thuật toán Linked List", place: "Bến Liên Kết", description: "Lắp, duyệt, tìm, chèn, xóa và đảo ngược danh sách liên kết.", color: "#dfb175", lessons: LINEAR_STRUCTURES },
+  { id: "trees", name: "Cây", topics: "6 bài Tree · BST", place: "Rừng Cây Tri Thức", description: "Từ kiến thức cây đến tìm kiếm, thêm và xóa trên BST.", color: "#8ebc9a", lessons: TREES },
   { id: "graph", name: "Đồ thị", topics: "Đỉnh · Cạnh · Thuật toán", place: "Cao Nguyên Kết Nối", description: "Hiểu đỉnh và cạnh, rồi khám phá DFS, BFS và Dijkstra.", color: "#b0a0cb", lessons: GRAPH },
 ];
 export const ALL_LESSONS = REGIONS.flatMap(region => region.lessons);
 export function arrayRouteForLesson(id: TrackId) { return ARRAY_ROUTES.find(route => route.lessons.some(lesson => lesson.id === id)); }
-export function lessonAvailable(id: TrackId) { return id === "bubble" || id === "selection" || id === "insertion" || id === "quick" || id === "bfs"; }
+export function lessonAvailable(id: TrackId) { return id === "bfs" || id === "binary" || id === "linear" || id === "bubble" || id === "selection" || id === "insertion" || id === "merge" || id === "stack" || id === "queue" || id === "quick" || LINEAR_STRUCTURES.some(lesson => lesson.id === id) || TREES.some(lesson => lesson.id === id);}
 export function regionForLesson(id: TrackId) { return REGIONS.find(region => region.lessons.some(lesson => lesson.id === id))!; }
 export function regionComplete(id: RegionId, progress: Progress) { return REGIONS.find(region => region.id === id)!.lessons.every(lesson => progress[lesson.id]); }
 export function regionUnlocked(id: RegionId, progress: Progress) {
-  // TEMPORARY: Unlock graph region for testing BFS
+  // Lists can be explored alongside Arrays while the unfinished Array lessons are built.
+  if (id === "linear-structures") return true;
+  // Trees have their own sequence, independent of unfinished Array lessons.
+  if (id === "trees") return true;
+  // Keep the BFS preview from main available.
   if (id === "graph") return true;
   const index = REGIONS.findIndex(region => region.id === id);
   return REGIONS.slice(0, index).every(region => regionComplete(region.id, progress));
@@ -64,7 +77,9 @@ export function lessonUnlocked(id: TrackId, progress: Progress) {
   return regionUnlocked(regionForLesson(id).id, progress) && lessonPrerequisites(id).every(lesson => progress[lesson.id]);
 }
 export function lessonPrerequisites(id: TrackId) {
+  if (LINEAR_STRUCTURES.some(lesson => lesson.id === id)) return [];
   const route = arrayRouteForLesson(id);
+  if (route?.id === "stack-queue") return [];
   const lessons = route?.lessons ?? regionForLesson(id).lessons;
   const previous = lessons.slice(0, lessons.findIndex(lesson => lesson.id === id));
   // Unfinished Sort placeholders do not block the shipped games. Search has
@@ -92,8 +107,8 @@ export function readTrackProgress(): Partial<Record<TrackId, boolean>> {
     if (!data || typeof data !== "object") return {};
     const progress: Partial<Record<TrackId, boolean>> = {};
     // Completion IDs stay the same when the old combined route is split.
-    for (const item of ALL_LESSONS)
-      if ((data as Record<string, unknown>)[item.id] === true) progress[item.id] = true;
+    for (const id of [...ALL_LESSONS.map(item => item.id), "stack", "queue"] as TrackId[])
+      if ((data as Record<string, unknown>)[id] === true) progress[id] = true;
     return progress;
   } catch { return {}; }
 }

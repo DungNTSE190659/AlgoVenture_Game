@@ -1,0 +1,2457 @@
+{
+  "version": 1,
+  "pixelsPerUnit": 100,
+  "alphaIsTransparency": true,
+  "spriteMeshType": "FullRect",
+  "assets": [
+    {
+      "id": "station-tree-basics-desktop-normal",
+      "svg": "svg/station-tree-basics-desktop-normal.svg",
+      "png": "png/station-tree-basics-desktop-normal.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station tree-basics, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-basics-desktop-selected",
+      "svg": "svg/station-tree-basics-desktop-selected.svg",
+      "png": "png/station-tree-basics-desktop-selected.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station tree-basics, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-basics-desktop-locked",
+      "svg": "svg/station-tree-basics-desktop-locked.svg",
+      "png": "png/station-tree-basics-desktop-locked.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station tree-basics, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-tree-basics-desktop",
+      "svg": "svg/number-tree-basics-desktop.svg",
+      "png": "png/number-tree-basics-desktop.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "desktop",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-traversal-desktop-normal",
+      "svg": "svg/station-tree-traversal-desktop-normal.svg",
+      "png": "png/station-tree-traversal-desktop-normal.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station tree-traversal, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-traversal-desktop-selected",
+      "svg": "svg/station-tree-traversal-desktop-selected.svg",
+      "png": "png/station-tree-traversal-desktop-selected.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station tree-traversal, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-traversal-desktop-locked",
+      "svg": "svg/station-tree-traversal-desktop-locked.svg",
+      "png": "png/station-tree-traversal-desktop-locked.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station tree-traversal, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-tree-traversal-desktop",
+      "svg": "svg/number-tree-traversal-desktop.svg",
+      "png": "png/number-tree-traversal-desktop.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "desktop",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-desktop-normal",
+      "svg": "svg/station-bst-desktop-normal.svg",
+      "png": "png/station-bst-desktop-normal.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-desktop-selected",
+      "svg": "svg/station-bst-desktop-selected.svg",
+      "png": "png/station-bst-desktop-selected.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-desktop-locked",
+      "svg": "svg/station-bst-desktop-locked.svg",
+      "png": "png/station-bst-desktop-locked.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-bst-desktop",
+      "svg": "svg/number-bst-desktop.svg",
+      "png": "png/number-bst-desktop.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "desktop",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-search-desktop-normal",
+      "svg": "svg/station-bst-search-desktop-normal.svg",
+      "png": "png/station-bst-search-desktop-normal.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-search, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-search-desktop-selected",
+      "svg": "svg/station-bst-search-desktop-selected.svg",
+      "png": "png/station-bst-search-desktop-selected.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-search, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-search-desktop-locked",
+      "svg": "svg/station-bst-search-desktop-locked.svg",
+      "png": "png/station-bst-search-desktop-locked.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-search, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-bst-search-desktop",
+      "svg": "svg/number-bst-search-desktop.svg",
+      "png": "png/number-bst-search-desktop.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "desktop",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-insert-desktop-normal",
+      "svg": "svg/station-bst-insert-desktop-normal.svg",
+      "png": "png/station-bst-insert-desktop-normal.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-insert, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-insert-desktop-selected",
+      "svg": "svg/station-bst-insert-desktop-selected.svg",
+      "png": "png/station-bst-insert-desktop-selected.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-insert, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-insert-desktop-locked",
+      "svg": "svg/station-bst-insert-desktop-locked.svg",
+      "png": "png/station-bst-insert-desktop-locked.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-insert, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-bst-insert-desktop",
+      "svg": "svg/number-bst-insert-desktop.svg",
+      "png": "png/number-bst-insert-desktop.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "desktop",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-delete-desktop-normal",
+      "svg": "svg/station-bst-delete-desktop-normal.svg",
+      "png": "png/station-bst-delete-desktop-normal.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-delete, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-delete-desktop-selected",
+      "svg": "svg/station-bst-delete-desktop-selected.svg",
+      "png": "png/station-bst-delete-desktop-selected.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-delete, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-delete-desktop-locked",
+      "svg": "svg/station-bst-delete-desktop-locked.svg",
+      "png": "png/station-bst-delete-desktop-locked.png",
+      "nativeSize": [
+        82,
+        84
+      ],
+      "pngSize": [
+        164,
+        168
+      ],
+      "profile": "desktop",
+      "usage": "Station bst-delete, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-bst-delete-desktop",
+      "svg": "svg/number-bst-delete-desktop.svg",
+      "png": "png/number-bst-delete-desktop.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "desktop",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "island-desktop",
+      "svg": "svg/island-desktop.svg",
+      "png": "png/island-desktop.png",
+      "nativeSize": [
+        140,
+        88
+      ],
+      "pngSize": [
+        280,
+        176
+      ],
+      "profile": "desktop",
+      "usage": "Station island; keep aspect ratio.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "caption-desktop",
+      "svg": "svg/caption-desktop.svg",
+      "png": "png/caption-desktop.png",
+      "nativeSize": [
+        150,
+        60
+      ],
+      "pngSize": [
+        300,
+        120
+      ],
+      "profile": "desktop",
+      "usage": "Panel authored at profile dimensions; use matching aspect ratio.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "sheet-desktop",
+      "svg": "svg/sheet-desktop.svg",
+      "png": "png/sheet-desktop.png",
+      "nativeSize": [
+        540,
+        164
+      ],
+      "pngSize": [
+        1080,
+        328
+      ],
+      "profile": "desktop",
+      "usage": "Panel authored at profile dimensions; use matching aspect ratio.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "sheet-status-desktop",
+      "svg": "svg/sheet-status-desktop.svg",
+      "png": "png/sheet-status-desktop.png",
+      "nativeSize": [
+        540,
+        190
+      ],
+      "pngSize": [
+        1080,
+        380
+      ],
+      "profile": "desktop",
+      "usage": "Panel authored at profile dimensions; use matching aspect ratio.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-demo-desktop-normal",
+      "svg": "svg/button-demo-desktop-normal.svg",
+      "png": "png/button-demo-desktop-normal.png",
+      "nativeSize": [
+        224,
+        49
+      ],
+      "pngSize": [
+        448,
+        98
+      ],
+      "profile": "desktop",
+      "usage": "Sheet demo button, normal. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-demo-desktop-hover",
+      "svg": "svg/button-demo-desktop-hover.svg",
+      "png": "png/button-demo-desktop-hover.png",
+      "nativeSize": [
+        224,
+        49
+      ],
+      "pngSize": [
+        448,
+        98
+      ],
+      "profile": "desktop",
+      "usage": "Sheet demo button, hover. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-demo-desktop-pressed",
+      "svg": "svg/button-demo-desktop-pressed.svg",
+      "png": "png/button-demo-desktop-pressed.png",
+      "nativeSize": [
+        224,
+        49
+      ],
+      "pngSize": [
+        448,
+        98
+      ],
+      "profile": "desktop",
+      "usage": "Sheet demo button, pressed. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-demo-desktop-disabled",
+      "svg": "svg/button-demo-desktop-disabled.svg",
+      "png": "png/button-demo-desktop-disabled.png",
+      "nativeSize": [
+        224,
+        49
+      ],
+      "pngSize": [
+        448,
+        98
+      ],
+      "profile": "desktop",
+      "usage": "Sheet demo button, disabled. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-challenge-desktop-normal",
+      "svg": "svg/button-challenge-desktop-normal.svg",
+      "png": "png/button-challenge-desktop-normal.png",
+      "nativeSize": [
+        258,
+        49
+      ],
+      "pngSize": [
+        516,
+        98
+      ],
+      "profile": "desktop",
+      "usage": "Sheet challenge button, normal. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-challenge-desktop-hover",
+      "svg": "svg/button-challenge-desktop-hover.svg",
+      "png": "png/button-challenge-desktop-hover.png",
+      "nativeSize": [
+        258,
+        49
+      ],
+      "pngSize": [
+        516,
+        98
+      ],
+      "profile": "desktop",
+      "usage": "Sheet challenge button, hover. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-challenge-desktop-pressed",
+      "svg": "svg/button-challenge-desktop-pressed.svg",
+      "png": "png/button-challenge-desktop-pressed.png",
+      "nativeSize": [
+        258,
+        49
+      ],
+      "pngSize": [
+        516,
+        98
+      ],
+      "profile": "desktop",
+      "usage": "Sheet challenge button, pressed. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-challenge-desktop-disabled",
+      "svg": "svg/button-challenge-desktop-disabled.svg",
+      "png": "png/button-challenge-desktop-disabled.png",
+      "nativeSize": [
+        258,
+        49
+      ],
+      "pngSize": [
+        516,
+        98
+      ],
+      "profile": "desktop",
+      "usage": "Sheet challenge button, disabled. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "road-up-right-desktop-open",
+      "svg": "svg/road-up-right-desktop-open.svg",
+      "png": "png/road-up-right-desktop-open.png",
+      "nativeSize": [
+        570,
+        220
+      ],
+      "pngSize": [
+        1140,
+        440
+      ],
+      "profile": "desktop",
+      "usage": "One route segment. Position between consecutive station centers; keep the route geometry in sync with the station layout.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "road-up-right-desktop-locked",
+      "svg": "svg/road-up-right-desktop-locked.svg",
+      "png": "png/road-up-right-desktop-locked.png",
+      "nativeSize": [
+        570,
+        220
+      ],
+      "pngSize": [
+        1140,
+        440
+      ],
+      "profile": "desktop",
+      "usage": "One route segment. Position between consecutive station centers; keep the route geometry in sync with the station layout.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "road-up-left-desktop-open",
+      "svg": "svg/road-up-left-desktop-open.svg",
+      "png": "png/road-up-left-desktop-open.png",
+      "nativeSize": [
+        570,
+        220
+      ],
+      "pngSize": [
+        1140,
+        440
+      ],
+      "profile": "desktop",
+      "usage": "One route segment. Position between consecutive station centers; keep the route geometry in sync with the station layout.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "road-up-left-desktop-locked",
+      "svg": "svg/road-up-left-desktop-locked.svg",
+      "png": "png/road-up-left-desktop-locked.png",
+      "nativeSize": [
+        570,
+        220
+      ],
+      "pngSize": [
+        1140,
+        440
+      ],
+      "profile": "desktop",
+      "usage": "One route segment. Position between consecutive station centers; keep the route geometry in sync with the station layout.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-basics-mobile-normal",
+      "svg": "svg/station-tree-basics-mobile-normal.svg",
+      "png": "png/station-tree-basics-mobile-normal.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station tree-basics, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-basics-mobile-selected",
+      "svg": "svg/station-tree-basics-mobile-selected.svg",
+      "png": "png/station-tree-basics-mobile-selected.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station tree-basics, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-basics-mobile-locked",
+      "svg": "svg/station-tree-basics-mobile-locked.svg",
+      "png": "png/station-tree-basics-mobile-locked.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station tree-basics, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-tree-basics-mobile",
+      "svg": "svg/number-tree-basics-mobile.svg",
+      "png": "png/number-tree-basics-mobile.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "mobile",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-traversal-mobile-normal",
+      "svg": "svg/station-tree-traversal-mobile-normal.svg",
+      "png": "png/station-tree-traversal-mobile-normal.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station tree-traversal, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-traversal-mobile-selected",
+      "svg": "svg/station-tree-traversal-mobile-selected.svg",
+      "png": "png/station-tree-traversal-mobile-selected.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station tree-traversal, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-tree-traversal-mobile-locked",
+      "svg": "svg/station-tree-traversal-mobile-locked.svg",
+      "png": "png/station-tree-traversal-mobile-locked.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station tree-traversal, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-tree-traversal-mobile",
+      "svg": "svg/number-tree-traversal-mobile.svg",
+      "png": "png/number-tree-traversal-mobile.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "mobile",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-mobile-normal",
+      "svg": "svg/station-bst-mobile-normal.svg",
+      "png": "png/station-bst-mobile-normal.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-mobile-selected",
+      "svg": "svg/station-bst-mobile-selected.svg",
+      "png": "png/station-bst-mobile-selected.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-mobile-locked",
+      "svg": "svg/station-bst-mobile-locked.svg",
+      "png": "png/station-bst-mobile-locked.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-bst-mobile",
+      "svg": "svg/number-bst-mobile.svg",
+      "png": "png/number-bst-mobile.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "mobile",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-search-mobile-normal",
+      "svg": "svg/station-bst-search-mobile-normal.svg",
+      "png": "png/station-bst-search-mobile-normal.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-search, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-search-mobile-selected",
+      "svg": "svg/station-bst-search-mobile-selected.svg",
+      "png": "png/station-bst-search-mobile-selected.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-search, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-search-mobile-locked",
+      "svg": "svg/station-bst-search-mobile-locked.svg",
+      "png": "png/station-bst-search-mobile-locked.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-search, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-bst-search-mobile",
+      "svg": "svg/number-bst-search-mobile.svg",
+      "png": "png/number-bst-search-mobile.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "mobile",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-insert-mobile-normal",
+      "svg": "svg/station-bst-insert-mobile-normal.svg",
+      "png": "png/station-bst-insert-mobile-normal.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-insert, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-insert-mobile-selected",
+      "svg": "svg/station-bst-insert-mobile-selected.svg",
+      "png": "png/station-bst-insert-mobile-selected.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-insert, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-insert-mobile-locked",
+      "svg": "svg/station-bst-insert-mobile-locked.svg",
+      "png": "png/station-bst-insert-mobile-locked.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-insert, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-bst-insert-mobile",
+      "svg": "svg/number-bst-insert-mobile.svg",
+      "png": "png/number-bst-insert-mobile.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "mobile",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-delete-mobile-normal",
+      "svg": "svg/station-bst-delete-mobile-normal.svg",
+      "png": "png/station-bst-delete-mobile-normal.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-delete, normal. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-delete-mobile-selected",
+      "svg": "svg/station-bst-delete-mobile-selected.svg",
+      "png": "png/station-bst-delete-mobile-selected.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-delete, selected. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "station-bst-delete-mobile-locked",
+      "svg": "svg/station-bst-delete-mobile-locked.svg",
+      "png": "png/station-bst-delete-mobile-locked.png",
+      "nativeSize": [
+        76,
+        80
+      ],
+      "pngSize": [
+        152,
+        160
+      ],
+      "profile": "mobile",
+      "usage": "Station bst-delete, locked. Icon, number and status are separate sprites.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "number-bst-delete-mobile",
+      "svg": "svg/number-bst-delete-mobile.svg",
+      "png": "png/number-bst-delete-mobile.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "mobile",
+      "usage": "Selected lesson number; dynamic number text overlays.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "island-mobile",
+      "svg": "svg/island-mobile.svg",
+      "png": "png/island-mobile.png",
+      "nativeSize": [
+        132,
+        88
+      ],
+      "pngSize": [
+        264,
+        176
+      ],
+      "profile": "mobile",
+      "usage": "Station island; keep aspect ratio.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "caption-mobile",
+      "svg": "svg/caption-mobile.svg",
+      "png": "png/caption-mobile.png",
+      "nativeSize": [
+        150,
+        60
+      ],
+      "pngSize": [
+        300,
+        120
+      ],
+      "profile": "mobile",
+      "usage": "Panel authored at profile dimensions; use matching aspect ratio.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "sheet-mobile",
+      "svg": "svg/sheet-mobile.svg",
+      "png": "png/sheet-mobile.png",
+      "nativeSize": [
+        362,
+        164
+      ],
+      "pngSize": [
+        724,
+        328
+      ],
+      "profile": "mobile",
+      "usage": "Panel authored at profile dimensions; use matching aspect ratio.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "sheet-status-mobile",
+      "svg": "svg/sheet-status-mobile.svg",
+      "png": "png/sheet-status-mobile.png",
+      "nativeSize": [
+        362,
+        190
+      ],
+      "pngSize": [
+        724,
+        380
+      ],
+      "profile": "mobile",
+      "usage": "Panel authored at profile dimensions; use matching aspect ratio.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-demo-mobile-normal",
+      "svg": "svg/button-demo-mobile-normal.svg",
+      "png": "png/button-demo-mobile-normal.png",
+      "nativeSize": [
+        144,
+        49
+      ],
+      "pngSize": [
+        288,
+        98
+      ],
+      "profile": "mobile",
+      "usage": "Sheet demo button, normal. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-demo-mobile-hover",
+      "svg": "svg/button-demo-mobile-hover.svg",
+      "png": "png/button-demo-mobile-hover.png",
+      "nativeSize": [
+        144,
+        49
+      ],
+      "pngSize": [
+        288,
+        98
+      ],
+      "profile": "mobile",
+      "usage": "Sheet demo button, hover. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-demo-mobile-pressed",
+      "svg": "svg/button-demo-mobile-pressed.svg",
+      "png": "png/button-demo-mobile-pressed.png",
+      "nativeSize": [
+        144,
+        49
+      ],
+      "pngSize": [
+        288,
+        98
+      ],
+      "profile": "mobile",
+      "usage": "Sheet demo button, pressed. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-demo-mobile-disabled",
+      "svg": "svg/button-demo-mobile-disabled.svg",
+      "png": "png/button-demo-mobile-disabled.png",
+      "nativeSize": [
+        144,
+        49
+      ],
+      "pngSize": [
+        288,
+        98
+      ],
+      "profile": "mobile",
+      "usage": "Sheet demo button, disabled. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-challenge-mobile-normal",
+      "svg": "svg/button-challenge-mobile-normal.svg",
+      "png": "png/button-challenge-mobile-normal.png",
+      "nativeSize": [
+        164,
+        49
+      ],
+      "pngSize": [
+        328,
+        98
+      ],
+      "profile": "mobile",
+      "usage": "Sheet challenge button, normal. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-challenge-mobile-hover",
+      "svg": "svg/button-challenge-mobile-hover.svg",
+      "png": "png/button-challenge-mobile-hover.png",
+      "nativeSize": [
+        164,
+        49
+      ],
+      "pngSize": [
+        328,
+        98
+      ],
+      "profile": "mobile",
+      "usage": "Sheet challenge button, hover. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-challenge-mobile-pressed",
+      "svg": "svg/button-challenge-mobile-pressed.svg",
+      "png": "png/button-challenge-mobile-pressed.png",
+      "nativeSize": [
+        164,
+        49
+      ],
+      "pngSize": [
+        328,
+        98
+      ],
+      "profile": "mobile",
+      "usage": "Sheet challenge button, pressed. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-challenge-mobile-disabled",
+      "svg": "svg/button-challenge-mobile-disabled.svg",
+      "png": "png/button-challenge-mobile-disabled.png",
+      "nativeSize": [
+        164,
+        49
+      ],
+      "pngSize": [
+        328,
+        98
+      ],
+      "profile": "mobile",
+      "usage": "Sheet challenge button, disabled. Sprite Swap.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "road-up-right-mobile-open",
+      "svg": "svg/road-up-right-mobile-open.svg",
+      "png": "png/road-up-right-mobile-open.png",
+      "nativeSize": [
+        390,
+        220
+      ],
+      "pngSize": [
+        780,
+        440
+      ],
+      "profile": "mobile",
+      "usage": "One route segment. Position between consecutive station centers; keep the route geometry in sync with the station layout.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "road-up-right-mobile-locked",
+      "svg": "svg/road-up-right-mobile-locked.svg",
+      "png": "png/road-up-right-mobile-locked.png",
+      "nativeSize": [
+        390,
+        220
+      ],
+      "pngSize": [
+        780,
+        440
+      ],
+      "profile": "mobile",
+      "usage": "One route segment. Position between consecutive station centers; keep the route geometry in sync with the station layout.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "road-up-left-mobile-open",
+      "svg": "svg/road-up-left-mobile-open.svg",
+      "png": "png/road-up-left-mobile-open.png",
+      "nativeSize": [
+        390,
+        220
+      ],
+      "pngSize": [
+        780,
+        440
+      ],
+      "profile": "mobile",
+      "usage": "One route segment. Position between consecutive station centers; keep the route geometry in sync with the station layout.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "road-up-left-mobile-locked",
+      "svg": "svg/road-up-left-mobile-locked.svg",
+      "png": "png/road-up-left-mobile-locked.png",
+      "nativeSize": [
+        390,
+        220
+      ],
+      "pngSize": [
+        780,
+        440
+      ],
+      "profile": "mobile",
+      "usage": "One route segment. Position between consecutive station centers; keep the route geometry in sync with the station layout.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-icon-normal",
+      "svg": "svg/button-icon-normal.svg",
+      "png": "png/button-icon-normal.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "usage": "Header and locate button, normal.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-icon-hover",
+      "svg": "svg/button-icon-hover.svg",
+      "png": "png/button-icon-hover.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "usage": "Header and locate button, hover.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-icon-pressed",
+      "svg": "svg/button-icon-pressed.svg",
+      "png": "png/button-icon-pressed.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "usage": "Header and locate button, pressed.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "button-icon-disabled",
+      "svg": "svg/button-icon-disabled.svg",
+      "png": "png/button-icon-disabled.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "usage": "Header and locate button, disabled.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "badge-number",
+      "svg": "svg/badge-number.svg",
+      "png": "png/badge-number.png",
+      "nativeSize": [
+        30,
+        32
+      ],
+      "pngSize": [
+        60,
+        64
+      ],
+      "profile": "shared",
+      "usage": "Station index badge; overlay dynamic number.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "badge-complete",
+      "svg": "svg/badge-complete.svg",
+      "png": "png/badge-complete.png",
+      "nativeSize": [
+        30,
+        32
+      ],
+      "pngSize": [
+        60,
+        64
+      ],
+      "profile": "shared",
+      "usage": "Status badge with separate icon.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "badge-locked",
+      "svg": "svg/badge-locked.svg",
+      "png": "png/badge-locked.png",
+      "nativeSize": [
+        30,
+        32
+      ],
+      "pngSize": [
+        60,
+        64
+      ],
+      "profile": "shared",
+      "usage": "Status badge with separate icon.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "badge-open",
+      "svg": "svg/badge-open.svg",
+      "png": "png/badge-open.png",
+      "nativeSize": [
+        30,
+        32
+      ],
+      "pngSize": [
+        60,
+        64
+      ],
+      "profile": "shared",
+      "usage": "Status badge with separate icon.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "sheet-handle",
+      "svg": "svg/sheet-handle.svg",
+      "png": "png/sheet-handle.png",
+      "nativeSize": [
+        36,
+        4
+      ],
+      "pngSize": [
+        72,
+        8
+      ],
+      "profile": "shared",
+      "usage": "Sheet grab handle.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "progress-track",
+      "svg": "svg/progress-track.svg",
+      "png": "png/progress-track.png",
+      "nativeSize": [
+        530,
+        8
+      ],
+      "pngSize": [
+        1060,
+        16
+      ],
+      "profile": "shared",
+      "usage": "Progress strip; fill is clipped by runtime progress.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "progress-fill",
+      "svg": "svg/progress-fill.svg",
+      "png": "png/progress-fill.png",
+      "nativeSize": [
+        530,
+        8
+      ],
+      "pngSize": [
+        1060,
+        16
+      ],
+      "profile": "shared",
+      "usage": "Progress strip; fill is clipped by runtime progress.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "decoration-flower",
+      "svg": "svg/decoration-flower.svg",
+      "png": "png/decoration-flower.png",
+      "nativeSize": [
+        24,
+        24
+      ],
+      "pngSize": [
+        48,
+        48
+      ],
+      "profile": "shared",
+      "usage": "Map decoration.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-arrow-left",
+      "svg": "svg/icon-arrow-left.svg",
+      "png": "png/icon-arrow-left.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-arrow-right",
+      "svg": "svg/icon-arrow-right.svg",
+      "png": "png/icon-arrow-right.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-audio",
+      "svg": "svg/icon-audio.svg",
+      "png": "png/icon-audio.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-muted",
+      "svg": "svg/icon-muted.svg",
+      "png": "png/icon-muted.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-flag",
+      "svg": "svg/icon-flag.svg",
+      "png": "png/icon-flag.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-trophy",
+      "svg": "svg/icon-trophy.svg",
+      "png": "png/icon-trophy.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-footprints",
+      "svg": "svg/icon-footprints.svg",
+      "png": "png/icon-footprints.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-check",
+      "svg": "svg/icon-check.svg",
+      "png": "png/icon-check.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-lock",
+      "svg": "svg/icon-lock.svg",
+      "png": "png/icon-lock.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-eye",
+      "svg": "svg/icon-eye.svg",
+      "png": "png/icon-eye.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-gamepad",
+      "svg": "svg/icon-gamepad.svg",
+      "png": "png/icon-gamepad.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-check-status",
+      "svg": "svg/icon-check-status.svg",
+      "png": "png/icon-check-status.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-lock-status",
+      "svg": "svg/icon-lock-status.svg",
+      "png": "png/icon-lock-status.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-tree-basics",
+      "svg": "svg/icon-tree-basics.svg",
+      "png": "png/icon-tree-basics.png",
+      "nativeSize": [
+        96,
+        96
+      ],
+      "pngSize": [
+        192,
+        192
+      ],
+      "profile": "shared",
+      "usage": "Colored toy illustration for the lesson station. Scale uniformly; do not tint.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-tree-traversal",
+      "svg": "svg/icon-tree-traversal.svg",
+      "png": "png/icon-tree-traversal.png",
+      "nativeSize": [
+        96,
+        96
+      ],
+      "pngSize": [
+        192,
+        192
+      ],
+      "profile": "shared",
+      "usage": "Colored toy illustration for the lesson station. Scale uniformly; do not tint.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-bst",
+      "svg": "svg/icon-bst.svg",
+      "png": "png/icon-bst.png",
+      "nativeSize": [
+        96,
+        96
+      ],
+      "pngSize": [
+        192,
+        192
+      ],
+      "profile": "shared",
+      "usage": "Colored toy illustration for the lesson station. Scale uniformly; do not tint.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-bst-search",
+      "svg": "svg/icon-bst-search.svg",
+      "png": "png/icon-bst-search.png",
+      "nativeSize": [
+        96,
+        96
+      ],
+      "pngSize": [
+        192,
+        192
+      ],
+      "profile": "shared",
+      "usage": "Colored toy illustration for the lesson station. Scale uniformly; do not tint.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-bst-insert",
+      "svg": "svg/icon-bst-insert.svg",
+      "png": "png/icon-bst-insert.png",
+      "nativeSize": [
+        96,
+        96
+      ],
+      "pngSize": [
+        192,
+        192
+      ],
+      "profile": "shared",
+      "usage": "Colored toy illustration for the lesson station. Scale uniformly; do not tint.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-bst-delete",
+      "svg": "svg/icon-bst-delete.svg",
+      "png": "png/icon-bst-delete.png",
+      "nativeSize": [
+        96,
+        96
+      ],
+      "pngSize": [
+        192,
+        192
+      ],
+      "profile": "shared",
+      "usage": "Colored toy illustration for the lesson station. Scale uniformly; do not tint.",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}
