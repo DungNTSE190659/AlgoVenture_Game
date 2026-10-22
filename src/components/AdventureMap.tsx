@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from
 import { ArrowLeft, ArrowRight, AudioLines, CircleDot, Check, Eye, Flag, Footprints, Gamepad2, GitMerge, Layers3, LockKeyhole, Search, Shuffle, Trophy, ListOrdered, Link, Network, Route, ScanSearch, TreePine, GalleryVerticalEnd } from "lucide-react";
 import World from "./World";
 import LinkedWorld from "./LinkedWorld";
+import TreeWorld from "./TreeWorld";
 import Pig from "./Pig";
 import { REGIONS, ARRAY_ROUTES, lessonPrerequisites, lessonAvailable, lessonUnlocked, regionUnlocked, type ArrayRouteId, type RegionId, type TrackId } from "../engine/learningTrack";
 import { type LinkedLevel, type LinkedLevelProgress, type LinkedTrackId } from "../engine/linkedCurriculum";
@@ -25,6 +26,10 @@ type Props = {
   arrivalFrom: TrackId | null;
   onArrived: () => void;
 };
+const mapAssetRoot = "/assets/hybrid-casual-ui/linked/map/svg/";
+function FileMapIcon({ name, size = 24, className = "", assetRoot = mapAssetRoot }: { name: string; size?: number; className?: string; assetRoot?: string }) {
+  return <img className={`linked-map-icon ${className}`} src={`${assetRoot}icon-${name}.svg`} alt="" aria-hidden="true" width={size} height={size} draggable={false} />;
+}
 const icons = { bubble: CircleDot, selection: Search, insertion: Layers3, merge: GitMerge, quick: Shuffle, array: Layers3, stack: GalleryVerticalEnd, queue: ListOrdered, "linked-list": Link, "linked-traversal": Route, "linked-search": Search, "linked-insertion": GitMerge, "linked-deletion": Layers3, "linked-reversal": Shuffle, "tree-basics": TreePine, "tree-traversal": Route, bst: TreePine, "bst-search": Search, "bst-insert": GitMerge, "bst-delete": TreePine, linear: ScanSearch, binary: Search, "graph-basics": Network, dfs: Route, bfs: Network, dijkstra: Flag };
 function geometry(count: number) {
   const point = (index: number) => ({ x: index % 2 ? 270 : 130, y: 160 + (count - 1 - index) * 220 });
@@ -43,6 +48,9 @@ function geometry(count: number) {
 }
 
 export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld, onStart, sound, onSound, completed, algorithm, onAlgorithm, arrivalFrom, onArrived }: Props) {
+  const assetMap = region === "linear-structures" || region === "trees";
+  const mapAssetRoot = `/assets/hybrid-casual-ui/${region === "trees" ? "tree" : "linked"}/map/svg/`;
+  const MapAssetIcon = (props: { name: string; size?: number; className?: string }) => <FileMapIcon {...props} assetRoot={mapAssetRoot} />;
   const territory = REGIONS.find(item => item.id === region)!;
   const route = region === "arrays" ? ARRAY_ROUTES.find(item => item.id === arrayRoute)! : null;
   const TRACK = route?.lessons ?? territory.lessons;
@@ -151,11 +159,11 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
   }
 
   return <main className={`adventure-map learning-map region-${region} ${route ? "has-route-picker" : ""} ${walking || locked || !available ? "map-has-status" : ""}`}>
-    {region === "linear-structures" ? <LinkedWorld map /> : <World map />}
+    {region === "linear-structures" ? <LinkedWorld map /> : region === "trees" ? <TreeWorld /> : <World map />}
     <header className="track-header">
-      <button className="track-back" aria-label="Bản đồ thế giới" onClick={onWorld} disabled={walking}><ArrowLeft size={20} /></button>
+      <button className="track-back" aria-label="Bản đồ thế giới" onClick={onWorld} disabled={walking}>{assetMap ? <MapAssetIcon name={"arrow-left"} size={20} /> : <ArrowLeft size={20} />}</button>
       <div><h1>{territory.name}</h1></div>
-      <button className="track-sound" onClick={onSound} aria-label={sound ? "Tắt âm thanh" : "Bật âm thanh"} aria-pressed={sound}><AudioLines size={20} />{!sound && <span />}</button>
+      <button className="track-sound" onClick={onSound} aria-label={sound ? "Tắt âm thanh" : "Bật âm thanh"} aria-pressed={sound}>{assetMap ? <MapAssetIcon name={sound ? "audio" : "muted"} size={20} /> : <AudioLines size={20} />}{!assetMap && !sound && <span />}</button>
     </header>
       {route && <nav className="track-routes" aria-label="Chọn lộ trình trong Mảng">
         {ARRAY_ROUTES.map(item => {
@@ -166,22 +174,29 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
           </button>;
         })}
       </nav>}
-      <div className="track-progress" aria-label="Tiến trình"><span><Flag size={15} /></span><span><Trophy size={15} /> {finishedCount}/{TRACK.length}</span><div><i style={{ width: `${finishedCount / TRACK.length * 100}%` }} /></div></div>
+      <div className="track-progress" aria-label="Tiến trình"><span>{assetMap ? <MapAssetIcon name={"flag"} size={15} /> : <Flag size={15} />}</span><span>{assetMap ? <MapAssetIcon name={"trophy"} size={15} /> : <Trophy size={15} />} {finishedCount}/{TRACK.length}</span><div><i style={{ width: `${finishedCount / TRACK.length * 100}%` }} /></div></div>
       <div className="track-viewport" ref={viewport} aria-label={`Bản đồ lộ trình ${route?.name ?? territory.name}, cuộn để khám phá`} tabIndex={0}>
         <div className="track-world" style={{ height: worldHeight }}>
-          <div className="track-destination" aria-hidden="true"><Flag size={20} /></div>
-          <svg className="track-roads" style={{ height: worldHeight }} viewBox={`0 0 400 ${worldHeight}`} preserveAspectRatio="none" aria-hidden="true">
+          <div className="track-destination" aria-hidden="true">{assetMap ? <MapAssetIcon name={"flag"} size={20} /> : <Flag size={20} />}</div>
+          {assetMap ? <div className="track-roads linked-map-road-assets" style={{ height: worldHeight }} aria-hidden="true">{TRACK.slice(1).map((_, index) => {
+            const direction = index % 2 ? "up-left" : "up-right", state = index < openThrough ? "open" : "locked";
+            return <picture key={index} style={{ top: point(index + 1).y, height: 220 }}>
+              <source media="(max-width: 700px)" srcSet={`${mapAssetRoot}road-${direction}-mobile-${state}.svg`} />
+              <img src={`${mapAssetRoot}road-${direction}-desktop-${state}.svg`} alt="" draggable={false} />
+            </picture>;
+          })}</div> : <svg className="track-roads" style={{ height: worldHeight }} viewBox={`0 0 400 ${worldHeight}`} preserveAspectRatio="none" aria-hidden="true">
             {TRACK.slice(1).map((_, index) => <g key={index} className={index < openThrough ? "road-open" : "road-locked"}>
               <path className="road-shadow" d={curve(index, index + 1)} /><path className="road-fill" d={curve(index, index + 1)} /><path className="road-dashes" d={curve(index, index + 1)} />
             </g>)}
-          </svg>
+          </svg>}
           {TRACK.map((item, index) => {
             const Icon = icons[item.id], p = point(index), isLocked = index > openThrough;
-            return <div key={item.id} className={`track-stop ${isLocked ? "stop-locked" : "stop-open"} ${selected === index ? "stop-selected" : ""} ${completed[item.id] ? "stop-complete" : ""}`} style={{ left: `${p.x / 4}%`, top: p.y, "--stop-color": item.color, "--stop-dark": item.dark } as CSSProperties}>
+            return <div key={item.id} className={`track-stop ${isLocked ? "stop-locked" : "stop-open"} ${selected === index ? "stop-selected" : ""} ${completed[item.id] ? "stop-complete" : ""}`} style={{ left: `${p.x / 4}%`, top: p.y, "--stop-color": item.color, "--stop-dark": item.dark,
+                ...(assetMap ? Object.fromEntries(["desktop", "mobile"].flatMap(profile => ["normal", "selected", "locked"].map(state => [`--map-tile-${profile}-${state}`, `url("${mapAssetRoot}station-${item.id}-${profile}-${state}.svg")`]))) : {}) } as CSSProperties}>
               <span className="stop-land" aria-hidden="true"><span>✿</span><i /><i /></span>
               <button className="stop-button" aria-label={item.name} aria-pressed={selected === index} disabled={walking} onClick={() => travel(index)} onFocus={event => { if (event.currentTarget.matches(":focus-visible")) center(p.y); }}>
-                <span className="stop-number">{String(index + 1).padStart(2, "0")}</span><Icon size={34} strokeWidth={2.3} />
-                <span className="stop-badge">{completed[item.id] ? <Check size={15} strokeWidth={3} /> : isLocked ? <LockKeyhole size={13} /> : <Flag size={13} />}</span>
+                <span className="stop-number">{String(index + 1).padStart(2, "0")}</span>{assetMap ? <MapAssetIcon name={item.id} size={34} /> : <Icon size={34} strokeWidth={2.3} />}
+                <span className="stop-badge">{assetMap ? <MapAssetIcon name={completed[item.id] ? "check" : isLocked ? "lock" : "flag"} size={15} /> : completed[item.id] ? <Check size={15} strokeWidth={3} /> : isLocked ? <LockKeyhole size={13} /> : <Flag size={13} />}</span>
               </button>
               <div className="stop-caption"><strong>{item.name}</strong></div>
             </div>;
@@ -192,12 +207,12 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
           <span className="track-decoration deco-one" style={{ top: worldHeight * .62 }} aria-hidden="true">✿</span><span className="track-decoration deco-two" style={{ top: worldHeight * .4 }} aria-hidden="true">✿</span><span className="track-decoration deco-three" style={{ top: worldHeight * .27 }} aria-hidden="true">✦</span>
         </div>
       </div>
-      {regionUnlocked(region, completed) && <button className="track-locate" onClick={() => center(traveler.y)} aria-label="Về vị trí Buta"><Footprints size={18} /></button>}
+      {regionUnlocked(region, completed) && <button className="track-locate" onClick={() => center(traveler.y)} aria-label="Về vị trí Buta">{assetMap ? <MapAssetIcon name={"footprints"} size={18} /> : <Footprints size={18} />}</button>}
       <section className={`track-sheet ${locked ? "sheet-locked" : ""}`} aria-labelledby="track-sheet-title" aria-busy={walking}>
         <div className="sheet-handle" aria-hidden="true" />
-        <div className="sheet-heading"><span className="sheet-number" style={{ background: active.color }}>{String(selected + 1).padStart(2, "0")}</span><div><h2 id="track-sheet-title" title={active.group}>{active.name}</h2></div>{locked ? <LockKeyhole className="sheet-status" size={21} /> : completed[active.id] ? <span className="sheet-done" aria-label="Đã vượt"><Check size={17} /></span> : <span className="sheet-status"><Flag size={20} /></span>}</div>
+        <div className="sheet-heading"><span className="sheet-number" style={assetMap ? { "--map-number-desktop": `url("${mapAssetRoot}number-${active.id}-desktop.svg")`, "--map-number-mobile": `url("${mapAssetRoot}number-${active.id}-mobile.svg")` } as CSSProperties : { background: active.color }}>{String(selected + 1).padStart(2, "0")}</span><div><h2 id="track-sheet-title" title={active.group}>{active.name}</h2></div>{locked ? (assetMap ? <MapAssetIcon name="lock-status" size={21} className="sheet-status" /> : <LockKeyhole className="sheet-status" size={21} />) : completed[active.id] ? <span className="sheet-done" aria-label="Đã vượt">{assetMap ? <MapAssetIcon name="check-status" size={17} /> : <Check size={17} />}</span> : <span className="sheet-status">{assetMap ? <MapAssetIcon name={"flag"} size={20} /> : <Flag size={20} />}</span>}</div>
         {(walking || locked || !available) && route?.id !== "stack-queue" && <p className="sheet-description" aria-live="polite">{walking ? "Buta đang đi…" : locked ? `Xong ${previous?.name} để mở.` : "Đang phát triển."}</p>}
-<div className="sheet-actions"><button className="sheet-demo" aria-label="Xem demo" onClick={() => start("demo")} disabled={locked || walking || !available}><Eye size={20} /> Demo</button><button className="sheet-challenge" onClick={() => start("play")} disabled={locked || walking || !available}><Gamepad2 size={20} /> Thử thách<ArrowRight size={17} /></button></div>
+<div className="sheet-actions"><button className="sheet-demo" aria-label="Xem demo" onClick={() => start("demo")} disabled={locked || walking || !available}>{assetMap ? <MapAssetIcon name={"eye"} size={20} /> : <Eye size={20} />} Demo</button><button className="sheet-challenge" onClick={() => start("play")} disabled={locked || walking || !available}>{assetMap ? <MapAssetIcon name={"gamepad"} size={20} /> : <Gamepad2 size={20} />} Thử thách{assetMap ? <MapAssetIcon name={"arrow-right"} size={17} /> : <ArrowRight size={17} />}</button></div>
       </section>
   </main>;
 }

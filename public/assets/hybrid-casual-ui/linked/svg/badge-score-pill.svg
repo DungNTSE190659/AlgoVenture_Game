@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 50" width="112" height="50" fill="none" preserveAspectRatio="none">
+  <!-- Drop shadow -->
+  <rect x="2" y="6" width="108" height="42" rx="14" fill="#000000" fill-opacity="0.14"/>
+  <!-- 3D Bottom Lip -->
+  <rect x="2" y="2" width="108" height="42" rx="14" fill="#D9A600" stroke="#23272E" stroke-width="3.2" stroke-linejoin="round"/>
+  <!-- Main Fill -->
+  <rect x="3.6" y="3.6" width="104.8" height="35" rx="12.25" fill="#FFF5C4"/>
+  <!-- Top Glossy Highlight -->
+  <path d="M 16 3.6 H 96 A 12.25 12.25 0 0 1 108.4 16 V 20 H 3.6 V 16 A 12.25 12.25 0 0 1 16 3.6 Z" fill="#FFFFFF" fill-opacity="0.65"/>
+  <!-- Crisp Outer Outline -->
+  <rect x="2" y="2" width="108" height="42" rx="14" fill="none" stroke="#23272E" stroke-width="3.2" stroke-linejoin="round"/>
+</svg>

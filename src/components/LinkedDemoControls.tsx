@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Pause, Play, RotateCcw, SkipBack, SkipForward } from "lucide-react";
+import { ArrowRight, Pause, Play, RotateCcw, SkipBack, SkipForward } from "./LinkedAssetIcons";
 import Pig from "./Pig";
 import { gameAudio } from "../audio/gameAudio";
 
@@ -22,11 +22,13 @@ export default function LinkedDemoControls({ step, count, narration, onStep, onS
   const pauseCallback = useRef(onPauseChange);
   pauseCallback.current = onPauseChange;
   useEffect(() => {
+    const blur = () => { setPlaying(false); pauseCallback.current?.(true); };
     const interrupt = () => {
       if (document.hidden) { setPlaying(false); pauseCallback.current?.(true); }
     };
     document.addEventListener("visibilitychange", interrupt);
-    return () => document.removeEventListener("visibilitychange", interrupt);
+    window.addEventListener("blur", blur);
+    return () => { document.removeEventListener("visibilitychange", interrupt); window.removeEventListener("blur", blur); };
   }, []);
   useEffect(() => {
     if (suspended) { setPlaying(false); pauseCallback.current?.(true); }
@@ -45,7 +47,7 @@ export default function LinkedDemoControls({ step, count, narration, onStep, onS
   return <div className="linked-demo-player">
     <div className="linked-demo-dialogue">
       <Pig mood={done ? "celebrate" : "explaining"} />
-      <p aria-live="polite">{narration}</p>
+      <div className="linked-speech"><span className="linked-speaker">Buta đồng hành</span><p aria-live="polite">{narration}</p></div>
     </div>
     <footer className="linked-demo-controls">
       <div className="linked-demo-playback">
@@ -65,6 +67,7 @@ export default function LinkedDemoControls({ step, count, narration, onStep, onS
         <progress value={step} max={count - 1} aria-label="Tiến trình demo" />
         <button className="lesson-speed-button" aria-label={`Tốc độ demo: ${speed}x. Bấm để đổi tốc độ`} onClick={() => { const next = speed === 1 ? 1.5 : speed === 1.5 ? 2 : 1; setSpeed(next); onSpeedChange?.(next); }}>{speed}x</button>
       </div>
+      {!done && <button className="linked-demo-try" onClick={onPlay}>Tự mình thử <ArrowRight size={16} /></button>}
     </footer>
   </div>;
 }

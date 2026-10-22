@@ -13,20 +13,20 @@ export const TRACK: Lesson[] = [
   { id: "quick", name: "Quick Sort", place: "Pháo Đài Chốt", description: "Chọn chốt, chia hai nhóm và chinh phục từng mảng con.", color: "#e9a18c", dark: "#b87160" },
 ];
 export const LINEAR_STRUCTURES: Lesson[] = [
-  { id: "linked-list", name: "Linked List Construction", place: "Lối Đi Mắt Xích", description: "Lắp nút và nối con trỏ next để tạo danh sách.", color: "#d7b57e", dark: "#a28756" },
-  { id: "linked-traversal", name: "Linked List Traversal", place: "Đường Dây Dẫn Lối", description: "Đi theo từng liên kết từ HEAD đến NULL.", color: "#8fbdaf", dark: "#5d9385" },
-  { id: "linked-search", name: "Linked List Search", place: "Trạm Tìm Dấu", description: "Duyệt lần lượt để tìm nút mang giá trị cần tìm.", color: "#91b9d1", dark: "#628aa4" },
-  { id: "linked-insertion", name: "Linked List Insertion", place: "Xưởng Nối Nút", description: "Chèn nút mới bằng cách đổi các liên kết.", color: "#e4b88a", dark: "#ad8157" },
-  { id: "linked-deletion", name: "Linked List Deletion", place: "Ngã Rẽ Tháo Nút", description: "Bỏ một nút và nối lại phần danh sách còn lại.", color: "#c5a5c8", dark: "#946f9c" },
-  { id: "linked-reversal", name: "Linked List Reversal", place: "Cầu Quay Ngược", description: "Đổi hướng từng liên kết để đảo ngược danh sách.", color: "#a7c18c", dark: "#718f5a" },
+  { id: "linked-list", name: "Linked List Construction", place: "Lối Đi Mắt Xích", description: "Lắp nút và nối con trỏ next để tạo danh sách.", color: "#f7b83d", dark: "#a96712" },
+  { id: "linked-traversal", name: "Linked List Traversal", place: "Đường Dây Dẫn Lối", description: "Đi theo từng liên kết từ HEAD đến NULL.", color: "#27c9be", dark: "#117c79" },
+  { id: "linked-search", name: "Linked List Search", place: "Trạm Tìm Dấu", description: "Duyệt lần lượt để tìm nút mang giá trị cần tìm.", color: "#39b8f2", dark: "#176b9c" },
+  { id: "linked-insertion", name: "Linked List Insertion", place: "Xưởng Nối Nút", description: "Chèn nút mới bằng cách đổi các liên kết.", color: "#ff9658", dark: "#ad4e25" },
+  { id: "linked-deletion", name: "Linked List Deletion", place: "Ngã Rẽ Tháo Nút", description: "Bỏ một nút và nối lại phần danh sách còn lại.", color: "#b777ed", dark: "#7540a5" },
+  { id: "linked-reversal", name: "Linked List Reversal", place: "Cầu Quay Ngược", description: "Đổi hướng từng liên kết để đảo ngược danh sách.", color: "#35c990", dark: "#159563" },
 ];
 export const TREES: Lesson[] = [
-  { id: "tree-basics", name: "Cây cơ bản", place: "Mầm Cây Đầu Tiên", description: "Làm quen với gốc, nút, cạnh và quan hệ cha con trong cây.", color: "#a8c88c", dark: "#708e55" },
-  { id: "tree-traversal", name: "Duyệt cây", place: "Lối Mòn Qua Tán Lá", description: "Thu hoạch theo preorder, inorder, postorder và từng tầng.", color: "#99b9a0", dark: "#668d70" },
-  { id: "bst", name: "BST", place: "Cây Cửa Ngõ", description: "Khám phá cây tìm kiếm nhị phân: nhỏ bên trái, lớn bên phải.", color: "#9abc83", dark: "#63824e" },
-  { id: "bst-search", name: "Tìm kiếm trên BST", place: "Theo Nhánh Tìm Số", description: "So sánh với nút hiện tại để chọn nhánh trái hoặc phải.", color: "#8ebbb1", dark: "#5d8d82" },
-  { id: "bst-insert", name: "Thêm nút vào BST", place: "Ươm Một Nhánh Mới", description: "Tìm vị trí phù hợp để thêm nút, giữ tính chất cây tìm kiếm nhị phân.", color: "#c3bf86", dark: "#94915c" },
-  { id: "bst-delete", name: "Xóa nút khỏi BST", place: "Chăm Sóc Tán Cây", description: "Xóa nút và nối lại cây để giữ tính chất cây tìm kiếm nhị phân.", color: "#c2a88e", dark: "#95795f" },
+  { id: "tree-basics", name: "Cây cơ bản", place: "Mầm Cây Đầu Tiên", description: "Làm quen với gốc, nút, cạnh và quan hệ cha con trong cây.", color: "#F7B83D", dark: "#A96712" },
+  { id: "tree-traversal", name: "Duyệt cây", place: "Lối Mòn Qua Tán Lá", description: "Thu hoạch theo preorder, inorder, postorder và từng tầng.", color: "#27C9BE", dark: "#117C79" },
+  { id: "bst", name: "BST", place: "Cây Cửa Ngõ", description: "Khám phá cây tìm kiếm nhị phân: nhỏ bên trái, lớn bên phải.", color: "#B777ED", dark: "#7540A5" },
+  { id: "bst-search", name: "Tìm kiếm trên BST", place: "Theo Nhánh Tìm Số", description: "So sánh với nút hiện tại để chọn nhánh trái hoặc phải.", color: "#39B8F2", dark: "#176B9C" },
+  { id: "bst-insert", name: "Thêm nút vào BST", place: "Ươm Một Nhánh Mới", description: "Tìm vị trí phù hợp để thêm nút, giữ tính chất cây tìm kiếm nhị phân.", color: "#35C990", dark: "#159563" },
+  { id: "bst-delete", name: "Xóa nút khỏi BST", place: "Chăm Sóc Tán Cây", description: "Xóa nút và nối lại cây để giữ tính chất cây tìm kiếm nhị phân.", color: "#FF9658", dark: "#AD4E25" },
 ];
 export const SEARCHING: Lesson[] = [
   { id: "linear", name: "Linear Search", place: "Đường Mòn Dấu Chân", description: "Xét lần lượt từng phần tử để tìm con số đang ẩn mình.", color: "#8dbbb7", dark: "#5c8d88" },

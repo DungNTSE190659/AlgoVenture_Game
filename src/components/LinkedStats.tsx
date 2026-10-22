@@ -4,5 +4,5 @@ export type LinkedCounters = { placements: number; connections: number; checks: 
 export const emptyLinkedCounters = (): LinkedCounters => ({ placements: 0, connections: 0, checks: 0, visits: [] });
 
 export default function LinkedStats({ score }: { score: number; counters: LinkedCounters }) {
-  return <GameStats score={score} className="linked-hud" scoreClassName="bubble-score">{null}</GameStats>;
+  return <GameStats assetIcons score={score} className="linked-hud" scoreClassName="bubble-score">{null}</GameStats>;
 }

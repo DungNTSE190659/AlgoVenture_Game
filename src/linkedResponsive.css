@@ -286,7 +286,7 @@
 /* Compact vertical boards: reserve space for the whole chain instead of tall cards. */
 .linked-world {
   --linked-slot-width: clamp(116px, 25vw, 148px);
-  --linked-node-width: clamp(78px, 18vw, 96px);
+  --linked-node-width: clamp(100px, 22vw, 124px);
   --linked-chain-gap: 28px;
   --linked-row-height: clamp(68px, 8dvh, 80px);
   --linked-block-height: clamp(52px, 6.5dvh, 64px);
@@ -402,4 +402,188 @@
   .linked-world .linked-hud .play-score { gap: 4px; padding: 3px 6px; }
   .linked-world .linked-hud .play-score strong { font-size: 13px; }
   .linked-world .linked-intro { padding-right: 0; }
+}
+
+/* Demo and Challenge share a vertical assembly, compact supplies and guide. */
+.linked-world.linked-stage-layout {
+  display: flex; flex-direction: column; height: 100dvh; min-height: 0; overflow: hidden;
+  --linked-row-height: clamp(44px, calc((100dvh - 200px) / 6), 80px);
+  --linked-block-height: clamp(44px, 7.5dvh, 64px);
+  --linked-chain-gap: clamp(24px, 4dvh, 40px);
+}
+.linked-world.linked-stage-layout .lesson-header { margin-top: max(4px, env(safe-area-inset-top)); flex: 0 0 48px; }
+.linked-world.linked-stage-layout .linked-content { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; width: min(1200px, 100%); padding: 4px 16px 16px; gap: 8px; }
+.linked-world.linked-stage-layout .linked-intro { flex: 0 0 auto; margin: 0; }
+.linked-world.linked-stage-layout .linked-intro p { margin: 0; font-size: clamp(13px, 1.9dvh, 18px); line-height: 1.3; }
+.linked-world.linked-stage-layout .linked-workspace {
+  flex: 1 1 0; min-height: 0;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas: "board bank" "board guide" "board tools";
+  gap: 16px 24px;
+}
+.linked-world.linked-stage-layout .linked-assembly { grid-area: board; display: flex; flex-direction: column; min-height: 0; border: 2px solid #fff9e199; border-radius: 26px; background: rgb(248 244 230 / 20%); }
+.linked-world.linked-stage-layout .linked-assembly-scroll { flex: 1; min-height: 0; display: flex; padding: 2px 0; }
+.linked-world.linked-stage-layout .linked-board,
+.linked-world.linked-stage-layout .journey-chain { flex: 1; justify-content: space-between; padding: 16px 0 12px; }
+.linked-world.linked-stage-layout .linked-bank { grid-area: bank; padding: 12px; border-radius: 24px; }
+.linked-world.linked-stage-layout .linked-bank-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; justify-items: center; height: auto; min-height: 160px; padding: 18px 0 8px; gap: 16px 8px; }
+.linked-world.linked-stage-layout .linked-bank-cell { width: auto; min-width: 0; }
+.linked-world.linked-stage-layout .linked-bank-empty,
+.linked-world.linked-stage-layout .linked-bank-cell:has(.linked-bank-empty) { display: none; }
+.linked-world.linked-stage-layout .linked-bank .linked-node { width: 126px; height: 56px; }
+.linked-world.linked-stage-layout .linked-bank .linked-node-body { width: 116px; height: 56px; }
+.linked-world.linked-stage-layout .linked-bank-row:not(:has(.linked-node, .journey-pig-pickup))::after { content: "Kéo khối về đây để tháo lắp"; grid-column: 1 / -1; align-self: center; color: #8a9778; font-size: 12px; text-align: center; padding: 12px 4px; }
+.linked-world.linked-stage-layout .construction-null,
+.linked-world.linked-stage-layout .journey-null { margin-top: 8px; }
+.linked-challenge-guide { grid-area: guide; display: flex; align-items: flex-start; gap: 12px; min-height: 0; }
+.linked-challenge-guide > .pig { flex: 0 0 66px; width: 66px; height: 76px; }
+.linked-challenge-guide > div { min-width: 0; }
+.linked-challenge-guide > div > span { font-size: 10px; font-weight: 800; color: #8a9778; }
+.linked-world .linked-challenge-guide .linked-play-feedback { text-align: left; font-size: 13px; line-height: 1.4; margin-top: 6px; color: #657754; }
+.linked-world .linked-challenge-guide .linked-play-feedback.is-error { color: #b57460; }
+.linked-challenge-tools { grid-area: tools; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.linked-world.linked-stage-layout .linked-challenge-tools .journey-controls { flex-direction: column; flex-wrap: nowrap; gap: 8px; margin: 0; }
+.linked-world.linked-stage-layout .linked-challenge-tools .chunky-button { width: 100%; min-width: 0; min-height: 44px; padding: 8px; font-size: 14px; }
+.linked-buta-hint { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px; border: 2px solid #f5e8c6; border-radius: 16px; background: #fff7dd; box-shadow: 0 3px #c8b68e; color: #aa8c50; font-weight: 850; }
+.linked-challenge-secondary { display: flex; justify-content: space-between; gap: 8px; }
+.linked-world .linked-challenge-secondary > button { position: static; display: flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; min-height: 44px; padding: 6px; border: 0; background: transparent; color: #768364; font-size: 12px; white-space: nowrap; }
+.linked-challenge-secondary > button:disabled { opacity: .45; cursor: default; }
+.linked-world.linked-stage-layout .journey-piece { position: relative; }
+.linked-world.linked-stage-layout .journey-piece > .journey-plus { position: absolute; right: calc(100% + 8px); width: 44px; height: 44px; }
+.linked-world.linked-stage-layout .journey-chain > .journey-plus { position: absolute; left: calc(50% - var(--linked-slot-width) / 2 - 52px); bottom: 48px; width: 44px; height: 44px; }
+@media (max-height: 680px) {
+  .linked-world.linked-stage-layout .linked-workspace { row-gap: 8px; }
+  .linked-world.linked-stage-layout .linked-bank { padding-block: 6px; }
+  .linked-world.linked-stage-layout .linked-bank-row { min-height: 116px; padding-block: 10px 6px; gap: 12px 8px; }
+  .linked-world.linked-stage-layout .linked-bank .linked-node,
+  .linked-world.linked-stage-layout .linked-bank .linked-node-body { height: 44px; }
+  .linked-challenge-guide > .pig { flex-basis: 44px; width: 44px; height: 50px; }
+  .linked-world .linked-challenge-guide .linked-play-feedback { font-size: 12px; line-height: 1.35; margin-top: 0; }
+}
+@media (max-width: 700px) {
+  .linked-world.linked-stage-layout { --linked-slot-width: clamp(84px, 28vw, 132px); --linked-node-width: clamp(68px, 24vw, 112px); }
+  .linked-world.linked-stage-layout .linked-content { padding: 2px 8px 10px; gap: 6px; }
+  .linked-world.linked-stage-layout .linked-workspace { grid-template-columns: minmax(0, 1fr) minmax(144px, 48%); gap: 10px 8px; }
+  .linked-world.linked-stage-layout .linked-bank { padding: 8px 4px; border-radius: 18px; }
+  .linked-world.linked-stage-layout .linked-bank-row { min-height: 124px; gap: 12px 4px; padding-top: 10px; }
+  .linked-world.linked-stage-layout .linked-bank .linked-node { width: 60px; height: 44px; }
+  .linked-world.linked-stage-layout .linked-bank .linked-node-body { width: 58px; height: 44px; font-size: 22px; }
+  .linked-world.linked-stage-layout .linked-bank .linked-node-value { font-size: 25px; }
+  .linked-challenge-guide { position: relative; display: block; }
+  .linked-challenge-guide > .pig { float: left; width: 32px; height: 36px; margin: 0 4px 2px 0; }
+  .linked-challenge-guide > div > span { display: none; }
+  .linked-world .linked-challenge-guide .linked-play-feedback { font-size: 14px; line-height: 1.45; margin: 0; }
+  .linked-world.linked-stage-layout .linked-challenge-tools .chunky-button { font-size: 12px; padding: 6px; gap: 4px; }
+  .linked-challenge-tools { gap: 6px; }
+  .linked-buta-hint { font-size: 12px; gap: 4px; }
+  .linked-challenge-secondary { gap: 0; }
+  .linked-world .linked-challenge-secondary > button { flex: 1; font-size: 10px; padding-inline: 1px; gap: 2px; }
+  .linked-world.linked-stage-layout .linked-assembly { padding-inline: 2px; }
+}
+
+.linked-world.linked-stage-layout.linked-demo .linked-content { overflow: visible; }
+.linked-world.linked-stage-layout.linked-demo .linked-bank-row:not(:has(.linked-node, .journey-pig-pickup))::after { content: "Các khối đã ở hàng lắp"; }
+.linked-world.linked-stage-layout .linked-demo-player { display: contents; }
+.linked-world.linked-stage-layout .linked-demo-dialogue { grid-area: guide; display: flex; align-items: flex-start; justify-content: flex-start; gap: 12px; min-width: 0; min-height: 0; padding: 0; margin: 0; }
+.linked-world.linked-stage-layout .linked-demo-dialogue .pig { width: 66px; height: 76px; flex: 0 0 66px; }
+.linked-world.linked-stage-layout .linked-demo-dialogue p { width: auto; min-width: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none; background: transparent; font-size: 13px; line-height: 1.4; font-weight: 750; color: #657754; }
+.linked-world.linked-stage-layout .linked-demo-controls { grid-area: tools; width: 100%; min-width: 0; display: flex; flex-direction: column; gap: 8px; padding: 0; }
+.linked-world.linked-stage-layout .linked-demo-playback { width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 6px; }
+.linked-world.linked-stage-layout .linked-demo-playback .round-button { width: 44px; height: 44px; }
+.linked-world.linked-stage-layout .linked-demo-playback .chunky-button { min-width: 0; min-height: 44px; padding: 6px; font-size: 13px; gap: 4px; }
+.linked-world.linked-stage-layout .linked-demo-step-status { display: flex; flex-wrap: wrap; width: 100%; min-width: 0; justify-content: space-between; gap: 4px; font-size: 11px; }
+.linked-world.linked-stage-layout .linked-demo-step-status progress { width: auto; flex: 1; min-width: 20px; }
+.linked-world.linked-stage-layout .lesson-speed-button { min-width: 44px; padding-inline: 4px; }
+.linked-world.linked-stage-layout .linked-demo-try { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 12px; background: #f7f5e6; color: #687d64; font-size: 12px; font-weight: 800; }
+@media (max-width: 700px) {
+  .linked-world.linked-stage-layout.linked-demo .linked-workspace { grid-template-columns: minmax(0, 1fr) minmax(144px, 48%); }
+  .linked-world.linked-stage-layout .linked-demo-dialogue { display: block; }
+  .linked-world.linked-stage-layout .linked-demo-dialogue .pig { float: left; width: 32px; height: 36px; margin: 0 4px 2px 0; }
+  .linked-world.linked-stage-layout .linked-demo-dialogue p { font-size: 14px; line-height: 1.45; }
+  .linked-world.linked-stage-layout .linked-demo-playback { gap: 2px; }
+  .linked-world.linked-stage-layout .linked-demo-playback .chunky-button { padding: 2px; font-size: 10px; flex-direction: column; gap: 0; }
+  .linked-world.linked-stage-layout .linked-demo-playback .chunky-button svg { width: 16px; height: 16px; }
+}
+@media (max-width: 700px) {
+  .linked-world.linked-stage-layout .linked-bank:not(:has(.linked-node, .journey-pig-pickup)) .linked-bank-row { min-height: 92px; }
+  .linked-world.linked-stage-layout .linked-workspace {
+    grid-template-areas: "board bank" "board guide" "board tools";
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+  .linked-world.linked-stage-layout .linked-board,
+  .linked-world.linked-stage-layout .journey-chain { justify-content: flex-start; gap: 36px; }
+  .linked-world.linked-stage-layout .linked-demo-dialogue,
+  .linked-world.linked-stage-layout .linked-challenge-guide { display: flow-root; min-height: 48px; }
+  .linked-world.linked-stage-layout .linked-challenge-tools,
+  .linked-world.linked-stage-layout .linked-demo-controls { align-self: end; }
+  .linked-world.linked-stage-layout .linked-demo-dialogue .pig,
+  .linked-challenge-guide > .pig { width: 44px; height: 48px; margin-right: 8px; }
+  .linked-world.linked-stage-layout .linked-demo-dialogue p,
+  .linked-world .linked-challenge-guide .linked-play-feedback { font-size: 14px; line-height: 1.4; }
+}
+@media (max-width: 700px) and (max-height: 680px) {
+  .linked-world.linked-stage-layout { --linked-row-height: 44px; --linked-block-height: 44px; --linked-chain-gap: 16px; }
+  .linked-world.linked-stage-layout .linked-board,
+  .linked-world.linked-stage-layout .journey-chain { padding-block: 12px 6px; }
+  .linked-world.linked-stage-layout .linked-workspace { row-gap: 6px; }
+  .linked-world.linked-stage-layout .linked-bank-row { min-height: 100px; gap: 8px 4px; padding-block: 6px; }
+  .linked-world.linked-stage-layout .linked-board,
+  .linked-world.linked-stage-layout .journey-chain { gap: 26px; }
+  .linked-world.linked-stage-layout .linked-demo-try { display: none; }
+}
+
+/* Mobile controls belong to the whole screen, below both play columns. */
+@media (max-width: 700px) {
+  .linked-world.linked-stage-layout .linked-intro { margin-bottom: 8px; }
+  .linked-world.linked-stage-layout { --linked-row-height: var(--linked-block-height); }
+  .linked-world.linked-stage-layout:not(.linked-demo) .linked-assembly { align-self: start; height: max-content; }
+  .linked-world.linked-stage-layout:not(.linked-demo) .linked-assembly-scroll { flex: 0 1 auto; }
+  .linked-world.linked-stage-layout .linked-workspace {
+    grid-template-areas: "board bank" "board guide" "tools tools";
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+  .linked-world.linked-stage-layout .linked-demo-controls { align-self: end; width: min(100%, 360px); justify-self: center; }
+  .linked-world.linked-stage-layout .linked-demo-playback { grid-template-columns: 44px minmax(0, 180px) 44px; justify-content: center; gap: 10px; }
+  .linked-world.linked-stage-layout .linked-demo-playback .chunky-button { flex-direction: row; font-size: 14px; gap: 6px; padding: 6px; }
+  .linked-world.linked-stage-layout .linked-demo-playback .chunky-button svg { width: 20px; height: 20px; }
+  .linked-world.linked-stage-layout .linked-demo-step-status { justify-content: center; gap: 8px; }
+  .linked-world.linked-stage-layout .linked-demo-step-status progress { flex: 0 1 180px; }
+  .linked-world.linked-stage-layout .linked-demo-try { display: none; }
+  .linked-world.linked-stage-layout .linked-challenge-tools { width: min(100%, 400px); justify-self: center; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 10px; }
+  .linked-world.linked-stage-layout .linked-challenge-tools > .journey-controls { display: contents; }
+  .linked-world.linked-stage-layout .linked-challenge-tools .linked-check-button { grid-row: 1; grid-column: 1; }
+  .linked-world.linked-stage-layout .linked-buta-hint { grid-row: 1; grid-column: 2; }
+  .linked-world.linked-stage-layout .journey-controls > button:not(.linked-check-button),
+  .linked-world.linked-stage-layout .linked-challenge-secondary { grid-column: 1 / -1; }
+  .linked-world.linked-stage-layout .linked-challenge-secondary { justify-content: center; gap: 24px; }
+  .linked-world.linked-stage-layout .linked-challenge-secondary > button { flex: 0 0 auto; padding: 4px 12px; font-size: 12px; }
+}
+@media (max-width: 700px) and (max-height: 600px) {
+  .linked-world.linked-stage-layout:not(.linked-demo) .linked-board,
+  .linked-world.linked-stage-layout:not(.linked-demo) .journey-chain { gap: 20px; }
+  .linked-world.linked-stage-layout .linked-challenge-tools:has(.linked-ready) .linked-ready { grid-column: 1; grid-row: 2; }
+  .linked-world.linked-stage-layout .linked-challenge-tools:has(.linked-ready) .linked-challenge-secondary { grid-column: 2; grid-row: 2; gap: 0; }
+  .linked-world.linked-stage-layout .linked-challenge-tools:has(.linked-ready) .linked-challenge-secondary > button { flex: 1; padding: 2px; font-size: 10px; }
+  .linked-world.linked-stage-layout:not(.linked-demo) .linked-board,
+  .linked-world.linked-stage-layout:not(.linked-demo) .journey-chain { padding-block: 8px 2px; }
+  .linked-world.linked-stage-layout:not(.linked-demo) .construction-null,
+  .linked-world.linked-stage-layout:not(.linked-demo) .journey-null { margin-top: 4px; }
+}
+
+/* Use spare vertical room on phones while preserving the compact short-screen layout. */
+@media (max-width: 700px) and (min-height: 681px) {
+  .linked-world.linked-stage-layout:not(.linked-demo) .linked-assembly { align-self: stretch; height: auto; }
+  .linked-world.linked-stage-layout:not(.linked-demo) .linked-assembly-scroll { flex: 1; }
+  .linked-world.linked-stage-layout .linked-board,
+  .linked-world.linked-stage-layout .journey-chain { justify-content: space-between; }
+}
+
+.linked-world.linked-stage-layout .linked-demo-dialogue p,
+.linked-world.linked-stage-layout .linked-challenge-guide .linked-play-feedback { font-size: 14px; line-height: 1.45; }
+@media (max-width: 700px) {
+  .linked-world.linked-stage-layout .linked-demo-dialogue p,
+  .linked-world.linked-stage-layout .linked-challenge-guide .linked-play-feedback { font-size: 15px; line-height: 1.4; }
+  .linked-world.linked-stage-layout .linked-demo-dialogue p,
+  .linked-world.linked-stage-layout .linked-challenge-guide > div { display: flow-root; }
 }

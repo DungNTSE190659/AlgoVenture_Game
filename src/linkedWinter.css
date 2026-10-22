@@ -1,0 +1,27 @@
+/* Winter scenery and snow-white cards; lesson blocks and slot frames keep their skin. */
+.atlas-map[data-topic="linear-structures"] {
+  background: radial-gradient(ellipse at 45% 28%, #fff, #edf8fc 60%, #dceef6);
+}
+.linked-scenery { background-color: #f2faff; }
+/* Uniform lesson typography, including disabled controls and feedback. */
+.linked-world,
+.linked-world :not(.linked-node-value):not(svg):not(svg *),
+.linked-world ::before,
+.linked-world ::after {
+  color: #000 !important;
+}
+.linked-world .linked-node-value { color: #fff !important; }
+.linked-world.linked-stage-layout .linked-assembly::before {
+  border-image-source: url('/assets/hybrid-casual-ui/linked/winter/svg/panel-board.svg');
+}
+.linked-world.linked-stage-layout .linked-bank::before {
+  border-image-source: url('/assets/hybrid-casual-ui/linked/winter/svg/panel-bank.svg');
+}
+.learning-map.region-linear-structures {
+  --map-island: url('/assets/hybrid-casual-ui/linked/winter/svg/island-desktop.svg');
+}
+@media (max-width: 700px) {
+  .learning-map.region-linear-structures {
+    --map-island: url('/assets/hybrid-casual-ui/linked/winter/svg/island-mobile.svg');
+  }
+}

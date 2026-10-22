@@ -1,0 +1,3206 @@
+{
+  "version": 1,
+  "pixelsPerUnit": 100,
+  "alphaIsTransparency": true,
+  "spriteMeshType": "FullRect",
+  "assets": [
+    {
+      "id": "node-desktop-normal",
+      "svg": "svg/node-desktop-normal.svg",
+      "png": "png/node-desktop-normal.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-desktop-visited",
+      "svg": "svg/node-desktop-visited.svg",
+      "png": "png/node-desktop-visited.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-desktop-current",
+      "svg": "svg/node-desktop-current.svg",
+      "png": "png/node-desktop-current.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-desktop-selected",
+      "svg": "svg/node-desktop-selected.svg",
+      "png": "png/node-desktop-selected.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-desktop-empty",
+      "svg": "svg/node-desktop-empty.svg",
+      "png": "png/node-desktop-empty.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-desktop-ready",
+      "svg": "svg/node-desktop-ready.svg",
+      "png": "png/node-desktop-ready.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-desktop-over",
+      "svg": "svg/node-desktop-over.svg",
+      "png": "png/node-desktop-over.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-desktop-source",
+      "svg": "svg/node-desktop-source.svg",
+      "png": "png/node-desktop-source.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-desktop-target",
+      "svg": "svg/node-desktop-target.svg",
+      "png": "png/node-desktop-target.png",
+      "nativeSize": [
+        60,
+        60
+      ],
+      "pngSize": [
+        120,
+        120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-normal",
+      "svg": "svg/node-mobile-normal.svg",
+      "png": "png/node-mobile-normal.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-visited",
+      "svg": "svg/node-mobile-visited.svg",
+      "png": "png/node-mobile-visited.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-current",
+      "svg": "svg/node-mobile-current.svg",
+      "png": "png/node-mobile-current.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-selected",
+      "svg": "svg/node-mobile-selected.svg",
+      "png": "png/node-mobile-selected.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-empty",
+      "svg": "svg/node-mobile-empty.svg",
+      "png": "png/node-mobile-empty.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-ready",
+      "svg": "svg/node-mobile-ready.svg",
+      "png": "png/node-mobile-ready.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-over",
+      "svg": "svg/node-mobile-over.svg",
+      "png": "png/node-mobile-over.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-source",
+      "svg": "svg/node-mobile-source.svg",
+      "png": "png/node-mobile-source.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-mobile-target",
+      "svg": "svg/node-mobile-target.svg",
+      "png": "png/node-mobile-target.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-normal",
+      "svg": "svg/node-compact-normal.svg",
+      "png": "png/node-compact-normal.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-visited",
+      "svg": "svg/node-compact-visited.svg",
+      "png": "png/node-compact-visited.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-current",
+      "svg": "svg/node-compact-current.svg",
+      "png": "png/node-compact-current.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-selected",
+      "svg": "svg/node-compact-selected.svg",
+      "png": "png/node-compact-selected.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-empty",
+      "svg": "svg/node-compact-empty.svg",
+      "png": "png/node-compact-empty.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-ready",
+      "svg": "svg/node-compact-ready.svg",
+      "png": "png/node-compact-ready.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-over",
+      "svg": "svg/node-compact-over.svg",
+      "png": "png/node-compact-over.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-source",
+      "svg": "svg/node-compact-source.svg",
+      "png": "png/node-compact-source.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "node-compact-target",
+      "svg": "svg/node-compact-target.svg",
+      "png": "png/node-compact-target.png",
+      "nativeSize": [
+        44,
+        44
+      ],
+      "pngSize": [
+        88,
+        88
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "panel-board-desktop",
+      "svg": "svg/panel-board-desktop.svg",
+      "png": "png/panel-board-desktop.png",
+      "nativeSize": [
+        720,
+        560
+      ],
+      "pngSize": [
+        1440,
+        1120
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "panel-supply-desktop",
+      "svg": "svg/panel-supply-desktop.svg",
+      "png": "png/panel-supply-desktop.png",
+      "nativeSize": [
+        290,
+        126
+      ],
+      "pngSize": [
+        580,
+        252
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "panel-speech-desktop",
+      "svg": "svg/panel-speech-desktop.svg",
+      "png": "png/panel-speech-desktop.png",
+      "nativeSize": [
+        190,
+        180
+      ],
+      "pngSize": [
+        380,
+        360
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "panel-modal-desktop",
+      "svg": "svg/panel-modal-desktop.svg",
+      "png": "png/panel-modal-desktop.png",
+      "nativeSize": [
+        430,
+        400
+      ],
+      "pngSize": [
+        860,
+        800
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "panel-victory-desktop",
+      "svg": "svg/panel-victory-desktop.svg",
+      "png": "png/panel-victory-desktop.png",
+      "nativeSize": [
+        600,
+        480
+      ],
+      "pngSize": [
+        1200,
+        960
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "button-action-desktop-normal",
+      "svg": "svg/button-action-desktop-normal.svg",
+      "png": "png/button-action-desktop-normal.png",
+      "nativeSize": [
+        290,
+        48
+      ],
+      "pngSize": [
+        580,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-action-desktop-hover",
+      "svg": "svg/button-action-desktop-hover.svg",
+      "png": "png/button-action-desktop-hover.png",
+      "nativeSize": [
+        290,
+        48
+      ],
+      "pngSize": [
+        580,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-action-desktop-pressed",
+      "svg": "svg/button-action-desktop-pressed.svg",
+      "png": "png/button-action-desktop-pressed.png",
+      "nativeSize": [
+        290,
+        48
+      ],
+      "pngSize": [
+        580,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-action-desktop-disabled",
+      "svg": "svg/button-action-desktop-disabled.svg",
+      "png": "png/button-action-desktop-disabled.png",
+      "nativeSize": [
+        290,
+        48
+      ],
+      "pngSize": [
+        580,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-neutral-desktop-normal",
+      "svg": "svg/button-neutral-desktop-normal.svg",
+      "png": "png/button-neutral-desktop-normal.png",
+      "nativeSize": [
+        160,
+        44
+      ],
+      "pngSize": [
+        320,
+        88
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-neutral-desktop-hover",
+      "svg": "svg/button-neutral-desktop-hover.svg",
+      "png": "png/button-neutral-desktop-hover.png",
+      "nativeSize": [
+        160,
+        44
+      ],
+      "pngSize": [
+        320,
+        88
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-neutral-desktop-pressed",
+      "svg": "svg/button-neutral-desktop-pressed.svg",
+      "png": "png/button-neutral-desktop-pressed.png",
+      "nativeSize": [
+        160,
+        44
+      ],
+      "pngSize": [
+        320,
+        88
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-neutral-desktop-disabled",
+      "svg": "svg/button-neutral-desktop-disabled.svg",
+      "png": "png/button-neutral-desktop-disabled.png",
+      "nativeSize": [
+        160,
+        44
+      ],
+      "pngSize": [
+        320,
+        88
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-icon-desktop-normal",
+      "svg": "svg/button-icon-desktop-normal.svg",
+      "png": "png/button-icon-desktop-normal.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "id": "button-icon-desktop-hover",
+      "svg": "svg/button-icon-desktop-hover.svg",
+      "png": "png/button-icon-desktop-hover.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "id": "button-icon-desktop-pressed",
+      "svg": "svg/button-icon-desktop-pressed.svg",
+      "png": "png/button-icon-desktop-pressed.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "id": "button-icon-desktop-disabled",
+      "svg": "svg/button-icon-desktop-disabled.svg",
+      "png": "png/button-icon-desktop-disabled.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "id": "button-hint-desktop-normal",
+      "svg": "svg/button-hint-desktop-normal.svg",
+      "png": "png/button-hint-desktop-normal.png",
+      "nativeSize": [
+        290,
+        49
+      ],
+      "pngSize": [
+        580,
+        98
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-hint-desktop-hover",
+      "svg": "svg/button-hint-desktop-hover.svg",
+      "png": "png/button-hint-desktop-hover.png",
+      "nativeSize": [
+        290,
+        49
+      ],
+      "pngSize": [
+        580,
+        98
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-hint-desktop-pressed",
+      "svg": "svg/button-hint-desktop-pressed.svg",
+      "png": "png/button-hint-desktop-pressed.png",
+      "nativeSize": [
+        290,
+        49
+      ],
+      "pngSize": [
+        580,
+        98
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-hint-desktop-disabled",
+      "svg": "svg/button-hint-desktop-disabled.svg",
+      "png": "png/button-hint-desktop-disabled.png",
+      "nativeSize": [
+        290,
+        49
+      ],
+      "pngSize": [
+        580,
+        98
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-play-desktop-normal",
+      "svg": "svg/button-play-desktop-normal.svg",
+      "png": "png/button-play-desktop-normal.png",
+      "nativeSize": [
+        186,
+        48
+      ],
+      "pngSize": [
+        372,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-play-desktop-hover",
+      "svg": "svg/button-play-desktop-hover.svg",
+      "png": "png/button-play-desktop-hover.png",
+      "nativeSize": [
+        186,
+        48
+      ],
+      "pngSize": [
+        372,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-play-desktop-pressed",
+      "svg": "svg/button-play-desktop-pressed.svg",
+      "png": "png/button-play-desktop-pressed.png",
+      "nativeSize": [
+        186,
+        48
+      ],
+      "pngSize": [
+        372,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-play-desktop-disabled",
+      "svg": "svg/button-play-desktop-disabled.svg",
+      "png": "png/button-play-desktop-disabled.png",
+      "nativeSize": [
+        186,
+        48
+      ],
+      "pngSize": [
+        372,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "panel-board-mobile",
+      "svg": "svg/panel-board-mobile.svg",
+      "png": "png/panel-board-mobile.png",
+      "nativeSize": [
+        362,
+        400
+      ],
+      "pngSize": [
+        724,
+        800
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "panel-supply-mobile",
+      "svg": "svg/panel-supply-mobile.svg",
+      "png": "png/panel-supply-mobile.png",
+      "nativeSize": [
+        362,
+        88
+      ],
+      "pngSize": [
+        724,
+        176
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "panel-speech-mobile",
+      "svg": "svg/panel-speech-mobile.svg",
+      "png": "png/panel-speech-mobile.png",
+      "nativeSize": [
+        300,
+        94
+      ],
+      "pngSize": [
+        600,
+        188
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "panel-modal-mobile",
+      "svg": "svg/panel-modal-mobile.svg",
+      "png": "png/panel-modal-mobile.png",
+      "nativeSize": [
+        350,
+        400
+      ],
+      "pngSize": [
+        700,
+        800
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "panel-victory-mobile",
+      "svg": "svg/panel-victory-mobile.svg",
+      "png": "png/panel-victory-mobile.png",
+      "nativeSize": [
+        350,
+        480
+      ],
+      "pngSize": [
+        700,
+        960
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ]
+    },
+    {
+      "id": "button-action-mobile-normal",
+      "svg": "svg/button-action-mobile-normal.svg",
+      "png": "png/button-action-mobile-normal.png",
+      "nativeSize": [
+        328,
+        48
+      ],
+      "pngSize": [
+        656,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-action-mobile-hover",
+      "svg": "svg/button-action-mobile-hover.svg",
+      "png": "png/button-action-mobile-hover.png",
+      "nativeSize": [
+        328,
+        48
+      ],
+      "pngSize": [
+        656,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-action-mobile-pressed",
+      "svg": "svg/button-action-mobile-pressed.svg",
+      "png": "png/button-action-mobile-pressed.png",
+      "nativeSize": [
+        328,
+        48
+      ],
+      "pngSize": [
+        656,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-action-mobile-disabled",
+      "svg": "svg/button-action-mobile-disabled.svg",
+      "png": "png/button-action-mobile-disabled.png",
+      "nativeSize": [
+        328,
+        48
+      ],
+      "pngSize": [
+        656,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-neutral-mobile-normal",
+      "svg": "svg/button-neutral-mobile-normal.svg",
+      "png": "png/button-neutral-mobile-normal.png",
+      "nativeSize": [
+        144,
+        44
+      ],
+      "pngSize": [
+        288,
+        88
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-neutral-mobile-hover",
+      "svg": "svg/button-neutral-mobile-hover.svg",
+      "png": "png/button-neutral-mobile-hover.png",
+      "nativeSize": [
+        144,
+        44
+      ],
+      "pngSize": [
+        288,
+        88
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-neutral-mobile-pressed",
+      "svg": "svg/button-neutral-mobile-pressed.svg",
+      "png": "png/button-neutral-mobile-pressed.png",
+      "nativeSize": [
+        144,
+        44
+      ],
+      "pngSize": [
+        288,
+        88
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-neutral-mobile-disabled",
+      "svg": "svg/button-neutral-mobile-disabled.svg",
+      "png": "png/button-neutral-mobile-disabled.png",
+      "nativeSize": [
+        144,
+        44
+      ],
+      "pngSize": [
+        288,
+        88
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-icon-mobile-normal",
+      "svg": "svg/button-icon-mobile-normal.svg",
+      "png": "png/button-icon-mobile-normal.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "id": "button-icon-mobile-hover",
+      "svg": "svg/button-icon-mobile-hover.svg",
+      "png": "png/button-icon-mobile-hover.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "id": "button-icon-mobile-pressed",
+      "svg": "svg/button-icon-mobile-pressed.svg",
+      "png": "png/button-icon-mobile-pressed.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "id": "button-icon-mobile-disabled",
+      "svg": "svg/button-icon-mobile-disabled.svg",
+      "png": "png/button-icon-mobile-disabled.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ]
+    },
+    {
+      "id": "button-hint-mobile-normal",
+      "svg": "svg/button-hint-mobile-normal.svg",
+      "png": "png/button-hint-mobile-normal.png",
+      "nativeSize": [
+        328,
+        49
+      ],
+      "pngSize": [
+        656,
+        98
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-hint-mobile-hover",
+      "svg": "svg/button-hint-mobile-hover.svg",
+      "png": "png/button-hint-mobile-hover.png",
+      "nativeSize": [
+        328,
+        49
+      ],
+      "pngSize": [
+        656,
+        98
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-hint-mobile-pressed",
+      "svg": "svg/button-hint-mobile-pressed.svg",
+      "png": "png/button-hint-mobile-pressed.png",
+      "nativeSize": [
+        328,
+        49
+      ],
+      "pngSize": [
+        656,
+        98
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-hint-mobile-disabled",
+      "svg": "svg/button-hint-mobile-disabled.svg",
+      "png": "png/button-hint-mobile-disabled.png",
+      "nativeSize": [
+        328,
+        49
+      ],
+      "pngSize": [
+        656,
+        98
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-play-mobile-normal",
+      "svg": "svg/button-play-mobile-normal.svg",
+      "png": "png/button-play-mobile-normal.png",
+      "nativeSize": [
+        196,
+        48
+      ],
+      "pngSize": [
+        392,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-play-mobile-hover",
+      "svg": "svg/button-play-mobile-hover.svg",
+      "png": "png/button-play-mobile-hover.png",
+      "nativeSize": [
+        196,
+        48
+      ],
+      "pngSize": [
+        392,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-play-mobile-pressed",
+      "svg": "svg/button-play-mobile-pressed.svg",
+      "png": "png/button-play-mobile-pressed.png",
+      "nativeSize": [
+        196,
+        48
+      ],
+      "pngSize": [
+        392,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "button-play-mobile-disabled",
+      "svg": "svg/button-play-mobile-disabled.svg",
+      "png": "png/button-play-mobile-disabled.png",
+      "nativeSize": [
+        196,
+        48
+      ],
+      "pngSize": [
+        392,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ]
+    },
+    {
+      "id": "token-seed",
+      "svg": "svg/token-seed.svg",
+      "png": "png/token-seed.png",
+      "nativeSize": [
+        52,
+        52
+      ],
+      "pngSize": [
+        104,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-seed-selected",
+      "svg": "svg/token-seed-selected.svg",
+      "png": "png/token-seed-selected.png",
+      "nativeSize": [
+        52,
+        52
+      ],
+      "pngSize": [
+        104,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-seed-ready",
+      "svg": "svg/token-seed-ready.svg",
+      "png": "png/token-seed-ready.png",
+      "nativeSize": [
+        52,
+        52
+      ],
+      "pngSize": [
+        104,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-seed-over",
+      "svg": "svg/token-seed-over.svg",
+      "png": "png/token-seed-over.png",
+      "nativeSize": [
+        52,
+        52
+      ],
+      "pngSize": [
+        104,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-label",
+      "svg": "svg/token-label.svg",
+      "png": "png/token-label.png",
+      "nativeSize": [
+        140,
+        44
+      ],
+      "pngSize": [
+        280,
+        88
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-label-selected",
+      "svg": "svg/token-label-selected.svg",
+      "png": "png/token-label-selected.png",
+      "nativeSize": [
+        140,
+        44
+      ],
+      "pngSize": [
+        280,
+        88
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-label-ready",
+      "svg": "svg/token-label-ready.svg",
+      "png": "png/token-label-ready.png",
+      "nativeSize": [
+        140,
+        44
+      ],
+      "pngSize": [
+        280,
+        88
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-label-over",
+      "svg": "svg/token-label-over.svg",
+      "png": "png/token-label-over.png",
+      "nativeSize": [
+        140,
+        44
+      ],
+      "pngSize": [
+        280,
+        88
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-branch",
+      "svg": "svg/token-branch.svg",
+      "png": "png/token-branch.png",
+      "nativeSize": [
+        116,
+        44
+      ],
+      "pngSize": [
+        232,
+        88
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-branch-selected",
+      "svg": "svg/token-branch-selected.svg",
+      "png": "png/token-branch-selected.png",
+      "nativeSize": [
+        116,
+        44
+      ],
+      "pngSize": [
+        232,
+        88
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-branch-ready",
+      "svg": "svg/token-branch-ready.svg",
+      "png": "png/token-branch-ready.png",
+      "nativeSize": [
+        116,
+        44
+      ],
+      "pngSize": [
+        232,
+        88
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-branch-over",
+      "svg": "svg/token-branch-over.svg",
+      "png": "png/token-branch-over.png",
+      "nativeSize": [
+        116,
+        44
+      ],
+      "pngSize": [
+        232,
+        88
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-flag",
+      "svg": "svg/token-flag.svg",
+      "png": "png/token-flag.png",
+      "nativeSize": [
+        52,
+        52
+      ],
+      "pngSize": [
+        104,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-flag-selected",
+      "svg": "svg/token-flag-selected.svg",
+      "png": "png/token-flag-selected.png",
+      "nativeSize": [
+        52,
+        52
+      ],
+      "pngSize": [
+        104,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-flag-ready",
+      "svg": "svg/token-flag-ready.svg",
+      "png": "png/token-flag-ready.png",
+      "nativeSize": [
+        52,
+        52
+      ],
+      "pngSize": [
+        104,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-flag-over",
+      "svg": "svg/token-flag-over.svg",
+      "png": "png/token-flag-over.png",
+      "nativeSize": [
+        52,
+        52
+      ],
+      "pngSize": [
+        104,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-pig",
+      "svg": "svg/token-pig.svg",
+      "png": "png/token-pig.png",
+      "nativeSize": [
+        58,
+        56
+      ],
+      "pngSize": [
+        116,
+        112
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-pig-selected",
+      "svg": "svg/token-pig-selected.svg",
+      "png": "png/token-pig-selected.png",
+      "nativeSize": [
+        58,
+        56
+      ],
+      "pngSize": [
+        116,
+        112
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-pig-ready",
+      "svg": "svg/token-pig-ready.svg",
+      "png": "png/token-pig-ready.png",
+      "nativeSize": [
+        58,
+        56
+      ],
+      "pngSize": [
+        116,
+        112
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "token-pig-over",
+      "svg": "svg/token-pig-over.svg",
+      "png": "png/token-pig-over.png",
+      "nativeSize": [
+        58,
+        56
+      ],
+      "pngSize": [
+        116,
+        112
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "harvest-chip",
+      "svg": "svg/harvest-chip.svg",
+      "png": "png/harvest-chip.png",
+      "nativeSize": [
+        40,
+        43
+      ],
+      "pngSize": [
+        80,
+        86
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "basket",
+      "svg": "svg/basket.svg",
+      "png": "png/basket.png",
+      "nativeSize": [
+        60,
+        52
+      ],
+      "pngSize": [
+        120,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "basket-selected",
+      "svg": "svg/basket-selected.svg",
+      "png": "png/basket-selected.png",
+      "nativeSize": [
+        60,
+        52
+      ],
+      "pngSize": [
+        120,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "basket-ready",
+      "svg": "svg/basket-ready.svg",
+      "png": "png/basket-ready.png",
+      "nativeSize": [
+        60,
+        52
+      ],
+      "pngSize": [
+        120,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "basket-over",
+      "svg": "svg/basket-over.svg",
+      "png": "png/basket-over.png",
+      "nativeSize": [
+        60,
+        52
+      ],
+      "pngSize": [
+        120,
+        104
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "remove-tray",
+      "svg": "svg/remove-tray.svg",
+      "png": "png/remove-tray.png",
+      "nativeSize": [
+        280,
+        84
+      ],
+      "pngSize": [
+        560,
+        168
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "remove-tray-selected",
+      "svg": "svg/remove-tray-selected.svg",
+      "png": "png/remove-tray-selected.png",
+      "nativeSize": [
+        280,
+        84
+      ],
+      "pngSize": [
+        560,
+        168
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "remove-tray-ready",
+      "svg": "svg/remove-tray-ready.svg",
+      "png": "png/remove-tray-ready.png",
+      "nativeSize": [
+        280,
+        84
+      ],
+      "pngSize": [
+        560,
+        168
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "remove-tray-over",
+      "svg": "svg/remove-tray-over.svg",
+      "png": "png/remove-tray-over.png",
+      "nativeSize": [
+        280,
+        84
+      ],
+      "pngSize": [
+        560,
+        168
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "label",
+      "svg": "svg/label.svg",
+      "png": "png/label.png",
+      "nativeSize": [
+        140,
+        32
+      ],
+      "pngSize": [
+        280,
+        64
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        30,
+        30,
+        30,
+        30
+      ]
+    },
+    {
+      "id": "score",
+      "svg": "svg/score.svg",
+      "png": "png/score.png",
+      "nativeSize": [
+        100,
+        38
+      ],
+      "pngSize": [
+        200,
+        76
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        32,
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "id": "badge-complete",
+      "svg": "svg/badge-complete.svg",
+      "png": "png/badge-complete.png",
+      "nativeSize": [
+        24,
+        24
+      ],
+      "pngSize": [
+        48,
+        48
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        22,
+        22,
+        22,
+        22
+      ]
+    },
+    {
+      "id": "demo-hand",
+      "svg": "svg/demo-hand.svg",
+      "png": "png/demo-hand.png",
+      "nativeSize": [
+        30,
+        30
+      ],
+      "pngSize": [
+        60,
+        60
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        28,
+        28,
+        28,
+        28
+      ]
+    },
+    {
+      "id": "branch-normal",
+      "svg": "svg/branch-normal.svg",
+      "png": "png/branch-normal.png",
+      "nativeSize": [
+        24,
+        12
+      ],
+      "pngSize": [
+        48,
+        24
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "branch-visited",
+      "svg": "svg/branch-visited.svg",
+      "png": "png/branch-visited.png",
+      "nativeSize": [
+        24,
+        12
+      ],
+      "pngSize": [
+        48,
+        24
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "branch-empty",
+      "svg": "svg/branch-empty.svg",
+      "png": "png/branch-empty.png",
+      "nativeSize": [
+        24,
+        12
+      ],
+      "pngSize": [
+        48,
+        24
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "rope-helix-normal",
+      "svg": "svg/rope-helix-normal.svg",
+      "png": "png/rope-helix-normal.png",
+      "nativeSize": [
+        18,
+        10
+      ],
+      "pngSize": [
+        36,
+        20
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "rope-helix-active",
+      "svg": "svg/rope-helix-active.svg",
+      "png": "png/rope-helix-active.png",
+      "nativeSize": [
+        18,
+        10
+      ],
+      "pngSize": [
+        36,
+        20
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "rope-helix-visited",
+      "svg": "svg/rope-helix-visited.svg",
+      "png": "png/rope-helix-visited.png",
+      "nativeSize": [
+        18,
+        10
+      ],
+      "pngSize": [
+        36,
+        20
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "progress-track",
+      "svg": "svg/progress-track.svg",
+      "png": "png/progress-track.png",
+      "nativeSize": [
+        200,
+        8
+      ],
+      "pngSize": [
+        400,
+        16
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "progress-fill",
+      "svg": "svg/progress-fill.svg",
+      "png": "png/progress-fill.png",
+      "nativeSize": [
+        200,
+        8
+      ],
+      "pngSize": [
+        400,
+        16
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "scrim",
+      "svg": "svg/scrim.svg",
+      "png": "png/scrim.png",
+      "nativeSize": [
+        8,
+        8
+      ],
+      "pngSize": [
+        16,
+        16
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "speech-tail",
+      "svg": "svg/speech-tail.svg",
+      "png": "png/speech-tail.png",
+      "nativeSize": [
+        20,
+        24
+      ],
+      "pngSize": [
+        40,
+        48
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "star-earned",
+      "svg": "svg/star-earned.svg",
+      "png": "png/star-earned.png",
+      "nativeSize": [
+        64,
+        64
+      ],
+      "pngSize": [
+        128,
+        128
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "star-unearned",
+      "svg": "svg/star-unearned.svg",
+      "png": "png/star-unearned.png",
+      "nativeSize": [
+        64,
+        64
+      ],
+      "pngSize": [
+        128,
+        128
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-arrow-left",
+      "svg": "svg/icon-arrow-left.svg",
+      "png": "png/icon-arrow-left.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-arrow-right",
+      "svg": "svg/icon-arrow-right.svg",
+      "png": "png/icon-arrow-right.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-check",
+      "svg": "svg/icon-check.svg",
+      "png": "png/icon-check.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-flag",
+      "svg": "svg/icon-flag.svg",
+      "png": "png/icon-flag.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-git-branch",
+      "svg": "svg/icon-git-branch.svg",
+      "png": "png/icon-git-branch.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-grip",
+      "svg": "svg/icon-grip.svg",
+      "png": "png/icon-grip.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-leaf",
+      "svg": "svg/icon-leaf.svg",
+      "png": "png/icon-leaf.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-lightbulb",
+      "svg": "svg/icon-lightbulb.svg",
+      "png": "png/icon-lightbulb.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-pause",
+      "svg": "svg/icon-pause.svg",
+      "png": "png/icon-pause.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-play",
+      "svg": "svg/icon-play.svg",
+      "png": "png/icon-play.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-rotate-ccw",
+      "svg": "svg/icon-rotate-ccw.svg",
+      "png": "png/icon-rotate-ccw.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-skip-back",
+      "svg": "svg/icon-skip-back.svg",
+      "png": "png/icon-skip-back.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-skip-forward",
+      "svg": "svg/icon-skip-forward.svg",
+      "png": "png/icon-skip-forward.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-sprout",
+      "svg": "svg/icon-sprout.svg",
+      "png": "png/icon-sprout.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-undo-2",
+      "svg": "svg/icon-undo-2.svg",
+      "png": "png/icon-undo-2.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-volume-2",
+      "svg": "svg/icon-volume-2.svg",
+      "png": "png/icon-volume-2.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-volume-x",
+      "svg": "svg/icon-volume-x.svg",
+      "png": "png/icon-volume-x.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-x",
+      "svg": "svg/icon-x.svg",
+      "png": "png/icon-x.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-vibrate",
+      "svg": "svg/icon-vibrate.svg",
+      "png": "png/icon-vibrate.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-settings",
+      "svg": "svg/icon-settings.svg",
+      "png": "png/icon-settings.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-star",
+      "svg": "svg/icon-star.svg",
+      "png": "png/icon-star.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-map",
+      "svg": "svg/icon-map.svg",
+      "png": "png/icon-map.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-chevron-right",
+      "svg": "svg/icon-chevron-right.svg",
+      "png": "png/icon-chevron-right.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-sparkles",
+      "svg": "svg/icon-sparkles.svg",
+      "png": "png/icon-sparkles.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "backgrounds": [
+    {
+      "file": "backgrounds/forest-landscape.png",
+      "preserveAspect": true
+    },
+    {
+      "file": "backgrounds/forest-portrait.png",
+      "preserveAspect": true
+    }
+  ]
+}

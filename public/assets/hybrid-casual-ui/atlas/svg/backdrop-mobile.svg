@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844" fill="none">
+  <defs>
+    <linearGradient id="sky-mobile" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#BCEEFF"/><stop offset=".53" stop-color="#DDF8DD"/><stop offset="1" stop-color="#9BE5C2"/>
+    </linearGradient>
+    <radialGradient id="sun-mobile"><stop stop-color="#FFF7BD" stop-opacity=".9"/><stop offset="1" stop-color="#FFF7BD" stop-opacity="0"/></radialGradient>
+    <radialGradient id="lagoon-mobile"><stop stop-color="#70DDE6" stop-opacity=".55"/><stop offset="1" stop-color="#70DDE6" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="390" height="844" fill="url(#sky-mobile)"/>
+  <ellipse cx="46.8" cy="109.72" rx="171.6" ry="354.47999999999996" fill="url(#sun-mobile)"/>
+  <ellipse cx="354.90000000000003" cy="700.52" rx="206.70000000000002" ry="422" fill="url(#lagoon-mobile)"/>
+  <g fill="#FFFFFF" opacity=".22">
+    <circle cx="42.9" cy="489.52" r="12"/>
+    <circle cx="331.5" cy="168.8" r="8"/>
+    <circle cx="370.5" cy="354.47999999999996" r="6"/>
+  </g></svg>
