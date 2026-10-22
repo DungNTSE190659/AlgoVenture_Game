@@ -267,7 +267,7 @@
   .linked-world.linked-stage-layout .journey-chain { gap: 10px; padding-block: 8px 2px; }
   .linked-world.linked-stage-layout:not(.linked-demo) .linked-board,
   .linked-world.linked-stage-layout:not(.linked-demo) .journey-chain { gap: 10px; padding-block: 8px 2px; }
-  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .pig { width: 72px; height: 82px; flex-basis: 82px; }
+  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .pig { width: 56px; height: 64px; flex-basis: 64px; }
   .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .linked-speech { padding: 10px; }
   .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) .linked-speech p { font-size: 14px; line-height: 1.35; }
 }

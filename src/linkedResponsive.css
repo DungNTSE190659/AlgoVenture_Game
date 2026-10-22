@@ -466,10 +466,9 @@
   .linked-world.linked-stage-layout .linked-content { padding: 2px 8px 10px; gap: 6px; }
   .linked-world.linked-stage-layout .linked-workspace { grid-template-columns: minmax(0, 1fr) minmax(144px, 48%); gap: 10px 8px; }
   .linked-world.linked-stage-layout .linked-bank { padding: 8px 4px; border-radius: 18px; }
-  .linked-world.linked-stage-layout .linked-bank-row { min-height: 124px; gap: 12px 4px; padding-top: 10px; }
-  .linked-world.linked-stage-layout .linked-bank .linked-node { width: 60px; height: 44px; }
-  .linked-world.linked-stage-layout .linked-bank .linked-node-body { width: 58px; height: 44px; font-size: 22px; }
-  .linked-world.linked-stage-layout .linked-bank .linked-node-value { font-size: 25px; }
+  .linked-world.linked-stage-layout .linked-bank-row { grid-template-columns: minmax(0, 1fr); min-height: 124px; gap: 16px; padding-top: 10px; }
+  .linked-world.linked-stage-layout .linked-bank .linked-node { width: calc(var(--linked-node-width) + 10px); height: var(--linked-block-height); }
+  .linked-world.linked-stage-layout .linked-bank .linked-node-body { width: var(--linked-node-width); height: var(--linked-block-height); }
   .linked-challenge-guide { position: relative; display: block; }
   .linked-challenge-guide > .pig { float: left; width: 32px; height: 36px; margin: 0 4px 2px 0; }
   .linked-challenge-guide > div > span { display: none; }
@@ -527,7 +526,7 @@
   .linked-world.linked-stage-layout .linked-board,
   .linked-world.linked-stage-layout .journey-chain { padding-block: 12px 6px; }
   .linked-world.linked-stage-layout .linked-workspace { row-gap: 6px; }
-  .linked-world.linked-stage-layout .linked-bank-row { min-height: 100px; gap: 8px 4px; padding-block: 6px; }
+  .linked-world.linked-stage-layout .linked-bank-row { min-height: 100px; gap: 4px; padding-block: 4px; }
   .linked-world.linked-stage-layout .linked-board,
   .linked-world.linked-stage-layout .journey-chain { gap: 26px; }
   .linked-world.linked-stage-layout .linked-demo-try { display: none; }
