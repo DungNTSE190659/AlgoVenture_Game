@@ -65,3 +65,19 @@
   .atlas-sheet { width: 38%; left: auto; right: 14px; top: 50%; bottom: auto; transform: translateY(-50%); }.atlas-topic-nav { width: 47%; left: 29.5%; bottom: 10px; }.atlas-next { font-size: 8px; }.atlas-description { font-size: 12px; }.topic-map-name { font-size: 11px; }.atlas-buta { width: 60px; }
 }
 @media (prefers-reduced-motion: reduce) { .atlas-map *, .atlas-map *::before, .atlas-map *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* ── Narrow landscape (phones < 600px wide, e.g. iPhone SE 568×320) ── */
+@media (max-height: 480px) and (max-width: 599px) and (orientation: landscape) {
+  .atlas-map { --atlas-top: 72px; --atlas-sheet: 120px; --atlas-nav: 32px; }
+  .atlas-map.atlas-has-status { --atlas-sheet: 140px; }
+  .atlas-header { height: 58px; padding: 8px 18px; }
+  .atlas-header h1 { font-size: 18px; }
+  .atlas-compass { width: 34px; height: 34px; }
+  .atlas-subtitle { top: 58px; font-size: 8px; width: calc(100% - 36px); }
+  .atlas-sheet { bottom: 8px; padding: 14px 14px 8px; border-radius: 20px; }
+  .atlas-sheet h2 { font-size: 18px; }
+  .atlas-description { font-size: 10px; margin: 5px 0; }
+  .atlas-actions button { min-height: 38px; font-size: 12px; }
+  .atlas-next { font-size: 7px; margin-top: 7px; }
+  .topic-arrow { width: 34px; height: 32px; }
+}

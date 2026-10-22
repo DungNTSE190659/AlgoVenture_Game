@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { RotateCcw, Undo2, Volume2, VolumeX, X } from "lucide-react";
+import { Undo2, Volume2, VolumeX, X } from "lucide-react";
 import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
 import {
   createGraph,
@@ -89,7 +89,13 @@ export default function GraphGame({
   const [hint, setHint] = useState(false);
   const [visible, setVisible] = useState(!document.hidden);
   const [history, setHistory] = useState<MoveSnapshot[]>([]);
+  const [poppedVertices, setPoppedVertices] = useState<Set<number>>(new Set());
   const completionSent = useRef(false);
+  // Pig walker: tracks the SVG-to-screen mapping so we can place Pig over a vertex
+  const [boardRect, setBoardRect] = useState<DOMRect | null>(null);
+  const [svgRenderedWidth, setSvgRenderedWidth] = useState(0);
+  const [pigVertex, setPigVertex] = useState<number | null>(null);
+  const [pigArriving, setPigArriving] = useState(false);
 
   const currentStep = timeline[timelineIndex];
   const done = currentStep?.action === "DONE";
@@ -154,6 +160,10 @@ export default function GraphGame({
       score,
     }]);
 
+    // Trigger pop animation on the correctly-clicked vertex
+    setPoppedVertices(new Set([vertexId]));
+    setTimeout(() => setPoppedVertices(new Set()), 350);
+
     const nextGraph = cloneGraph(graph);
     const nextParents = new Map(parents);
     if (action === "DEQUEUE") {
@@ -217,23 +227,68 @@ export default function GraphGame({
 
   function getHintText(): string {
     if (currentStep?.action === "DEQUEUE") {
-      const label = graph.vertices[currentStep.expectedVertex!].label;
-      return `Đỉnh ${label} đang ở đầu queue. Hãy chọn đỉnh này để lấy ra xét.`;
+      const v = graph.vertices[currentStep.expectedVertex!];
+      return `${v.label}${v.place ? ` (${v.place})` : ""} đang ở đầu hàng chờ. Hãy chọn đỉnh này để lấy ra xét.`;
     }
     if (currentStep?.action === "ENQUEUE") {
-      const label = graph.vertices[currentStep.expectedVertex!].label;
-      return `Từ đỉnh đang xét, neighbor chưa thăm tiếp theo là ${label}. Hãy chọn đỉnh này.`;
+      const v = graph.vertices[currentStep.expectedVertex!];
+      return `Từ đỉnh đang xét, địa điểm tiếp theo cần khám phá là ${v.label}${v.place ? ` (${v.place})` : ""}. Hãy chọn đỉnh này.`;
     }
-    return "Đỉnh đích đang ở đầu queue. Hãy chọn nó để hoàn tất đường đi ngắn nhất.";
+    return `${goalPlace} đang ở đầu hàng chờ. Hãy chọn để hoàn tất hành trình!`;
   }
 
+  function handleGeometry(w: number, _h: number, rect: DOMRect) {
+    setSvgRenderedWidth(w);
+    setBoardRect(rect);
+  }
+
+  /** Convert SVG vertex coords → CSS position (% relative to board element) */
+  function pigPosition(vertexId: number | null): { left: string; top: string } | null {
+    if (vertexId === null || !boardRect || svgRenderedWidth === 0) return null;
+    const vertex = graph.vertices[vertexId];
+    if (!vertex) return null;
+    const scale = svgRenderedWidth / 600;
+    const renderedHeight = svgRenderedWidth * (400 / 600);
+    return {
+      left: `${(vertex.x * scale / boardRect.width) * 100}%`,
+      top:  `${(vertex.y * scale / renderedHeight) * 100}%`,
+    };
+  }
+
+  // Move Pig to the vertex being examined whenever currentStep changes
+  useEffect(() => {
+    const target = graph.current ?? (currentStep?.action === "DEQUEUE" ? currentStep.expectedVertex ?? null : null);
+    if (target === pigVertex) return;
+    setPigArriving(false);
+    const id = window.setTimeout(() => {
+      setPigVertex(target);
+      setPigArriving(true);
+      const off = window.setTimeout(() => setPigArriving(false), 900);
+      return () => clearTimeout(off);
+    }, 60);
+    return () => clearTimeout(id);
+  }, [graph.current, currentStep?.step]);
+
+  const pigPos = pigPosition(pigVertex);
+
+  const goalVertex = graph.vertices[graph.goal];
+  const goalPlace  = goalVertex.place ?? goalVertex.label;
+  const startVertex = graph.vertices[graph.start];
+  const startPlace  = startVertex.place ?? startVertex.label;
+
   const taskText = currentStep?.action === "DEQUEUE"
-    ? `Chọn ${graph.vertices[currentStep.expectedVertex!].label} ở đầu queue để lấy ra.`
+    ? (() => {
+        const v = graph.vertices[currentStep.expectedVertex!];
+        return `Lấy ${v.label}${v.place ? ` (${v.place})` : ""} ra — đầu hàng chờ.`;
+      })()
     : currentStep?.action === "ENQUEUE"
-      ? `Chọn neighbor ${graph.vertices[currentStep.expectedVertex!].label} để thêm vào queue.`
+      ? (() => {
+          const v = graph.vertices[currentStep.expectedVertex!];
+          return `Khám phá ${v.label}${v.place ? ` (${v.place})` : ""} — thêm vào hàng chờ.`;
+        })()
       : currentStep?.action === "FOUND"
-        ? `Đích ${graph.vertices[graph.goal].label} đã đến lượt. Chọn đỉnh đích để hoàn tất.`
-        : "Bạn đã hoàn thành lượt BFS.";
+        ? `🎉 Tìm thấy ${goalPlace}! Chọn đỉnh đích.`
+        : "Buta đã hoàn thành hành trình!";
 
   return (
     <GameLayout className="graph-world">
@@ -241,49 +296,70 @@ export default function GraphGame({
       <GameHeader
         title="BFS · Tìm đường"
         onBack={onBack}
-        onSettings={() => setSettings(true)}
+        onSettings={() => { gameAudio.unlock(); setSettings(true); }}
+        showBack={false}
       />
       <GameStats score={score} className="graph-stats">
         <span>Lượt {Math.min(currentMove, playerSteps.length)}/{playerSteps.length}</span>
         <span>{mistakes} lỗi</span>
       </GameStats>
       <section className="graph-content">
-        <div className="graph-intro">
-          <span className="graph-kicker">BREADTH-FIRST SEARCH</span>
-          <h2>{currentStep?.message ?? "Bắt đầu tìm đường"}</h2>
-          <p className="graph-task">{taskText}</p>
-        </div>
-        <div className="graph-queue-panel" aria-label={`Queue hiện tại: ${graph.queue.map((id) => graph.vertices[id].label).join(", ") || "rỗng"}`}>
-          <div>
-            <strong>QUEUE</strong>
-            <span>Vào sau, ra trước · FIFO</span>
-          </div>
-          <ol>
-            {graph.queue.length > 0
-              ? graph.queue.map((id, index) => <li key={id} className={index === 0 ? "is-front" : ""}>{graph.vertices[id].label}</li>)
-              : <li className="queue-empty">Rỗng</li>}
-          </ol>
+        {/* Goal badge — always visible, gives player instant context */}
+        <div className="graph-goal-badge" aria-label={`Mục tiêu: tìm đường từ ${startPlace} đến ${goalPlace}`}>
+          <span className="graph-goal-icon">🗺️</span>
+          <span>Từ <strong>{startPlace}</strong> → tìm đường đến <strong>{goalPlace}</strong></span>
         </div>
         <GraphBoard
           state={graph}
           onVertexClick={handleVertexClick}
           highlightedVertices={currentStep?.action === "ENQUEUE" ? [currentStep.expectedVertex!] : []}
           paused={blocked}
+          poppedVertices={poppedVertices}
+          onGeometry={handleGeometry}
+          activeVertex={pigVertex}
         />
-        <div className="graph-legend" aria-label="Chú giải">
-          <span><i className="legend-start" />Bắt đầu</span>
-          <span><i className="legend-queue" />Trong queue</span>
-          <span><i className="legend-visited" />Đã thăm</span>
-          <span><i className="legend-goal" />Đích</span>
-        </div>
-        {feedback && (
-          <p
-            className={`graph-feedback ${outcome === "retry" ? "is-error" : outcome === "correct" ? "is-success" : ""}`}
-            role="status"
+        {/* Pig walker overlay — positioned absolutely over the board */}
+        {pigPos && (
+          <div
+            className={`graph-pig-walker ${pigArriving ? "pig-arriving" : ""}`}
+            style={{
+              position: "absolute",
+              left: pigPos.left,
+              top: pigPos.top,
+              transform: "translate(-50%, -110%)",
+              pointerEvents: "none",
+            }}
+            aria-hidden="true"
           >
-            {feedback}
-          </p>
+            <Pig mood={pigArriving ? "happy" : "pointing"} />
+          </div>
         )}
+        <div className="graph-hud-row">
+          <div
+            className="graph-queue-inline"
+            aria-label={`Hàng chờ: ${graph.queue.map((id) => graph.vertices[id].label).join(", ") || "rỗng"}`}
+          >
+            <span className="graph-queue-label">Hàng chờ</span>
+            <ol>
+              {graph.queue.length > 0
+                ? graph.queue.map((id, index) => (
+                    <li key={id} className={index === 0 ? "is-front" : ""}>
+                      {graph.vertices[id].label}
+                    </li>
+                  ))
+                : <li className="queue-empty">–</li>}
+            </ol>
+          </div>
+          {feedback && (
+            <p
+              className={`graph-feedback ${outcome === "retry" ? "is-error" : outcome === "correct" ? "is-success" : ""}`}
+              role="status"
+            >
+              {feedback}
+            </p>
+          )}
+        </div>
+        <p className="graph-task" aria-live="polite">{taskText}</p>
         {done && (
           <VictoryCelebration
             className="graph-victory"
@@ -294,10 +370,13 @@ export default function GraphGame({
             onMap={onChooseMap}
           >
             <strong>{score.toLocaleString("vi-VN")} điểm</strong>
-            <p>Bạn đã tìm được đường ngắn nhất bằng BFS!</p>
+            <p>Buta đã tìm được đường đến {goalPlace}!</p>
             {graph.path.length > 0 && (
               <p className="graph-result-path">
-                Đường đi: {graph.path.map((id) => graph.vertices[id].label).join(" → ")}
+                Đường đi: {graph.path.map((id) => {
+                  const v = graph.vertices[id];
+                  return v.place ? `${v.label}(${v.place})` : v.label;
+                }).join(" → ")}
               </p>
             )}
           </VictoryCelebration>
@@ -318,9 +397,6 @@ export default function GraphGame({
             <button className="round-button" onClick={undo} disabled={history.length === 0} aria-label="Hoàn tác">
               <Undo2 size={22} />
             </button>
-            <button className="round-button" onClick={reset} aria-label="Chơi lại">
-              <RotateCcw size={20} />
-            </button>
             <GameHintButton disabled={blocked} aria-expanded={hint} onClick={showHint} />
           </div>
         </GameFooter>
@@ -328,6 +404,7 @@ export default function GraphGame({
       {settings && (
         <GraphSettings
           onClose={() => setSettings(false)}
+          onBack={onBack}
           sound={sound}
           onSoundChange={onSoundChange}
           difficulty={difficulty}
@@ -341,6 +418,7 @@ export default function GraphGame({
 
 function GraphSettings({
   onClose,
+  onBack,
   sound,
   onSoundChange,
   difficulty,
@@ -348,12 +426,26 @@ function GraphSettings({
   onReset,
 }: {
   onClose: () => void;
+  onBack: () => void;
   sound: boolean;
   onSoundChange: (value: boolean) => void;
   difficulty: GraphDifficulty;
   onChangeDifficulty: (diff: GraphDifficulty) => void;
   onReset: () => void;
 }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      previous?.focus();
+    };
+  }, []);
+
   const difficulties: { id: GraphDifficulty; label: string }[] = [
     { id: "tutorial", label: "Hướng dẫn" },
     { id: "cycle", label: "Có cycle" },
@@ -361,7 +453,14 @@ function GraphSettings({
   ];
 
   return (
-    <dialog className="modal lesson-settings" open onClose={onClose} aria-label="Tùy chọn BFS">
+    <dialog
+      ref={dialogRef}
+      className="modal lesson-settings"
+      onClose={onClose}
+      onCancel={(e) => { e.preventDefault(); onClose(); }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      aria-label="Tùy chọn BFS"
+    >
       <div className="modal-header">
         <h2>Tùy chọn BFS</h2>
         <button className="round-button" onClick={onClose} aria-label="Đóng">
@@ -379,9 +478,15 @@ function GraphSettings({
         {difficulties.map((diff) => <option key={diff.id} value={diff.id}>{diff.label}</option>)}
       </select>
       <div className="lesson-setting-actions">
-        <button onClick={onReset}>Chơi lại từ đầu</button>
+        <button onClick={() => { onClose(); onReset(); }}>Chơi lại từ đầu</button>
         <button className="chunky-button button-green modal-primary" onClick={onClose}>Tiếp tục</button>
       </div>
+      <button
+        className="graph-settings-map-btn"
+        onClick={() => { onClose(); onBack(); }}
+      >
+        Về bản đồ
+      </button>
     </dialog>
   );
 }

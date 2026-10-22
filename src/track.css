@@ -113,6 +113,22 @@
 }
 @media (prefers-reduced-motion: reduce) { .learning-map *, .learning-map *::before, .learning-map *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 
+/* ── Narrow landscape (phones < 600px wide, e.g. iPhone SE 568×320) ── */
+@media (max-height: 480px) and (max-width: 599px) and (orientation: landscape) {
+  .learning-map { --sheet-height: 130px; --track-top: 72px; }
+  .learning-map.map-has-status { --sheet-height: 148px; }
+  .track-header { height: 62px; padding: 8px 18px; gap: 10px; }
+  .track-header h1 { font-size: 17px; }
+  .track-back, .track-sound { width: 34px; height: 34px; border-radius: 11px; }
+  .track-progress { display: none; }
+  .track-sheet { padding: 16px 14px 10px; border-radius: 20px; bottom: 8px; }
+  .sheet-heading h2 { font-size: 17px; }
+  .sheet-description { font-size: 10px; margin: 5px 0; }
+  .sheet-actions { gap: 7px; margin-top: 10px; }
+  .sheet-actions button { min-height: 40px; font-size: 12px; }
+  .track-locate { bottom: calc(var(--sheet-height) + 30px); }
+}
+
 .learning-map.has-route-picker { --track-top: 190px; }
 .track-routes { position: relative; z-index: 4; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: min(calc(100% - 48px), 530px); margin: 4px auto 10px; }
 .track-route { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 50px; padding: 6px 14px; border: 2px solid #e0e6cf; border-radius: 16px; background: #fffdf2e6; color: #899477; box-shadow: 0 3px 0 #d4dabe; text-align: left; }

@@ -18,15 +18,18 @@ export function GameHintButton({ children, className = "", ...props }: Component
 }
 
 /** Shared chrome for algorithm screens. Keep board-specific controls in each game. */
-export function GameHeader({ title, onBack, onSettings, className = "", play = true }: {
+export function GameHeader({ title, onBack, onSettings, className = "", play = true, showBack = true }: {
   title: string;
   onBack: () => void;
   onSettings: () => void;
   className?: string;
   play?: boolean;
+  showBack?: boolean;
 }) {
   return <header className={`lesson-header ${className} ${play ? "play-header" : ""}`}>
-    <button className="round-button" aria-label="Về bản đồ" onClick={onBack}><ArrowLeft size={25} /></button>
+    {showBack
+      ? <button className="round-button" aria-label="Về bản đồ" onClick={onBack}><ArrowLeft size={25} /></button>
+      : <div style={{ width: 46 }} aria-hidden="true" />}
     <h1>{title}</h1>
     <button className="round-button" aria-label="Tùy chọn" onClick={onSettings}><Settings size={25} /></button>
   </header>;
