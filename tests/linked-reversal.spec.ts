@@ -19,10 +19,10 @@ test('Reversal starts connected and supports manual disassembly and rebuilding',
   await expect(page.locator('.victory-screen')).toHaveCount(0);
   const checkButton = page.getByRole('button', { name: 'Kiểm tra', exact: true });
   const feedback = page.locator('.linked-play-feedback');
-  await expect(checkButton).toHaveCSS('background-color', 'rgb(247, 255, 248)');
-  await expect(checkButton).toHaveCSS('color', 'rgb(89, 135, 124)');
+  await expect(checkButton).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
+  await expect(checkButton).toHaveCSS('color', 'rgb(35, 138, 105)');
   await expect(feedback).toHaveCSS('color', 'rgb(181, 116, 96)');
-  expect((await feedback.boundingBox())!.y).toBeGreaterThan((await checkButton.boundingBox())!.y + (await checkButton.boundingBox())!.height);
+  await expect(page.locator('.linked-challenge-guide')).toContainText(await feedback.innerText());
   await node(7).dragTo(page.locator('[data-journey-bank]'));
   await expect(node(7)).toBeVisible();
   await expect(page.locator('.linked-play-feedback')).toContainText('tháo hết dây');

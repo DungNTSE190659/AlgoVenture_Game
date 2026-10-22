@@ -307,7 +307,7 @@ test("seven-seed Demo fits short windows and keeps the star score beside Setting
     const score = await page.locator(".tree-hud").boundingBox(), settings = await page.getByRole("button", { name: "Tùy chọn", exact: true }).boundingBox();
     expect(score!.x + score!.width).toBeLessThanOrEqual(settings!.x);
     expect(Math.abs(score!.y + score!.height / 2 - settings!.y - settings!.height / 2)).toBeLessThan(2);
-    await expect(page.locator(".tree-score svg")).toBeVisible();
+    await expect(page.locator('.tree-score img[src$="icon-star.svg"]')).toBeVisible();
     await page.screenshot({ path: `.qa/tree-compact-demo-${width}x${height}.png` });
   }
   await page.setViewportSize({ width: 320, height: 568 });
@@ -471,6 +471,12 @@ for (const size of [{ width: 1440, height: 900 }, { width: 390, height: 844 }, {
   await expect(text).toContainText("Bạn đưa Buta tới nút 10.");
   await expect(text).toContainText("20 vẫn còn con phải");
   await expect(text).toContainText("Đang tìm predecessor: đi phải");
+  await expect(text).toHaveCSS("overflow-y", "visible");
+  const unclipped = await text.evaluate(el => el.scrollHeight <= el.clientHeight + 1);
+  expect(unclipped).toBe(true);
+  const speechBounds = await page.locator(".tree-speech").boundingBox();
+  const textBounds = await text.boundingBox();
+  expect(textBounds!.y + textBounds!.height).toBeLessThanOrEqual(speechBounds!.y + speechBounds!.height);
   await withinViewport(page);
   const bounds = await text.boundingBox();
   expect(bounds!.y).toBeGreaterThanOrEqual(0);

@@ -5,8 +5,8 @@ const completedArrays = Object.fromEntries(ARRAYS.map(lesson => [lesson.id, true
 describe("curriculum and progress", () => {
   it("teaches sorting and searching inside Array without BST prerequisites", () => {
     expect(REGIONS.map(region => region.id)).toEqual(["arrays", "linear-structures", "trees", "graph"]);
-    expect(ALL_LESSONS).toHaveLength(23);
-    expect(new Set(ALL_LESSONS.map(lesson => lesson.id)).size).toBe(23);
+    expect(ALL_LESSONS).toHaveLength(25);
+    expect(new Set(ALL_LESSONS.map(lesson => lesson.id)).size).toBe(25);
     expect(LINEAR_STRUCTURES.map(lesson => lesson.id)).toEqual(["linked-list", "linked-traversal", "linked-search", "linked-insertion", "linked-deletion", "linked-reversal"]);
     expect(ARRAYS.map(lesson => lesson.id)).toEqual(["bubble", "selection", "insertion", "merge", "quick", "linear", "binary", "stack", "queue"]);
     expect(regionForLesson("bubble").id).toBe("arrays");

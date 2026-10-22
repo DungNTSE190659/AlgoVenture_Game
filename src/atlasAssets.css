@@ -1,0 +1,80 @@
+/* File-backed visual skin and the approved Linked List island. */
+.atlas-map .atlas-island-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.atlas-map :is(.topic-linear-structures, .topic-trees) .atlas-buta:not(.buta-walking) .buta-body { translate: 0 0; }
+.atlas-map { background: transparent var(--atlas-backdrop) center / cover no-repeat; }
+.atlas-map .atlas-ui-icon { display: inline-block; object-fit: contain; flex: 0 0 auto; pointer-events: none; }
+.atlas-map .atlas-compass { border: 0; background: none; box-shadow: none; }
+.atlas-map .atlas-compass > img { width: 100%; height: 100%; }
+.atlas-map :is(.track-sound, .topic-arrow) { border: 0; box-shadow: none; background: transparent var(--atlas-icon-normal) center / 100% 100% no-repeat; filter: none; transition: transform .15s; }
+.atlas-map :is(.track-sound, .topic-arrow):hover:not(:disabled) { background-image: var(--atlas-icon-hover); filter: none; }
+.atlas-map :is(.track-sound, .topic-arrow):active:not(:disabled) { background-image: var(--atlas-icon-pressed); filter: none; }
+.atlas-map :is(.track-sound, .topic-arrow):disabled { background-image: var(--atlas-icon-disabled); opacity: 1; }
+.atlas-map .topic-dots button > span { background: transparent var(--atlas-dot) center / contain no-repeat; border-radius: 0; }
+.atlas-map .topic-dots button > span.dot-selected { background-image: var(--atlas-dot-active); }
+.atlas-map .topic-dots button > .atlas-ui-icon { position: absolute; bottom: 0; left: calc(50% - 4.5px); }
+.atlas-map .atlas-sheet { background: transparent var(--atlas-panel) center / 100% 100% no-repeat; border: 0; box-shadow: none; }
+.atlas-map.atlas-has-status .atlas-sheet { background-image: var(--atlas-panel-status); }
+.atlas-map .sheet-handle { background: transparent var(--atlas-handle) center / contain no-repeat; }
+.atlas-map .sheet-number { border: 0; box-shadow: none; background: transparent var(--atlas-badge) center / contain no-repeat; }
+.atlas-map .topic-gateway { width: 40px; height: 44px; padding: 8px; border: 0; box-shadow: none; background: transparent var(--atlas-gateway) center / contain no-repeat; }
+.atlas-map .atlas-enter { border: 0; box-shadow: none; background: transparent var(--atlas-enter-normal) center / 100% 100% no-repeat; filter: none; transition: transform .15s; }
+.atlas-map .atlas-enter:hover:not(:disabled) { background-image: var(--atlas-enter-hover); filter: none; }
+.atlas-map .atlas-enter:active:not(:disabled) { background-image: var(--atlas-enter-pressed); filter: none; }
+.atlas-map .atlas-enter:disabled { background-image: var(--atlas-enter-disabled); opacity: 1; color: #839477; }
+
+.atlas-map {
+  --atlas-icon-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-icon-normal.svg");
+  --atlas-icon-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-icon-hover.svg");
+  --atlas-icon-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-icon-pressed.svg");
+  --atlas-icon-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-icon-disabled.svg");
+  --atlas-dot: url("/assets/hybrid-casual-ui/atlas/svg/pager-dot.svg");
+  --atlas-dot-active: url("/assets/hybrid-casual-ui/atlas/svg/pager-active.svg");
+  --atlas-handle: url("/assets/hybrid-casual-ui/atlas/svg/sheet-handle.svg");
+  --atlas-gateway: url("/assets/hybrid-casual-ui/atlas/svg/gateway.svg");
+}
+.atlas-map {
+  --atlas-panel: url("/assets/hybrid-casual-ui/atlas/svg/panel-desktop.svg");
+  --atlas-panel-status: url("/assets/hybrid-casual-ui/atlas/svg/panel-status-desktop.svg");
+  --atlas-backdrop: url("/assets/hybrid-casual-ui/atlas/svg/backdrop-desktop.svg");
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-desktop-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-desktop-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-desktop-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-desktop-disabled.svg");
+}
+@media (max-width: 600px) {
+.atlas-map {
+  --atlas-panel: url("/assets/hybrid-casual-ui/atlas/svg/panel-mobile.svg");
+  --atlas-panel-status: url("/assets/hybrid-casual-ui/atlas/svg/panel-status-mobile.svg");
+  --atlas-backdrop: url("/assets/hybrid-casual-ui/atlas/svg/backdrop-mobile.svg");
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-mobile-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-mobile-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-mobile-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-mobile-disabled.svg");
+}
+}
+@media (max-width: 350px) {
+.atlas-map {
+  --atlas-panel: url("/assets/hybrid-casual-ui/atlas/svg/panel-compact.svg");
+  --atlas-panel-status: url("/assets/hybrid-casual-ui/atlas/svg/panel-status-compact.svg");
+  --atlas-backdrop: url("/assets/hybrid-casual-ui/atlas/svg/backdrop-mobile.svg");
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-compact-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-compact-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-compact-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-compact-disabled.svg");
+}
+}
+@media (min-width: 600px) and (max-height: 480px) {
+.atlas-map {
+  --atlas-panel: url("/assets/hybrid-casual-ui/atlas/svg/panel-landscape.svg");
+  --atlas-panel-status: url("/assets/hybrid-casual-ui/atlas/svg/panel-status-landscape.svg");
+  --atlas-backdrop: url("/assets/hybrid-casual-ui/atlas/svg/backdrop-desktop.svg");
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-landscape-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-landscape-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-landscape-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-landscape-disabled.svg");
+}
+}
+.atlas-map .sheet-number[data-topic="arrays"] { --atlas-badge: url("/assets/hybrid-casual-ui/atlas/svg/badge-arrays.svg"); }
+.atlas-map .sheet-number[data-topic="linear-structures"] { --atlas-badge: url("/assets/hybrid-casual-ui/atlas/svg/badge-linear-structures.svg"); }
+.atlas-map .sheet-number[data-topic="trees"] { --atlas-badge: url("/assets/hybrid-casual-ui/atlas/svg/badge-trees.svg"); }
+.atlas-map .sheet-number[data-topic="graph"] { --atlas-badge: url("/assets/hybrid-casual-ui/atlas/svg/badge-graph.svg"); }

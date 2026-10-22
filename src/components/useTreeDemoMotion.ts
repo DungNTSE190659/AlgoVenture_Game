@@ -14,6 +14,16 @@ function snapshot(element: HTMLElement): Snapshot {
     copies[i].removeAttribute("data-drop");
     copies[i].removeAttribute("data-slot");
     copies[i].style.visibility = "visible";
+    // File-backed sliced skins must travel with a clone outside the game root.
+    const skin = getComputedStyle(original, "::before");
+    if (skin.content !== "none" && skin.content !== "normal" && skin.borderImageSource !== "none") {
+      const layer = document.createElement("span");
+      for (const property of skin) layer.style.setProperty(property, skin.getPropertyValue(property));
+      layer.style.pointerEvents = "none";
+      layer.setAttribute("aria-hidden", "true");
+      copies[i].setAttribute("data-tree-snapshot", "true");
+      copies[i].prepend(layer);
+    }
   });
   clone.style.opacity = "1";
   return { box: element.getBoundingClientRect(), clone };

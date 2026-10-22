@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowRight, AudioLines, Check, ChevronLeft, ChevronRight, Compass, Flag, LockKeyhole } from "lucide-react";
+import { ArrowRight, AudioLines, Check, ChevronLeft, ChevronRight, Compass, Flag, LockKeyhole, VolumeX } from "./AtlasAssetIcons";
 import Pig from "./Pig";
 import RegionLandmark from "./RegionLandmark";
 import { gameAudio } from "../audio/gameAudio";
@@ -139,8 +139,8 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
     return () => clearTimeout(timer);
   }, [arrivalFrom]);
 
-  return <main className={`adventure-map atlas-map ${locked || walking ? "atlas-has-status" : ""}`}>
-    <header className="track-header atlas-header"><span className="atlas-compass"><Compass size={27} /></span><div><h1>Chủ đề</h1></div><button className="track-sound" onClick={onSound} aria-label={sound ? "Tắt âm thanh" : "Bật âm thanh"} aria-pressed={sound}><AudioLines size={20} />{!sound && <span />}</button></header>
+  return <main data-topic={territory.id} className={`adventure-map atlas-map ${locked || walking ? "atlas-has-status" : ""}`}>
+    <header className="track-header atlas-header"><span className="atlas-compass"><Compass size={27} /></span><div><h1>Chủ đề</h1></div><button className="track-sound" onClick={onSound} aria-label={sound ? "Tắt âm thanh" : "Bật âm thanh"} aria-pressed={sound}>{sound ? <AudioLines size={20} /> : <VolumeX size={20} />}</button></header>
     <div className="atlas-subtitle" aria-label={`Chủ đề ${selected + 1} trên ${REGIONS.length}`}><span>0{selected + 1} / 0{REGIONS.length}</span></div>
     <div className={`atlas-carousel ${walking ? "carousel-walking" : ""}`} ref={carousel} data-selected={selected} role="region" aria-label="Bản đồ chủ đề, vuốt trái phải để chuyển" aria-roledescription="carousel" onScroll={event => {
       const area = event.currentTarget;
@@ -185,11 +185,13 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
         return <section key={region.id} className={`atlas-slide ${selected === index ? "slide-selected" : ""}`} role="group" aria-roledescription="slide" aria-label={`${index + 1} trên ${REGIONS.length}: ${region.name}`}>
           <div className={`atlas-canvas topic-${region.id} ${isLocked ? "region-locked" : "region-open"}`} style={{ "--region-color": region.color } as CSSProperties}>
             <button className="atlas-region" aria-label={region.name} tabIndex={selected === index ? 0 : -1} disabled={walking || isLocked} onClick={() => travel(index, true)}>
-              <RegionTerrain index={index} />
-              <span className="atlas-landmark"><RegionLandmark region={region.id} /></span>
+              {["linear-structures", "trees"].includes(region.id) ? <img className="atlas-island-art" src={`/assets/hybrid-casual-ui/atlas/islands/${region.id === "trees" ? "trees" : "linked-list"}.png`} alt="" aria-hidden="true" draggable={false} /> : <>
+                <RegionTerrain index={index} />
+                <span className="atlas-landmark"><RegionLandmark region={region.id} /></span>
+              </>}
               <span className={`topic-gateway ${done ? "status-done" : ""}`} aria-hidden="true">{done ? <Check size={20} /> : isLocked ? <LockKeyhole size={19} /> : <Flag size={20} />}</span>
             </button>
-            {showButa && <div className={`atlas-buta ${walking ? "buta-walking" : ""}`} style={{ left: `${(walking ? traveler.x : 300) / 6}%`, top: `${(walking ? traveler.y : 350) / 5.5}%` }} role="img" aria-label={walking ? `Buta đang đi tới ${region.name}` : `Buta đang ở ${region.name}`}><div className="buta-body"><Pig mood={walking ? "happy" : "pointing"} /></div></div>}
+            {showButa && <div className={`atlas-buta ${walking ? "buta-walking" : ""}`} style={{ left: `${(walking ? traveler.x : ["linear-structures", "trees"].includes(region.id) ? 90 : 300) / 6}%`, top: `${(walking ? traveler.y : ["linear-structures", "trees"].includes(region.id) ? 455 : 350) / 5.5}%` }} role="img" aria-label={walking ? `Buta đang đi tới ${region.name}` : `Buta đang ở ${region.name}`}><div className="buta-body"><Pig mood={walking ? "happy" : "pointing"} /></div></div>}
           </div>
         </section>;
       })}
@@ -201,7 +203,7 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
     </nav>
     <section className="atlas-sheet" aria-labelledby="atlas-title" aria-busy={walking}>
       <div className="sheet-handle" aria-hidden="true" />
-      <div className="atlas-sheet-heading"><span className="sheet-number" style={{ background: territory.color }}>0{selected + 1}</span><div><h2 id="atlas-title" title={territory.topics}>{territory.name}</h2></div><span className="atlas-region-progress">{finished}/{territory.lessons.length}</span></div>
+      <div className="atlas-sheet-heading"><span className="sheet-number" data-topic={territory.id}>0{selected + 1}</span><div><h2 id="atlas-title" title={territory.topics}>{territory.name}</h2></div><span className="atlas-region-progress">{finished}/{territory.lessons.length}</span></div>
       {(locked || walking) && <p className="atlas-description" aria-live="polite">{walking ? "Buta đang đi…" : `Xong ${REGIONS[selected - 1].name} để mở.`}</p>}
       <div className="atlas-actions"><button className="atlas-enter" aria-label={locked ? "Chưa mở khóa" : walking ? "Buta đang đi" : finished ? "Tiếp tục" : "Vào vùng đất"} disabled={locked || walking} onClick={() => travel(selected, true)}>{walking ? "Đang đi…" : locked ? <><LockKeyhole size={16} /> Đã khóa</> : <>{finished ? "Tiếp tục" : "Vào"}<ArrowRight size={18} /></>}</button></div>
     </section>

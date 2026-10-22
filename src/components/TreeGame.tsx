@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { ArrowRight, Check, Flag, GitBranch, Grip, Leaf, Lightbulb, Pause, Play, RotateCcw, SkipBack, SkipForward, Sprout, Undo2, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowRight, Check, Flag, GitBranch, Grip, Leaf, Lightbulb, Pause, Play, RotateCcw, SkipBack, SkipForward, Sprout, Undo2, Volume2, VolumeX, X } from "./TreeAssetIcons";
 import { GameHeader, GameStats } from "./GameHud";
 import Pig from "./Pig";
-import World from "./World";
+import TreeWorld from "./TreeWorld";
+import TreeSignalBranches from "./TreeSignalBranches";
 import VictoryCelebration from "./VictoryCelebration";
 import HapticsToggle from "./HapticsToggle";
 import { gameAudio } from "../audio/gameAudio";
@@ -178,8 +179,8 @@ export default function TreeGame(props: Props) {
   useTreeDemoMotion(root, demo, `${replacementStrategy}:${roundIndex}:${stepIndex}`, step, paused, speed);
 
   return <div ref={root} className={`tree-game ${demo ? "tree-demo" : "tree-play"} ${paused ? "tree-paused" : ""}`} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={event => { if (pointer.current?.id === event.pointerId) { suppressClick.current = true; cancelDrag(); window.setTimeout(() => { suppressClick.current = false; }, 0); } }}>
-    <World />
-    <GameHeader title={course.title} beforeSettings={<GameStats score={score} className="tree-hud" scoreClassName="tree-score">{null}</GameStats>} onBack={onBack} onSettings={() => openModal("settings")} />
+    <TreeWorld />
+    <GameHeader assetTheme="tree" title={course.title} beforeSettings={<GameStats assetTheme="tree" score={score} className="tree-hud" scoreClassName="tree-score">{null}</GameStats>} onBack={onBack} onSettings={() => openModal("settings")} />
     <div className="tree-shell">
       <div className="tree-course-progress"><span style={{ width: `${progress / totalSteps * 100}%` }} /></div>
       <div className="tree-mission"><div className="tree-mission-heading"><h2>{round.title}</h2><span className="tree-meta">{demo ? "Demo" : "Thử thách"} · {roundIndex + 1}/{course.rounds.length}</span></div><p>{roundDone ? demo ? "Xong chặng này! Xem tiếp hoặc tự mình thử." : "Cây đã sẵn sàng. Kiểm tra kết quả của bạn nhé!" : step.instruction}</p></div>
@@ -188,14 +189,8 @@ export default function TreeGame(props: Props) {
           <div className="tree-board-viewport" ref={boardViewport}>
             <div className={`tree-board ${Object.keys(positions).some(i => Number(i) >= 7) ? "tree-has-depth" : ""}`} aria-label="Bàn chơi cây">
               <div className="tree-board-caption"><GitBranch size={14} /><span>{algorithm.startsWith("bst") ? "Nhỏ bên trái · Lớn bên phải" : "Mỗi nhánh kể một câu chuyện"}</span></div>
-              <svg className="tree-branches" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                {Object.entries(positions).map(([key, pos]) => {
-                  const i = Number(key), parent = positions[Math.floor((i - 1) / 2)];
-                  if (!i || !parent) return null;
-                  const connected = scene.links.includes(i) && scene.nodes[Math.floor((i - 1) / 2)] !== undefined;
-                  return <line key={i} x1={parent.x} y1={parent.y} x2={pos.x} y2={pos.y} className={`${connected ? "branch-connected" : "branch-empty"} ${scene.visited.includes(i) && scene.visited.includes(Math.floor((i - 1) / 2)) ? "branch-visited" : ""}`} />;
-                })}
-              </svg>
+              <TreeSignalBranches positions={positions} scene={scene} step={step} order={round.traversalOrder}
+                paused={!!modal || victory || (demo && paused)} speed={speed} />
               {Object.entries(positions).map(([key, pos]) => {
                 const slot = Number(key), value = scene.nodes[slot];
                 const target = step?.targets.find(t => t.slot === slot);
@@ -237,7 +232,7 @@ export default function TreeGame(props: Props) {
               {!trayItems.length && <span className="tree-supply-note">{roundDone ? <><Check size={18} /> Đã xong các thao tác</> : <><Grip size={18} /> Nhấc thẻ trực tiếp từ cây</>}</span>}
             </div>}
           </div>
-          <div className="tree-guide"><div className="tree-guide-pig"><Pig mood={roundDone ? "proud" : outcome === "retry" ? "thinking" : "explaining"} /></div><div><span>Buta đồng hành</span><p className={`tree-local-feedback ${outcome}`} role="status">{message || (held ? `Đã chọn ${held.label}. Kéo hoặc chọn nơi đặt.` : demo && stepIndex > 0 ? round.steps[stepIndex - 1].explanation : round.summary)}</p></div></div>
+          <div className="tree-guide"><div className="tree-guide-pig"><Pig mood={roundDone ? "proud" : outcome === "retry" ? "thinking" : "explaining"} /></div><div className="tree-speech"><span>Buta đồng hành</span><p className={`tree-local-feedback ${outcome}`} role="status">{message || (held ? `Đã chọn ${held.label}. Kéo hoặc chọn nơi đặt.` : demo && stepIndex > 0 ? round.steps[stepIndex - 1].explanation : round.summary)}</p></div></div>
           <div className="tree-actions">
             {demo ? <>
               <div className="tree-demo-buttons"><button className="round-button" aria-label="Bước trước" disabled={!roundIndex && !stepIndex} onClick={() => moveStep(-1)}><SkipBack size={21} /></button><button className={`chunky-button ${allDone ? "button-green" : "button-purple"}`} onClick={() => { if (allDone) onPlay(); else { gameAudio.unlock(); setPlaying(v => !v); } }}>{allDone ? <Play size={20} /> : playing ? <Pause size={20} /> : <Play size={20} />}{allDone ? "Tự mình thử" : playing ? "Tạm dừng" : "Phát demo"}</button><button className="round-button" aria-label={allDone ? "Xem lại từ đầu" : "Bước tiếp"} onClick={() => allDone ? restart(true) : moveStep(1)}>{allDone ? <RotateCcw size={21} /> : <SkipForward size={21} />}</button></div>
@@ -253,7 +248,7 @@ export default function TreeGame(props: Props) {
     {drag && <div className={`tree-drag-ghost tree-supply-${drag.item.kind}`} style={{ left: drag.x, top: drag.y }} aria-hidden="true"><ItemFace item={drag.item} /></div>}
     {modal && <dialog ref={dialog} className="modal tree-modal" aria-labelledby="tree-modal-title" onCancel={e => { e.preventDefault(); setModal(null); }}>
       <div className="modal-header"><h2 id="tree-modal-title">{modal === "settings" ? "Nhịp học của bạn" : "Buta gợi ý"}</h2><button className="round-button" aria-label="Đóng" onClick={() => setModal(null)}><X size={20} /></button></div>
-      {modal === "settings" ? <><button className="tree-setting-toggle" aria-pressed={sound} onClick={() => onSoundChange(!sound)}>{sound ? <Volume2 size={21} /> : <VolumeX size={21} />} Hiệu ứng âm thanh <strong>{sound ? "Bật" : "Tắt"}</strong></button><HapticsToggle /><p>Kéo bằng chuột hoặc ngón tay. Bạn cũng có thể chọn vật rồi chọn nơi đặt bằng chạm hoặc phím Enter/Space. Escape đóng hộp thoại.</p><p>Giá trị BST không trùng nhau. Khi xóa nút hai con, có thể dùng successor (nhỏ nhất bên phải) hoặc predecessor (lớn nhất bên trái). Trong Thử thách, kéo Buta từ nút cần xóa sang nhánh bạn chọn.</p>{demo && algorithm === "bst-delete" && <div className="tree-replacement-options" role="group" aria-label="Cách xóa nút hai con trong Demo"><span>Cách xóa nút hai con trong Demo</span><button aria-pressed={replacementStrategy === "successor"} onClick={() => chooseDemoReplacement("successor")}>Successor · Nhỏ nhất bên phải</button><button aria-pressed={replacementStrategy === "predecessor"} onClick={() => chooseDemoReplacement("predecessor")}>Predecessor · Lớn nhất bên trái</button></div>}</> : <p>{step?.hint ?? "Đã xong các bước. Bấm Kiểm tra cây để xác nhận kết quả."}</p>}
+      {modal === "settings" ? <><button className="tree-setting-toggle" aria-pressed={sound} onClick={() => onSoundChange(!sound)}>{sound ? <Volume2 size={21} /> : <VolumeX size={21} />} Hiệu ứng âm thanh <strong>{sound ? "Bật" : "Tắt"}</strong></button><HapticsToggle assetTheme="tree" /><p>Kéo bằng chuột hoặc ngón tay. Bạn cũng có thể chọn vật rồi chọn nơi đặt bằng chạm hoặc phím Enter/Space. Escape đóng hộp thoại.</p><p>Giá trị BST không trùng nhau. Khi xóa nút hai con, có thể dùng successor (nhỏ nhất bên phải) hoặc predecessor (lớn nhất bên trái). Trong Thử thách, kéo Buta từ nút cần xóa sang nhánh bạn chọn.</p>{demo && algorithm === "bst-delete" && <div className="tree-replacement-options" role="group" aria-label="Cách xóa nút hai con trong Demo"><span>Cách xóa nút hai con trong Demo</span><button aria-pressed={replacementStrategy === "successor"} onClick={() => chooseDemoReplacement("successor")}>Successor · Nhỏ nhất bên phải</button><button aria-pressed={replacementStrategy === "predecessor"} onClick={() => chooseDemoReplacement("predecessor")}>Predecessor · Lớn nhất bên trái</button></div>}</> : <p>{step?.hint ?? "Đã xong các bước. Bấm Kiểm tra cây để xác nhận kết quả."}</p>}
       <button className="chunky-button button-green tree-modal-primary" onClick={() => setModal(null)}>Trở lại khu rừng <ArrowRight size={18} /></button>
     </dialog>}
     {victory && <VictoryCelebration className="tree-victory" title="Khu rừng đã thêm xanh!" stars={mistakes === 0 ? 3 : mistakes < 4 ? 2 : 1} difficulty="hard" onReplay={() => restart(true)} onHarder={() => {}} onMap={onChooseMap}><p>Bạn đã hoàn thành {course.title}.</p><p>{course.rounds.length} chặng · {score} điểm</p></VictoryCelebration>}

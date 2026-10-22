@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 116 56" width="116" height="56" fill="none">
+  <defs><clipPath id="node-block-peach-bank-selected-face"><rect x="2" y="2" width="112" height="47" rx="14"/></clipPath></defs>
+  <rect x="2" y="6" width="112" height="48" rx="14" fill="#000000" fill-opacity=".16"/>
+  <rect x="2" y="2" width="112" height="48" rx="14" fill="#C4754B"/>
+  <g clip-path="url(#node-block-peach-bank-selected-face)">
+    <rect x="2" y="2" width="112" height="47" fill="#F2A379"/>
+    <rect x="2" y="2" width="112" height="17" fill="#FFC2A1" fill-opacity=".6"/>
+    <rect x="2" y="37" width="112" height="56" fill="#D9895F"/>
+    <path d="M2 37H114" stroke="#9A6D22" stroke-width="1.8"/>
+  </g>
+  <rect x="2" y="2" width="112" height="48" rx="14" stroke="#9A6D22" stroke-width="2.4"/>
+</svg>

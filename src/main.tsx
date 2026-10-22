@@ -22,6 +22,13 @@ import "./linear-cards.css";
 import "./linkedResponsive.css";
 import "./graph.css";
 import "./tree.css";
+import "./linkedAssets.css";
+import "./linkedMapAssets.css";
+import "./atlasAssets.css";
+import "./treeMapAssets.css";
+import "./treeAssets.css";
+import "./linkedWinter.css";
+import "./lessonTextColors.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
