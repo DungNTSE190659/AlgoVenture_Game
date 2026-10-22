@@ -1,4 +1,70 @@
 import { expect, test } from '@playwright/test';
+import { createTreeCourse } from '../src/engine/tree';
+
+test('BST node stays green when selected and dragged to the removal tray', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.addInitScript(() => localStorage.setItem('algoventure.world-progress.v3', JSON.stringify({
+    'tree-basics': true, 'tree-traversal': true, bst: true, 'bst-search': true, 'bst-insert': true,
+  })));
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Xem chủ đề Cây', exact: true }).click();
+    await page.locator('.atlas-enter').click();
+    await page.getByRole('button', { name: 'Xóa nút khỏi BST', exact: true }).click();
+    await page.locator('.sheet-challenge').click();
+    const node = page.getByRole('button', { name: 'Nút 10', exact: true });
+    const skin = await node.evaluate(el => getComputedStyle(el).backgroundImage);
+    const from = (await node.boundingBox())!;
+    const tray = (await page.locator('[data-drop="tray"]').boundingBox())!;
+    await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(from.x + from.width / 2 + 25, from.y - 25, { steps: 3 });
+    await expect(node).toHaveCSS('background-image', skin);
+    await expect(page.locator('.tree-drag-ghost')).toHaveCSS('background-image', skin);
+    await page.screenshot({ path: `.qa/tree-green-node-drag-${viewport.width}.png` });
+    await page.mouse.move(tray.x + tray.width / 2, tray.y + tray.height / 2, { steps: 3 });
+    await page.mouse.up();
+    await expect(node).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Kiểm tra cây', exact: false })).toBeVisible();
+  }
+});
+
+test('dragging a purple label preserves its skin and keeps tree nodes vivid', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const course = createTreeCourse('tree-basics');
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Xem chủ đề Cây', exact: true }).click();
+    await page.locator('.atlas-enter').click();
+    await page.locator('.sheet-challenge').click();
+    for (const step of course.rounds[0].steps) {
+      await page.locator(`[data-item="${step.item}"]`).click();
+      await page.locator(`[data-drop="${step.target}"]`).click();
+    }
+    await page.getByRole('button', { name: 'Kiểm tra cây', exact: false }).click();
+    const label = page.locator('.tree-supply-label').first();
+    const node = page.locator('.tree-node').first();
+    const originalNodeSkin = await node.evaluate(el => getComputedStyle(el).backgroundImage);
+    const labelSkin = await label.evaluate(el => getComputedStyle(el, '::before').borderImageSource);
+    const box = (await label.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width / 2 - 30, box.y + box.height / 2 + 40, { steps: 3 });
+    await expect(page.locator('.tree-drag-ghost')).toBeVisible();
+    expect(await page.locator('.tree-drag-ghost').evaluate(el => getComputedStyle(el, '::before').borderImageSource)).toBe(labelSkin);
+    await expect(node).toHaveCSS('background-image', originalNodeSkin);
+    await expect(node).toHaveCSS('opacity', '1');
+    await expect(node).toHaveCSS('outline-style', 'solid');
+    await page.screenshot({ path: `.qa/tree-label-drag-${viewport.width}.png` });
+    const target = (await node.boundingBox())!;
+    await page.mouse.move(target.x + target.width / 2, target.y + target.height / 2, { steps: 3 });
+    await page.mouse.up();
+    await expect(page.locator('.tree-node-label')).toHaveText('Gốc');
+    expect(await page.locator('.tree-node-label').evaluate(el => getComputedStyle(el, '::before').borderImageSource)).toBe(labelSkin);
+  }
+});
 
 test('Tree island, map and playfield load their desktop/mobile sprites with persistent state skins', async ({ page }) => {
   const failures: string[] = [];
