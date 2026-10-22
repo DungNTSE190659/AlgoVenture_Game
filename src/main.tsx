@@ -11,6 +11,7 @@ import "./victory.css";
 import "./track.css";
 import "./atlas.css";
 import "./insertion.css";
+import "./merge.css";
 import "./selection.css";
 import "./gameHud.css";
 import "./linkedList.css";
@@ -27,3 +28,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <App />
   </React.StrictMode>,
 );
+
+import "./stack.css";
+
+import "./queue.css";

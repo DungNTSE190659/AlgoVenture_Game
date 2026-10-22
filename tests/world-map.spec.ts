@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { REGIONS, ARRAY_ROUTES } from "../src/engine/learningTrack";
 
-const arrays = { array: true, linear: true, bubble: true, selection: true, insertion: true, merge: true, quick: true, binary: true };
+const arrays = { array: true, linear: true, bubble: true, selection: true, insertion: true, merge: true, quick: true, binary: true, stack: true, queue: true };
 async function enterArray(page: Page, mode = "Thử thách") {
   await page.goto("/");
   await page.getByRole("button", { name: "Mảng", exact: true }).click();
@@ -93,7 +93,7 @@ test("Bubble victory opens Selection Sort and Buta walks there", async ({ page }
   await page.getByRole("button", { name: "Bản đồ thế giới", exact: true }).click();
   await expect(page.locator(".region-locked")).toHaveCount(0);
   await page.reload();
-  await expect(page.locator(".atlas-region-progress")).toHaveText("1/7");
+  await expect(page.locator(".atlas-region-progress")).toHaveText("1/9");
   await page.locator(".atlas-enter").click();
   await expect(page.locator("#track-sheet-title")).toHaveText("Selection Sort");
 });

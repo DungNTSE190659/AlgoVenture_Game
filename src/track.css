@@ -131,7 +131,7 @@
 @media (prefers-reduced-motion: reduce) { .learning-map *, .learning-map *::before, .learning-map *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 
 .learning-map.has-route-picker { --track-top: 190px; }
-.track-routes { position: relative; z-index: 4; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: min(calc(100% - 48px), 530px); margin: 4px auto 10px; }
+.track-routes { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: min(calc(100% - 48px), 740px); margin: 4px auto 10px; }
 .track-route { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 50px; padding: 6px 14px; border: 2px solid #e0e6cf; border-radius: 16px; background: #fffdf2e6; color: #899477; box-shadow: 0 3px 0 #d4dabe; text-align: left; }
 .track-route > span { display: flex; flex-direction: column; line-height: 1.25; }.track-route strong { font-size: 15px; font-weight: 1000; }.track-route small { font-size: 10px; }.track-route > b { font-size: 11px; font-weight: 900; }
 .track-route.route-active { background: #e2edcf; border-color: #a5c28c; color: #638052; box-shadow: 0 3px 0 #97b47e; }
@@ -150,3 +150,25 @@
   .track-routes { position: absolute; top: 70px; left: 14px; width: calc(58% - 28px); margin: 0; }
   .track-route { padding: 5px 9px; gap: 6px; }.track-route small { font-size: 9px; }
 }
+
+/* Three Array routes remain visible together, including the combined Stack/Queue tab. */
+@media (max-width:600px) {
+  .track-routes { width:calc(100% - 24px); grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+  .track-route { grid-template-columns:minmax(0,1fr) auto; gap:4px; padding:6px; }
+  .track-route > svg { display:none; }
+  .track-route strong { font-size:11px; white-space:nowrap; }
+  .track-route small { font-size:8px; }
+  .track-route > b { font-size:9px; }
+}
+@media (max-height:480px) and (min-width:600px) {
+  .track-route { grid-template-columns:minmax(0,1fr) auto; }
+  .track-route > svg { display:none; }
+  .track-route strong { font-size:12px; white-space:nowrap; }
+  .track-route > b { font-size:10px; }
+}
+
+@media (max-width:600px), (max-height:480px) and (min-width:600px) {
+  .track-route { grid-template-columns:minmax(0,1fr); justify-items:center; text-align:center; gap:3px; }
+  .track-route > span { min-width:0; }
+}
+@media (max-width:350px) { .track-route strong { font-size:10px; } }

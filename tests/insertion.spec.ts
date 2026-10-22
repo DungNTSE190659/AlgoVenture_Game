@@ -55,7 +55,7 @@ test("play explains mistakes, sorts negative and duplicate values stably, saves,
   expect(await page.locator('.insertion-tile').evaluateAll(nodes => nodes.map(node => Number(node.getAttribute("data-value"))))).toEqual([3, -1, 3, 0]);
   await solve(page);
   await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
-  await expect(page.locator("#track-sheet-title")).toHaveText("Quick Sort");
+  await expect(page.locator("#track-sheet-title")).toHaveText("Merge Sort");
   await expect(page.getByRole("button", { name: "Thử thách", exact: true })).toBeEnabled();
   expect(errors).toEqual([]);
 });

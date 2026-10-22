@@ -842,14 +842,17 @@
   .bubble-demo .bubble-equation strong {
     font-size: 20px;
   }
-  .bubble-demo .bubble-dialogue {
+  .bubble-demo .bubble-dialogue,
+  .merge-demo .merge-dialogue {
     min-height: 0;
     padding: 0 24px 8px;
   }
-  .bubble-demo .bubble-dialogue .pig {
+  .bubble-demo .bubble-dialogue .pig,
+  .merge-demo .merge-dialogue .pig {
     width: clamp(72px, 12dvh, 125px);
   }
-  .bubble-demo .bubble-dialogue p {
+  .bubble-demo .bubble-dialogue p,
+  .merge-demo .merge-dialogue p {
     font-size: clamp(17px, 2.8dvh, 24px);
     line-height: 1.45;
     padding: 12px 24px;

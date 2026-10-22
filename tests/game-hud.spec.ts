@@ -5,7 +5,7 @@ for (const [width, height] of [[1440, 900], [1280, 580], [390, 844], [320, 568],
   test(`algorithm screens share the same header and score styling at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height });
     let reference: unknown;
-    for (const algorithm of ["Bubble Sort", "Selection Sort", "Insertion Sort", "Quick Sort"]) {
+    for (const algorithm of ["Bubble Sort", "Selection Sort", "Insertion Sort", "Merge Sort", "Quick Sort", "Stack", "Queue"]) {
       await enterTrack(page, algorithm, "Play");
       await expect(page.locator(".play-header h1")).toHaveText(algorithm);
       await expect(page.locator(".play-score")).toBeInViewport();
