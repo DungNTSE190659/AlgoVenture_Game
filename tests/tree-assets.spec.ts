@@ -16,6 +16,19 @@ test('Tree island, map and playfield load their desktop/mobile sprites with pers
   for (const size of [{width:1440,height:900},{width:390,height:844}]) {
     await page.setViewportSize(size);
     await expect(page.locator('.stop-selected .stop-button')).toHaveCSS('background-image', /\/tree\/map\/svg\/station-tree-traversal-/);
+    await expect.poll(() => page.locator('.region-trees img').evaluateAll(images => images.filter(el => !(el as HTMLImageElement).complete || !(el as HTMLImageElement).naturalWidth).map(el => (el as HTMLImageElement).src))).toEqual([]);
+    const brokenBackgrounds = await page.evaluate(async () => {
+      const selectors = ['.stop-land', '.stop-selected .stop-button', '.stop-caption', '.track-sheet', '.sheet-number', '.sheet-demo', '.sheet-challenge', '.track-progress > div'];
+      return (await Promise.all(selectors.map(async selector => {
+        const element = document.querySelector(`.region-trees ${selector}`);
+        const url = element && getComputedStyle(element).backgroundImage.match(/url\("?([^\")]+)"?\)/)?.[1];
+        if (!url) return selector;
+        const image = new Image();
+        image.src = url;
+        try { await image.decode(); return null; } catch { return selector; }
+      }))).filter(Boolean);
+    });
+    expect(brokenBackgrounds).toEqual([]);
     await page.screenshot({path:`.qa/tree-assets-map-${size.width}.png`});
   }
   await page.locator('.sheet-demo').click();
