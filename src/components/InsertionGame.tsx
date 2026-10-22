@@ -125,7 +125,7 @@ export default function InsertionGame({ mode, input: originalInput, difficulty, 
     onChange(values, difficulty);
   }
   const title = demo ? frame.title : done ? "Bạn đã làm được!" : "Xếp thẻ cùng Buta";
-  const instruction = done ? "Bộ thẻ đã được sắp xếp!" : "Rút một thẻ · Nhường chỗ · Chèn vào bộ bài";
+  const instruction = done ? "Bộ thẻ đã có thứ tự!" : shown.phase === "pick" ? "Rút một thẻ để bắt đầu." : "Dịch thẻ hoặc chèn vào ô trống.";
   return <GameLayout ref={motionRoot} play={!demo} className={`insertion-world ${demo ? "insertion-demo" : "insertion-play"}`} data-busy={busy}>
     {!demo && <World />}
     <GameHeader title="Insertion Sort" className="insertion-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
@@ -134,13 +134,13 @@ export default function InsertionGame({ mode, input: originalInput, difficulty, 
     </GameStats>
     <section className="insertion-content">
       <h2>{title}</h2>
-      <p className="insertion-task">{demo ? "Sắp xếp từ bé đến lớn · Chỉ dịch số lớn hơn số đang cầm" : instruction}</p>
-      <div className="insertion-steps" aria-label="Các bước xếp thẻ">
+      <p className="insertion-task">{demo ? "Chỉ dịch số lớn hơn thẻ đang cầm." : instruction}</p>
+      {demo && <div className="insertion-steps" aria-label="Các bước xếp thẻ">
         <span className={!done && guided && nextAction === "pick" ? "is-current" : ""}><b>1</b> Rút thẻ</span>
         <span className={!done && guided && nextAction === "shift" ? "is-current" : ""}><b>2</b> Nhường chỗ</span>
         <span className={!done && guided && nextAction === "insert" ? "is-current" : ""}><b>3</b> Chèn thẻ</span>
-      </div>
-      {difficulty === "hard" && <p className="insertion-stability-note">Cùng số, khác ký hiệu: giữ thứ tự xuất hiện.</p>}
+      </div>}
+      {difficulty === "hard" && <p className="insertion-stability-note">Trùng số: giữ thứ tự.</p>}
       <InsertionCardTable state={shown} guided={guided} enabled={!demo && !paused && !busy && !done} paused={paused || motionPaused} onAction={act} />
       {!demo && !done && <p className="insertion-feedback" role="status">{feedback}</p>}
       {!demo && done && <VictoryCelebration className="insertion-victory" stars={mistakes === 0 ? 3 : mistakes <= 3 ? 2 : 1} difficulty={difficulty} onReplay={reset} onHarder={level => onChange(createInsertionArray(level), level)} onMap={onChooseMap}>

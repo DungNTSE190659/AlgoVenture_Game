@@ -64,13 +64,13 @@ export default function InsertionCardTable({ state, guided, enabled, paused, onA
       onLostPointerCapture={event => { if (event.target === event.currentTarget) cancel(); }}>
       <div className="insertion-deck-label">CHƯA XẾP <span>{pending}</span></div>
       <div className={`insertion-deck-outline ${pending === 0 ? "deck-empty" : ""}`} aria-hidden="true"><Leaf size={26} /></div>
-      <div className="insertion-stage-label">{done ? "XẾP XONG!" : "THẺ ĐANG CẦM"}</div>
+      <div className="insertion-stage-label">{done ? "XẾP XONG!" : "ĐANG CẦM"}</div>
       <div className={`insertion-lift-zone ${guided && state.phase === "pick" ? "is-guided" : ""} ${over && state.phase === "pick" ? "slot-over" : ""}`}
         data-insertion-lift={state.phase === "pick" ? true : undefined}>
         {!state.key && <span>{done ? <Check size={24} /> : <>Thả<br />thẻ</>}</span>}
       </div>
       <div className="insertion-table-buta" aria-hidden="true"><Pig mood={done ? "celebrate" : state.key ? "thinking" : "happy"} /></div>
-      <div className="insertion-hand-label">BỘ THẺ CỦA BẠN <span>{done ? "Đã xếp từ bé đến lớn" : "Xét từ phải sang trái"}</span></div>
+      <div className="insertion-hand-label" aria-label="Bộ thẻ, xét từ phải sang trái">ĐÃ XẾP</div>
       <div className="insertion-hand-mat" aria-hidden="true" />
       {state.phase === "compare" && <button
         className={`insertion-slot slot-empty ${guided ? "slot-hinted" : ""} ${over ? "slot-over" : ""}`}
@@ -136,7 +136,7 @@ function PlayingCard({ item, index, style, held, inDeck, next, guided, dragging,
   useEffect(() => { if (paused) animation.current?.pause(); else if (animation.current?.playState === "paused") animation.current.play(); }, [paused]);
   useEffect(() => () => animation.current?.cancel(), []);
   return <button ref={ref} className={`insertion-tile ${inDeck ? "tile-deck" : held ? "tile-held" : "tile-sorted"} ${next ? "tile-next" : ""} ${guided ? "tile-guided" : ""} ${dragging ? "tile-dragging" : ""}`}
-    style={{ ...style, "--suit-color": ["#537f68", "#b27a38", "#b96d7e", "#7275ad", "#a25e9e", "#498c9c"][item.id % 6] } as CSSProperties}
+    style={{ ...style, "--digits": String(item.value).length, "--suit-color": ["#537f68", "#b27a38", "#b96d7e", "#7275ad", "#a25e9e", "#498c9c"][item.id % 6] } as CSSProperties}
     disabled={disabled} aria-label={held ? `Số đang cầm ${item.value}, chèn vào ô trống` : `Số ${item.value}, ô ${index}`}
     data-item-id={item.id} data-value={item.value} data-index={held ? "held" : index} data-next={next} data-zone={inDeck ? "deck" : held ? "held" : "hand"}
     onClick={onClick} onPointerDown={onPointerDown}>

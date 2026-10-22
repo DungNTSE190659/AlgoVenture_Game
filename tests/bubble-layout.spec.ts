@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { createBubbleLesson } from "../src/engine/bubbleSort";
 import { enterTrack } from "./track-navigation";
+import { expectLessonFits, expectLessonVisible } from "./lesson-viewport";
 
 test("desktop demo keeps every section visible without scrolling at browser zoom 100%", async ({ page }) => {
   await enterTrack(page, "Bubble Sort", "Demo");
@@ -64,12 +65,12 @@ test("bridge play fits eight friends and their camp on phones, landscape and des
     for (const [width, height] of sizes) {
       await page.setViewportSize({ width, height });
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
-      expect(await page.locator(".bubble-world").evaluate(node => node.scrollHeight - node.clientHeight), `${stage} ${width}`).toBeLessThanOrEqual(2);
+      await expectLessonFits(page, ".bubble-world", 2);
       await expect(page.locator('.bubble-tile[data-active="true"]')).toHaveCount(stage === "pair" ? 2 : 0);
       await expect(page.locator(".bubble-overview-item")).toHaveCount(8);
-      for (const node of await page.locator(".bubble-tile,.bubble-overview-item").all()) await expect(node).toBeInViewport({ ratio: 1 });
-      await expect(page.getByRole("button", { name: "Buta gợi ý", exact: true })).toBeInViewport();
-      await expect(page.getByRole("button", { name: stage === "pair" ? "Giữ nguyên" : "Lượt tiếp theo", exact: true })).toBeInViewport();
+      for (const node of await page.locator(".bubble-tile,.bubble-overview-item").all()) await expectLessonVisible(page, node);
+      await expectLessonVisible(page, page.getByRole("button", { name: "Buta gợi ý", exact: true }));
+      await expectLessonVisible(page, page.getByRole("button", { name: stage === "pair" ? "Giữ nguyên" : "Lượt tiếp theo", exact: true }));
       await page.screenshot({ path: `.qa/bubble-bridge-${stage}-${width}.png` });
     }
   }
@@ -103,8 +104,8 @@ test("demo bridge, adjacent pair and narration fit every frame on phones and lan
   for (let cursor = 0; cursor < frames.length; cursor++) {
     if (checkpoints.has(cursor)) for (const [width, height] of [[320,568], [390,844], [844,390]]) {
       await page.setViewportSize({ width, height });
-      expect(await page.locator(".bubble-world").evaluate(node => node.scrollHeight - node.clientHeight), `${width} ${frames[cursor].kind}`).toBeLessThanOrEqual(2);
-      for (const node of await page.locator(".bubble-tile,.bubble-overview-item,.bubble-dialogue,.bubble-controls").all()) await expect(node).toBeInViewport({ ratio: 1 });
+      await expectLessonFits(page, ".bubble-world", 2);
+      for (const node of await page.locator(".bubble-tile,.bubble-overview-item,.bubble-dialogue,.bubble-controls").all()) await expectLessonVisible(page, node);
       const stage = (await page.locator(".bubble-board-area").boundingBox())!, speech = (await page.locator(".bubble-dialogue").boundingBox())!;
       if (height > 500) expect(stage.y + stage.height).toBeLessThanOrEqual(speech.y + 1);
     }

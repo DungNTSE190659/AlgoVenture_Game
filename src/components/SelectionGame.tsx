@@ -141,10 +141,10 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     setCursor(value => Math.max(0, Math.min(frames.length - 1, value + delta)));
   }
   const title = demo ? frame.title : "Chuẩn bị hành trang";
-  const instruction = demo ? "Tìm thẻ nhỏ nhất · Đổi vào ô cờ · Buộc dây."
-    : shown.phase === "choose" ? "Đưa thẻ nhỏ nhất vào ô cờ, hoặc giữ nguyên nếu đã đúng chỗ."
-    : chosen?.id === shown.items[shown.start]?.id ? "Số nhỏ nhất đã ở đúng ô. Bấm Giữ nguyên vị trí để đi tiếp."
-    : `Kéo thẻ ${chosen?.value} vào ô cờ ${shown.start + 1}, hoặc chạm ô đó để đổi chỗ.`;
+  const instruction = demo ? "Đưa số nhỏ nhất vào ô cờ."
+    : shown.phase === "choose" ? "Chọn số nhỏ nhất, hoặc giữ nguyên ô cờ."
+    : chosen?.id === shown.items[shown.start]?.id ? "Đúng ô rồi. Bấm Giữ nguyên vị trí."
+    : `Đưa số ${chosen?.value} về ô cờ ${shown.start + 1}.`;
 
   return <GameLayout ref={motionRoot} play={!demo} className={`selection-world selection-${mode}`} data-busy={busy} data-phase={shown.phase} data-motion-paused={paused || motionPaused}
     onPointerDownCapture={event => { touchStart.current = { x: event.clientX, y: event.clientY }; }}
@@ -166,7 +166,7 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     </GameStats>
     <section className="selection-content">
       <h2>{title}</h2>
-      <p className="selection-task">{done ? "Mỗi lượt cố định một số nhỏ nhất. Bạn đã làm được!" : instruction}</p>
+      <p className="selection-task">{done ? "Hành trang đã có thứ tự!" : instruction}</p>
       <SelectionPackBoard state={shown} target={target} candidate={demo ? frame.candidate : shown.chosen} scan={demo ? frame.scan : null} wrong={wrong} enabled={!demo && !paused && !busy && !done && !hint} paused={paused || motionPaused} onPick={pick} onPlace={place} onMiss={() => {
         setOutcome(""); setFeedback("Thả món đồ vào ô cờ, hoặc bấm nút Đưa về ô bên dưới nhé.");
       }} />

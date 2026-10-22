@@ -18,10 +18,6 @@ export default function BubbleRunBoard({ state, comparing, interactive, paused, 
   const [ghost, setGhost] = useState<{ id: number; x: number; y: number } | null>(null);
   const pair = Math.min(state.pair, state.items.length - 2);
   const focused = state.items.slice(pair, pair + 2);
-  const previous = useRef({ pair, pass: state.pass, right: focused[1].id, carried: null as number | null });
-  if (previous.current.pair !== pair || previous.current.pass !== state.pass) {
-    previous.current = { pair, pass: state.pass, right: focused[1].id, carried: state.pass === previous.current.pass && focused[0].id === previous.current.right ? focused[0].id : null };
-  } else previous.current.right = focused[1].id;
   const count = state.items.length;
   // Both current friends get equal room, independent of their numbers.
   const weights = state.items.map((_, index) => index === pair || index === pair + 1 ? 1.5 : 1);
@@ -57,7 +53,7 @@ export default function BubbleRunBoard({ state, comparing, interactive, paused, 
   }
   return <div className="bubble-board-area bubble-bridge-board" ref={root} data-focus-pair={pair} data-paused={paused}
     onPointerMove={move} onPointerUp={end} onPointerCancel={cancel} onLostPointerCapture={event => { if (event.target === event.currentTarget) cancel(); }}>
-    <div className="bridge-route-heading"><span><Footprints size={13} /> CHUYẾN ĐI QUA RỪNG</span><small><TentTree size={14} /> {settledCount}/{count} đã vào trại</small></div>
+    <div className="bridge-route-heading"><span><Footprints size={13} /> Cầu gỗ</span><small><TentTree size={14} /> {settledCount}/{count} vào trại</small></div>
     <div className="bubble-board bridge-scene" style={{ "--crew-count": count } as CSSProperties} aria-label="Cả đoàn trên cầu gỗ">
       <svg className="bridge-forest" viewBox="0 0 900 300" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0 120Q130 30 270 115T580 90T900 90V300H0Z" fill="#dfe8cd" />
@@ -87,9 +83,8 @@ export default function BubbleRunBoard({ state, comparing, interactive, paused, 
       </div>
       <div className="bridge-rope bridge-rope-front" aria-hidden="true" />
     </div>
-    <p className="bubble-focus-status" aria-live="polite">{state.phase === "pass" ? `Bạn mang số ${state.items[state.end + 1].value} đã vào trại. Buta sẽ quay về đầu cầu!` : state.phase === "done" ? "Cả đoàn đã sẵn sàng cho chuyến đi!" : `Buta đang giúp hai bạn ở vị trí ${pair + 1} và ${pair + 2}.`}</p>
+    <p className="bubble-focus-status" aria-live="polite">{state.phase === "pass" ? `Số ${state.items[state.end + 1].value} đã vào trại.` : state.phase === "done" ? "Đã xếp xong!" : `Cặp ${pair + 1}–${pair + 2}`}</p>
     <div className="bridge-step-dots" aria-hidden="true">{state.items.slice(1).map((_, i) => <span key={i} className={i + 1 > state.end ? "is-past" : i === pair ? "is-here" : ""} />)}</div>
-    {comparing && previous.current.carried === focused[0].id && <span className="bubble-carried-note">Bạn này cùng Buta đi tiếp sang cặp mới</span>}
     {ghost && <div className="bubble-drag-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true"><strong>{state.items.find(item => item.id === ghost.id)?.value}</strong><Footprints size={16} /></div>}
   </div>;
 }
@@ -151,7 +146,7 @@ function ForestFriend({ item, index, active, prominent, settled, paused, style, 
   });
   useEffect(() => { if (paused && animation.current?.playState === "running") animation.current.pause(); else if (!paused && animation.current?.playState === "paused") animation.current.play(); }, [paused]);
   useEffect(() => () => animation.current?.cancel(), []);
-  return <button ref={ref} className={`bubble-tile bubble-overview-item bridge-friend ${active ? "is-active" : ""} ${prominent ? "is-prominent" : ""} ${settled ? "is-settled" : ""}`} style={style} disabled={!enabled}
+  return <button ref={ref} className={`bubble-tile bubble-overview-item bridge-friend ${active ? "is-active" : ""} ${prominent ? "is-prominent" : ""} ${settled ? "is-settled" : ""}`} style={{ ...style, "--digits": String(item.value).length } as CSSProperties} disabled={!enabled}
     data-bubble-id={item.id} data-overview-id={item.id} data-value={item.value} data-index={index} data-active={active}
     aria-label={`Bạn mang số ${item.value}, vị trí ${index + 1}${settled ? ", đã vào trại" : ". Kéo sang bạn bên cạnh hoặc nhấn phím mũi tên để đổi chỗ"}`} onPointerDown={onPointerDown} onClick={onClick} onKeyDown={onKeyDown}>
     <FriendArt id={item.id} resting={settled} /><strong className="friend-number">{item.value}</strong><span className="bubble-position">{index + 1}</span>

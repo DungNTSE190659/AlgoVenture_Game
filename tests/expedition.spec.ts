@@ -40,7 +40,7 @@ test("missed and cancelled drags keep the group unchanged; settings and hints st
 });
 test("all targets and eight friends fit phone and laptop widths, including a heavily unbalanced group",async({page})=>{
   await enterForest(page);await forestInput(page,[1,2,3,4,5,6,7,8]);await page.emulateMedia({reducedMotion:"reduce"});
-  for(const[width,height]of[[1440,900],[1280,580],[390,844],[320,568],[844,390]]){await page.setViewportSize({width,height});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(width);const boxes=await page.locator("[data-forest-drop]").evaluateAll(nodes=>nodes.map(n=>{const b=n.getBoundingClientRect();return{left:b.left,right:b.right,width:b.width};}));expect(boxes.every(b=>b.left>=0&&b.right<=width&&b.width>40)).toBe(true);await page.screenshot({path:`.qa/quick-forest-${width}.png`,fullPage:true});}
+  for(const[width,height]of[[1440,900],[1280,580],[390,844],[320,568],[844,390]]){await page.setViewportSize({width,height});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(width);const boxes=await page.locator("[data-forest-drop]:visible").evaluateAll(nodes=>nodes.map(n=>{const b=n.getBoundingClientRect();return{left:b.left,right:b.right,width:b.width};}));expect(boxes).toHaveLength(width<=700&&height>width ? 2 : 5);expect(boxes.every(b=>b.left>=0&&b.right<=width&&b.width>40)).toBe(true);await page.screenshot({path:`.qa/quick-forest-${width}.png`,fullPage:true});}
   await page.setViewportSize({width:390,height:844});await sendFriend(page,7,"pivot");for(const id of[0,1,2,3,4,5,6])await sendFriend(page,id,"small");await expect(page.getByRole("button",{name:"Kiểm tra nhóm",exact:true})).toBeEnabled();await page.screenshot({path:".qa/quick-forest-large-group.png",fullPage:true});await page.getByRole("button",{name:"Kiểm tra nhóm",exact:true}).click();await expect(page.locator(".qf-map button:enabled")).toHaveCount(1);
 });
 
@@ -50,4 +50,23 @@ test("preview shows all three groups, the pivot and the next waiting friend",asy
   await page.emulateMedia({reducedMotion:"reduce"});await page.waitForTimeout(550);
   await expect(page.locator(".qf-small .qf-friend")).toHaveCount(1);await expect(page.locator(".qf-equal .qf-friend")).toHaveCount(1);await expect(page.locator(".qf-large .qf-friend")).toHaveCount(1);await expect(page.locator(".qf-pool .qf-friend")).toHaveAttribute("data-value","2");
   await page.screenshot({path:".qa/quick-forest-preview.png",fullPage:true});
+});
+
+test("portrait starts with large pivot choices and reveals destinations after choosing", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await enterForest(page);
+  await expect(page.locator(".qf-group:visible")).toHaveCount(0);
+  await expect(page.locator(".qf-pool .qf-friend")).toHaveCount(5);
+  const choose = page.getByRole("button", { name: "Chọn làm mốc", exact: true });
+  await expect(choose).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Kiểm tra nhóm", exact: true })).toBeHidden();
+  for (const card of await page.locator(".qf-pool .qf-friend").all()) expect((await card.boundingBox())!.width).toBeGreaterThanOrEqual(80);
+  await page.locator('.qf-pool [data-friend="1"]').click();
+  await expect(choose).toBeEnabled();
+  await expect(choose).toContainText("Chọn số 3 làm mốc");
+  await page.screenshot({ path: ".qa/quick-pivot-selection-mobile.png" });
+  await choose.click();
+  await expect(page.locator(".qf-group:visible")).toHaveCount(3);
+  await expect(page.locator(".qf-pivot .qf-friend")).toHaveAttribute("data-value", "3");
+  await expect(page.getByRole("button", { name: "Kiểm tra nhóm", exact: true })).toBeVisible();
 });

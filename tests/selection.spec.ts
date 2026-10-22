@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { enterTrack } from "./track-navigation";
+import { expectLessonFits, expectLessonVisible } from "./lesson-viewport";
 import { createSelectionLesson } from "../src/engine/selectionSort";
 
 async function enter(page: Page, mode = "Play") { await enterTrack(page, "Selection Sort", mode); }
@@ -146,16 +147,17 @@ test("settings validate arrays and victory upgrades through the three levels", a
   await expect(page.getByRole("button", { name: "Tăng độ khó", exact: true })).toHaveCount(0);
 });
 
-test("eight items fit two rows; cross-row swapping preserves identities and locks the fixed prefix", async ({ page }) => {
+test("eight portrait items use three readable rows; cross-row swapping preserves identities and locks the fixed prefix", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 });
   await enter(page);
   await custom(page, "8, 7, 6, 5, 4, 3, 2, -1");
   const cards = page.locator(".selection-tile");
   await expect(cards).toHaveCount(8);
+  await page.locator(".pack-mat").scrollIntoViewIfNeeded();
   const boxes = await cards.evaluateAll(nodes => nodes.map(node => {
     const box = node.getBoundingClientRect(); return { left: box.left, right: box.right, top: box.top, bottom: box.bottom };
   }));
-  expect(new Set(boxes.map(box => box.top)).size).toBe(2);
+  expect(new Set(boxes.map(box => box.top)).size).toBe(3);
   expect(boxes.every(box => box.left >= 0 && box.right <= 320 && box.top >= 0 && box.bottom <= 568)).toBe(true);
   expect(await page.locator(".selection-board-scroll").evaluate(node => node.scrollWidth - node.clientWidth)).toBe(0);
   // Before choosing, all unfinished cards use the same treatment regardless of value.
@@ -171,7 +173,7 @@ test("eight items fit two rows; cross-row swapping preserves identities and lock
   expect(await cards.evaluateAll(nodes => nodes.map(node => Number(node.getAttribute("data-value"))))).toEqual([-1,7,6,5,4,3,2,8]);
   await expect(page.locator('[data-selection-index="0"]')).toHaveAttribute("data-selection-id", "7");
   await expect(page.locator('.tile-fixed')).toBeDisabled();
-  await expect(page.locator(".pack-heading")).toContainText("1/8 đã buộc dây");
+  await expect(page.locator(".pack-heading")).toContainText("1/8 đã xếp");
   await page.screenshot({ path: ".qa/selection-pack-cross-row.png" });
 });
 
@@ -246,7 +248,7 @@ test("play and demo fit desktop at 100% and remain usable on phone portrait and 
   for (const [width, height] of [[1440, 900], [1536, 707], [1280, 580], [390, 844], [320, 568], [844, 390]]) {
     await page.setViewportSize({ width, height });
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
-    for (const item of await page.locator(".selection-tile").all()) await expect(item).toBeInViewport({ ratio: 1 });
+    for (const item of await page.locator(".selection-tile").all()) await expectLessonVisible(page, item);
     if (width >= 1024) {
       expect(await page.locator(".selection-world").evaluate(node => node.scrollHeight - node.clientHeight)).toBeLessThanOrEqual(1);
       await expect(page.getByRole("button", { name: "Buta gợi ý", exact: true })).toBeInViewport();
@@ -261,7 +263,7 @@ test("play and demo fit desktop at 100% and remain usable on phone portrait and 
   for (const [width, height] of [[1536, 707], [1280, 580], [390, 844], [320, 568], [844, 390]]) {
     await page.setViewportSize({ width, height });
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
-    for (const item of await page.locator(".selection-tile").all()) await expect(item).toBeInViewport({ ratio: 1 });
+    for (const item of await page.locator(".selection-tile").all()) await expectLessonVisible(page, item);
     if (width >= 1024) {
       expect(await page.locator(".selection-world").evaluate(node => node.scrollHeight - node.clientHeight)).toBeLessThanOrEqual(1);
       await expect(page.getByRole("button", { name: "Bắt đầu", exact: true })).toBeInViewport();
@@ -280,8 +282,8 @@ test("eight-item demo keeps scanning, choosing, swapping and completion visible 
   for (let cursor = 0; cursor < frames.length; cursor++) {
     if (checkpoints.has(cursor)) for (const [width, height] of [[320,568],[390,844],[844,390],[1280,580],[1440,900]]) {
       await page.setViewportSize({ width, height });
-      expect(await page.locator(".selection-world").evaluate(node => node.scrollHeight - node.clientHeight), `${width} ${frames[cursor].kind}`).toBeLessThanOrEqual(1);
-      for (const node of await page.locator(".selection-tile,.selection-content h2,.selection-task,.selection-controls,.selection-dialogue p").all()) await expect(node).toBeInViewport({ ratio: 1 });
+      await expectLessonFits(page, ".selection-world");
+      for (const node of await page.locator(".selection-tile,.selection-content h2,.selection-task,.selection-controls,.selection-dialogue p").all()) await expectLessonVisible(page, node);
       const board = (await page.locator(".pack-table").boundingBox())!, controls = (await page.locator(".selection-controls").boundingBox())!;
       if (height > 500) expect(board.y + board.height).toBeLessThanOrEqual(controls.y + 1);
     }

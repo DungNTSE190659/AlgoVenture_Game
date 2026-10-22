@@ -115,10 +115,17 @@ Bubble Sort Demo và Play dùng cảnh cầu gỗ cùng đoàn thú rừng; Play
 
 - Demo và Play dùng biến thể chia ba nhóm: nhỏ hơn, bằng, lớn hơn pivot. Người chơi chọn mốc bất kỳ rồi kéo từng thẻ số vào nhóm; có chạm chọn rồi chạm tiêu đề nhóm và thao tác bàn phím.
 - Giao diện rừng tối giản theo cảnh dẫn đoàn qua cổng: pivot đứng trên bục giữa, hai lối đất dẫn sang nhóm nhỏ hơn và lớn hơn; các bạn bằng mốc đứng cùng khu vực giữa. Bạn đang chờ xuất hiện phía trước, đoàn thú đã chọn xếp thành hàng ngắn bên mỗi lối. Số lớn, cây thưa và không highlight đáp án. Danh tính theo ID/khăn được giữ khi đổi nhóm. Buta xuất hiện trong Demo và gợi ý.
+- Mobile dọc mở đầu bằng các thẻ thú lớn để chọn pivot và nút xác nhận ghi rõ số đã chọn. Ba nhóm chỉ hiện sau khi có pivot; ẩn cổng rỗng và nút kiểm tra chưa dùng được ở bước đầu. Khung cổng khi chia nhóm bám vào thẻ pivot, không kéo giãn cùng nền cảnh.
 - Kiểm tra sau khi chia hết. Sai −25 điểm, giữ nguyên nhóm để tự sửa; có hoàn tác, đưa lại hàng chờ và đổi pivot. Đúng cố định pivot cùng các số bằng mốc, cộng 100 mỗi số mới cố định và 100 mỗi lần chia.
 - Chọn nhánh nhỏ/lớn tiếp theo tùy ý. Nhóm chỉ có một số tự xong; nhóm bằng pivot không cần chia lại. Thứ tự toàn mảng hiện sau khi có số được cố định; chỉ hoàn thành khi mọi nhánh xong.
 - Demo dùng cùng bàn và quy tắc, có bước trước/sau, phát/tạm dừng và tốc độ 1x/1.5x/2x. Cài đặt và tab ẩn dừng chuyển động. Mảng riêng 2–8 số nguyên −99…99; hỗ trợ số âm và trùng. Dễ/Vừa/Khó là 5/7/8 số, không giới hạn thời gian.
 - Engine: `src/engine/quickTrail.ts`; giao diện: `src/components/QuickForestGame.tsx`, `src/quickForest.css`. Các bản Lomuto và Expedition trước vẫn được giữ trong mã nguồn, không dùng ở màn Quick Sort hiện tại.
+
+## Mobile dọc cho năm màn sắp xếp
+
+- `src/sortingPortrait.css` áp dụng riêng cho Bubble, Selection, Insertion, Merge và Quick ở chiều rộng tối đa 700px, hướng dọc. Chữ nhiệm vụ 15px, lời Demo 16px; thẻ và nút thao tác được ưu tiên kích thước, không thu toàn màn để ép vừa chiều cao.
+- Selection dùng tối đa ba cột; Merge cho lá xuống hàng và thay sơ đồ nhỏ bằng nút chọn nhánh khi chia. Insertion giữ sáu thẻ vừa chiều ngang, Quick tăng cỡ thẻ chờ và thẻ đã chia, Bubble mở rộng bảng số của cặp đang xét. Số âm được tính cỡ chữ theo số ký tự.
+- Điện thoại thấp có thể cuộn dọc tới nội dung, không cần cuộn ngang. `tests/sorting-portrait.spec.ts` kiểm tra 320–430px, mảng dài, số âm, vùng chạm, hướng dẫn Demo và đổi hướng màn hình; các bài kiểm tra bố cục vẫn yêu cầu desktop/ngang vừa khung.
 
 ## Kiến trúc
 

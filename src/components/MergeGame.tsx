@@ -86,7 +86,7 @@ export default function MergeGame({ mode, input, difficulty, sound, speed, onBac
     {!demo && <GameStats className="merge-stats" scoreClassName="merge-score" score={run.score}><span>{shown.completed}/{shown.tasks.length} nhóm đã ghép</span><span>{LEVELS[difficulty].label} · Không giới hạn giờ</span></GameStats>}
     <section className="merge-content">
       <h2>{title}</h2>
-      <p className="merge-task">{groups ? "Chia đôi từng nhóm, giữ nguyên thứ tự lá." : done ? "Chia nhỏ rồi ghép lại · Giữ thứ tự các bông hoa." : demo ? "So sánh hai lá đầu nhánh · Lấy số nhỏ hơn trước." : "Kéo hoặc chạm lá đầu nhỏ hơn để đưa xuống hồ."}</p>
+      <p className="merge-task">{groups ? "Chia đôi, giữ thứ tự lá." : done ? "Các lá đã có thứ tự!" : "Chọn lá đầu nhỏ hơn để ghép."}</p>
       <MergeStreamMap state={shown} groups={groups} selected={selected} enabled={enabled} onSelect={id => { if (enabled && !lock.current) setRun(selectStreamGroup(run, id)); }} />
       <MergeStreamBoard state={shown} groups={groups} selected={selected} guided={demo} enabled={enabled} paused={paused || motionPaused || hint}
         onSplit={() => commit(splitStreamGroup(run))} onLeaf={(lane, id) => commit(takeStreamLeaf(run, lane, id))} onNext={() => commit(nextStreamGroup(run))} />

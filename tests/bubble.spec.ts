@@ -320,7 +320,7 @@ test("one drag answers one pair; Buta follows and friends in camp stay fixed", a
   await expect(page.locator(".bubble-world")).toHaveAttribute("data-busy", "false");
   await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
   expect(await pair.evaluateAll(nodes => nodes.map(node => Number(node.getAttribute("data-value"))))).toEqual([9, 2]);
-  await expect(page.locator(".bubble-carried-note")).toBeVisible();
+  await expect(page.locator(".bubble-focus-status")).toHaveText("Cặp 2–3");
   expect(await guide.evaluate(node => (node as HTMLElement).style.left)).not.toBe(initialGuide);
   await expect(page.getByRole("status")).toBeEmpty();
   await expect(page.locator('.bubble-tile[data-active="true"]')).toHaveCount(2);

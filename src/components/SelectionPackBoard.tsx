@@ -30,8 +30,16 @@ export default function SelectionPackBoard({ state, target, candidate, scan, wro
   const suppressed = useRef(false);
   const [ghost, setGhost] = useState<{ x: number; y: number; id: number } | null>(null);
   const [over, setOver] = useState(false);
+  const [portrait, setPortrait] = useState(() => matchMedia("(max-width: 700px) and (orientation: portrait)").matches);
+  useEffect(() => {
+    const media = matchMedia("(max-width: 700px) and (orientation: portrait)");
+    const change = () => setPortrait(media.matches);
+    media.addEventListener("change", change);
+    return () => media.removeEventListener("change", change);
+  }, []);
   const latest = useRef({ state, enabled, onPick, onPlace, onMiss }); latest.current = { state, enabled, onPick, onPlace, onMiss };
-  const columns = state.items.length <= 4 ? state.items.length : Math.ceil(state.items.length / 2);
+  const columns = portrait ? Math.min(state.items.length, state.items.length === 4 ? 2 : 3)
+    : state.items.length <= 4 ? state.items.length : Math.ceil(state.items.length / 2);
   const rows = Math.ceil(state.items.length / columns);
   function cancel() {
     const drag = gesture.current; gesture.current = null; setGhost(null); setOver(false);
@@ -70,7 +78,7 @@ export default function SelectionPackBoard({ state, target, candidate, scan, wro
     else latest.current.onMiss();
   }
   return <div className="selection-board-scroll pack-table">
-    <div className="pack-heading"><span><Backpack size={15} /> THẢM HÀNH TRANG</span><small><Check size={13} /> {state.start}/{state.items.length} đã buộc dây</small></div>
+    <div className="pack-heading"><span><Backpack size={15} /> Hành trang</span><small><Check size={13} /> {state.start}/{state.items.length} đã xếp</small></div>
     <div className="selection-board pack-mat" ref={root} style={{ "--columns": columns, "--rows": rows, maxWidth: `${columns * 140 + 36}px` } as CSSProperties}
       aria-label="Thảm hành trang, đọc từ trái sang phải rồi xuống hàng" onPointerMove={move} onPointerUp={end} onPointerCancel={cancel} onLostPointerCapture={event => { if (event.target === event.currentTarget) cancel(); }}>
       {state.items.map((_, index) => <div key={index} className={`pack-slot ${index < state.start ? "slot-fixed" : ""}`} style={position(index, columns)} aria-hidden="true"><span>{index + 1}</span></div>)}
@@ -83,7 +91,6 @@ export default function SelectionPackBoard({ state, target, candidate, scan, wro
           else if (index === state.start) onPlace(index);
         }} />)}
     </div>
-    <p className="pack-reading-order">Từ trái sang phải · Hàng trên trước, hàng dưới sau</p>
     {ghost && <div className="selection-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true"><GearArt id={ghost.id} /><strong>{state.items.find(item => item.id === ghost.id)?.value}</strong></div>}
   </div>;
 }
@@ -111,9 +118,9 @@ function PackItem({ item, index, style, settled, candidate, scanning, wrong, hel
   });
   useEffect(() => { if (paused) animation.current?.pause(); else if (animation.current?.playState === "paused") animation.current.play(); }, [paused, index]);
   useEffect(() => () => animation.current?.cancel(), []);
-  return <button ref={ref} className={`selection-tile pack-item ${settled ? "tile-fixed" : ""} ${candidate ? "tile-candidate" : ""} ${scanning ? "tile-scan" : ""} ${wrong ? "tile-wrong" : ""} ${held ? "tile-held" : ""}`} style={style} disabled={!enabled}
+  return <button ref={ref} className={`selection-tile pack-item ${settled ? "tile-fixed" : ""} ${candidate ? "tile-candidate" : ""} ${scanning ? "tile-scan" : ""} ${wrong ? "tile-wrong" : ""} ${held ? "tile-held" : ""}`} style={{ ...style, "--digits": String(item.value).length } as CSSProperties} disabled={!enabled}
     data-selection-id={item.id} data-selection-index={index} data-value={item.value} data-selection-target={target ? index : undefined} aria-label={`Số ${item.value}, ô ${index + 1}${settled ? ", đã xếp xong" : ""}`} aria-pressed={candidate} onClick={onClick} onPointerDown={onPointerDown}>
-    <GearArt id={item.id} /><span className="pack-item-name">{equipment[item.id % equipment.length].name}</span><strong>{item.value}</strong>
+    <GearArt id={item.id} /><strong>{item.value}</strong>
     {candidate && <Check className="pack-picked" size={13} />}{scanning && <Search size={14} className="selection-scan-icon" />}{settled && <span className="pack-tie"><Check size={13} /></span>}
   </button>;
 }

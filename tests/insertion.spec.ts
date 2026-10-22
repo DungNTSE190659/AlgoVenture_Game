@@ -1,5 +1,6 @@
 import { expect, test, type Page, type Locator } from "@playwright/test";
 import { enterTrack } from "./track-navigation";
+import { expectLessonVisible } from "./lesson-viewport";
 
 async function enter(page: Page, mode = "Play") { await enterTrack(page, "Insertion Sort", mode); }
 async function custom(page: Page, values: string) {
@@ -176,7 +177,7 @@ test("six numbers fit without horizontal scrolling in portrait, landscape and de
     await expect(page.locator(".insertion-board-scroll")).toBeVisible();
     await expect(page.locator(".insertion-tile")).toHaveCount(6);
     expect(await page.locator(".insertion-board-scroll").evaluate(node => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(1);
-    for (const tile of await page.locator(".insertion-tile").all()) await expect(tile).toBeInViewport({ ratio: 1 });
+    for (const tile of await page.locator(".insertion-tile").all()) await expectLessonVisible(page, tile);
     const button = page.locator('.insertion-tile[data-index="1"]');
     await button.scrollIntoViewIfNeeded();
     await expect(button).toBeInViewport();
@@ -264,10 +265,10 @@ test("six-number demo keeps tiles, narration and controls visible", async ({ pag
     for (let step = 0; step < 4; step++) {
       await expect(page.locator(".insertion-tile")).toHaveCount(6);
       expect(await page.locator(".insertion-board-scroll").evaluate(node => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(1);
-      for (const tile of await page.locator(".insertion-tile").all()) await expect(tile).toBeInViewport({ ratio: 1 });
-      await expect(page.locator(".insertion-controls .insertion-dialogue")).toBeInViewport({ ratio: 1 });
-      await expect(page.locator(".insertion-playback")).toBeInViewport({ ratio: 1 });
-      await expect(page.locator(".insertion-demo-progress")).toBeInViewport({ ratio: 1 });
+      for (const tile of await page.locator(".insertion-tile").all()) await expectLessonVisible(page, tile);
+      await expectLessonVisible(page, page.locator(".insertion-controls .insertion-dialogue"));
+      await expectLessonVisible(page, page.locator(".insertion-playback"));
+      await expectLessonVisible(page, page.locator(".insertion-demo-progress"));
       const board = (await page.locator(".insertion-board").boundingBox())!;
       const narration = (await page.locator(".insertion-controls .insertion-dialogue").boundingBox())!;
       if (height > 500) expect(board.y + board.height).toBeLessThanOrEqual(narration.y + 1);

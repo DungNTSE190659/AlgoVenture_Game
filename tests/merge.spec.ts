@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { enterTrack } from "./track-navigation";
+import { expectLessonFits, expectLessonVisible } from "./lesson-viewport";
 
 async function enter(page: Page, demo = false) {
   await enterTrack(page, "Merge Sort", demo ? "Demo" : "Play");
@@ -138,8 +139,8 @@ test("split and merge fit eight leaves on phones, landscape and desktop", async 
   async function check(stage: string) {
     for (const [width, height] of [[1440,900], [1280,580], [390,844], [320,568], [844,390]]) {
       await page.setViewportSize({ width, height }); expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
-      expect(await page.locator(".merge-world").evaluate(node => node.scrollHeight - node.clientHeight), `${stage} ${width}`).toBeLessThanOrEqual(2);
-      await expect(page.getByRole("button", { name: "Buta gợi ý", exact: true })).toBeInViewport(); await expect(page.locator(".merge-stream-board")).toBeInViewport({ ratio: 1 });
+      await expectLessonFits(page, ".merge-world", 2);
+      await expectLessonVisible(page, page.getByRole("button", { name: "Buta gợi ý", exact: true })); await expectLessonVisible(page, page.locator(".merge-stream-board"));
       await page.screenshot({ path: `.qa/merge-stream-${stage}-${width}.png` });
     }
   }
@@ -183,8 +184,8 @@ test("every demo frame fits the nature board and controls at small and large vie
   for (const [width, height] of [[320,568], [390,844], [844,390], [1280,580], [1440,900]]) {
     await page.setViewportSize({ width, height }); await page.getByRole("button", { name: "Tùy chọn", exact: true }).click(); await page.getByRole("button", { name: "Chơi lại từ đầu", exact: true }).click();
     for (let frame = 0; frame < 70; frame++) {
-      expect(await page.locator(".merge-world").evaluate(node => node.scrollHeight - node.clientHeight), `${width} frame ${frame}`).toBeLessThanOrEqual(2);
-      await expect(page.locator(".merge-controls")).toBeInViewport({ ratio: 1 }); await expect(page.locator(".merge-stream-board")).toBeInViewport({ ratio: 1 });
+      await expectLessonFits(page, ".merge-world", 2);
+      await expectLessonVisible(page, page.locator(".merge-controls")); await expectLessonVisible(page, page.locator(".merge-stream-board"));
       await expect(page.locator(".merge-world img[src*=merge-factory]")).toHaveCount(0);
       if (await page.getByRole("button", { name: "Tự mình thử", exact: true }).count()) break;
       await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();

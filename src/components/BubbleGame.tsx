@@ -275,7 +275,7 @@ export default function BubbleGame({
           </div>
         )}
         {title && (demo || !done) && <h2 aria-live="polite">{title}</h2>}
-        <p className="bubble-task">{demo ? "Sắp xếp từ bé đến lớn" : done ? "Cả đoàn đã xếp hàng ngay ngắn." : !busy && state.phase === "pass" ? "Các bạn đã vào trại sẽ nghỉ ở lượt sau." : "Kéo hai bạn để đổi chỗ, hoặc giữ nguyên và đi tiếp."}</p>
+        <p className="bubble-task">{demo ? "Sắp xếp từ bé đến lớn" : done ? "Cả đoàn đã có thứ tự." : !busy && state.phase === "pass" ? "Lượt sau bỏ qua số đã xếp." : "Kéo để đổi chỗ, hoặc giữ nguyên."}</p>
         <BubbleRunBoard
           onInteract={() => gameAudio.unlock()}
           state={shown}
@@ -309,7 +309,7 @@ export default function BubbleGame({
               disabled={!!busy || cameraMoving || paused || hint}
               onClick={() => answer(false)}
             >
-              <Check size={23} /> Giữ nguyên <small>· Đi tiếp</small>
+              <Check size={23} /> Giữ nguyên
             </button>
             <p
               key={`${state.comparisons}:${mistakes}`}
