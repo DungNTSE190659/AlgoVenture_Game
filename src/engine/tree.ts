@@ -113,7 +113,7 @@ function traversalRound(order: TraversalOrder, nodes: TreeNodes): TreeRound {
   const rule = { preorder: "Gốc → Trái → Phải", inorder: "Trái → Gốc → Phải", postorder: "Trái → Phải → Gốc", level: "Từng tầng, từ trái sang phải" }[order];
   const b = builder(`${order === "level" ? "Level order · BFS" : order[0].toUpperCase() + order.slice(1) + " · DFS"}`, rule, board(nodes));
   const sequence = traverse(nodes, order);
-  for (const [index, i] of sequence.entries()) b.add(`Thu hoạch nút thứ ${index + 1} theo ${order === "level" ? "từng tầng" : order}.`, `Đã ghi ${nodes[i]} vào vị trí ${index + 1}. ${rule}.`, rule + ". Kéo thẻ từ cây vào giỏ kế tiếp; cây vẫn giữ nguyên.", nodeItems(b.current, "card").filter(item => !b.current.visited.includes(item.slot!)), [{ id: "result", label: `Giỏ thứ ${index + 1}` }], `card:${i}`, "result", s => { s.visited.push(i); s.result.push(nodes[i]); s.cursor = i; });
+  for (const [index, i] of sequence.entries()) b.add(`Thu hoạch nút thứ ${index + 1} theo ${order === "level" ? "từng tầng" : order}.`, `Đã ghi ${nodes[i]} vào vị trí ${index + 1}. ${rule}.`, rule + ". Kéo nút từ cây vào khay thu hoạch; cây vẫn giữ nguyên.", nodeItems(b.current, "card").filter(item => !b.current.visited.includes(item.slot!)), [{ id: "result", label: `Giỏ thứ ${index + 1}` }], `card:${i}`, "result", s => { s.visited.push(i); s.result.push(nodes[i]); s.cursor = i; });
   return { ...b.finish(s => s.result.join() === sequence.map(i => nodes[i]).join()), traversalOrder: order };
 }
 function repairRound(nodes: TreeNodes, from: number, to: number, title: string): TreeRound {

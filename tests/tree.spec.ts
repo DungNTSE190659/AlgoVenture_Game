@@ -29,7 +29,20 @@ async function gesture(page: Page, item: string, target: string, touch = false) 
     await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
     await cdp.detach();
   } else {
-    await page.mouse.move(from.x, from.y); await page.mouse.down(); await page.mouse.move(to.x, to.y, { steps: 5 }); await page.mouse.up();
+    const originalSkin = await source.evaluate(el => ({
+      background: getComputedStyle(el).backgroundImage,
+      sliced: getComputedStyle(el, '::before').borderImageSource,
+    }));
+    await page.mouse.move(from.x, from.y); await page.mouse.down();
+    await page.mouse.move(from.x + 12, from.y - 12, { steps: 2 });
+    await expect(source).toHaveCSS('background-image', originalSkin.background);
+    expect(await source.evaluate(el => getComputedStyle(el, '::before').borderImageSource)).toBe(originalSkin.sliced);
+    if (originalSkin.sliced !== 'none') {
+      expect(await page.locator('.tree-drag-ghost').evaluate(el => getComputedStyle(el, '::before').borderImageSource)).toBe(originalSkin.sliced);
+    } else if (await source.evaluate(el => el.classList.contains('tree-node'))) {
+      await expect(page.locator('.tree-drag-ghost')).toHaveCSS('background-image', originalSkin.background);
+    }
+    await page.mouse.move(to.x, to.y, { steps: 5 }); await page.mouse.up();
   }
 }
 async function withinViewport(page: Page) {
@@ -47,6 +60,29 @@ async function withinViewport(page: Page) {
   const clipped = await page.locator(".tree-board-viewport, .tree-side").evaluateAll(elements => elements.filter(el => el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1).map(el => ({ element: el.className, height: el.clientHeight, contentHeight: el.scrollHeight, width: el.clientWidth, contentWidth: el.scrollWidth })));
   expect(clipped).toEqual([]);
 }
+
+test('traversal accepts the whole harvest tray by drag, keyboard and tap', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await enterTree(page, 'tree-traversal');
+  await expect(page.locator('.tree-basket')).toHaveCount(0);
+  const tray = page.getByRole('button', { name: 'Giỏ thu hoạch', exact: true });
+  const source = (await page.locator('[data-item="card:0"]').boundingBox())!;
+  const destination = (await tray.boundingBox())!;
+  await page.mouse.move(source.x + source.width / 2, source.y + source.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(destination.x + 18, destination.y + 18, { steps: 5 });
+  await page.mouse.up();
+  await expect(page.locator('.tree-result-chip')).toHaveCount(1);
+  await page.locator('[data-item="card:1"]').click();
+  await tray.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.tree-result-chip')).toHaveCount(2);
+  await page.locator('[data-item="card:2"]').click();
+  await page.locator('.tree-result-chip').first().click();
+  await expect(page.locator('.tree-result-chip')).toHaveCount(3);
+  await expect(page.getByRole('button', { name: 'Kiểm tra cây', exact: false })).toBeVisible();
+});
 for (const touch of [false, true]) test.describe(touch ? "Tree mobile touch" : "Tree desktop mouse", () => {
   test.use({ viewport: touch ? { width: 390, height: 844 } : { width: 1440, height: 900 }, hasTouch: touch, isMobile: touch, reducedMotion: "reduce" });
   for (const id of TREE_IDS) test(`${id} completes every round by drag and preserves progress`, async ({ page }) => {
@@ -61,6 +97,10 @@ for (const touch of [false, true]) test.describe(touch ? "Tree mobile touch" : "
     for (const [r, round] of course.rounds.entries()) {
       for (const [i, step] of round.steps.entries()) {
         await expect(page.locator(".tree-mission p")).toHaveText(step.instruction);
+        if (id === 'bst-delete') {
+          const skins = await page.locator('.tree-node:not(.tree-empty-node)').evaluateAll(elements => elements.map(el => getComputedStyle(el).backgroundImage));
+          for (const skin of skins) expect(skin).toMatch(/node-(desktop|mobile|compact)-(normal|current|target)\.svg/);
+        }
         if (i === 0) await withinViewport(page);
         await gesture(page, step.item, step.target, touch);
       }

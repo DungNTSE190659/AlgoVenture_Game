@@ -16,7 +16,7 @@ const states = { normal:['#35C990','#159563'], hover:['#4DDDA3','#159563'], pres
 for(const [profile,size] of [['desktop',60],['mobile',48],['compact',44]]) {
   for(const [state,face,lip,ink] of [
     ['normal','#35C990','#159563','#245C46'],['visited','#F7B83D','#BE8018','#795014'],
-    ['current','#39B8F2','#168FC8','#FFF1A9'],['selected','#B777ED','#8545BC','#FFF4C5'],
+    ['current','#B777ED','#8545BC','#623394'],['selected','#B777ED','#8545BC','#FFF4C5'],
     ['empty','#EFFBF4','#B2DCCA','#5AA88A'],['ready','#D1F8E5','#64CDA0','#208F66'],
     ['over','#FFE49A','#D5A33C','#9D681B'],['source','#FF9658','#CC6B31','#794327'],
     ['target','#D8F6E7','#79CFAC','#237B59']]) {
@@ -39,7 +39,7 @@ for(const [id,w,h,fill,lip] of [['token-seed',52,52,'#FFD179','#D69E38'],['token
 }
 for(const [id,fill] of [['normal','#D6A168'],['visited','#F7B83D'],['empty','#CBE6D7']]) await save(`branch-${id}`,24,12,`<rect width="24" height="12" fill="${fill}"/><path d="M0 4H10M15 9H24" stroke="#FFF2CF" stroke-width="1.2" opacity=".5"/>`);
 // Seamless spiral winding: fixed-size repeat, moved along each branch in the game.
-for (const [state,base,shadow,light] of [['normal','#D9A566','#B97B3D','#FFE4AA'],['active','#28C8B5','#128C82','#B9FFF0'],['visited','#F7B83D','#C88A24','#FFF0B2']]) {
+for (const [state,base,shadow,light] of [['normal','#D9A566','#B97B3D','#FFE4AA'],['active','#B777ED','#8545BC','#F3E3FF'],['visited','#B777ED','#8545BC','#F3E3FF']]) {
  await save(`rope-helix-${state}`,18,10,`<path d="M0 0H18V10H0Z" fill="${base}"/><path d="M-9 0Q-3 5 0 10M0 0Q6 5 9 10M9 0Q15 5 18 10M18 0Q24 5 27 10" stroke="${shadow}" stroke-width="2.5"/><path d="M-6 0Q0 5 3 10M3 0Q9 5 12 10M12 0Q18 5 21 10" stroke="${light}" stroke-width="2"/><path d="M0 1H18M0 9H18" stroke="${shadow}" stroke-opacity=".3"/>`);
 }
 await save('progress-track',200,8,'<rect width="200" height="8" rx="4" fill="#CAE7D9"/>');

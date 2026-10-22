@@ -13,7 +13,7 @@ import useTreeDemoMotion from "./useTreeDemoMotion";
 import { explainTreeMistake } from "../engine/treeFeedback";
 
 type Props = { algorithm: TreeLessonId; mode: "demo" | "play"; sound: boolean; onSoundChange: (enabled: boolean) => void; onBack: () => void; onPlay: () => void; onChooseMap: () => void; onComplete: () => void };
-type Drag = { item: TreeItem; x: number; y: number; over: string | null };
+type Drag = { item: TreeItem; x: number; y: number; over: string | null; nodeSkin?: string };
 function ItemFace({ item }: { item: TreeItem }) {
   if (item.kind === "pig") return <span className="tree-buta-token"><Pig mood="happy" /></span>;
   if (item.kind === "flag") return <Flag size={26} />;
@@ -43,7 +43,7 @@ export default function TreeGame(props: Props) {
   const root = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const modalTrigger = useRef<HTMLElement | null>(null);
-  const pointer = useRef<{ id: number; item: TreeItem; x: number; y: number; moved: boolean } | null>(null);
+  const pointer = useRef<{ id: number; item: TreeItem; x: number; y: number; moved: boolean; nodeSkin?: string } | null>(null);
   const suppressClick = useRef(false);
   const committed = useRef("");
   const completionSent = useRef(false);
@@ -69,6 +69,8 @@ export default function TreeGame(props: Props) {
   const score = Math.max(0, progress * 100 - mistakes * 25);
   const blocked = demo || !!modal || victory;
   const trayItems = step?.items.filter(item => item.slot === undefined) ?? [];
+  const harvestTarget = step?.targets.some(target => target.id === "result") ?? false;
+  const harvestTray = harvestTarget || scene.result.length > 0;
 
   function cancelDrag() { pointer.current = null; setDrag(null); setHeld(null); }
   useEffect(() => {
@@ -125,7 +127,8 @@ export default function TreeGame(props: Props) {
   }
   function startDrag(event: PointerEvent, item: TreeItem) {
     if (blocked || pointer.current || event.button !== 0) return;
-    pointer.current = { id: event.pointerId, item, x: event.clientX, y: event.clientY, moved: false };
+    const nodeSkin = event.currentTarget.classList.contains("tree-node") ? getComputedStyle(event.currentTarget).backgroundImage : undefined;
+    pointer.current = { id: event.pointerId, item, x: event.clientX, y: event.clientY, moved: false, nodeSkin };
     event.currentTarget.setPointerCapture(event.pointerId);
   }
   function moveDrag(event: PointerEvent) {
@@ -133,7 +136,7 @@ export default function TreeGame(props: Props) {
     if (!p.moved && Math.hypot(event.clientX - p.x, event.clientY - p.y) < 6) return;
     p.moved = true;
     const target = document.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLElement>("[data-drop]")?.dataset.drop ?? null;
-    setHeld(p.item); setDrag({ item: p.item, x: event.clientX, y: event.clientY, over: target });
+    setHeld(p.item); setDrag({ item: p.item, x: event.clientX, y: event.clientY, over: target, nodeSkin: p.nodeSkin });
     const area = boardViewport.current;
     if (area && area.scrollWidth > area.clientWidth) {
       const bounds = area.getBoundingClientRect();
@@ -222,11 +225,15 @@ export default function TreeGame(props: Props) {
           </div>
         </div>
         <aside className="tree-side">
-          <div className="tree-supply">
-            <div className="tree-supply-heading"><span><Grip size={16} /> {step?.targets.some(t => t.id === "result") ? "Giỏ thu hoạch" : step?.targets.some(t => t.id === "tray") ? "Khay tháo nút" : "Túi thám hiểm"}</span><span>{stepIndex}/{round.steps.length}</span></div>
-            {step?.targets.some(t => t.id === "result") || scene.result.length > 0 ? <div className="tree-harvest" aria-label="Thứ tự duyệt">
+          <div className={`tree-supply ${harvestTarget && held ? "tree-harvest-ready" : ""} ${harvestTarget && drag?.over === "result" ? "tree-harvest-over" : ""}`}
+            data-drop={harvestTarget ? "result" : undefined} role={harvestTarget && !demo ? "button" : undefined}
+            aria-label={harvestTarget ? "Giỏ thu hoạch" : undefined} tabIndex={harvestTarget && !demo ? 0 : undefined}
+            onClick={() => { if (harvestTarget) pickOrDrop(undefined, "result"); }}
+            onKeyDown={event => { if (harvestTarget && event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); pickOrDrop(undefined, "result"); } }}>
+            <div className="tree-supply-heading"><span><Grip size={16} /> {harvestTray ? "Giỏ thu hoạch" : step?.targets.some(t => t.id === "tray") ? "Khay tháo nút" : "Túi thám hiểm"}</span><span>{stepIndex}/{round.steps.length}</span></div>
+            {harvestTray ? <div className="tree-harvest" aria-label="Thứ tự duyệt">
               {scene.result.map((v, i) => <span className="tree-result-chip" key={i}><small>{i + 1}</small>{v}</span>)}
-              {step?.targets.some(t => t.id === "result") && <button className={`tree-basket ${held ? "tree-drop-ready" : ""} ${drag?.over === "result" ? "tree-drop-over" : ""}`} data-drop="result" aria-label={`Giỏ thứ ${scene.result.length + 1}`} onClick={() => { if (held) drop(held, "result"); }} tabIndex={demo ? -1 : 0}><span>{scene.result.length + 1}</span><Sprout size={21} /></button>}
+              {!scene.result.length && <span className="tree-supply-note">Thả nút cây vào khay</span>}
             </div> : step?.targets.some(t => t.id === "tray") ? <button className={`tree-remove-tray ${held ? "tree-drop-ready" : ""} ${drag?.over === "tray" ? "tree-drop-over" : ""}`} data-drop="tray" aria-label="Khay tháo nút" onClick={() => { if (held) drop(held, "tray"); }} tabIndex={demo ? -1 : 0}><Leaf size={22} /><span>Thả nút cần tháo vào đây</span></button> : <div className="tree-items">
               {trayItems.map(item => <button key={item.id} className={`tree-supply-item tree-supply-${item.kind} ${held?.id === item.id ? "tree-item-selected" : ""}`} aria-label={item.label} aria-pressed={held?.id === item.id} data-item={item.id} onPointerDown={e => startDrag(e, item)} onClick={() => pickOrDrop(item)} tabIndex={demo ? -1 : 0}><ItemFace item={item} /></button>)}
               {!trayItems.length && <span className="tree-supply-note">{roundDone ? <><Check size={18} /> Đã xong các thao tác</> : <><Grip size={18} /> Nhấc thẻ trực tiếp từ cây</>}</span>}
@@ -245,7 +252,7 @@ export default function TreeGame(props: Props) {
         </aside>
       </section>
     </div>
-    {drag && <div className={`tree-drag-ghost tree-supply-${drag.item.kind}`} style={{ left: drag.x, top: drag.y }} aria-hidden="true"><ItemFace item={drag.item} /></div>}
+    {drag && <div className={`tree-drag-ghost tree-supply-${drag.item.kind}`} style={{ left: drag.x, top: drag.y, backgroundImage: drag.nodeSkin }} aria-hidden="true"><ItemFace item={drag.item} /></div>}
     {modal && <dialog ref={dialog} className="modal tree-modal" aria-labelledby="tree-modal-title" onCancel={e => { e.preventDefault(); setModal(null); }}>
       <div className="modal-header"><h2 id="tree-modal-title">{modal === "settings" ? "Nhịp học của bạn" : "Buta gợi ý"}</h2><button className="round-button" aria-label="Đóng" onClick={() => setModal(null)}><X size={20} /></button></div>
       {modal === "settings" ? <><button className="tree-setting-toggle" aria-pressed={sound} onClick={() => onSoundChange(!sound)}>{sound ? <Volume2 size={21} /> : <VolumeX size={21} />} Hiệu ứng âm thanh <strong>{sound ? "Bật" : "Tắt"}</strong></button><HapticsToggle assetTheme="tree" /><p>Kéo bằng chuột hoặc ngón tay. Bạn cũng có thể chọn vật rồi chọn nơi đặt bằng chạm hoặc phím Enter/Space. Escape đóng hộp thoại.</p><p>Giá trị BST không trùng nhau. Khi xóa nút hai con, có thể dùng successor (nhỏ nhất bên phải) hoặc predecessor (lớn nhất bên trái). Trong Thử thách, kéo Buta từ nút cần xóa sang nhánh bạn chọn.</p>{demo && algorithm === "bst-delete" && <div className="tree-replacement-options" role="group" aria-label="Cách xóa nút hai con trong Demo"><span>Cách xóa nút hai con trong Demo</span><button aria-pressed={replacementStrategy === "successor"} onClick={() => chooseDemoReplacement("successor")}>Successor · Nhỏ nhất bên phải</button><button aria-pressed={replacementStrategy === "predecessor"} onClick={() => chooseDemoReplacement("predecessor")}>Predecessor · Lớn nhất bên trái</button></div>}</> : <p>{step?.hint ?? "Đã xong các bước. Bấm Kiểm tra cây để xác nhận kết quả."}</p>}

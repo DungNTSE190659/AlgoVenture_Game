@@ -9,17 +9,18 @@
 .tree-game .tree-branches .branch-visited { stroke: url(#tree-branch-visited); }
 .tree-game .tree-node {
   --tree-node-state: var(--tree-node-normal);
-  border: 0; box-shadow: none; background: transparent var(--tree-node-state) center / 100% 100% no-repeat !important;
+  border: 0; border-radius: 0; box-shadow: none; background: transparent var(--tree-node-state) center / 100% 100% no-repeat !important;
   color: #FFFEF2; padding: 0 0 5px; transition: transform .12s;
 }
 .tree-game .tree-empty-node { --tree-node-state: var(--tree-node-empty); color: #5CA385; }
-.tree-game .tree-visited { --tree-node-state: var(--tree-node-visited); color: #795014; }
+.tree-game .tree-visited { --tree-node-state: var(--tree-node-current); color: #FFFEF2; }
 .tree-game .tree-current { --tree-node-state: var(--tree-node-current); outline: none; }
-.tree-game .tree-node.tree-drop-ready { --tree-node-state: var(--tree-node-ready); outline: none; }
-.tree-game .tree-node.tree-replacement-source { --tree-node-state: var(--tree-node-source); outline: none; }
+.tree-game .tree-node.tree-drop-ready { outline: 2px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-empty-node.tree-drop-ready { --tree-node-state: var(--tree-node-ready); }
+.tree-game .tree-node.tree-replacement-source { --tree-node-state: var(--tree-node-current); outline: none; }
 .tree-game .tree-node.tree-replacement-target { --tree-node-state: var(--tree-node-target); outline: none; }
-.tree-game .tree-node.tree-item-selected { --tree-node-state: var(--tree-node-selected); outline: none; }
-.tree-game .tree-node.tree-drop-over { --tree-node-state: var(--tree-node-over); outline: none; }
+.tree-game .tree-node.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-node.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
 .tree-game .tree-node:not(:disabled):hover { filter: none; }
 .tree-game .tree-node:focus-visible { outline: 3px solid #237B59; outline-offset: 3px; }
 .tree-game .tree-node-relation, .tree-game .tree-board-caption { color: #3F7D61; }
@@ -47,7 +48,7 @@
 .tree-game .tree-modal { --tree-skin: var(--tree-panel-modal); --tree-skin-border: 24px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
 .tree-game .tree-modal::before { content: ""; position: absolute; inset: 0; z-index: -1; border: var(--tree-skin-border) solid transparent; border-image: var(--tree-skin) 28 fill stretch; pointer-events: none; }
 
-.tree-game .tree-node-label { --tree-skin: url("/assets/hybrid-casual-ui/tree/svg/label.svg"); --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
+.tree-game .tree-node-label { --tree-skin: url("/assets/hybrid-casual-ui/tree/svg/token-label.svg"); --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
 .tree-game .tree-node-label::before { content: ""; position: absolute; inset: 0; z-index: -1; border: var(--tree-skin-border) solid transparent; border-image: var(--tree-skin) 16 fill stretch; pointer-events: none; }
 
 .tree-game .tree-replacement-label { --tree-skin: url("/assets/hybrid-casual-ui/tree/svg/label.svg"); --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
@@ -86,10 +87,11 @@
 .tree-game .tree-remove-tray { --tree-skin: url("/assets/hybrid-casual-ui/tree/svg/remove-tray.svg"); --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
 .tree-game .tree-remove-tray::before { content: ""; position: absolute; inset: 0; z-index: -1; border: var(--tree-skin-border) solid transparent; border-image: var(--tree-skin) 16 fill stretch; pointer-events: none; }
 
-.tree-game .tree-drag-ghost { --tree-skin: url("/assets/hybrid-casual-ui/tree/svg/token-seed.svg"); --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
+.tree-game :where(.tree-drag-ghost, .tree-demo-ghost) { --tree-skin: url("/assets/hybrid-casual-ui/tree/svg/token-seed.svg"); }
+.tree-game .tree-drag-ghost { color: #000; --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
 .tree-game .tree-drag-ghost::before { content: ""; position: absolute; inset: 0; z-index: -1; border: var(--tree-skin-border) solid transparent; border-image: var(--tree-skin) 16 fill stretch; pointer-events: none; }
 
-.tree-game .tree-demo-ghost { --tree-skin: url("/assets/hybrid-casual-ui/tree/svg/token-seed.svg"); --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
+.tree-game .tree-demo-ghost { --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
 .tree-game .tree-demo-ghost::before { content: ""; position: absolute; inset: 0; z-index: -1; border: var(--tree-skin-border) solid transparent; border-image: var(--tree-skin) 16 fill stretch; pointer-events: none; }
 
 .tree-game .tree-demo-hand { --tree-skin: url("/assets/hybrid-casual-ui/tree/svg/demo-hand.svg"); --tree-skin-border: 16px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
@@ -99,6 +101,12 @@
 .tree-game .play-score::before { content: ""; position: absolute; inset: 0; z-index: -1; border: var(--tree-skin-border) solid transparent; border-image: var(--tree-skin) 16 fill stretch; pointer-events: none; }
 
 .tree-game .tree-drag-ghost, .tree-game .tree-demo-ghost { position: fixed; }
+.tree-game .tree-drag-ghost:is(.tree-supply-node, .tree-supply-card, .tree-supply-copy) {
+  width: 60px; height: 60px; padding: 0 0 5px; border: 0; border-radius: 0;
+  background: transparent var(--tree-node-normal) center / 100% 100% no-repeat;
+  color: #FFFEF2; font-size: 24px;
+}
+.tree-game .tree-drag-ghost:is(.tree-supply-node, .tree-supply-card, .tree-supply-copy)::before { display: none; }
 .tree-game .tree-node-label, .tree-game .tree-replacement-label, .tree-game .tree-traveler, .tree-game .tree-demo-hand, .tree-game .tree-result-chip small { position: absolute; }
 .tree-game .tree-item-selected:not(.tree-node) { outline-color: #A65FE0; }
 .tree-game .tree-drop-ready:not(.tree-node) { outline-color: #35C990; }
@@ -289,27 +297,27 @@
  .tree-game .tree-guide .tree-speech p { font-size:12px; line-height:1.35; }
  .tree-game .tree-guide .tree-speech { padding:4px 7px; }
 }
-.tree-game .tree-supply-item.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-seed-selected.svg"); outline:none; }
-.tree-game .tree-supply-item.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-seed-ready.svg"); outline:none; }
-.tree-game .tree-supply-item.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-seed-over.svg"); outline:none; }
-.tree-game .tree-supply-label.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-label-selected.svg"); outline:none; }
-.tree-game .tree-supply-label.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-label-ready.svg"); outline:none; }
-.tree-game .tree-supply-label.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-label-over.svg"); outline:none; }
-.tree-game .tree-supply-branch.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-branch-selected.svg"); outline:none; }
-.tree-game .tree-supply-branch.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-branch-ready.svg"); outline:none; }
-.tree-game .tree-supply-branch.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-branch-over.svg"); outline:none; }
-.tree-game .tree-supply-flag.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-flag-selected.svg"); outline:none; }
-.tree-game .tree-supply-flag.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-flag-ready.svg"); outline:none; }
-.tree-game .tree-supply-flag.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-flag-over.svg"); outline:none; }
-.tree-game .tree-supply-pig.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-pig-selected.svg"); outline:none; }
-.tree-game .tree-supply-pig.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-pig-ready.svg"); outline:none; }
-.tree-game .tree-supply-pig.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-pig-over.svg"); outline:none; }
-.tree-game .tree-traveler.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-seed-selected.svg"); outline:none; }
-.tree-game .tree-traveler.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-seed-ready.svg"); outline:none; }
-.tree-game .tree-traveler.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-seed-over.svg"); outline:none; }
-.tree-game .tree-traveler-pig.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-pig-selected.svg"); outline:none; }
-.tree-game .tree-traveler-pig.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-pig-ready.svg"); outline:none; }
-.tree-game .tree-traveler-pig.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/token-pig-over.svg"); outline:none; }
+.tree-game .tree-supply-item.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-item.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-item.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-label.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-label.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-label.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-branch.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-branch.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-branch.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-flag.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-flag.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-flag.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-pig.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-pig.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-pig.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-traveler.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-traveler.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-traveler.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-traveler-pig.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-traveler-pig.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-traveler-pig.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
 .tree-game .tree-basket.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/basket-selected.svg"); outline:none; }
 .tree-game .tree-basket.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/basket-ready.svg"); outline:none; }
 .tree-game .tree-basket.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/basket-over.svg"); outline:none; }
@@ -329,7 +337,7 @@
 .tree-game .tree-signal-branches { overflow:visible; }
 .tree-game .tree-rope-empty { fill:none; stroke:#B9D8C2; stroke-width:3; stroke-dasharray:5 7; }
 .tree-rope-flow { animation:tree-rope-winding calc(.8s / var(--signal-speed)) linear infinite; animation-play-state:var(--signal-play-state); }
-.tree-signal-packet { fill:none; stroke:#FFF5B3; stroke-width:4; stroke-linecap:round; stroke-dasharray:5 95; animation:tree-signal-travel calc(2.4s / var(--signal-speed)) linear infinite; animation-play-state:var(--signal-play-state); }
+.tree-signal-packet { fill:none; stroke:#F3E3FF; stroke-width:4; stroke-linecap:round; stroke-dasharray:5 95; animation:tree-signal-travel calc(2.4s / var(--signal-speed)) linear infinite; animation-play-state:var(--signal-play-state); }
 @keyframes tree-rope-winding { to { transform:translateX(18px); } }
 @keyframes tree-signal-travel { from { stroke-dashoffset:5; } to { stroke-dashoffset:-95; } }
 @media (max-width:760px) {

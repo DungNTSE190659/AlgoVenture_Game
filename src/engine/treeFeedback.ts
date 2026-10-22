@@ -65,7 +65,7 @@ export function explainTreeMistake({ lesson, round, step, board: b, item, target
   }
 
   if (item.kind === "card") {
-    if (target !== "result") return finish("Duyệt cây chỉ ghi thứ tự, không chuyển vị trí các nút.", "Kéo thẻ vào giỏ kết quả kế tiếp.");
+    if (target !== "result") return finish("Duyệt cây chỉ ghi thứ tự, không chuyển vị trí các nút.", "Kéo nút vào khay thu hoạch.");
     const order = round.traversalOrder!, next = expected.slot!, chosen = item.slot!;
     const at = b.result.length + 1;
     if (order === "level") {
