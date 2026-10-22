@@ -20,12 +20,14 @@ export function GameHintButton({ children, className = "", ...props }: Component
 }
 
 /** Shared chrome for algorithm screens. Keep board-specific controls in each game. */
+export function GameHeader({ title, onBack, onSettings, className = "", play = true, showBack = true }: {
 export function GameHeader({ title, onBack, onSettings, beforeSettings, className = "", play = true, assetIcons = false, assetTheme }: {
   title: string;
   onBack: () => void;
   onSettings: () => void;
   className?: string;
   play?: boolean;
+  showBack?: boolean;
   beforeSettings?: ReactNode;
   assetIcons?: boolean;
   assetTheme?: "tree";
@@ -33,6 +35,9 @@ export function GameHeader({ title, onBack, onSettings, beforeSettings, classNam
   const BackIcon = assetTheme === "tree" ? TreeIcons.ArrowLeft : assetIcons ? LinkedIcons.ArrowLeft : ArrowLeft;
   const SettingsIcon = assetTheme === "tree" ? TreeIcons.Settings : assetIcons ? LinkedIcons.Settings : Settings;
   return <header className={`lesson-header ${className} ${play ? "play-header" : ""}`}>
+    {showBack
+      ? <button className="round-button" aria-label="Về bản đồ" onClick={onBack}><ArrowLeft size={25} /></button>
+      : <div style={{ width: 46 }} aria-hidden="true" />}
     <button className="round-button" aria-label="Về bản đồ" onClick={onBack}><BackIcon size={25} /></button>
     <h1>{title}</h1>
     {beforeSettings}

@@ -1,3 +1,10 @@
+/* ─────────────────────────────────────────────
+   Graph / BFS — Mobile-first layout
+   Board is the primary element; everything else
+   is compact secondary information.
+   ───────────────────────────────────────────── */
+
+/* ── Root layout ──────────────────────────── */
 .graph-world {
   position: relative;
   min-height: 100dvh;
@@ -7,133 +14,70 @@
 }
 
 .graph-world > .graph-content,
-.graph-world > .graph-stats,
 .graph-world > .graph-play-footer {
   position: relative;
   z-index: 1;
 }
 
+/* ── Stats bar ────────────────────────────── */
+.graph-stats {
+  flex-shrink: 0;
+}
+
+/* ── Content column ───────────────────────── */
 .graph-content {
   display: flex;
   flex: 1 0 auto;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 14px;
-  width: min(980px, calc(100% - 36px));
+  gap: 10px;
+  width: min(640px, calc(100% - 24px));
   margin: 0 auto;
-  padding: 18px 0 24px;
+  padding: 10px 0 16px;
+  position: relative;   /* needed for Pig walker absolute overlay */
 }
 
-.graph-intro {
-  width: 100%;
-  text-align: center;
-}
-
-.graph-kicker {
-  color: #6f8e7e;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 1.8px;
-}
-
-.graph-content h2 {
-  margin: 5px 0;
-  color: #596e58;
-  font-size: clamp(22px, 3vw, 30px);
-  font-weight: 1000;
-  line-height: 1.2;
-  text-align: center;
-}
-
-.graph-task {
-  max-width: 640px;
-  margin: 0 auto;
-  color: #79765f;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.45;
-  text-align: center;
-}
-
-.graph-queue-panel {
+/* ── Goal badge (added in task 9) ─────────── */
+.graph-goal-badge {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: min(600px, 100%);
-  min-height: 64px;
-  padding: 10px 16px;
-  border: 2px solid #fff;
-  border-radius: 18px;
-  background: #ffffffc9;
-  box-shadow: 0 4px 0 #cad8c6;
-}
-
-.graph-queue-panel > div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.graph-queue-panel strong {
-  color: #506c5b;
+  gap: 9px;
+  padding: 7px 16px;
+  border: 2px solid #f5d08a;
+  border-radius: 16px;
+  background: #fffbe8;
+  box-shadow: 0 3px 0 #e8d09a66;
+  color: #9a7530;
   font-size: 13px;
-  letter-spacing: 1px;
-}
-
-.graph-queue-panel > div span {
-  color: #85816d;
-  font-size: 11px;
-}
-
-.graph-queue-panel ol {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 7px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.graph-queue-panel li {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border: 2px solid #c4d5df;
-  border-radius: 11px;
-  background: #e6f1f7;
-  color: #4c6c7b;
-  font-size: 14px;
   font-weight: 900;
+  width: 100%;
+  max-width: 540px;
+  flex-shrink: 0;
 }
 
-.graph-queue-panel li.is-front {
-  border-color: #e8b84e;
-  background: #fff3ce;
-  color: #805e15;
-  box-shadow: 0 2px 0 #e6d09a;
+.graph-goal-badge strong {
+  font-size: 15px;
+  color: #7d5e1a;
 }
 
-.graph-queue-panel li.queue-empty {
-  width: auto;
-  padding: 0 10px;
-  border-color: #ddd9ca;
-  background: #f5f3eb;
-  color: #8a877b;
-  font-size: 12px;
+.graph-goal-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
+/* ── Graph board ─────────────────────────── */
 .graph-board {
   display: block;
   width: 100%;
-  max-width: 600px;
+  max-width: 540px;
   height: auto;
-  max-height: min(42vh, 390px);
+  /* Scales naturally with width (3:2 viewBox).
+     On 375px wide: ~250px. On 414px: ~276px.
+     Caps at 390px on desktop. */
+  max-height: min(48vh, 390px);
   overflow: visible;
-  margin: 0 auto;
+  flex-shrink: 0;
 }
 
 .graph-board g[role="button"] {
@@ -147,45 +91,91 @@
 }
 
 .graph-board circle {
-  transition: all 0.25s ease;
+  transition: fill 0.22s ease, r 0.15s ease;
 }
 
-.graph-legend {
+/* ── HUD row: queue + feedback side by side ─ */
+.graph-hud-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 540px;
+  min-height: 44px;
+  flex-shrink: 0;
+}
+
+/* ── Inline queue ─────────────────────────── */
+.graph-queue-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 2px solid #d9e4df;
+  border-radius: 14px;
+  background: #ffffffc0;
+  box-shadow: 0 2px 0 #c4d5c888;
+  flex-shrink: 0;
+}
+
+.graph-queue-label {
+  font-size: 10px;
+  font-weight: 900;
+  color: #7a9080;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+}
+
+.graph-queue-inline ol {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 18px;
-  color: #777560;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.graph-legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.graph-legend i {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.legend-start { background: #f39c12; }
-.legend-queue { background: #3498db; }
-.legend-visited { background: #2ecc71; }
-.legend-goal { background: #e87565; }
-
-.graph-feedback {
-  width: min(600px, 100%);
+  gap: 5px;
   margin: 0;
-  padding: 11px 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.graph-queue-inline li {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 2px solid #c4d5df;
+  border-radius: 9px;
+  background: #e6f1f7;
+  color: #4c6c7b;
+  font-size: 13px;
+  font-weight: 900;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.graph-queue-inline li.is-front {
+  border-color: #e8b84e;
+  background: #fff3ce;
+  color: #805e15;
+  box-shadow: 0 2px 0 #e6d09a;
+}
+
+.graph-queue-inline li.queue-empty {
+  width: auto;
+  padding: 0 8px;
+  border-color: #ddd9ca;
+  background: #f5f3eb;
+  color: #8a877b;
+  font-size: 11px;
+}
+
+/* ── Feedback inline ─────────────────────── */
+.graph-feedback {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 7px 11px;
   border: 2px solid transparent;
-  border-radius: 14px;
-  font-size: 14px;
+  border-radius: 12px;
+  font-size: 12px;
   font-weight: 800;
-  text-align: center;
+  line-height: 1.35;
 }
 
 .graph-feedback.is-success {
@@ -198,24 +188,44 @@
   border-color: #edc0b9;
   background: #fff0ed;
   color: #963f34;
+  animation: graph-shake 0.35s ease;
 }
 
+/* ── Task instruction ─────────────────────── */
+.graph-task {
+  width: 100%;
+  max-width: 540px;
+  margin: 0;
+  color: #79765f;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ── Footer ───────────────────────────────── */
 .graph-play-footer {
-  width: min(640px, calc(100% - 32px));
+  width: min(540px, calc(100% - 24px));
   margin: 0 auto;
-  padding: 10px 0 max(18px, env(safe-area-inset-bottom));
+  padding: 8px 0 max(20px, env(safe-area-inset-bottom));
 }
 
 .graph-hint {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-  padding: 10px 14px;
+  gap: 10px;
+  width: min(520px, calc(100vw - 24px));
+  padding: 10px 13px;
   border: 2px solid #fff4ca;
   border-radius: 16px;
   background: #fffcf0;
-  box-shadow: 0 3px 0 #91b47750;
+  box-shadow: 0 4px 14px #71845922;
+  z-index: 5;
 }
 
 .graph-hint p {
@@ -224,12 +234,13 @@
   color: #77745f;
   font-size: 13px;
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .graph-hint .pig {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
 }
 
 .graph-controls {
@@ -240,71 +251,159 @@
 }
 
 .graph-controls .game-hint-button {
-  min-width: 190px;
+  min-width: 170px;
 }
 
+/* ── Path result ──────────────────────────── */
 .graph-result-path {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   color: #42674c;
   font-weight: 900;
+  font-size: 14px;
 }
 
+/* ── Victory overlay ──────────────────────── */
 .graph-victory {
   z-index: 10;
 }
 
-@media (min-width: 900px) and (min-height: 760px) {
+/* ── Settings "Về bản đồ" link ────────────── */
+.graph-settings-map-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border: 0;
+  background: none;
+  color: #8a9880;
+  font-size: 13px;
+  font-weight: 900;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.graph-settings-map-btn:hover {
+  background: #f0f4e8;
+}
+
+/* ── Legend (kept for lesson, hidden in game) */
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  color: #777560;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.graph-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.graph-legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-start  { background: #f39c12; }
+.legend-queue  { background: #3498db; }
+.legend-visited { background: #2ecc71; }
+.legend-goal   { background: #e87565; }
+
+/* ── Vertex pop animation (task 10) ─────────
+   Applied via .vertex-pop class on the <g>    */
+@keyframes graph-vertex-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.22); }
+  70%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+
+.vertex-pop {
+  animation: graph-vertex-pop 0.32s ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ── Error shake ──────────────────────────── */
+@keyframes graph-shake {
+  0%, 100% { translate: 0; }
+  25%, 75%  { translate: -5px; }
+  50%       { translate: 5px; }
+}
+
+/* ── Pig walker overlay (task 11) ─────────── */
+.graph-pig-walker {
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;   /* below hint panel (z:5) but above board */
+  transition: left 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              top  0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.graph-pig-walker .pig {
+  width: 52px;
+  height: 52px;
+  filter: drop-shadow(0 3px 5px #00000028);
+}
+
+.graph-pig-walker.pig-arriving .pig {
+  animation: pig-float 0.9s ease-in-out infinite;
+}
+
+/* ── Responsive ───────────────────────────── */
+@media (min-width: 600px) {
   .graph-content {
-    padding-top: 22px;
-    gap: 16px;
+    gap: 12px;
+    padding-top: 14px;
   }
 
   .graph-board {
-    max-height: 390px;
+    max-height: min(46vh, 390px);
+  }
+
+  .graph-task {
+    font-size: 15px;
+  }
+
+  .graph-queue-inline li {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 390px) {
   .graph-content {
-    width: calc(100% - 28px);
-    gap: 12px;
-    padding-top: 12px;
+    gap: 8px;
+    padding-top: 8px;
+  }
+
+  .graph-board {
+    max-height: 44vw;   /* square-ish on very small screens */
   }
 
   .graph-task {
     font-size: 13px;
   }
 
-  .graph-queue-panel {
-    min-height: 58px;
-    padding: 8px 11px;
+  .graph-queue-inline {
+    padding: 5px 9px;
+    gap: 6px;
   }
 
-  .graph-queue-panel > div span {
-    max-width: 105px;
-    font-size: 10px;
-  }
-
-  .graph-queue-panel li {
-    width: 30px;
-    height: 30px;
-  }
-
-  .graph-board {
-    max-height: 36vh;
-  }
-
-  .graph-legend {
-    gap: 7px 12px;
-    font-size: 11px;
-  }
-
-  .graph-play-footer {
-    width: calc(100% - 24px);
-  }
-
-  .graph-controls {
-    gap: 8px;
+  .graph-queue-inline li {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: 7px;
   }
 
   .graph-controls .game-hint-button {
@@ -313,17 +412,127 @@
   }
 }
 
-@media (max-height: 650px) {
+/* Portrait-only height reduction — don't fire on tall portrait phones (>620px) */
+@media (max-height: 620px) and (orientation: portrait) {
   .graph-content {
-    gap: 8px;
-    padding: 8px 0 14px;
+    gap: 6px;
+    padding: 6px 0 10px;
   }
 
   .graph-board {
-    max-height: 32vh;
+    max-height: 36vh;
   }
 
   .graph-play-footer {
     padding-top: 4px;
+  }
+}
+
+/* ── Landscape: two-column layout mirrors lesson.css pattern ─────────── */
+@media (max-height: 520px) and (orientation: landscape) {
+  /* Root: 2-column grid, controls span bottom */
+  .graph-world.game-play-layout {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    grid-template-rows: 56px minmax(0, 1fr) 70px;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  /* Header spans full width */
+  .play-header {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    flex: none;
+    min-height: 56px;
+    padding: 8px 16px 4px;
+  }
+
+  .play-header h1 {
+    font-size: 18px;
+  }
+
+  /* Stats bar sits inside the right column — hide on very small landscape */
+  .graph-stats {
+    display: none;
+  }
+
+  /* Graph content: left column */
+  .graph-content {
+    grid-column: 1;
+    grid-row: 2;
+    gap: 6px;
+    padding: 6px 8px 0 8px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .graph-goal-badge {
+    font-size: 11px;
+    padding: 5px 10px;
+    max-width: 100%;
+  }
+
+  .graph-goal-icon {
+    font-size: 16px;
+  }
+
+  .graph-board {
+    max-height: 38vh;
+    max-width: 100%;
+  }
+
+  .graph-hud-row {
+    max-width: 100%;
+    min-height: 36px;
+  }
+
+  .graph-queue-inline {
+    padding: 4px 8px;
+    gap: 5px;
+  }
+
+  .graph-queue-inline li {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    border-radius: 6px;
+  }
+
+  .graph-feedback {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+
+  .graph-task {
+    font-size: 12px;
+    text-align: left;
+  }
+
+  /* Pig walker: smaller in landscape */
+  .graph-pig-walker .pig {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Footer: spans full width at bottom */
+  .graph-play-footer {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    width: 100%;
+    min-height: 70px;
+    padding: 8px 20px max(10px, env(safe-area-inset-bottom));
+    margin: 0;
+  }
+
+  /* Hint panel: position above footer */
+  .graph-hint {
+    bottom: calc(100% + 4px);
+  }
+
+  .graph-controls .game-hint-button {
+    min-width: 140px;
+    min-height: 44px;
+    font-size: 14px;
   }
 }

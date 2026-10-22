@@ -5,6 +5,8 @@
 export type Vertex = {
   id: number;
   label: string;
+  /** Short place name shown below the letter label — purely cosmetic */
+  place?: string;
   x: number;
   y: number;
 };
@@ -47,11 +49,11 @@ export type BFSStep = {
 /** Create a simple graph for tutorial purposes */
 export function createTutorialGraph(): GraphState {
   const vertices: Vertex[] = [
-    { id: 0, label: "A", x: 100, y: 100 },
-    { id: 1, label: "B", x: 200, y: 50 },
-    { id: 2, label: "C", x: 200, y: 150 },
-    { id: 3, label: "D", x: 300, y: 50 },
-    { id: 4, label: "E", x: 300, y: 150 },
+    { id: 0, label: "A", place: "Nhà",   x: 80,  y: 200 },
+    { id: 1, label: "B", place: "Chợ",   x: 240, y: 90  },
+    { id: 2, label: "C", place: "Chùa",  x: 240, y: 310 },
+    { id: 3, label: "D", place: "Trường", x: 420, y: 90  },
+    { id: 4, label: "E", place: "Kho",   x: 420, y: 310 },
   ];
   const edges: Edge[] = [
     { from: 0, to: 1 },
@@ -75,12 +77,12 @@ export function createTutorialGraph(): GraphState {
 /** Create a graph with a cycle for intermediate difficulty */
 export function createCycleGraph(): GraphState {
   const vertices: Vertex[] = [
-    { id: 0, label: "A", x: 100, y: 100 },
-    { id: 1, label: "B", x: 200, y: 50 },
-    { id: 2, label: "C", x: 200, y: 150 },
-    { id: 3, label: "D", x: 300, y: 100 },
-    { id: 4, label: "E", x: 400, y: 50 },
-    { id: 5, label: "F", x: 400, y: 150 },
+    { id: 0, label: "A", place: "Nhà",   x: 75,  y: 200 },
+    { id: 1, label: "B", place: "Chợ",   x: 220, y: 90  },
+    { id: 2, label: "C", place: "Chùa",  x: 220, y: 310 },
+    { id: 3, label: "D", place: "Rừng",  x: 360, y: 200 },
+    { id: 4, label: "E", place: "Suối",  x: 490, y: 90  },
+    { id: 5, label: "F", place: "Kho",   x: 490, y: 310 },
   ];
   const edges: Edge[] = [
     { from: 0, to: 1 },
@@ -88,7 +90,7 @@ export function createCycleGraph(): GraphState {
     { from: 2, to: 3 },
     { from: 3, to: 4 },
     { from: 4, to: 5 },
-    { from: 0, to: 2 }, // Creates cycle A-B-C-A
+    { from: 0, to: 2 },
   ];
   return {
     vertices,
@@ -106,14 +108,14 @@ export function createCycleGraph(): GraphState {
 /** Create a complex graph for advanced difficulty */
 export function createComplexGraph(): GraphState {
   const vertices: Vertex[] = [
-    { id: 0, label: "A", x: 100, y: 100 },
-    { id: 1, label: "B", x: 200, y: 50 },
-    { id: 2, label: "C", x: 200, y: 150 },
-    { id: 3, label: "D", x: 300, y: 50 },
-    { id: 4, label: "E", x: 300, y: 150 },
-    { id: 5, label: "F", x: 400, y: 50 },
-    { id: 6, label: "G", x: 400, y: 150 },
-    { id: 7, label: "H", x: 500, y: 100 },
+    { id: 0, label: "A", place: "Nhà",   x: 70,  y: 200 },
+    { id: 1, label: "B", place: "Chợ",   x: 195, y: 95  },
+    { id: 2, label: "C", place: "Chùa",  x: 195, y: 305 },
+    { id: 3, label: "D", place: "Trường", x: 320, y: 95  },
+    { id: 4, label: "E", place: "Rừng",  x: 320, y: 305 },
+    { id: 5, label: "F", place: "Suối",  x: 445, y: 95  },
+    { id: 6, label: "G", place: "Núi",   x: 445, y: 305 },
+    { id: 7, label: "H", place: "Kho",   x: 540, y: 200 },
   ];
   const edges: Edge[] = [
     { from: 0, to: 1 },
