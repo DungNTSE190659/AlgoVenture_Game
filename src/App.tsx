@@ -25,6 +25,7 @@ import GraphLesson from "./components/GraphLesson";
 import TreeGame from "./components/TreeGame";
 import type { TreeLessonId } from "./engine/tree";
 import type { GraphDifficulty } from "./engine/graph";
+import { recordActivity } from "./engine/learnerProfile";
 
 export default function App() {
   useInterfaceAudio();
@@ -62,6 +63,7 @@ export default function App() {
   }, []);
   function complete() {
     if (!lessonUnlocked(algorithm, completed)) return;
+    recordActivity(algorithm, "completed");
     if (!completed[algorithm]) setArrivalFrom(algorithm);
     setCompleted(value => value[algorithm] ? value : { ...value, [algorithm]: true });
   }
@@ -70,6 +72,7 @@ export default function App() {
     if (!lessonUnlocked(algorithm, completed)) return;
     gameAudio.unlock();
     gameAudio.play("enter");
+    recordActivity(algorithm, mode);
     setSession((value) => value + 1);
     setLinkedLevel(algorithm === "linked-search" || algorithm === "linked-insertion" || algorithm === "linked-deletion" ? 2 : 3);
     setScene(mode);
@@ -78,6 +81,7 @@ export default function App() {
     if (!lessonAvailable(id) || !lessonUnlocked(id, completed) || !linkedLevelUnlocked(id, level, linkedLevels)) return;
     gameAudio.unlock();
     gameAudio.play("enter");
+    recordActivity(id, "play");
     setAlgorithm(id);
     setLinkedLevel(level);
     setSession(value => value + 1);
@@ -139,7 +143,21 @@ export default function App() {
     setDifficulty(level);
     setSession((value) => value + 1);
   }
-  if (scene === "map" && mapView === "world") return <WorldMap completed={completed} sound={sound} onSound={() => changeSound(!sound)} onEnter={enterRegion} location={worldLocation} onLocation={setWorldLocation} arrivalFrom={worldArrival} onArrived={() => setWorldArrival(null)} />;
+  function resumeLesson(id: TrackId) {
+    if (!lessonAvailable(id) || !lessonUnlocked(id, completed)) return;
+    gameAudio.stop();
+    const destination = regionForLesson(id).id;
+    const route = arrayRouteForLesson(id);
+    if (route) setArrayRoute(route.id);
+    setRegion(destination);
+    setWorldLocation(destination);
+    setWorldArrival(null);
+    setAlgorithm(id);
+    setArrivalFrom(null);
+    setMapView("region");
+    setScene("map");
+  }
+  if (scene === "map" && mapView === "world") return <WorldMap completed={completed} sound={sound} onSound={() => changeSound(!sound)} onEnter={enterRegion} location={worldLocation} onLocation={setWorldLocation} arrivalFrom={worldArrival} onArrived={() => setWorldArrival(null)} onContinue={resumeLesson} />;
   if (scene === "map")
     return (
       <AdventureMap
