@@ -49,7 +49,7 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
   const { point, curve, positionOnRoad, height: worldHeight } = geometry(TRACK.length);
   const openThrough = TRACK.reduce((last, item, index) => lessonUnlocked(item.id, completed) ? index : last, -1);
   const initial = Math.max(0, TRACK.findIndex(item => item.id === (arrivalFrom ?? algorithm)));
-  const initialLocation = arrivalFrom ? initial : Math.max(0, openThrough);
+  const initialLocation = arrivalFrom || route?.id === "stack-queue" ? initial : Math.max(0, openThrough);
   const [selected, setSelected] = useState(initial);
   const [location, setLocation] = useState(initialLocation);
   const [traveler, setTraveler] = useState(point(initialLocation));
@@ -159,10 +159,10 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
     </header>
       {route && <nav className="track-routes" aria-label="Chọn lộ trình trong Mảng">
         {ARRAY_ROUTES.map(item => {
-          const Icon = item.id === "sort" ? Shuffle : Search;
+          const Icon = item.id === "sort" ? Shuffle : item.id === "search" ? Search : GalleryVerticalEnd;
           const count = item.lessons.filter(lesson => completed[lesson.id]).length;
           return <button key={item.id} className={`track-route ${item.id === arrayRoute ? "route-active" : ""}`} aria-label={`Lộ trình ${item.name}`} aria-pressed={item.id === arrayRoute} disabled={walking} onClick={() => onArrayRoute(item.id)}>
-            <Icon size={19} /><span><strong>{item.name}</strong><small>{item.description}</small></span><b>{count}/{item.lessons.length}</b>
+            <Icon size={19} /><span><strong>{item.name}</strong></span><b>{count}/{item.lessons.length}</b>
           </button>;
         })}
       </nav>}
@@ -196,7 +196,7 @@ export default function AdventureMap({ region, arrayRoute, onArrayRoute, onWorld
       <section className={`track-sheet ${locked ? "sheet-locked" : ""}`} aria-labelledby="track-sheet-title" aria-busy={walking}>
         <div className="sheet-handle" aria-hidden="true" />
         <div className="sheet-heading"><span className="sheet-number" style={{ background: active.color }}>{String(selected + 1).padStart(2, "0")}</span><div><h2 id="track-sheet-title" title={active.group}>{active.name}</h2></div>{locked ? <LockKeyhole className="sheet-status" size={21} /> : completed[active.id] ? <span className="sheet-done" aria-label="Đã vượt"><Check size={17} /></span> : <span className="sheet-status"><Flag size={20} /></span>}</div>
-        {(walking || locked || !available) && <p className="sheet-description" aria-live="polite">{walking ? "Buta đang đi…" : locked ? `Xong ${previous?.name} để mở.` : "Đang phát triển."}</p>}
+        {(walking || locked || !available) && route?.id !== "stack-queue" && <p className="sheet-description" aria-live="polite">{walking ? "Buta đang đi…" : locked ? `Xong ${previous?.name} để mở.` : "Đang phát triển."}</p>}
 <div className="sheet-actions"><button className="sheet-demo" aria-label="Xem demo" onClick={() => start("demo")} disabled={locked || walking || !available}><Eye size={20} /> Demo</button><button className="sheet-challenge" onClick={() => start("play")} disabled={locked || walking || !available}><Gamepad2 size={20} /> Thử thách<ArrowRight size={17} /></button></div>
       </section>
   </main>;

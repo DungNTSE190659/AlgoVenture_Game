@@ -1,0 +1,25 @@
+{
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "file": "parcel.webp",
+      "source_png": "exec-8fb493b4-c1d7-47a5-b357-cd9c78811568.png",
+      "prompt": "Use case: stylized-concept. Asset type: single isolated 2D game sprite for a cozy automated parcel sorting factory. One charming chunky cardboard shipping parcel, warm honey kraft paper, teal packing tape crossing the top, little brass corner protectors, blank cream shipping label on front (no characters or marks). Three-quarter view slightly from above, front face large enough for a game number overlaid later. Polished hand-painted casual mobile game art, rounded corners, clear silhouette at 64px, gentle top-left light and soft lavender shadows. Centered with 10 percent margin. True transparent background. No text, no numerals, no environment, no UI frame, no watermark."
+    },
+    {
+      "file": "conveyor.webp",
+      "source_png": "exec-0559f8c3-89a9-4ebe-89fc-a8e55265f08b.png",
+      "prompt": "Use case: stylized-concept. Asset type: isolated horizontal conveyor belt module for a cozy 2D parcel sorting game. Wide 4:1 shape. View from slightly above, low three-quarter angle. Empty flat dark sage rubber belt with subtle slats, rounded warm ivory steel frame, teal rollers visible along the bottom edge, small golden bolt accents and a yellow safety stripe at each end. The belt interior must remain blank and broad to place numbered parcel sprites in code. Hand-painted polished casual mobile game artwork, friendly rounded shapes and subtle brushed metal. Fully visible centered module, true transparent background. No parcels, no machines on top, no text, no numerals, no UI controls, no watermark."
+    },
+    {
+      "file": "factory.webp",
+      "source_png": "exec-c29fc440-1f83-4948-aa9b-9fc8b408b46c.png",
+      "prompt": "Use case: stylized-concept. Asset type: full-screen wide 16:9 game background, cozy parcel sorting factory. A bright airy whimsical mechanical warehouse, cream and pale sage walls, huge arched windows, soft sunbeams, small teal pipes and brass gears around the edges, distant shelves with a few cardboard parcels, warm wooden floor. Composition leaves the CENTRAL 75 percent very quiet, pale and low detail for game UI and conveyor machinery overlaid later; machinery only near far side edges and bottom corners. Hand-painted storybook casual game art matching a friendly pig explorer mascot, rounded shapes, gentle warm daylight, polished 2D mobile game quality. No characters, no foreground conveyor belt, no text, no signage, no numerals, no UI, no watermark."
+    },
+    {
+      "file": "gate.webp",
+      "source_png": "exec-f705c6ee-de27-4b89-8035-afcada1885aa.png",
+      "prompt": "Use case: stylized-concept. Asset type: single transparent machinery sprite for the merge junction of a cozy parcel sorting factory game. A compact rounded teal and cream steel junction housing with a wide empty receiving opening, brass hinges, little status bulbs and amber caution stripes, sturdy gray base with two rubber feet. Front three-quarter top-down view. A clean visible center recess for a pivoting diverter arm which will be drawn and animated separately in code. Friendly hand-painted polished 2D casual mobile game art, golden bolt details, soft lavender shadows, top-left daylight, very readable at 150px. Centered with transparent margins. No parcels, no text, no numerals, no existing lever, no interface, no watermark."
+    }
+  ]
+}

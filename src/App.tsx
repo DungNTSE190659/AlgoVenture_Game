@@ -1,7 +1,10 @@
+import QueueGame from "./components/QueueGame";
 import { useEffect, useState } from "react";
 import AdventureMap from "./components/AdventureMap";
 import WorldMap from "./components/WorldMap";
+import StackGame from "./components/StackGame";
 import InsertionGame from "./components/InsertionGame";
+import MergeGame from "./components/MergeGame";
 import SelectionGame from "./components/SelectionGame";
 import DemoLesson from "./components/DemoLesson";
 import BubbleGame from "./components/BubbleGame";
@@ -10,7 +13,7 @@ import LinkedAlgorithmGame from "./components/LinkedAlgorithmGame";
 import LinearSearchGame from "./components/LinearSearchGame";
 import LinearSearchPlay from "./components/LinearSearchPlay";
 import BinarySearchGame from "./components/BinarySearchGame";
-import { arrayRouteForLesson, currentRouteLesson, currentLesson, lessonAvailable, lessonUnlocked, nextLesson, readTrackProgress, regionForLesson, REGIONS, regionUnlocked, saveTrackProgress, type ArrayRouteId, type RegionId, type TrackId } from "./engine/learningTrack";
+import { arrayRouteForLesson, currentRouteLesson, currentLesson, lessonAvailable, lessonUnlocked, nextLesson, readTrackProgress, regionComplete, regionForLesson, REGIONS, regionUnlocked, saveTrackProgress, type ArrayRouteId, type RegionId, type TrackId } from "./engine/learningTrack";
 import ExpeditionPlay from "./components/ExpeditionPlay";
 import type { Difficulty } from "./engine/quicksort";
 import { gameAudio, readSoundPreference } from "./audio/gameAudio";
@@ -92,7 +95,7 @@ export default function App() {
   }
   function chooseMap() {
     const next = nextLesson(algorithm);
-    if (arrivalFrom && next && regionForLesson(next.id).id !== region && lessonUnlocked(next.id, completed)) {
+    if (arrivalFrom && next && regionComplete(region, completed) && regionForLesson(next.id).id !== region && lessonUnlocked(next.id, completed)) {
       gameAudio.stop();
       const destination = regionForLesson(next.id).id;
       setWorldArrival(region);
@@ -155,8 +158,11 @@ export default function App() {
         onSound={() => changeSound(!sound)}
       />
     );
+  if (algorithm === "queue") return <QueueGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={()=>start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed}/>;
+  if (algorithm === "stack") return <StackGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={()=>start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed}/>;
   if (algorithm === "selection") return <SelectionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "insertion") return <InsertionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
+  if (algorithm === "merge") return <MergeGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "bubble")
     return (
       <BubbleGame

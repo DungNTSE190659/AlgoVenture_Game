@@ -1,6 +1,7 @@
 import { gameAudio, type SoundCue } from "./gameAudio";
 
 const patterns: Partial<Record<SoundCue, number | number[]>> = {
+  "stack-push":12, "stack-pop":[8,25,12], "stack-peek":8, "stack-error":[25,40,25], "stack-clear":[12,35,20],
   tap: 8, drop: 12, enter: 12, pivot: 14, keep: 10, small: 12, split: [12, 35, 20],
   "bubble-swap": [12, 25, 18], correct: [12, 35, 20],
   retry: [25, 40, 25], hint: 8, finish: [20, 55, 25, 55, 40],
