@@ -65,27 +65,27 @@ export function releaseMerge(state: MergeState, lane: MergeLane): MergeState | n
 
 export function createMergeLesson(input: readonly number[]): MergeFrame[] {
   let state = createMerge(input);
-  const frames: MergeFrame[] = [{ state, kind: "intro", title: "Merge Sort", narration: "Merge Sort chia mảng thành hai nửa, tiếp tục chia nhỏ rồi ghép các mảng con đã có thứ tự thành một mảng được sắp xếp.", groups: [state.root] }];
+  const frames: MergeFrame[] = [{ state, kind: "intro", title: "Suối Hợp Nhất", narration: "Chia nhóm lá thành hai nhánh, tiếp tục tới khi mỗi nhóm còn một lá. Sau đó ghép các nhánh đã có thứ tự từ bé đến lớn.", groups: [state.root] }];
   let groups = [state.root];
   while (groups.some(group => group.left)) {
     groups = groups.flatMap(group => group.left ? [group.left, group.right!] : [group]);
-    frames.push({ state, kind: "split", title: "Chia đôi mảng", narration: groups.every(group => !group.left) ? "Mỗi mảng con còn một phần tử nên đã có thứ tự. Bây giờ chúng mình ghép các mảng con lại." : "Chia mỗi mảng con thành hai phần liên tiếp. Giữ nguyên thứ tự phần tử khi chia.", groups });
+    frames.push({ state, kind: "split", title: "Chia thành hai nhánh suối", narration: groups.every(group => !group.left) ? "Mỗi nhóm còn một lá nên đã có thứ tự. Bây giờ ghép các nhánh nhỏ lại nhé." : "Chia từng nhóm lá thành hai phần liên tiếp. Giữ nguyên thứ tự lá khi tách nhánh.", groups });
   }
   while (state.phase !== "done") {
     while (state.left.length || state.right.length) {
       const chosen = mergeExpected(state)!;
       const a = state.left[0], b = state.right[0];
-      const narration = !a || !b ? "Một mảng con đã hết. Đưa lần lượt các phần tử còn lại vào mảng kết quả."
-        : a.value === b.value ? `Hai phần tử cùng giá trị ${a.value}. Lấy bên trái trước để giữ thứ tự ban đầu.`
-        : `So sánh ${a.value} và ${b.value} ở đầu hai mảng con. Đưa ${chosen.value}, phần tử nhỏ hơn, vào mảng kết quả.`;
-      frames.push({ state, kind: "compare", title: "So sánh hai phần tử", narration, chosen: chosen.id });
+      const narration = !a || !b ? "Một nhánh đã hết lá. Đưa từng lá đầu nhánh còn lại xuống hồ; chúng không tự trôi."
+        : a.value === b.value ? `Hai lá cùng số ${a.value}. Lấy nhánh trái trước để giữ thứ tự bông hoa.`
+        : `So sánh ${a.value} và ${b.value} ở đầu hai nhánh. Đưa ${chosen.value}, lá nhỏ hơn, xuống hồ.`;
+      frames.push({ state, kind: "compare", title: "So sánh hai lá đầu nhánh", narration, chosen: chosen.id });
       state = releaseMerge(state, state.left[0]?.id===chosen.id ? "left" : "right")!;
-      frames.push({ state, kind: "place", title: "Ghép vào mảng kết quả", narration: `Đưa ${chosen.value} vào vị trí tiếp theo trong mảng kết quả. Chỉ lấy phần tử ở đầu mỗi mảng con.`, chosen: chosen.id });
+      frames.push({ state, kind: "place", title: "Ghép lá vào hồ", narration: `Đưa ${chosen.value} vào vị trí tiếp theo trong hồ. Chỉ lấy lá ở đầu mỗi nhánh suối.`, chosen: chosen.id });
     }
-    frames.push({ state, kind: "complete", title: "Đã ghép đủ phần tử", narration: "Mảng kết quả đã chứa đủ phần tử theo thứ tự từ bé đến lớn." });
-    frames.push({ state, kind: "joined", title: "Mảng con đã có thứ tự", narration: "Mảng con đã có thứ tự. Dùng kết quả này để tiếp tục ghép với mảng con bên cạnh." });
+    frames.push({ state, kind: "complete", title: "Hồ đã nhận đủ lá", narration: "Các lá trong hồ đã có thứ tự từ bé đến lớn." });
+    frames.push({ state, kind: "joined", title: "Nhóm lá đã có thứ tự", narration: "Giữ nhóm lá vừa ghép để tiếp tục hợp nhất với nhánh suối bên cạnh." });
     state = advanceMerge(state);
   }
-  frames.push({ state, kind: "done", title: "Mảng đã được sắp xếp", narration: "Toàn bộ mảng đã được sắp xếp từ bé đến lớn. Đó là Merge Sort: chia nhỏ rồi hợp nhất. Bây giờ đến lượt bạn!" });
+  frames.push({ state, kind: "done", title: "Dòng suối đã có thứ tự!", narration: "Các lá đã xếp từ bé đến lớn, hoa cùng số giữ thứ tự ban đầu. Merge Sort là chia nhỏ rồi hợp nhất. Đến lượt bạn thử nhé!" });
   return frames;
 }

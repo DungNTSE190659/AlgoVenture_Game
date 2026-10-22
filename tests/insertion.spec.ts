@@ -140,7 +140,7 @@ test("demo has backward steps, pause, speed, validation, and never awards comple
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
   await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, nope");
   await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
-  await expect(page.getByRole("alert")).toContainText("2 đến 8 số nguyên");
+  await expect(page.getByRole("alert")).toContainText("2 đến 6 số nguyên");
   await page.getByRole("button", { name: "Đóng", exact: true }).click();
   while (await page.getByRole("button", { name: "Bước tiếp", exact: true }).count()) await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
   await expect(page.getByRole("button", { name: "Tự mình thử", exact: true })).toBeVisible();
@@ -167,13 +167,16 @@ test("haptics have a separate persistent toggle and work with sound muted", asyn
   expect(await page.evaluate(() => localStorage.getItem("algoventure-haptics"))).toBe("off");
 });
 
-test("long arrays fit a scrollable board in portrait, landscape and desktop", async ({ page }) => {
+test("six numbers fit without horizontal scrolling in portrait, landscape and desktop", async ({ page }) => {
   await enter(page);
-  await custom(page, "8, 7, 6, 5, 4, 3, 2, 1");
+  await custom(page, "6, 5, 4, 3, 2, 1");
   for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1440, 900]]) {
     await page.setViewportSize({ width, height });
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     await expect(page.locator(".insertion-board-scroll")).toBeVisible();
+    await expect(page.locator(".insertion-tile")).toHaveCount(6);
+    expect(await page.locator(".insertion-board-scroll").evaluate(node => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(1);
+    for (const tile of await page.locator(".insertion-tile").all()) await expect(tile).toBeInViewport({ ratio: 1 });
     const button = page.locator('.insertion-tile[data-index="1"]');
     await button.scrollIntoViewIfNeeded();
     await expect(button).toBeInViewport();
@@ -188,31 +191,93 @@ test("long arrays fit a scrollable board in portrait, landscape and desktop", as
   }
 });
 
-
-test("play does not reveal the next move and checks the actual number dragged", async ({ page }) => {
+test("medium and hard use six numbers and custom input rejects longer arrays", async ({ page }) => {
   await enter(page);
+  for (const level of ["medium", "hard"]) {
+    await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+    await page.getByLabel("Mảng mẫu", { exact: true }).selectOption(level);
+    await expect(page.locator(".insertion-tile")).toHaveCount(6);
+    await expect(page.locator(".insertion-stats")).toContainText("1/6 thẻ");
+    if (level === "hard") {
+      const values = await page.locator(".insertion-tile").evaluateAll(nodes => nodes.map(node => Number(node.getAttribute("data-value"))));
+      expect(values.some(value => value < 0)).toBe(true);
+      expect(new Set(values).size).toBeLessThan(6);
+      await expect(page.locator(".tile-guided")).toHaveCount(0);
+    }
+  }
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await expect(page.getByLabel("Mảng mẫu")).toContainText("Vừa · 6 số");
+  await expect(page.getByLabel("Mảng mẫu")).toContainText("Khó · 6 số");
+  await page.getByLabel("Mảng của bạn", { exact: true }).fill("7, 6, 5, 4, 3, 2, 1");
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
+  await expect(page.getByRole("alert")).toContainText("2 đến 6 số nguyên");
+});
+
+test("deck hides future values and medium only shows a move when Buta is asked", async ({ page }) => {
+  await enter(page);
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng mẫu", { exact: true }).selectOption("medium");
   await custom(page, "8, 3, 6, 2, 5");
-  const task = await page.locator(".insertion-task").innerText();
-  await expect(page.locator(".insertion-tile:enabled")).toHaveCount(5);
-  await expect(page.locator(".insertion-board .lucide-arrow-up, .insertion-board .lucide-arrow-right")).toHaveCount(0);
-  await expect(page.locator(".insertion-task")).not.toContainText(/\d/);
-  await expect(page.locator(".insertion-lift-slot, .slot-hinted")).toHaveCount(0);
+  await expect(page.locator(".insertion-tile:enabled")).toHaveCount(1);
+  await expect(page.locator(".tile-deck strong")).toHaveCount(0);
+  await expect(page.locator(".tile-deck")).toHaveCount(4);
+  await expect(page.locator(".tile-guided, .slot-hinted, .is-guided")).toHaveCount(0);
   await page.getByRole("button", { name: "Buta gợi ý", exact: true }).click();
-  await expect(page.locator(".insertion-lift-slot")).toBeVisible();
+  await expect(page.locator(".tile-guided")).toHaveCount(1);
+  await expect(page.locator(".insertion-lift-zone")).toHaveClass(/is-guided/);
   await page.getByRole("button", { name: "Đóng gợi ý", exact: true }).click();
-  await expect(page.locator(".insertion-lift-slot")).toHaveCount(0);
-  const tray = (await page.locator("[data-insertion-lift]").boundingBox())!;
-  await dragTo(page, page.locator('.insertion-tile[data-index="3"]'), page.locator("[data-insertion-lift]"));
-  await expect(page.locator(".tile-held")).toHaveCount(0);
-  await expect(page.getByRole("status")).not.toContainText(/Nhấc số|lớn hơn|\d/);
   await dragTo(page, page.locator('.insertion-tile[data-index="1"]'), page.locator("[data-insertion-lift]"));
-  await expect(page.locator(".insertion-task")).toHaveText(task);
-  const key = (await page.locator(".tile-held").boundingBox())!;
-  expect(Math.abs(key.x + key.width / 2 - tray.x - tray.width / 2)).toBeLessThanOrEqual(1);
-  // A non-adjacent number must not silently move the actual left neighbour.
-  await dragTo(page, page.locator('.insertion-tile[data-index="4"]'), page.locator("[data-insertion-hole]"));
-  await expect(page.locator('[data-insertion-hole="1"]')).toBeVisible();
-  await expect(page.locator('.insertion-tile[data-index="0"]')).toHaveAttribute("data-value", "8");
+  await dragTo(page, page.locator('.insertion-tile[data-index="0"]'), page.locator("[data-insertion-hole]"));
+  await dragTo(page, page.locator(".tile-held"), page.locator("[data-insertion-hole]"));
+  await dragTo(page, page.locator('.insertion-tile[data-next="true"]'), page.locator("[data-insertion-lift]"));
+  // Dragging a non-adjacent card must not move the correct neighbour instead.
+  await dragTo(page, page.locator('.insertion-tile[data-index="0"]'), page.locator("[data-insertion-hole]"));
+  await expect(page.locator('[data-insertion-hole="2"]')).toBeVisible();
+  await expect(page.locator('.insertion-tile[data-index="1"]')).toHaveAttribute("data-value", "8");
   await page.getByRole("button", { name: "Buta gợi ý", exact: true }).click();
-  await expect(page.locator(".insertion-hint")).toContainText("8 lớn hơn 3");
+  await expect(page.locator(".insertion-hint")).toContainText("8 lớn hơn 6");
+});
+
+test("equal cards keep their symbols and cannot be shifted past one another", async ({ page }) => {
+  await enter(page);
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng mẫu", { exact: true }).selectOption("hard");
+  await custom(page, "3, 3, -2, 0, -2, 1");
+  await dragTo(page, page.locator('.insertion-tile[data-next="true"]'), page.locator("[data-insertion-lift]"));
+  expect(await page.locator(".tile-held .insertion-card-suit").textContent()).not.toBe(await page.locator('[data-zone="hand"] .insertion-card-suit').textContent());
+  await dragTo(page, page.locator('[data-zone="hand"]'), page.locator("[data-insertion-hole]"));
+  await expect(page.getByRole("status")).toContainText("Hai thẻ cùng số");
+  await expect(page.locator('[data-insertion-hole="1"]')).toBeVisible();
+  await solve(page);
+  const sorted = await page.locator(".insertion-tile").evaluateAll(nodes => nodes.map(node => ({ id: Number(node.getAttribute("data-item-id")), value: Number(node.getAttribute("data-value")), index: Number(node.getAttribute("data-index")) })).sort((a, b) => a.index - b.index));
+  expect(sorted.map(item => item.value)).toEqual([-2, -2, 0, 1, 3, 3]);
+  expect(sorted.filter(item => item.value === 3).map(item => item.id)).toEqual([0, 1]);
+  expect(sorted.filter(item => item.value === -2).map(item => item.id)).toEqual([2, 4]);
+});
+
+test("six-number demo keeps tiles, narration and controls visible", async ({ page }) => {
+  await enter(page, "Demo");
+  await custom(page, "6, 2, 5, 3, 4, 1");
+  for (const [width, height] of [[320, 568], [390, 844], [844, 390], [1440, 900]]) {
+    await page.setViewportSize({ width, height });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    for (let step = 0; step < 4; step++) {
+      await expect(page.locator(".insertion-tile")).toHaveCount(6);
+      expect(await page.locator(".insertion-board-scroll").evaluate(node => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(1);
+      for (const tile of await page.locator(".insertion-tile").all()) await expect(tile).toBeInViewport({ ratio: 1 });
+      await expect(page.locator(".insertion-controls .insertion-dialogue")).toBeInViewport({ ratio: 1 });
+      await expect(page.locator(".insertion-playback")).toBeInViewport({ ratio: 1 });
+      await expect(page.locator(".insertion-demo-progress")).toBeInViewport({ ratio: 1 });
+      const board = (await page.locator(".insertion-board").boundingBox())!;
+      const narration = (await page.locator(".insertion-controls .insertion-dialogue").boundingBox())!;
+      if (height > 500) expect(board.y + board.height).toBeLessThanOrEqual(narration.y + 1);
+      await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
+    }
+    await page.screenshot({ path: `.qa/insertion-demo-six-${width}.png` });
+  }
+  while (await page.getByRole("button", { name: "Bước tiếp", exact: true }).count()) await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('[data-zone="hand"]')).toHaveCount(6);
+  for (const tile of await page.locator(".insertion-tile").all()) await expect(tile).toBeInViewport({ ratio: 1 });
+  await page.screenshot({ path: ".qa/insertion-cards-complete.png" });
 });
