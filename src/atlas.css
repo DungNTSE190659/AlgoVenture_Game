@@ -65,3 +65,14 @@
   .atlas-sheet { width: 38%; left: auto; right: 14px; top: 50%; bottom: auto; transform: translateY(-50%); }.atlas-topic-nav { width: 47%; left: 29.5%; bottom: 10px; }.atlas-next { font-size: 8px; }.atlas-description { font-size: 12px; }.topic-map-name { font-size: 11px; }.atlas-buta { width: 60px; }
 }
 @media (prefers-reduced-motion: reduce) { .atlas-map *, .atlas-map *::before, .atlas-map *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+@media (max-width: 700px) {
+  .atlas-map .atlas-sheet { display: flex; flex-direction: column; padding: 24px 18px 22px; gap: 8px; }
+  .atlas-sheet .atlas-sheet-heading { min-width: 0; gap: 8px; }
+  .atlas-sheet-heading > div { flex: 1; min-width: 0; }
+  .atlas-sheet .atlas-sheet-heading h2 { font-size: clamp(17px, 4.4vw, 22px); overflow-wrap: anywhere; }
+  .atlas-sheet .atlas-region-progress { flex-shrink: 0; margin-left: 0; }
+  .atlas-sheet .atlas-description { margin: 0; }
+  .atlas-map .atlas-sheet .atlas-actions { margin-top: auto; }
+  .atlas-sheet .atlas-actions button { width: 100%; min-width: 0; min-height: 44px; }
+}

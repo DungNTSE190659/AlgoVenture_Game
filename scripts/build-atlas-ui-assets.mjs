@@ -9,7 +9,8 @@ const root = new URL('../public/assets/hybrid-casual-ui/atlas/', import.meta.url
 await Promise.all(['svg/', 'png/', 'concepts/'].map(d => mkdir(new URL(d, root), { recursive: true })));
 const assets = [];
 async function save(id, w, h, body, profile = 'shared') {
-  await writeFile(new URL(`svg/${id}.svg`, root), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none">${body}</svg>`);
+  const stretch = /^(panel|button-enter).*(mobile|compact)/.test(id) ? ' preserveAspectRatio="none"' : '';
+  await writeFile(new URL(`svg/${id}.svg`, root), `<svg${stretch} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none">${body}</svg>`);
   assets.push({ id, svg: `svg/${id}.svg`, png: `png/${id}.png`, nativeSize: [w, h], pngSize: [w * 2, h * 2], profile, unityImageType: 'Simple', preserveAspect: true });
 }
 const panel = (w, h, fill, rim, r = 22, ink = '#7B8966') => `<rect x="2" y="6" width="${w - 4}" height="${h - 8}" rx="${r}" fill="#3A5641" opacity=".14"/><rect x="2" y="2" width="${w - 4}" height="${h - 8}" rx="${r}" fill="${rim}" stroke="${ink}" stroke-width="2"/><rect x="3" y="3" width="${w - 6}" height="${h - 16}" rx="${r - 1}" fill="${fill}"/><path d="M${r + 3} 4H${w - r - 3}" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".65"/>`;

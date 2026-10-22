@@ -13,7 +13,8 @@ await Promise.all(['svg/', 'png/'].map(dir => mkdir(new URL(dir, root), { recurs
 const assets = [];
 const xml = (w, h, body) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" fill="none">${body}</svg>`;
 async function save(id, w, h, body, usage, profile = 'shared') {
-  const svg = id.startsWith('road-') ? xml(w, h, body.replaceAll('<path ', '<path vector-effect="non-scaling-stroke" ')).replace('<svg ', '<svg preserveAspectRatio="none" ') : xml(w, h, body);
+  let svg = id.startsWith('road-') ? xml(w, h, body.replaceAll('<path ', '<path vector-effect="non-scaling-stroke" ')).replace('<svg ', '<svg preserveAspectRatio="none" ') : xml(w, h, body);
+  if (/^(sheet|button-(demo|challenge)).*mobile/.test(id)) svg = svg.replace('<svg ', '<svg preserveAspectRatio="none" ');
   await writeFile(new URL(`svg/${id}.svg`, root), svg);
   assets.push({ id, svg: `svg/${id}.svg`, png: `png/${id}.png`, nativeSize: [w, h], pngSize: [w * 2, h * 2], profile, usage, unityImageType: 'Simple', preserveAspect: true, borderPixels: [0, 0, 0, 0] });
 }
