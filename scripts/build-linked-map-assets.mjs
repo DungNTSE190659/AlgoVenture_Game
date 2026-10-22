@@ -1,4 +1,4 @@
-import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import { mkdir, writeFile as fsWriteFile, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -6,8 +6,21 @@ import * as icons from 'lucide-react';
 import { chromium } from '@playwright/test';
 import { lessonArt } from './linked-map-lesson-art.mjs';
 import { treeLessonArt } from './tree-map-lesson-art.mjs';
+import { softenGameUiSvg } from './soften-game-ui-assets.mjs';
 
 const treeMode = process.argv.includes('--tree');
+const treeMapColors = { '#35C990':'#76A65B', '#159563':'#527B40', '#4DDDA3':'#88B76D', '#23B77D':'#658F4C', '#237B59':'#4F733D', '#27C9BE':'#88B76D', '#117C79':'#527B40', '#CFECE0':'#D7E3C7' };
+const winterMapColors = { '#9ACBB8':'#BDD5E2', '#E5FFF3':'#EAF5FC', '#FFFDEC':'#F5FAFD', '#35C990':'#8ED4FF', '#159563':'#65A8CD', '#4DDDA3':'#A8DFFF', '#23B77D':'#76C0EC', '#237B59':'#426C86', '#27C9BE':'#A1CDDF', '#117C79':'#65A8CD', '#CFECE0':'#DBEAF2', '#FFFCED':'#F5FAFD', '#F4F5E8':'#EFF5F8', '#D3D9BE':'#CCDDE6', '#D7D2B7':'#CCDDE6', '#FFFDF3':'#F5FAFD', '#C8C2AE':'#CCDDE6', '#D6DCCB':'#DFE8ED', '#E4E8D5':'#E3EEF4', '#E7E9D4':'#E3EEF4' };
+const mapPalette = svg => svg.replace(/#[\da-f]{6}/gi, color => (treeMode ? treeMapColors : winterMapColors)[color.toUpperCase()] ?? color);
+async function writeFile(...args) {
+  for (let attempt = 0; ; attempt++) {
+    try { return await fsWriteFile(...args); }
+    catch (error) {
+      if (attempt >= 8 || !['UNKNOWN', 'EBUSY', 'EPERM'].includes(error.code)) throw error;
+      await new Promise(resolve => setTimeout(resolve, 200));
+    }
+  }
+}
 const root = new URL(`../public/assets/hybrid-casual-ui/${treeMode ? 'tree' : 'linked'}/map/`, import.meta.url);
 await Promise.all(['svg/', 'png/'].map(dir => mkdir(new URL(dir, root), { recursive: true })));
 const assets = [];
@@ -15,6 +28,8 @@ const xml = (w, h, body) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 
 async function save(id, w, h, body, usage, profile = 'shared') {
   let svg = id.startsWith('road-') ? xml(w, h, body.replaceAll('<path ', '<path vector-effect="non-scaling-stroke" ')).replace('<svg ', '<svg preserveAspectRatio="none" ') : xml(w, h, body);
   if (/^(sheet|button-(demo|challenge)).*mobile/.test(id)) svg = svg.replace('<svg ', '<svg preserveAspectRatio="none" ');
+  svg = mapPalette(svg);
+  if (/^(sheet(?:-|$)|caption-|button-|number-|badge-)/.test(id)) svg = softenGameUiSvg(svg);
   await writeFile(new URL(`svg/${id}.svg`, root), svg);
   assets.push({ id, svg: `svg/${id}.svg`, png: `png/${id}.png`, nativeSize: [w, h], pngSize: [w * 2, h * 2], profile, usage, unityImageType: 'Simple', preserveAspect: true, borderPixels: [0, 0, 0, 0] });
 }
@@ -76,7 +91,7 @@ for (const [name, icon] of Object.entries(common)) {
     continue;
   }
   const svg = renderToStaticMarkup(createElement(icons[icon], { size: 32, strokeWidth: 2.3, color: name.startsWith('linked-') || ['gamepad', 'arrow-right', 'check', 'lock'].includes(name) ? '#FFFEF2' : '#237B59' }));
-  await writeFile(new URL(`svg/icon-${name}.svg`, root), svg);
+  await writeFile(new URL(`svg/icon-${name}.svg`, root), mapPalette(svg));
   assets.push({ id: `icon-${name}`, svg: `svg/icon-${name}.svg`, png: `png/icon-${name}.png`, nativeSize: [32, 32], pngSize: [64, 64], unityImageType: 'Simple', preserveAspect: true });
 }
 const browser = await chromium.launch({ channel: 'chrome', args: ['--disable-gpu'] });
@@ -84,7 +99,14 @@ const page = await browser.newPage({ deviceScaleFactor: 2 });
 for (const asset of assets) {
   await page.setViewportSize({ width: Math.max(600, asset.nativeSize[0]), height: 300 });
   await page.setContent(`<style>body{margin:0}svg{display:block}</style>${await readFile(new URL(asset.svg, root), 'utf8')}`);
-  await page.locator('svg').screenshot({ path: fileURLToPath(new URL(asset.png, root)), omitBackground: true });
+  const buffer = await page.locator('svg').screenshot({ omitBackground: true });
+  for (let attempt = 0; ; attempt++) {
+    try { await writeFile(new URL(asset.png, root), buffer); break; }
+    catch (error) {
+      if (attempt >= 5 || !['UNKNOWN', 'EBUSY', 'EPERM'].includes(error.code)) throw error;
+      await new Promise(resolve => setTimeout(resolve, 200));
+    }
+  }
 }
 await writeFile(new URL('unity-assets.json', root), JSON.stringify({ version: 1, pixelsPerUnit: 100, alphaIsTransparency: true, spriteMeshType: 'FullRect', assets }, null, 2));
 for (const profile of ['desktop', 'mobile']) {
@@ -92,7 +114,7 @@ for (const profile of ['desktop', 'mobile']) {
   const cards = await Promise.all(selected.map(async a => `<div><section>${await readFile(new URL(a.svg, root), 'utf8')}</section><small>${a.id}</small></div>`));
   await page.setViewportSize({ width: 1000, height: 800 });
   await page.setContent(`<style>body{padding:20px;background:#E3EDCF;font:14px sans-serif;color:#40513C}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.grid>div{background:#FFFCED;padding:12px;border-radius:12px;text-align:center}section{height:100px;display:flex;align-items:center;justify-content:center}svg{max-width:100%;max-height:90px}small{overflow-wrap:anywhere}</style><h1>${treeMode ? 'Trees' : 'Linked List'} map · ${profile}</h1><div class="grid">${cards.join('')}</div>`);
-  await page.screenshot({ path: fileURLToPath(new URL(`preview-${profile}.png`, root)), fullPage: true });
+  await writeFile(new URL(`preview-${profile}.png`, root), await page.screenshot({ fullPage: true }));
 }
 const lessonCards = await Promise.all(lessons.map(async ([id]) => `<article><section>${await readFile(new URL(`svg/icon-${id}.svg`, root), 'utf8')}</section><b>${id.replace('linked-', '')}</b></article>`));
 await page.setViewportSize({ width: 900, height: 440 });

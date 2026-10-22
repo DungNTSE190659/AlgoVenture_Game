@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 280" width="380" height="280" fill="none" preserveAspectRatio="none">
+<svg data-ui-border="tonal" data-ui-depth="soft" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 280" width="380" height="280" fill="none" preserveAspectRatio="none">
   <rect x="2" y="8" width="376" height="270" rx="28" fill="#263B34" opacity=".16"/>
-  <rect x="2" y="2" width="376" height="270" rx="28" fill="#C9C2A3" stroke="#23272E" stroke-width="3"/>
+  <rect x="2" y="2" width="376" height="270" rx="28" fill="#C9C2A3" stroke="#bebbb0" stroke-opacity="0.65" stroke-width="1.95"/>
   <rect x="4" y="4" width="372" height="260" rx="26" fill="#FAF6E8"/>
   <path d="M30 4H350Q376 4 376 30H4Q4 4 30 4Z" fill="#FFFFFF" opacity=".6"/>
-  <rect x="2" y="2" width="376" height="270" rx="28" stroke="#23272E" stroke-width="3"/>
+  <rect x="2" y="2" width="376" height="270" rx="28" stroke="#bebbb0" stroke-opacity="0.65" stroke-width="1.95"/>
 </svg>

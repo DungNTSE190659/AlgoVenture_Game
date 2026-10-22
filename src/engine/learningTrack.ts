@@ -14,18 +14,18 @@ export const TRACK: Lesson[] = [
 ];
 export const LINEAR_STRUCTURES: Lesson[] = [
   { id: "linked-list", name: "Linked List Construction", place: "Lối Đi Mắt Xích", description: "Lắp nút và nối con trỏ next để tạo danh sách.", color: "#f7b83d", dark: "#a96712" },
-  { id: "linked-traversal", name: "Linked List Traversal", place: "Đường Dây Dẫn Lối", description: "Đi theo từng liên kết từ HEAD đến NULL.", color: "#27c9be", dark: "#117c79" },
+  { id: "linked-traversal", name: "Linked List Traversal", place: "Đường Dây Dẫn Lối", description: "Đi theo từng liên kết từ HEAD đến NULL.", color: "#A1CDDF", dark: "#65A8CD" },
   { id: "linked-search", name: "Linked List Search", place: "Trạm Tìm Dấu", description: "Duyệt lần lượt để tìm nút mang giá trị cần tìm.", color: "#39b8f2", dark: "#176b9c" },
   { id: "linked-insertion", name: "Linked List Insertion", place: "Xưởng Nối Nút", description: "Chèn nút mới bằng cách đổi các liên kết.", color: "#ff9658", dark: "#ad4e25" },
   { id: "linked-deletion", name: "Linked List Deletion", place: "Ngã Rẽ Tháo Nút", description: "Bỏ một nút và nối lại phần danh sách còn lại.", color: "#b777ed", dark: "#7540a5" },
-  { id: "linked-reversal", name: "Linked List Reversal", place: "Cầu Quay Ngược", description: "Đổi hướng từng liên kết để đảo ngược danh sách.", color: "#35c990", dark: "#159563" },
+  { id: "linked-reversal", name: "Linked List Reversal", place: "Cầu Quay Ngược", description: "Đổi hướng từng liên kết để đảo ngược danh sách.", color: "#8ED4FF", dark: "#65A8CD" },
 ];
 export const TREES: Lesson[] = [
   { id: "tree-basics", name: "Cây cơ bản", place: "Mầm Cây Đầu Tiên", description: "Làm quen với gốc, nút, cạnh và quan hệ cha con trong cây.", color: "#F7B83D", dark: "#A96712" },
-  { id: "tree-traversal", name: "Duyệt cây", place: "Lối Mòn Qua Tán Lá", description: "Thu hoạch theo preorder, inorder, postorder và từng tầng.", color: "#27C9BE", dark: "#117C79" },
+  { id: "tree-traversal", name: "Duyệt cây", place: "Lối Mòn Qua Tán Lá", description: "Thu hoạch theo preorder, inorder, postorder và từng tầng.", color: "#88B76D", dark: "#527B40" },
   { id: "bst", name: "BST", place: "Cây Cửa Ngõ", description: "Khám phá cây tìm kiếm nhị phân: nhỏ bên trái, lớn bên phải.", color: "#B777ED", dark: "#7540A5" },
   { id: "bst-search", name: "Tìm kiếm trên BST", place: "Theo Nhánh Tìm Số", description: "So sánh với nút hiện tại để chọn nhánh trái hoặc phải.", color: "#39B8F2", dark: "#176B9C" },
-  { id: "bst-insert", name: "Thêm nút vào BST", place: "Ươm Một Nhánh Mới", description: "Tìm vị trí phù hợp để thêm nút, giữ tính chất cây tìm kiếm nhị phân.", color: "#35C990", dark: "#159563" },
+  { id: "bst-insert", name: "Thêm nút vào BST", place: "Ươm Một Nhánh Mới", description: "Tìm vị trí phù hợp để thêm nút, giữ tính chất cây tìm kiếm nhị phân.", color: "#76A65B", dark: "#527B40" },
   { id: "bst-delete", name: "Xóa nút khỏi BST", place: "Chăm Sóc Tán Cây", description: "Xóa nút và nối lại cây để giữ tính chất cây tìm kiếm nhị phân.", color: "#FF9658", dark: "#AD4E25" },
 ];
 export const SEARCHING: Lesson[] = [

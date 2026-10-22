@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { chromium } from '@playwright/test';
+import { softenGameUiSvg } from './soften-game-ui-assets.mjs';
 
 // Keep the original portable sprites; produce winter counterparts in their own folder.
 const root = new URL('../public/assets/hybrid-casual-ui/linked/', import.meta.url);
@@ -10,7 +11,8 @@ const names = [];
 for (const name of ['panel-board', 'panel-bank']) {
   const source = await readFile(new URL(`svg/${name}.svg`, root), 'utf8');
   const palette = { '#ACC692': '#B4D9EA', '#728B61': '#6690A7', '#EDF5DE': '#F4FBFF', '#C4BDA0': '#BEDCEB', '#23272E': '#56768A', '#F5F0DE': '#F8FCFF' };
-  await writeFile(new URL(`winter/svg/${name}.svg`, root), source.replace(/#[0-9A-F]{6}/g, color => palette[color] ?? color));
+  const winter = source.replace(/#[0-9A-F]{6}/g, color => palette[color] ?? color).replace(' data-ui-border="tonal"', '');
+  await writeFile(new URL(`winter/svg/${name}.svg`, root), softenGameUiSvg(winter));
   names.push(name);
 }
 for (const profile of ['desktop', 'mobile']) {

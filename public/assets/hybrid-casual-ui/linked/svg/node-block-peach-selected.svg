@@ -1,15 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 88" width="180" height="88" fill="none" preserveAspectRatio="none">
-  <!-- Drop shadow -->
-  <rect x="2" y="6" width="176" height="80" rx="20" fill="#000000" fill-opacity="0.16"/>
-  <!-- 3D Bottom Lip / Bevel -->
-  <rect x="2" y="2" width="176" height="80" rx="20" fill="#C4754B" stroke="#9A6D22" stroke-width="3.5" stroke-linejoin="round"/>
-  <!-- Main Face -->
-  <rect x="3.75" y="3.75" width="172.5" height="71.5" rx="18.25" fill="#F2A379"/>
-  <!-- Top Glossy Highlight -->
-  <path d="M 22 3.75 H 158 A 18.25 18.25 0 0 1 176.25 22 V 31 H 3.75 V 22 A 18.25 18.25 0 0 1 22 3.75 Z" fill="#FFC2A1" fill-opacity="0.6"/>
-  <!-- Bottom Pointer Compartment -->
-  <path d="M 3.75 56 H 176.25 V 57 A 18.25 18.25 0 0 1 158 75.25 H 22 A 18.25 18.25 0 0 1 3.75 57 Z" fill="#D9895F"/>
-  <line x1="3.75" y1="56" x2="176.25" y2="56" stroke="#9A6D22" stroke-width="2.5"/>
-  <!-- Crisp Outer Outline -->
-  <rect x="2" y="2" width="176" height="80" rx="20" fill="none" stroke="#9A6D22" stroke-width="3.5" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 88" width="180" height="88" fill="none" preserveAspectRatio="none" data-ui-depth="soft" data-ui-border="tonal" data-node-face="#F2A379" data-node-next="#D9895F">
+  <defs><clipPath id="node-block-peach-selected-face"><rect x="2" y="2" width="176" height="80" rx="20"/></clipPath></defs>
+  <g clip-path="url(#node-block-peach-selected-face)">
+    <rect x="2" y="2" width="176" height="80" fill="#F2A379"/>
+    <rect x="2" y="58" width="176" height="30" fill="#D9895F"/>
+    <path d="M2 58H178" stroke="#b87c5c" stroke-opacity=".65" stroke-width="1.4"/>
+  </g>
+  <rect x="2" y="2" width="176" height="80" rx="20" stroke="#b87c5c" stroke-opacity=".65" stroke-width="1.8"/>
 </svg>

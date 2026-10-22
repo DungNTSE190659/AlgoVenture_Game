@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 56" width="52" height="56" fill="none" preserveAspectRatio="none">
+<svg data-ui-border="tonal" data-ui-depth="soft" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 56" width="52" height="56" fill="none" preserveAspectRatio="none">
   <!-- Drop shadow -->
-  <rect x="2" y="6" width="48" height="48" rx="16" fill="#a0a0a0" fill-opacity="0.14"/>
+  <rect x="2" y="4" width="48" height="48" rx="16" fill="#a0a0a0" fill-opacity="0.063"/>
   <!-- 3D Bottom Lip -->
-  <rect x="2" y="2" width="48" height="48" rx="16" fill="#e2e2e2" stroke="#aeaeae" stroke-width="3.2" stroke-linejoin="round"/>
+  <rect x="2" y="2" width="48" height="48" rx="16" fill="#e2e2e2" stroke="#bcbcbc" stroke-opacity="0.65" stroke-width="2.08" stroke-linejoin="round"/>
   <!-- Main Fill -->
-  <rect x="3.6" y="3.6" width="44.8" height="41" rx="14.25" fill="#f8f8f8"/>
+  <rect x="3.6" y="3.6" width="44.8" height="44.00" rx="14.25" fill="#f8f8f8"/>
   <!-- Top Glossy Highlight -->
   <path d="M 18 3.6 H 34 A 14.25 14.25 0 0 1 48.4 18 V 22 H 3.6 V 18 A 14.25 14.25 0 0 1 18 3.6 Z" fill="#f9f9f9" fill-opacity="0.65"/>
   <!-- Crisp Outer Outline -->
-  <rect x="2" y="2" width="48" height="48" rx="16" fill="none" stroke="#aeaeae" stroke-width="3.2" stroke-linejoin="round"/>
+  <rect x="2" y="2" width="48" height="48" rx="16" fill="none" stroke="#bcbcbc" stroke-opacity="0.65" stroke-width="2.08" stroke-linejoin="round"/>
 </svg>

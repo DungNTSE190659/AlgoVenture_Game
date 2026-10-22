@@ -33,7 +33,7 @@
 .learning-map.region-linear-structures .stop-selected .stop-button { background-image: var(--map-tile-desktop-selected); }
 .learning-map.region-linear-structures .stop-locked .stop-button { background-image: var(--map-tile-desktop-locked); }
 .region-linear-structures .stop-selected.stop-locked .stop-button { outline: 3px solid #fff9cc; outline-offset: 2px; }
-.region-linear-structures .stop-button:focus-visible { outline: 3px solid #39756d; outline-offset: 4px; }
+.region-linear-structures .stop-button:focus-visible { outline: 3px solid #426C86; outline-offset: 4px; }
 .region-linear-structures .stop-number {
   border: 0; box-shadow: none;
   background: transparent url('/assets/hybrid-casual-ui/linked/map/svg/badge-number.svg') center / contain no-repeat;

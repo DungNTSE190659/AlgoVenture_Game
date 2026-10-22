@@ -2,6 +2,10 @@
 .atlas-map .atlas-island-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 .atlas-map :is(.topic-linear-structures, .topic-trees) .atlas-buta:not(.buta-walking) .buta-body { translate: 0 0; }
 .atlas-map { background: transparent var(--atlas-backdrop) center / cover no-repeat; }
+.atlas-map .atlas-header h1 { color: #000; }
+.atlas-map .atlas-subtitle,
+.atlas-map .atlas-subtitle span { color: #000; }
+.atlas-map[data-topic="trees"] { background: #D9E79B; }
 .atlas-map .atlas-ui-icon { display: inline-block; object-fit: contain; flex: 0 0 auto; pointer-events: none; }
 .atlas-map .atlas-compass { border: 0; background: none; box-shadow: none; }
 .atlas-map .atlas-compass > img { width: 100%; height: 100%; }
@@ -78,3 +82,86 @@
 .atlas-map .sheet-number[data-topic="linear-structures"] { --atlas-badge: url("/assets/hybrid-casual-ui/atlas/svg/badge-linear-structures.svg"); }
 .atlas-map .sheet-number[data-topic="trees"] { --atlas-badge: url("/assets/hybrid-casual-ui/atlas/svg/badge-trees.svg"); }
 .atlas-map .sheet-number[data-topic="graph"] { --atlas-badge: url("/assets/hybrid-casual-ui/atlas/svg/badge-graph.svg"); }
+
+/* Tree topic uses the same leaf palette as its map and lessons. */
+.atlas-map[data-topic="trees"] {
+  --atlas-dot-active: url("/assets/hybrid-casual-ui/atlas/svg/pager-active-trees.svg");
+}
+.atlas-map[data-topic="trees"] {
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-desktop-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-desktop-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-desktop-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-desktop-disabled.svg");
+}
+
+@media (max-width: 600px) {
+.atlas-map[data-topic="trees"] {
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-mobile-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-mobile-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-mobile-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-mobile-disabled.svg");
+}
+}
+
+@media (max-width: 350px) {
+.atlas-map[data-topic="trees"] {
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-compact-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-compact-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-compact-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-compact-disabled.svg");
+}
+}
+
+@media (min-width: 600px) and (max-height: 480px) {
+.atlas-map[data-topic="trees"] {
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-landscape-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-landscape-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-landscape-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-trees-landscape-disabled.svg");
+}
+}
+
+/* Snow palette for the Linked List topic card. */
+.atlas-map[data-topic="linear-structures"] { --atlas-dot-active: url("/assets/hybrid-casual-ui/atlas/svg/pager-active-winter.svg"); }
+
+.atlas-map[data-topic="linear-structures"] {
+  --atlas-panel: url("/assets/hybrid-casual-ui/atlas/svg/panel-winter-desktop.svg");
+  --atlas-panel-status: url("/assets/hybrid-casual-ui/atlas/svg/panel-winter-status-desktop.svg");
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-desktop-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-desktop-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-desktop-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-desktop-disabled.svg");
+}
+
+@media (max-width: 600px) {
+.atlas-map[data-topic="linear-structures"] {
+  --atlas-panel: url("/assets/hybrid-casual-ui/atlas/svg/panel-winter-mobile.svg");
+  --atlas-panel-status: url("/assets/hybrid-casual-ui/atlas/svg/panel-winter-status-mobile.svg");
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-mobile-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-mobile-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-mobile-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-mobile-disabled.svg");
+}
+}
+
+@media (max-width: 350px) {
+.atlas-map[data-topic="linear-structures"] {
+  --atlas-panel: url("/assets/hybrid-casual-ui/atlas/svg/panel-winter-compact.svg");
+  --atlas-panel-status: url("/assets/hybrid-casual-ui/atlas/svg/panel-winter-status-compact.svg");
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-compact-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-compact-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-compact-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-compact-disabled.svg");
+}
+}
+
+@media (min-width: 600px) and (max-height: 480px) {
+.atlas-map[data-topic="linear-structures"] {
+  --atlas-panel: url("/assets/hybrid-casual-ui/atlas/svg/panel-winter-landscape.svg");
+  --atlas-panel-status: url("/assets/hybrid-casual-ui/atlas/svg/panel-winter-status-landscape.svg");
+  --atlas-enter-normal: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-landscape-normal.svg");
+  --atlas-enter-hover: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-landscape-hover.svg");
+  --atlas-enter-pressed: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-landscape-pressed.svg");
+  --atlas-enter-disabled: url("/assets/hybrid-casual-ui/atlas/svg/button-enter-winter-landscape-disabled.svg");
+}
+}

@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 56" width="52" height="56" fill="none">
-  <rect x="2" y="6" width="48" height="48" rx="14" fill="#000000" fill-opacity="0.14"/>
-  <rect x="2" y="2" width="48" height="48" rx="14" fill="#26A662" stroke="#23272E" stroke-width="3.2"/>
-  <rect x="3.6" y="3.6" width="44.8" height="41" rx="12.4" fill="#5CE69B"/>
+<svg data-ui-border="tonal" data-ui-depth="soft" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 56" width="52" height="56" fill="none">
+  <rect x="2" y="4" width="48" height="48" rx="14" fill="#000000" fill-opacity="0.063"/>
+  <rect x="2" y="2" width="48" height="48" rx="14" fill="#26A662" stroke="#46af76" stroke-opacity="0.65" stroke-width="2.08"/>
+  <rect x="3.6" y="3.6" width="44.8" height="44.00" rx="12.4" fill="#5CE69B"/>
   <path d="M 14.4 3.6 H 37.6 A 12.4 12.4 0 0 1 48.4 16 V 22 H 3.6 V 16 A 12.4 12.4 0 0 1 14.4 3.6 Z" fill="#8FF5BC" fill-opacity="0.65"/>
-  <rect x="2" y="2" width="48" height="48" rx="14" fill="none" stroke="#23272E" stroke-width="3.2"/>
+  <rect x="2" y="2" width="48" height="48" rx="14" fill="none" stroke="#46af76" stroke-opacity="0.65" stroke-width="2.08"/>
 </svg>

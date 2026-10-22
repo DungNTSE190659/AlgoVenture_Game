@@ -6,7 +6,7 @@
 
 - `svg/`, `png/`: **146 cặp** sprite UI. PNG xuất ở 2x kích thước thiết kế. Icon nhỏ, trạng thái nút, panel, thân nút cây, vùng thả, khay và nhãn đều có file riêng.
 - `map/svg/`, `map/png/`: **111 cặp** sprite bản đồ: bệ trạm, trạng thái trạm, huy hiệu, bảng tên, nút, icon bài học và các đoạn đường nối.
-- `backgrounds/forest-landscape.png`, `forest-portrait.png`: nền rừng/cỏ dùng chung phong cách với Linked List, sao chép từ asset meadow đã có; không tạo ảnh mới hoặc vẽ bằng CSS.
+- `backgrounds/forest-landscape.png`, `forest-portrait.png`: nền rừng 2D mới, cùng phong cách minh họa với đảo Linked List. Prompt nằm ở `../2D-ART-PROMPTS.md`.
 - `preview-desktop.png`, `preview-mobile.png`: bảng sprite UI theo profile. Các bảng map nằm trong `map/`.
 - `unity-assets.json`, `map/unity-assets.json`: đường dẫn, kích thước native/PNG, loại Image, pivot/border nếu áp dụng.
 - Đảo chủ đề mới: `../atlas/islands/trees.png`, nền trong suốt, cùng phong cách đảo Linked List. Prompt ở `ISLAND-PROMPT.md`.
@@ -17,19 +17,19 @@
 | Bài | Mặt trạm | Gờ/chữ |
 | --- | --- | --- |
 | Cây cơ bản | `#F7B83D` vàng mật ong | `#A96712` |
-| Duyệt cây | `#27C9BE` ngọc lam | `#117C79` |
+| Duyệt cây | `#88B76D` xanh lá sáng | `#527B40` |
 | BST | `#B777ED` tím kẹo | `#7540A5` |
 | Tìm kiếm BST | `#39B8F2` xanh trời | `#176B9C` |
-| Thêm nút BST | `#35C990` xanh ngọc | `#159563` |
+| Thêm nút BST | `#76A65B` xanh lá | `#527B40` |
 | Xóa nút BST | `#FF9658` cam đào | `#AD4E25` |
 
-Nút chính dùng xanh ngọc; nút phát demo dùng tím; gợi ý dùng vàng. Có sprite thường, hover, nhấn, vô hiệu hóa. Màu khóa/vô hiệu hóa cố ý dịu để phân biệt với phần đang dùng được.
+Giao diện bài học dùng một họ xanh lá gần với nền rừng: mặt nút `#76A65B`, gờ `#527B40`, biểu tượng `#4F733D`, khay sẵn sàng `#E8F0DA`, bảng cây `#F2F7EA`. Nút phát demo và trạng thái đang đi qua dùng xanh dương dịu; gợi ý dùng vàng. Có sprite thường, hover, nhấn, vô hiệu hóa. Màu khóa/vô hiệu hóa cố ý dịu để phân biệt với phần đang dùng được.
 
 ## Nút cây và nhánh
 
 Thân nút có kích thước desktop 60, mobile 48 và compact 44. Từng profile có normal, visited, current, selected, empty, ready, over, source, target. Đây là hình được dựng theo kích thước đích, giữ tỉ lệ khi hiển thị. Giá trị nút và chữ quan hệ Gốc/Trái/Phải là text riêng.
 
-`branch-normal.svg/png`, `branch-visited.svg/png`, `branch-empty.svg/png` là texture lặp của nhánh. Web phủ texture lên đường nối tính theo vị trí cha/con. Khi chuyển Unity, dùng UI mesh hoặc LineRenderer đặt trong hệ tọa độ phù hợp và texture repeat, đồng bộ đầu nhánh với RectTransform của nút. Nhánh rỗng có nét đứt để gợi ý vị trí; đường nối không đóng cứng thành ảnh của cả cây.
+`branch-normal.svg/png`, `branch-visited.svg/png`, `branch-empty.svg/png` là texture lặp của nhánh. Web phủ texture lên đường nối tính theo vị trí cha/con. Dây đang hoạt động và đã đi qua dùng xanh dương dịu cùng tông với nút trạng thái hiện tại. Khi chuyển Unity, dùng UI mesh hoặc LineRenderer đặt trong hệ tọa độ phù hợp và texture repeat, đồng bộ đầu nhánh với RectTransform của nút. Nhánh rỗng có nét đứt để gợi ý vị trí; đường nối không đóng cứng thành ảnh của cả cây.
 
 Icon 6 bài là hình đồ chơi có màu: cây mầm, duyệt qua nhánh, cấu trúc BST, kính lúp tìm nút, thêm nút, tháo nút. Nguồn nằm ở `scripts/tree-map-lesson-art.mjs`. Không cần Color Tint.
 

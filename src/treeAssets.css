@@ -1,5 +1,5 @@
 /* Portable Tree visual skin. CSS keeps layout, text and interaction geometry. */
-.tree-game, .tree-game.tree-demo { background: transparent; color: #345D49; }
+.tree-game, .tree-game.tree-demo { background: transparent; color: #405D32; }
 .tree-scenery { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 .tree-scenery picture, .tree-scenery img { width: 100%; height: 100%; display: block; }
 .tree-scenery img { object-fit: cover; }
@@ -12,29 +12,29 @@
   border: 0; border-radius: 0; box-shadow: none; background: transparent var(--tree-node-state) center / 100% 100% no-repeat !important;
   color: #FFFEF2; padding: 0 0 5px; transition: transform .12s;
 }
-.tree-game .tree-empty-node { --tree-node-state: var(--tree-node-empty); color: #5CA385; }
+.tree-game .tree-empty-node { --tree-node-state: var(--tree-node-empty); color: #77965F; }
 .tree-game .tree-visited { --tree-node-state: var(--tree-node-current); color: #FFFEF2; }
 .tree-game .tree-current { --tree-node-state: var(--tree-node-current); outline: none; }
-.tree-game .tree-node.tree-drop-ready { outline: 2px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-node.tree-drop-ready { outline: 1.5px solid #5E824899; outline-offset: 2px; }
 .tree-game .tree-empty-node.tree-drop-ready { --tree-node-state: var(--tree-node-ready); }
 .tree-game .tree-node.tree-replacement-source { --tree-node-state: var(--tree-node-current); outline: none; }
 .tree-game .tree-node.tree-replacement-target { --tree-node-state: var(--tree-node-target); outline: none; }
-.tree-game .tree-node.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-node.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-node.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-node.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
 .tree-game .tree-node:not(:disabled):hover { filter: none; }
-.tree-game .tree-node:focus-visible { outline: 3px solid #237B59; outline-offset: 3px; }
-.tree-game .tree-node-relation, .tree-game .tree-board-caption { color: #3F7D61; }
+.tree-game .tree-node:focus-visible { outline: 3px solid #4F733D; outline-offset: 3px; }
+.tree-game .tree-node-relation, .tree-game .tree-board-caption { color: #587345; }
 .tree-game .tree-node-check { border: 0; padding: 2px; background: transparent var(--tree-badge) center / contain no-repeat; }
 .tree-game .tree-course-progress { background: transparent var(--tree-progress-track) center / 100% 100% no-repeat; }
 .tree-game .tree-course-progress > span { background: transparent var(--tree-progress-fill) center / 100% 100% no-repeat; }
-.tree-game .tree-local-feedback.correct { color: #18885D; }
+.tree-game .tree-local-feedback.correct { color: #4F733D; }
 .tree-game .tree-local-feedback.retry { color: #B85C47; }
 .tree-game .tree-guide { align-items: center; }
 .tree-game .tree-speech { min-height: 0; max-height: none; padding: 10px; }
-.tree-game .tree-guide .tree-speech > span { color: #438869; }
-.tree-game .tree-guide p { color: #345D49; margin-top: 3px; }
+.tree-game .tree-guide .tree-speech > span { color: #658054; }
+.tree-game .tree-guide p { color: #405D32; margin-top: 3px; }
 .tree-game .tree-guide p.retry { color: #B85C47; }
-.tree-game .tree-guide p.correct { color: #18885D; }
+.tree-game .tree-guide p.correct { color: #4F733D; }
 
 .tree-game .tree-board-viewport { --tree-skin: var(--tree-panel-board); --tree-skin-border: 24px; position: relative; isolation: isolate; background: transparent; border-color: transparent; box-shadow: none; }
 .tree-game .tree-board-viewport::before { content: ""; position: absolute; inset: 0; z-index: -1; border: var(--tree-skin-border) solid transparent; border-image: var(--tree-skin) 28 fill stretch; pointer-events: none; }
@@ -108,8 +108,8 @@
 }
 .tree-game .tree-drag-ghost:is(.tree-supply-node, .tree-supply-card, .tree-supply-copy)::before { display: none; }
 .tree-game .tree-node-label, .tree-game .tree-replacement-label, .tree-game .tree-traveler, .tree-game .tree-demo-hand, .tree-game .tree-result-chip small { position: absolute; }
-.tree-game .tree-item-selected:not(.tree-node) { outline-color: #A65FE0; }
-.tree-game .tree-drop-ready:not(.tree-node) { outline-color: #35C990; }
+.tree-game .tree-item-selected:not(.tree-node) { outline-color: #78B8D4; }
+.tree-game .tree-drop-ready:not(.tree-node) { outline-color: #76A65B; }
 .tree-game .tree-drop-over:not(.tree-node) { background: transparent !important; outline-color: #F7B83D; }
 .tree-game .round-button { --tree-button-image: var(--tree-button-icon-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .round-button::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
@@ -157,14 +157,14 @@
 .tree-game .tree-replacement-options > button:active:not(:disabled) { --tree-button-image: var(--tree-button-neutral-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-replacement-options > button:disabled { --tree-button-image: var(--tree-button-neutral-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 
-.tree-game .tree-setting-toggle, .tree-game .lesson-sound-toggle, .tree-game .tree-replacement-options > button { color: #237B59; }
+.tree-game .tree-setting-toggle, .tree-game .lesson-sound-toggle, .tree-game .tree-replacement-options > button { color: #4F733D; }
 .tree-game .tree-replacement-options > button[aria-pressed="true"] { --tree-button-image: var(--tree-button-action-normal); color:#FFFFFF; }
 .tree-game .tree-hint { color:#8B6220; }
-.tree-game .tree-tools > button { padding-inline:10px; color:#237B59; }
-.tree-game .tree-demo-status > button { padding-inline:8px; color:#237B59; }
+.tree-game .tree-tools > button { padding-inline:10px; color:#4F733D; }
+.tree-game .tree-demo-status > button { padding-inline:8px; color:#4F733D; }
 .tree-game .tree-node-label, .tree-game .tree-replacement-label { color:#89631D; }
 .tree-game .tree-modal::backdrop { background:transparent var(--tree-scrim) center / 100% 100% no-repeat; backdrop-filter:none; }
-.tree-game .tree-supply-note, .tree-game .tree-supply-heading, .tree-game .tree-meta { color:#4B8266; }
+.tree-game .tree-supply-note, .tree-game .tree-supply-heading, .tree-game .tree-meta { color:#658054; }
 .tree-game .tree-guide .tree-guide-pig { z-index:1; }
 .tree-game .tree-hud .play-score { position: relative; }
 [data-tree-snapshot="true"]::before { display: none !important; }
@@ -283,7 +283,7 @@
  --tree-scrim:url("/assets/hybrid-casual-ui/tree/svg/scrim.svg");
 }
 
-.tree-game .lesson-header h1, .tree-game .tree-mission h2, .tree-game .tree-modal h2 { color:#285F49; }
+.tree-game .lesson-header h1, .tree-game .tree-mission h2, .tree-game .tree-modal h2 { color:#405D32; }
 .tree-game .tree-speech::after { content:""; position:absolute; left:-12px; top:22px; width:16px; height:24px; background:url("/assets/hybrid-casual-ui/tree/svg/speech-tail.svg") center / 100% 100% no-repeat; pointer-events:none; }
 .tree-game .tree-guide .tree-speech { position:relative; }
 .tree-game .tree-guide .tree-speech { display:flex; flex-direction:column; }
@@ -297,27 +297,27 @@
  .tree-game .tree-guide .tree-speech p { font-size:12px; line-height:1.35; }
  .tree-game .tree-guide .tree-speech { padding:4px 7px; }
 }
-.tree-game .tree-supply-item.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-item.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-item.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-label.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-label.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-label.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-branch.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-branch.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-branch.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-flag.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-flag.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-flag.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-pig.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-pig.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-supply-pig.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-traveler.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-traveler.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-traveler.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-traveler-pig.tree-item-selected { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-traveler-pig.tree-drop-ready { outline: 3px solid #208F66; outline-offset: 3px; }
-.tree-game .tree-traveler-pig.tree-drop-over { outline: 3px solid #208F66; outline-offset: 3px; }
+.tree-game .tree-supply-item.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-item.tree-drop-ready { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-item.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-label.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-label.tree-drop-ready { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-label.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-branch.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-branch.tree-drop-ready { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-branch.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-flag.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-flag.tree-drop-ready { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-flag.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-pig.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-pig.tree-drop-ready { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-supply-pig.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-traveler.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-traveler.tree-drop-ready { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-traveler.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-traveler-pig.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-traveler-pig.tree-drop-ready { outline: 2px solid #5E824899; outline-offset: 2px; }
+.tree-game .tree-traveler-pig.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
 .tree-game .tree-basket.tree-item-selected { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/basket-selected.svg"); outline:none; }
 .tree-game .tree-basket.tree-drop-ready { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/basket-ready.svg"); outline:none; }
 .tree-game .tree-basket.tree-drop-over { --tree-skin:url("/assets/hybrid-casual-ui/tree/svg/basket-over.svg"); outline:none; }
@@ -335,9 +335,9 @@
 .tree-game .tree-guide .tree-speech p { margin:0; font-size:16px; line-height:1.45; }
 .tree-game .tree-remove-tray { min-height:84px; padding:12px; }
 .tree-game .tree-signal-branches { overflow:visible; }
-.tree-game .tree-rope-empty { fill:none; stroke:#B9D8C2; stroke-width:3; stroke-dasharray:5 7; }
+.tree-game .tree-rope-empty { fill:none; stroke:#CBDAB9; stroke-width:3; stroke-dasharray:5 7; }
 .tree-rope-flow { animation:tree-rope-winding calc(.8s / var(--signal-speed)) linear infinite; animation-play-state:var(--signal-play-state); }
-.tree-signal-packet { fill:none; stroke:#F3E3FF; stroke-width:4; stroke-linecap:round; stroke-dasharray:5 95; animation:tree-signal-travel calc(2.4s / var(--signal-speed)) linear infinite; animation-play-state:var(--signal-play-state); }
+.tree-signal-packet { fill:none; stroke:#DDF3FA; stroke-width:4; stroke-linecap:round; stroke-dasharray:5 95; animation:tree-signal-travel calc(2.4s / var(--signal-speed)) linear infinite; animation-play-state:var(--signal-play-state); }
 @keyframes tree-rope-winding { to { transform:translateX(18px); } }
 @keyframes tree-signal-travel { from { stroke-dashoffset:5; } to { stroke-dashoffset:-95; } }
 @media (max-width:760px) {

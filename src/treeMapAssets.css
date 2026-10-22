@@ -33,7 +33,7 @@
 .learning-map.region-trees .stop-selected .stop-button { background-image: var(--map-tile-desktop-selected); }
 .learning-map.region-trees .stop-locked .stop-button { background-image: var(--map-tile-desktop-locked); }
 .region-trees .stop-selected.stop-locked .stop-button { outline: 3px solid #fff9cc; outline-offset: 2px; }
-.region-trees .stop-button:focus-visible { outline: 3px solid #39756d; outline-offset: 4px; }
+.region-trees .stop-button:focus-visible { outline: 3px solid #4F733D; outline-offset: 4px; }
 .region-trees .stop-number {
   border: 0; box-shadow: none;
   background: transparent url('/assets/hybrid-casual-ui/tree/map/svg/badge-number.svg') center / contain no-repeat;
