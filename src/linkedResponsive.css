@@ -373,10 +373,7 @@
 .linked-world .linked-node-body { transition: transform 120ms ease-out, outline-color 120ms ease-out; }
 .linked-world .linked-node-body:not(:disabled):active { transform: translateY(2px); }
 .linked-world .linked-node.node-selected .linked-node-body { outline: 3px solid #b28732; outline-offset: 3px; }
-.linked-world .linked-workspace:has(.node-selected) .journey-slot { border-color: #92ad7d; background: #edf5de; }
 .linked-world .ll-hole.hole-active { animation: none; }
-.linked-world .linked-slot:hover:has(.node-selected),
-.linked-world .slot-available:hover { border-style: solid; }
 .linked-world .linked-secondary-check { background: #f6f4e8; color: #687d64; box-shadow: 0 3px 0 #b8c1a7; }
 .linked-world .linked-reset { min-height: 44px; padding: 8px 12px; }
 .linked-world .linked-demo-playback .round-button,

@@ -28,7 +28,7 @@
 .construction-null .ll-hole { left: -14px; }
 .construction-null .linked-null-target { margin: 0; padding-left: 25px; }
 .linked-slot { position: relative; display: grid; place-items: center; width: 180px; height: 130px; border: 2px dashed #d5d7b8; border-radius: 24px; background: #f5f5e7b8; transition: background .2s,border-color .2s; }
-.linked-slot.slot-available { border-color: #a9c78b; background: #edf5de; cursor: pointer; }
+.linked-slot.slot-available { cursor: pointer; }
 .linked-slot-label { position: absolute; top: -17px; left: 12px; padding: 2px 8px; border-radius: 7px; background: #e5edda; color: #7b9b75; font-size: 10px; letter-spacing: .1em; font-weight: 1000; }
 .linked-slot:first-of-type .linked-slot-label { background: #b2cfaa; color: #fff; }
 .linked-slot-index { position: absolute; bottom: -10px; right: 12px; min-width: 30px; padding: 1px 6px; border-radius: 8px; background: #f9f4dc; color: #b6a477; text-align: center; font-size: 10px; font-weight: 1000; }
