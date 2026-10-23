@@ -1,0 +1,7 @@
+<svg data-ui-border="tonal" data-ui-depth="soft" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160" width="240" height="160" fill="none" preserveAspectRatio="none">
+  <rect x="2" y="4" width="236" height="152" rx="22" fill="#344B2B" opacity="0.072"/>
+  <rect x="2" y="2" width="236" height="150" rx="22" fill="#CDDABC" stroke="#c2c0b5" stroke-opacity="0.65" stroke-width="1.56"/>
+  <rect x="3.25" y="3.25" width="233.5" height="146.50" rx="20.75" fill="#FFFCEE"/>
+  <path d="M26 6H214" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="1.63" opacity=".55" stroke-linecap="round"/>
+  <rect x="2" y="2" width="236" height="150" rx="22" stroke="#c2c0b5" stroke-opacity="0.65" stroke-width="1.56"/>
+</svg>

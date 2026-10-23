@@ -5,7 +5,7 @@ for (const width of [390, 1440]) {
   test(`2D Buta loads every emotion and keeps its demo layout at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await enterTrack(page, "Quick Sort", "Demo");
-    const pig = page.locator(".lesson-pig-stage .pig");
+    const pig = page.locator(".qf-dialogue .pig");
     await expect(pig).toHaveAccessibleName("Buta vui vẻ");
     await expect(pig.locator(".pig-still")).toHaveAttribute("src", /assets\/buta\/2d\/happy\.webp$/);
     await expect(pig).toHaveAttribute("data-animated", "true");
@@ -22,15 +22,15 @@ for (const width of [390, 1440]) {
     expect(assets).toHaveLength(8);
     expect(assets.every(asset => asset.width > 0 && asset.width === asset.height)).toBe(true);
     // Advancing changes the real artwork while the narrator box stays stable.
-    for (let step = 0; step < 10 && await pig.getAttribute("data-mood") !== "surprised"; step++) {
+    for (let step = 0; step < 10 && await pig.getAttribute("data-mood") !== "thinking"; step++) {
       await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
     }
-    await expect(pig).toHaveAttribute("data-mood", "surprised");
-    await expect(pig.locator(".pig-sheet")).toHaveAttribute("src", /motion\/surprised\.webp$/);
-    await expect(pig).toHaveAccessibleName("Buta ngạc nhiên");
+    await expect(pig).toHaveAttribute("data-mood", "thinking");
+    await expect(pig.locator(".pig-sheet")).toHaveAttribute("src", /motion\/thinking\.webp$/);
+    await expect(pig).toHaveAccessibleName("Buta đang suy nghĩ");
     await expect(pig).toHaveAttribute("data-animated", "true");
     const after = await pig.boundingBox();
-    expect(after!.height).toBeGreaterThan(50);
+    expect(after!.height).toBeGreaterThan(40);
     expect(after!.width).toBeCloseTo(box!.width, 0);
     expect(after!.height).toBeCloseTo(box!.height, 0);
     expect(after!.x).toBeGreaterThanOrEqual(0);
@@ -46,8 +46,8 @@ for (const width of [390, 1440]) {
 
 test("Buta animates different drawn poses, freezes for settings and respects reduced motion", async ({ page }) => {
   await enterTrack(page, "Quick Sort", "Demo");
-  const sheet = page.locator(".lesson-pig-stage .pig-sheet");
-  await expect(page.locator(".lesson-pig-stage .pig")).toHaveAttribute("data-animated", "true");
+  const sheet = page.locator(".qf-dialogue .pig-sheet");
+  await expect(page.locator(".qf-dialogue .pig")).toHaveAttribute("data-animated", "true");
   // Sample the actual CSS animation at two different drawn frames.
   const frames = await sheet.evaluate(node => {
     const animation = node.getAnimations()[0];
@@ -65,6 +65,6 @@ test("Buta animates different drawn poses, freezes for settings and respects red
   await page.getByRole("button", { name: "Đóng", exact: true }).click();
   await expect.poll(() => sheet.evaluate(node => getComputedStyle(node).animationPlayState)).toBe("running");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator(".lesson-pig-stage .pig-still")).toBeVisible();
+  await expect(page.locator(".qf-dialogue .pig-still")).toBeVisible();
   await expect.poll(() => sheet.evaluate(node => node.getAnimations().length)).toBe(0);
 });

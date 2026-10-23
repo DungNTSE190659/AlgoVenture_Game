@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw, Settings, SkipBack, SkipForward, Volume2, VolumeX, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, Pause, Play, RotateCcw, Settings, SkipBack, SkipForward, Volume2, VolumeX, X } from "lucide-react";
 import { createGraphLesson, type GraphLessonFrame, type GraphDifficulty } from "../engine/graphLesson";
 import GraphBoard from "./GraphBoard";
 import Pig from "./Pig";
@@ -87,10 +87,8 @@ export default function GraphLesson({
   return (
     <main className={`lesson-world lesson-state-${frame.kind.toLowerCase()}`}>
       <header className="lesson-header">
-        <button className="round-button" onClick={() => { gameAudio.stop(); onBack(); }} aria-label="Về bản đồ">
-          <ArrowLeft size={24} />
-        </button>
-        <h1>BFS</h1>
+        <div style={{ width: 46 }} aria-hidden="true" />
+        <h1>BFS · Tìm đường</h1>
         <button className="round-button" onClick={() => { gameAudio.stop(); setSettings(true); }} aria-label="Tùy chọn">
           <Settings size={23} />
         </button>
@@ -103,9 +101,6 @@ export default function GraphLesson({
           selectedVertex={frame.highlightedVertex}
           paused={settings || !visible || !playing}
         />
-        <div className="lesson-explanation">
-          <p>{frame.narration}</p>
-        </div>
       </section>
       <div className="lesson-narrator">
         <div className="lesson-pig-stage">
@@ -142,7 +137,7 @@ export default function GraphLesson({
         </div>
       </footer>
       {settings && (
-        <GraphSettings onClose={() => setSettings(false)} sound={sound} onSoundChange={toggleSound} difficulty={difficulty} onChange={onChange} />
+        <GraphSettings onClose={() => setSettings(false)} onBack={() => { gameAudio.stop(); onBack(); }} sound={sound} onSoundChange={toggleSound} difficulty={difficulty} onChange={onChange} />
       )}
     </main>
   );
@@ -150,17 +145,32 @@ export default function GraphLesson({
 
 function GraphSettings({
   onClose,
+  onBack,
   sound,
   onSoundChange,
   difficulty,
   onChange,
 }: {
   onClose: () => void;
+  onBack: () => void;
   sound: boolean;
   onSoundChange: (enabled: boolean) => void;
   difficulty: GraphDifficulty;
   onChange: (diff: GraphDifficulty) => void;
 }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      previous?.focus();
+    };
+  }, []);
+
   const difficulties: { id: GraphDifficulty; label: string }[] = [
     { id: "tutorial", label: "Hướng dẫn" },
     { id: "cycle", label: "Có cycle" },
@@ -168,7 +178,14 @@ function GraphSettings({
   ];
 
   return (
-    <dialog className="modal lesson-settings" open onClose={onClose} aria-label="Tùy chọn bài học BFS">
+    <dialog
+      ref={dialogRef}
+      className="modal lesson-settings"
+      onClose={onClose}
+      onCancel={(e) => { e.preventDefault(); onClose(); }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      aria-label="Tùy chọn bài học BFS"
+    >
       <div className="modal-header">
         <h2>Nhịp học của bạn</h2>
         <button className="round-button" onClick={onClose} aria-label="Đóng">
@@ -188,6 +205,12 @@ function GraphSettings({
       </select>
       <button className="chunky-button button-green modal-primary" onClick={onClose}>
         Tiếp tục xem <Play size={18} fill="currentColor" />
+      </button>
+      <button
+        className="graph-settings-map-btn"
+        onClick={() => { onClose(); onBack(); }}
+      >
+        Về bản đồ
       </button>
     </dialog>
   );

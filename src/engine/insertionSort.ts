@@ -38,19 +38,19 @@ export function insertionMove(state: InsertionState, action: InsertionAction): I
   return { ...state, items, cursor, key: null, hole: cursor, phase: cursor >= items.length ? "done" : "pick", comparisons: state.comparisons + (state.hole > 0 ? 1 : 0) };
 }
 export function insertionInstruction(state: InsertionState): string {
-  if (state.phase === "done") return "Mảng đã xếp từ bé đến lớn. Các số bằng nhau vẫn giữ thứ tự ban đầu!";
-  if (state.phase === "pick") return `Nhấc số ${state.items[state.cursor]!.value} để chèn vào phần màu xanh đã có thứ tự.`;
-  if (needsShift(state)) return `${state.items[state.hole - 1]!.value} lớn hơn ${state.key!.value}. Dịch số bên trái sang ô trống để nhường chỗ.`;
-  return state.hole === 0 ? `Đã tới đầu mảng. Chèn số ${state.key!.value} vào ô trống.` : `Số bên trái nhỏ hơn hoặc bằng ${state.key!.value}. Chèn vào ô trống, giữ thứ tự các số bằng nhau.`;
+  if (state.phase === "done") return "Bộ thẻ đã xếp từ bé đến lớn. Các thẻ cùng số vẫn giữ thứ tự ký hiệu ban đầu!";
+  if (state.phase === "pick") return "Rút thẻ trên cùng của chồng chưa xếp, đưa vào khung giữa bàn.";
+  if (needsShift(state)) return `${state.items[state.hole - 1]!.value} lớn hơn ${state.key!.value}. Dịch thẻ bên trái khe trống sang phải để nhường chỗ.`;
+  return state.hole === 0 ? `Đã tới đầu bộ bài. Chèn thẻ ${state.key!.value} vào khe trống.` : `Thẻ bên trái nhỏ hơn hoặc bằng ${state.key!.value}. Chèn vào khe trống; thẻ cùng số giữ thứ tự ký hiệu.`;
 }
 export type InsertionFrame = { state: InsertionState; title: string; narration: string; cue: "scan" | "pivot" | "bubble-swap" | "correct" | "finish" };
 export function createInsertionLesson(input: number[]): InsertionFrame[] {
   let state = createInsertion(input);
-  const frames: InsertionFrame[] = [{ state, title: "Xây dãy có thứ tự, từng số một", narration: "Số đầu tiên tự tạo thành một dãy có thứ tự. Mình nhấc từng số tiếp theo, dịch các số lớn hơn sang phải rồi chèn vào ô trống.", cue: "scan" }];
+  const frames: InsertionFrame[] = [{ state, title: "Xếp thẻ cùng Buta", narration: "Buta đã có một thẻ. Rút từng thẻ mới, xét từ phải sang trái, dịch thẻ lớn hơn rồi chèn vào khe trống.", cue: "scan" }];
   while (state.phase !== "done") {
     const action: InsertionAction = state.phase === "pick" ? "pick" : needsShift(state) ? "shift" : "insert";
     const narration = insertionInstruction(state);
-    const title = action === "pick" ? `Nhấc số ${state.items[state.cursor]!.value}` : action === "shift" ? `Dịch ${state.items[state.hole - 1]!.value} sang phải` : `Chèn ${state.key!.value} vào ô ${state.hole}`;
+    const title = action === "pick" ? `Rút được thẻ ${state.items[state.cursor]!.value}` : action === "shift" ? `Dịch thẻ ${state.items[state.hole - 1]!.value} sang phải` : `Chèn thẻ ${state.key!.value} vào bộ bài`;
     state = insertionMove(state, action)!;
     frames.push({ state, title, narration, cue: action === "pick" ? "pivot" : action === "shift" ? "bubble-swap" : "correct" });
   }

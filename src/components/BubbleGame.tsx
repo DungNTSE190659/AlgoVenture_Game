@@ -6,7 +6,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type CSSProperties,
 } from "react";
 import {
   Check,
@@ -29,14 +28,13 @@ import {
   createBubbleLesson,
   type BubbleState,
 } from "../engine/bubbleSort";
-import { createArray, type Difficulty, type Item } from "../engine/quicksort";
+import { createArray, type Difficulty } from "../engine/quicksort";
 import { LEVELS } from "../engine/gameConfig";
 import { gameAudio } from "../audio/gameAudio";
 import { playFeedback, stopHaptics } from "../audio/gameFeedback";
 import HapticsToggle from "./HapticsToggle";
 import Pig from "./Pig";
 import BubbleRunBoard from "./BubbleRunBoard";
-import World from "./World";
 import VictoryCelebration from "./VictoryCelebration";
 import { activateTouchButton } from "./touchActivation";
 
@@ -55,6 +53,11 @@ type Props = {
   onSoundChange: (sound: boolean) => void;
   onSpeedChange: (speed: number) => void;
 };
+function createBubbleArray(level: Difficulty) {
+  const values = createArray(level);
+  if (level === "hard") values[0] = -values[0];
+  return values;
+}
 export default function BubbleGame({
   mode,
   input,
@@ -76,6 +79,7 @@ export default function BubbleGame({
   const [state, setState] = useState(() => skipOrderedBubblePairs(createBubble(input)));
   const [playing, setPlaying] = useState(false);
   const [motionPaused, setMotionPaused] = useState(false);
+  const [cameraMoving, setCameraMoving] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const [settings, setSettings] = useState(false);
   const [visible, setVisible] = useState(!document.hidden);
@@ -108,6 +112,19 @@ export default function BubbleGame({
   }, [recapMode, lastStep, recapReplay, paused, done, lost]);
   const finished = useRef(false);
   const lastCue = useRef(-1);
+  useLayoutEffect(() => {
+    const moved = camera.current.pair !== shown.pair || camera.current.pass !== shown.pass;
+    camera.current = { pair: shown.pair, pass: shown.pass };
+    if (!demo && moved) {
+      lock.current = true; setCameraMoving(true);
+      setFeedback(""); setOutcome("");
+    }
+  }, [demo, shown.pair, shown.pass]);
+  useEffect(() => {
+    if (!cameraMoving || paused) return;
+    const timer = setTimeout(() => { setCameraMoving(false); lock.current = false; }, 470);
+    return () => clearTimeout(timer);
+  }, [cameraMoving, paused]);
   useEffect(() => {
     const handler = () => setVisible(!document.hidden);
     document.addEventListener("visibilitychange", handler);
@@ -334,7 +351,7 @@ export default function BubbleGame({
             stars={results.stars}
             difficulty={difficulty}
             onReplay={reset}
-            onHarder={(level) => onChange(createArray(level), level)}
+            onHarder={(level) => onChange(createBubbleArray(level), level)}
             onMap={onChooseMap}
           >
             <BubbleResultSummary results={results} />
@@ -439,7 +456,7 @@ export default function BubbleGame({
             value={difficulty}
             onChange={(event) => {
               const level = event.target.value as Difficulty;
-              onChange(createArray(level), level);
+              onChange(createBubbleArray(level), level);
             }}
           >
             {Object.entries(LEVELS).map(([key, level]) => (

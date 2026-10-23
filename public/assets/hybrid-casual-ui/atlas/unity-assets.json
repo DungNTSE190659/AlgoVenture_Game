@@ -1,0 +1,1446 @@
+{
+  "version": 1,
+  "pixelsPerUnit": 100,
+  "alphaIsTransparency": true,
+  "assets": [
+    {
+      "id": "panel-desktop",
+      "svg": "svg/panel-desktop.svg",
+      "png": "png/panel-desktop.png",
+      "nativeSize": [
+        540,
+        152
+      ],
+      "pngSize": [
+        1080,
+        304
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-status-desktop",
+      "svg": "svg/panel-status-desktop.svg",
+      "png": "png/panel-status-desktop.png",
+      "nativeSize": [
+        540,
+        174
+      ],
+      "pngSize": [
+        1080,
+        348
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-winter-desktop",
+      "svg": "svg/panel-winter-desktop.svg",
+      "png": "png/panel-winter-desktop.png",
+      "nativeSize": [
+        540,
+        152
+      ],
+      "pngSize": [
+        1080,
+        304
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-winter-status-desktop",
+      "svg": "svg/panel-winter-status-desktop.svg",
+      "png": "png/panel-winter-status-desktop.png",
+      "nativeSize": [
+        540,
+        174
+      ],
+      "pngSize": [
+        1080,
+        348
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-desktop-normal",
+      "svg": "svg/button-enter-desktop-normal.svg",
+      "png": "png/button-enter-desktop-normal.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-desktop-normal",
+      "svg": "svg/button-enter-trees-desktop-normal.svg",
+      "png": "png/button-enter-trees-desktop-normal.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-desktop-normal",
+      "svg": "svg/button-enter-winter-desktop-normal.svg",
+      "png": "png/button-enter-winter-desktop-normal.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-desktop-hover",
+      "svg": "svg/button-enter-desktop-hover.svg",
+      "png": "png/button-enter-desktop-hover.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-desktop-hover",
+      "svg": "svg/button-enter-trees-desktop-hover.svg",
+      "png": "png/button-enter-trees-desktop-hover.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-desktop-hover",
+      "svg": "svg/button-enter-winter-desktop-hover.svg",
+      "png": "png/button-enter-winter-desktop-hover.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-desktop-pressed",
+      "svg": "svg/button-enter-desktop-pressed.svg",
+      "png": "png/button-enter-desktop-pressed.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-desktop-pressed",
+      "svg": "svg/button-enter-trees-desktop-pressed.svg",
+      "png": "png/button-enter-trees-desktop-pressed.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-desktop-pressed",
+      "svg": "svg/button-enter-winter-desktop-pressed.svg",
+      "png": "png/button-enter-winter-desktop-pressed.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-desktop-disabled",
+      "svg": "svg/button-enter-desktop-disabled.svg",
+      "png": "png/button-enter-desktop-disabled.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-desktop-disabled",
+      "svg": "svg/button-enter-trees-desktop-disabled.svg",
+      "png": "png/button-enter-trees-desktop-disabled.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-desktop-disabled",
+      "svg": "svg/button-enter-winter-desktop-disabled.svg",
+      "png": "png/button-enter-winter-desktop-disabled.png",
+      "nativeSize": [
+        492,
+        46
+      ],
+      "pngSize": [
+        984,
+        92
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-mobile",
+      "svg": "svg/panel-mobile.svg",
+      "png": "png/panel-mobile.png",
+      "nativeSize": [
+        362,
+        152
+      ],
+      "pngSize": [
+        724,
+        304
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-status-mobile",
+      "svg": "svg/panel-status-mobile.svg",
+      "png": "png/panel-status-mobile.png",
+      "nativeSize": [
+        362,
+        174
+      ],
+      "pngSize": [
+        724,
+        348
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-winter-mobile",
+      "svg": "svg/panel-winter-mobile.svg",
+      "png": "png/panel-winter-mobile.png",
+      "nativeSize": [
+        362,
+        152
+      ],
+      "pngSize": [
+        724,
+        304
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-winter-status-mobile",
+      "svg": "svg/panel-winter-status-mobile.svg",
+      "png": "png/panel-winter-status-mobile.png",
+      "nativeSize": [
+        362,
+        174
+      ],
+      "pngSize": [
+        724,
+        348
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-mobile-normal",
+      "svg": "svg/button-enter-mobile-normal.svg",
+      "png": "png/button-enter-mobile-normal.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-mobile-normal",
+      "svg": "svg/button-enter-trees-mobile-normal.svg",
+      "png": "png/button-enter-trees-mobile-normal.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-mobile-normal",
+      "svg": "svg/button-enter-winter-mobile-normal.svg",
+      "png": "png/button-enter-winter-mobile-normal.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-mobile-hover",
+      "svg": "svg/button-enter-mobile-hover.svg",
+      "png": "png/button-enter-mobile-hover.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-mobile-hover",
+      "svg": "svg/button-enter-trees-mobile-hover.svg",
+      "png": "png/button-enter-trees-mobile-hover.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-mobile-hover",
+      "svg": "svg/button-enter-winter-mobile-hover.svg",
+      "png": "png/button-enter-winter-mobile-hover.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-mobile-pressed",
+      "svg": "svg/button-enter-mobile-pressed.svg",
+      "png": "png/button-enter-mobile-pressed.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-mobile-pressed",
+      "svg": "svg/button-enter-trees-mobile-pressed.svg",
+      "png": "png/button-enter-trees-mobile-pressed.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-mobile-pressed",
+      "svg": "svg/button-enter-winter-mobile-pressed.svg",
+      "png": "png/button-enter-winter-mobile-pressed.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-mobile-disabled",
+      "svg": "svg/button-enter-mobile-disabled.svg",
+      "png": "png/button-enter-mobile-disabled.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-mobile-disabled",
+      "svg": "svg/button-enter-trees-mobile-disabled.svg",
+      "png": "png/button-enter-trees-mobile-disabled.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-mobile-disabled",
+      "svg": "svg/button-enter-winter-mobile-disabled.svg",
+      "png": "png/button-enter-winter-mobile-disabled.png",
+      "nativeSize": [
+        328,
+        46
+      ],
+      "pngSize": [
+        656,
+        92
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-compact",
+      "svg": "svg/panel-compact.svg",
+      "png": "png/panel-compact.png",
+      "nativeSize": [
+        292,
+        144
+      ],
+      "pngSize": [
+        584,
+        288
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-status-compact",
+      "svg": "svg/panel-status-compact.svg",
+      "png": "png/panel-status-compact.png",
+      "nativeSize": [
+        292,
+        166
+      ],
+      "pngSize": [
+        584,
+        332
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-winter-compact",
+      "svg": "svg/panel-winter-compact.svg",
+      "png": "png/panel-winter-compact.png",
+      "nativeSize": [
+        292,
+        144
+      ],
+      "pngSize": [
+        584,
+        288
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-winter-status-compact",
+      "svg": "svg/panel-winter-status-compact.svg",
+      "png": "png/panel-winter-status-compact.png",
+      "nativeSize": [
+        292,
+        166
+      ],
+      "pngSize": [
+        584,
+        332
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-compact-normal",
+      "svg": "svg/button-enter-compact-normal.svg",
+      "png": "png/button-enter-compact-normal.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-compact-normal",
+      "svg": "svg/button-enter-trees-compact-normal.svg",
+      "png": "png/button-enter-trees-compact-normal.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-compact-normal",
+      "svg": "svg/button-enter-winter-compact-normal.svg",
+      "png": "png/button-enter-winter-compact-normal.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-compact-hover",
+      "svg": "svg/button-enter-compact-hover.svg",
+      "png": "png/button-enter-compact-hover.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-compact-hover",
+      "svg": "svg/button-enter-trees-compact-hover.svg",
+      "png": "png/button-enter-trees-compact-hover.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-compact-hover",
+      "svg": "svg/button-enter-winter-compact-hover.svg",
+      "png": "png/button-enter-winter-compact-hover.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-compact-pressed",
+      "svg": "svg/button-enter-compact-pressed.svg",
+      "png": "png/button-enter-compact-pressed.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-compact-pressed",
+      "svg": "svg/button-enter-trees-compact-pressed.svg",
+      "png": "png/button-enter-trees-compact-pressed.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-compact-pressed",
+      "svg": "svg/button-enter-winter-compact-pressed.svg",
+      "png": "png/button-enter-winter-compact-pressed.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-compact-disabled",
+      "svg": "svg/button-enter-compact-disabled.svg",
+      "png": "png/button-enter-compact-disabled.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-compact-disabled",
+      "svg": "svg/button-enter-trees-compact-disabled.svg",
+      "png": "png/button-enter-trees-compact-disabled.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-compact-disabled",
+      "svg": "svg/button-enter-winter-compact-disabled.svg",
+      "png": "png/button-enter-winter-compact-disabled.png",
+      "nativeSize": [
+        258,
+        42
+      ],
+      "pngSize": [
+        516,
+        84
+      ],
+      "profile": "compact",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-landscape",
+      "svg": "svg/panel-landscape.svg",
+      "png": "png/panel-landscape.png",
+      "nativeSize": [
+        320,
+        144
+      ],
+      "pngSize": [
+        640,
+        288
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-status-landscape",
+      "svg": "svg/panel-status-landscape.svg",
+      "png": "png/panel-status-landscape.png",
+      "nativeSize": [
+        320,
+        166
+      ],
+      "pngSize": [
+        640,
+        332
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-winter-landscape",
+      "svg": "svg/panel-winter-landscape.svg",
+      "png": "png/panel-winter-landscape.png",
+      "nativeSize": [
+        320,
+        144
+      ],
+      "pngSize": [
+        640,
+        288
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "panel-winter-status-landscape",
+      "svg": "svg/panel-winter-status-landscape.svg",
+      "png": "png/panel-winter-status-landscape.png",
+      "nativeSize": [
+        320,
+        166
+      ],
+      "pngSize": [
+        640,
+        332
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-landscape-normal",
+      "svg": "svg/button-enter-landscape-normal.svg",
+      "png": "png/button-enter-landscape-normal.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-landscape-normal",
+      "svg": "svg/button-enter-trees-landscape-normal.svg",
+      "png": "png/button-enter-trees-landscape-normal.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-landscape-normal",
+      "svg": "svg/button-enter-winter-landscape-normal.svg",
+      "png": "png/button-enter-winter-landscape-normal.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-landscape-hover",
+      "svg": "svg/button-enter-landscape-hover.svg",
+      "png": "png/button-enter-landscape-hover.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-landscape-hover",
+      "svg": "svg/button-enter-trees-landscape-hover.svg",
+      "png": "png/button-enter-trees-landscape-hover.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-landscape-hover",
+      "svg": "svg/button-enter-winter-landscape-hover.svg",
+      "png": "png/button-enter-winter-landscape-hover.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-landscape-pressed",
+      "svg": "svg/button-enter-landscape-pressed.svg",
+      "png": "png/button-enter-landscape-pressed.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-landscape-pressed",
+      "svg": "svg/button-enter-trees-landscape-pressed.svg",
+      "png": "png/button-enter-trees-landscape-pressed.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-landscape-pressed",
+      "svg": "svg/button-enter-winter-landscape-pressed.svg",
+      "png": "png/button-enter-winter-landscape-pressed.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-landscape-disabled",
+      "svg": "svg/button-enter-landscape-disabled.svg",
+      "png": "png/button-enter-landscape-disabled.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-trees-landscape-disabled",
+      "svg": "svg/button-enter-trees-landscape-disabled.svg",
+      "png": "png/button-enter-trees-landscape-disabled.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-enter-winter-landscape-disabled",
+      "svg": "svg/button-enter-winter-landscape-disabled.svg",
+      "png": "png/button-enter-winter-landscape-disabled.png",
+      "nativeSize": [
+        286,
+        42
+      ],
+      "pngSize": [
+        572,
+        84
+      ],
+      "profile": "landscape",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-icon-normal",
+      "svg": "svg/button-icon-normal.svg",
+      "png": "png/button-icon-normal.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-icon-hover",
+      "svg": "svg/button-icon-hover.svg",
+      "png": "png/button-icon-hover.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-icon-pressed",
+      "svg": "svg/button-icon-pressed.svg",
+      "png": "png/button-icon-pressed.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "button-icon-disabled",
+      "svg": "svg/button-icon-disabled.svg",
+      "png": "png/button-icon-disabled.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "badge-arrays",
+      "svg": "svg/badge-arrays.svg",
+      "png": "png/badge-arrays.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "badge-linear-structures",
+      "svg": "svg/badge-linear-structures.svg",
+      "png": "png/badge-linear-structures.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "badge-trees",
+      "svg": "svg/badge-trees.svg",
+      "png": "png/badge-trees.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "badge-graph",
+      "svg": "svg/badge-graph.svg",
+      "png": "png/badge-graph.png",
+      "nativeSize": [
+        43,
+        45
+      ],
+      "pngSize": [
+        86,
+        90
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "compass-disc",
+      "svg": "svg/compass-disc.svg",
+      "png": "png/compass-disc.png",
+      "nativeSize": [
+        48,
+        48
+      ],
+      "pngSize": [
+        96,
+        96
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "gateway",
+      "svg": "svg/gateway.svg",
+      "png": "png/gateway.png",
+      "nativeSize": [
+        44,
+        48
+      ],
+      "pngSize": [
+        88,
+        96
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "pager-dot",
+      "svg": "svg/pager-dot.svg",
+      "png": "png/pager-dot.png",
+      "nativeSize": [
+        8,
+        8
+      ],
+      "pngSize": [
+        16,
+        16
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "pager-active",
+      "svg": "svg/pager-active.svg",
+      "png": "png/pager-active.png",
+      "nativeSize": [
+        24,
+        8
+      ],
+      "pngSize": [
+        48,
+        16
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "pager-active-trees",
+      "svg": "svg/pager-active-trees.svg",
+      "png": "png/pager-active-trees.png",
+      "nativeSize": [
+        24,
+        8
+      ],
+      "pngSize": [
+        48,
+        16
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "pager-active-winter",
+      "svg": "svg/pager-active-winter.svg",
+      "png": "png/pager-active-winter.png",
+      "nativeSize": [
+        24,
+        8
+      ],
+      "pngSize": [
+        48,
+        16
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "sheet-handle",
+      "svg": "svg/sheet-handle.svg",
+      "png": "png/sheet-handle.png",
+      "nativeSize": [
+        36,
+        4
+      ],
+      "pngSize": [
+        72,
+        8
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "backdrop-desktop",
+      "svg": "svg/backdrop-desktop.svg",
+      "png": "png/backdrop-desktop.png",
+      "nativeSize": [
+        960,
+        540
+      ],
+      "pngSize": [
+        1920,
+        1080
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "backdrop-mobile",
+      "svg": "svg/backdrop-mobile.svg",
+      "png": "png/backdrop-mobile.png",
+      "nativeSize": [
+        390,
+        844
+      ],
+      "pngSize": [
+        780,
+        1688
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-arrow-right",
+      "svg": "svg/icon-arrow-right.svg",
+      "png": "png/icon-arrow-right.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-audio",
+      "svg": "svg/icon-audio.svg",
+      "png": "png/icon-audio.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-muted",
+      "svg": "svg/icon-muted.svg",
+      "png": "png/icon-muted.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-check",
+      "svg": "svg/icon-check.svg",
+      "png": "png/icon-check.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-chevron-left",
+      "svg": "svg/icon-chevron-left.svg",
+      "png": "png/icon-chevron-left.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-chevron-right",
+      "svg": "svg/icon-chevron-right.svg",
+      "png": "png/icon-chevron-right.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-flag",
+      "svg": "svg/icon-flag.svg",
+      "png": "png/icon-flag.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    },
+    {
+      "id": "icon-lock",
+      "svg": "svg/icon-lock.svg",
+      "png": "png/icon-lock.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "pngSize": [
+        64,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    }
+  ],
+  "illustrations": [
+    {
+      "id": "island-linear-structures",
+      "file": "islands/linked-list.png",
+      "nativeSize": [
+        1536,
+        1024
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "approved": true
+    },
+    {
+      "id": "island-trees",
+      "file": "islands/trees.png",
+      "nativeSize": [
+        1536,
+        1024
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true
+    }
+  ]
+}

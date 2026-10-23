@@ -129,8 +129,8 @@ export function createBubbleLesson(input: number[]): BubbleFrame[] {
   }
   add(
     "intro",
-    "Đi từng cặp, từ trái sang phải",
-    "Mình sẽ so sánh hai số đứng cạnh nhau. Nếu số bên trái lớn hơn, mình đổi chỗ hai số. Cứ đi như vậy, số lớn nhất sẽ dần trôi về cuối mảng.",
+    "Buta dọn đường",
+    "Các bạn trong rừng đang đứng lộn xộn trên cầu. Buta sẽ đi qua từng cặp cạnh nhau: trái lớn hơn phải thì đổi chỗ, còn đã đúng thứ tự thì giữ nguyên và đi tiếp. Mỗi lượt đưa thêm một bạn vào trại cuối cầu.",
     "happy",
   );
   while (state.phase !== "done") {
@@ -139,7 +139,7 @@ export function createBubbleLesson(input: number[]): BubbleFrame[] {
       add(
         "pass",
         `${value} đã về đúng chỗ`,
-        `${value} là số lớn nhất của phần vừa xét, nên đã đứng đúng chỗ ở cuối. Lượt sau mình quay về đầu và bỏ qua phần màu xanh này nhé.`,
+        `${value} là số lớn nhất của phần vừa xét và đã vào trại cuối cầu. Lượt sau Buta quay về đầu, bỏ qua các bạn đã nghỉ trong trại nhé.`,
         "proud",
       );
       state = nextBubblePass(state);

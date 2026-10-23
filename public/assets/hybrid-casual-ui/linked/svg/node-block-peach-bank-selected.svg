@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 116 56" width="116" height="56" fill="none" preserveAspectRatio="none" data-ui-depth="soft" data-ui-border="tonal" data-node-face="#F2A379" data-node-next="#D9895F">
+  <defs><clipPath id="node-block-peach-bank-selected-face"><rect x="2" y="2" width="112" height="48" rx="12.88"/></clipPath></defs>
+  <g clip-path="url(#node-block-peach-bank-selected-face)">
+    <rect x="2" y="2" width="112" height="48" fill="#F2A379"/>
+    <rect x="2" y="37" width="112" height="19" fill="#D9895F"/>
+    <path d="M2 37H114" stroke="#b87c5c" stroke-opacity=".65" stroke-width="1.4"/>
+  </g>
+  <rect x="2" y="2" width="112" height="48" rx="12.88" stroke="#b87c5c" stroke-opacity=".65" stroke-width="1.8"/>
+</svg>

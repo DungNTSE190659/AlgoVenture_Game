@@ -1,0 +1,175 @@
+/* Portrait lessons use natural vertical flow instead of shrinking to viewport height.
+   Keep these rules scoped to the five sorting games; landscape and desktop retain
+   their existing layouts. */
+.stream-branch-picker, .stream-mobile-group { display: none; }
+@media (max-width: 700px) and (orientation: portrait) {
+  :is(.bubble-world, .selection-world, .insertion-world, .merge-world, .quick-forest-world) {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-block: 12px;
+  }
+  :is(.bubble-content, .selection-content, .insertion-content, .merge-content, .qf-content) {
+    flex: 1 0 auto;
+    min-height: auto;
+    padding-block: 16px 8px;
+  }
+  :is(.bubble-content, .selection-content, .insertion-content, .merge-content, .qf-content) h2 {
+    font-size: 24px;
+    line-height: 1.25;
+    margin-block: 0 10px;
+  }
+  :is(.bubble-world .bubble-task, .selection-world .selection-task, .insertion-world .insertion-task, .merge-world .merge-task, .quick-forest-world .qf-task) {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #526348;
+    margin-bottom: 12px;
+  }
+  :is(.bubble-world .bubble-feedback, .selection-world .selection-feedback, .insertion-world .insertion-feedback, .merge-world .merge-feedback, .quick-forest-world .qf-feedback) {
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 24px;
+  }
+  :is(.bubble-world .bubble-dialogue, .selection-world .selection-dialogue, .insertion-world .insertion-dialogue, .merge-world .merge-dialogue, .quick-forest-world .qf-dialogue) p {
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 12px;
+    color: #465d3e;
+  }
+  :is(.bubble-controls, .selection-controls, .insertion-controls, .merge-controls, .qf-demo-controls) {
+    flex-shrink: 0;
+  }
+  :is(.bubble-world, .selection-world, .insertion-world, .merge-world, .quick-forest-world) .play-stats { font-size: 13px; color: #526348; }
+  :is(.bubble-step-status, .selection-demo-progress, .insertion-demo-progress, .merge-demo-progress, .qf-demo-progress) { font-size: 12px; color: #526348; }
+  :is(.bubble-controls, .selection-controls, .insertion-controls, .merge-controls, .qf-demo-controls, .qf-actions) .round-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  :is(.bubble-world .bubble-keep-button, .selection-world .selection-action .chunky-button, .merge-world .stream-split-handle, .merge-world .stream-next-group, .quick-forest-world .qf-actions .chunky-button) {
+    min-height: 48px;
+    font-size: 16px;
+    padding: 10px 14px;
+  }
+
+  /* The adjacent pair remains on the same bridge, with wider number plates. */
+  .bubble-world .bridge-scene, .bubble-demo .bridge-scene { --deck: 158px; height: 250px; }
+  .bubble-world .bridge-party, .bubble-demo .bridge-party { --unit: min(64px, calc(100% / (var(--crew-count) + 1))); }
+  .bubble-world .bridge-friend { height: calc(var(--friend-width) * 1.6); aspect-ratio: 100 / 160; }
+  .bubble-world .bridge-friend-art { position: absolute; top: 0; left: 0; height: calc(100% - 24px); }
+  .bubble-world .bridge-friend .friend-number {
+    left: 7%; right: 7%; height: max(37%, 28px); bottom: 10%;
+    font-size: min(26px, calc(122cqw / (var(--digits) + 1)));
+    color: #513d24;
+  }
+  .bubble-world .bridge-friend.is-prominent .friend-number { height: max(37%, 34px); font-size: min(30px, calc(170cqw / (var(--digits) + 1))); }
+  .bubble-world .bubble-position { font-size: 13px; bottom: -24px; }
+  .bubble-world .bridge-buta { width: 48px; height: 62px; margin-left: -24px; top: calc(var(--deck) + 29px); }
+  .bubble-world .bridge-route-heading { font-size: 11px; letter-spacing: 0; color: #516945; }
+  .bubble-world .bridge-route-heading small { font-size: 11px; color: #70572f; }
+  .bubble-world .bubble-focus-status, .bubble-world .bubble-rule { font-size: 13px; color: #526348; }
+  .bubble-world .bubble-carried-note { font-size: 12px; color: #526348; }
+  .bubble-world .bubble-keep-button small { font-size: 12px; opacity: 1; }
+
+  /* Three columns at most, with row positions recomputed by SelectionPackBoard. */
+  .selection-world .pack-mat, .selection-demo .pack-mat { --pad: 12px; --gap: 10px; --card-height: 118px; }
+  .selection-world .pack-equipment, .selection-demo .pack-equipment { width: 44px; height: 44px; }
+  .selection-world .selection-tile { padding: 18px 3px 7px; gap: 4px; }
+  .selection-world .selection-tile strong, .selection-demo .selection-tile strong {
+    font-size: min(32px, calc((100cqw - 12px) / (var(--digits) * .66)));
+    color: #584326;
+  }
+  .selection-world .pack-item-name { font-size: 11px; color: #655335; }
+  .selection-world .pack-slot > span { font-size: 13px; color: #604c2e; }
+  .selection-world .selection-goal > span { font-size: 11px; color: #604c2e; }
+  .selection-world .pack-heading, .selection-world .pack-heading small, .selection-world .pack-reading-order { font-size: 11px; letter-spacing: 0; color: #526348; }
+  .selection-world .selection-action { flex-wrap: wrap; gap: 10px; }
+
+  /* Give the held card and the hand more vertical separation, including six cards. */
+  .insertion-world .insertion-card-table, .insertion-demo .insertion-card-table {
+    --card: clamp(52px, 16cqw, 66px); --stage-y: 38px; --hand-y: 192px; height: 310px;
+  }
+  .insertion-world .insertion-tile strong { font-size: min(34px, calc(var(--card) * 1.6 / (var(--digits) + 1))); }
+  .insertion-world .insertion-deck-label, .insertion-world .insertion-stage-label { top: 12px; font-size: 11px; letter-spacing: .3px; color: #526348; }
+  .insertion-world .insertion-hand-label { top: 153px; font-size: 12px; letter-spacing: .5px; }
+  .insertion-world .insertion-hand-label > span { font-size: 12px; color: #526348; }
+  .insertion-world .insertion-hand-mat { top: calc(var(--hand-y) + 28px); height: 74px; }
+  .insertion-world .insertion-table-buta { top: 35px; }
+  .insertion-world .insertion-lift-zone { font-size: 14px; color: #526348; }
+  .insertion-world .insertion-card-back-label { font-size: 10px; letter-spacing: 0; }
+  .insertion-world .insertion-card-corner, .insertion-world .insertion-card-corner small { font-size: 10px; }
+  .insertion-world .insertion-slot > span { font-size: 11px; letter-spacing: 0; }
+  .insertion-world .insertion-steps { gap: 2px; margin-block: 0 10px; }
+  .insertion-world .insertion-steps > span { font-size: 12px; padding: 5px; }
+  .insertion-world .insertion-stability-note { font-size: 13px; }
+
+  /* Large leaves wrap into rows; neither split previews nor the pond shrink numbers. */
+  .merge-world .merge-stream-map { display: none; }
+  .merge-world .stream-branch-picker { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; width: 100%; margin-block: 0 12px; }
+  .stream-branch-picker button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; max-width: 100%; padding: 8px 12px; border: 1px solid #bdcdb0; border-radius: 12px; background: #f3f7e9; color: #426344; font-size: 15px; font-weight: 750; }
+  .stream-branch-picker button.is-current { border: 2px solid #c2a666; background: #fff4d6; color: #6a512e; }
+  .merge-world .stream-mobile-group { display: block; font-size: 14px; color: #426b51; margin: 0 0 8px; }
+  .merge-world .merge-stream-board, .merge-demo .merge-stream-board { --leaf: 88px; --small-leaf: 52px; height: 360px; }
+  .merge-world .stream-caption, .merge-world .stream-split-bank > span { font-size: 12px; letter-spacing: .3px; color: #426b51; }
+  .merge-world .stream-group-leaves { --small-leaf: 52px; flex-wrap: wrap; gap: 4px; margin: 12px 0; }
+  .merge-world .stream-split-banks { width: 96%; gap: 12px; margin-top: 20px; }
+  .merge-world .stream-split-bank { padding: 12px 4px; min-height: 106px; }
+  .merge-world .stream-split-bank > div { --small-leaf: 48px; flex-wrap: wrap; gap: 2px; }
+  .merge-world .stream-leaf strong { font-size: min(32px, calc(var(--leaf) * 1.2 / (var(--digits) + 1))); }
+  .merge-world .stream-leaf.is-small strong { font-size: min(24px, calc(var(--small-leaf) * 1.6 / (var(--digits) + 1))); }
+  .merge-world .stream-sources, .merge-demo .stream-sources { height: 144px; width: 90%; margin-top: 12px; }
+  .merge-world .stream-leaf-stack, .merge-demo .stream-leaf-stack { height: 92px; margin-top: 14px; }
+  .merge-world .stream-next-leaves { font-size: 12px; color: #426b51; height: auto; }
+  .merge-world .stream-pond, .merge-demo .stream-pond { width: 96%; min-height: 118px; padding: 12px 8px; margin-top: 14px; }
+  .merge-world .stream-output { gap: 6px; margin-top: 10px; }
+  .merge-world .stream-empty { font-size: 14px; color: #426b51; }
+  .merge-world .stream-single-note { font-size: 14px; }
+
+  /* All waiting and placed friends have at least a 52px-wide card. */
+  .quick-forest-world .qf-gate { --card: 52px; padding-inline: 4px; gap: 8px 6px; }
+  .quick-forest-world .qf-gate .qf-pool { --card: 56px; max-width: 100%; }
+  .quick-forest-world .qf-gate .qf-pool-friends { gap: 8px; }
+  .quick-forest-world .qf-gate .qf-pool-friends.has-pivot { --card: 88px; min-height: 112px; }
+  .quick-forest-world .qf-gate .qf-pivot { --card: 82px; min-height: 148px; }
+  .quick-forest-world .qf-gate .qf-pivot > div { min-height: 106px; }
+  .quick-forest-world .qf-gate .qf-group-friends { gap: 5px; }
+  .quick-forest-world .qf-gate .qf-friend > strong { height: max(40%, 32px); font-size: min(28px, calc(61cqw / max(1, var(--digits) * .56))); }
+  .quick-forest-world .qf-gate :is(.qf-pivot, .qf-pool-friends.has-pivot) .qf-friend > strong { font-size: min(34px, calc(57cqw / max(1, var(--digits) * .56))); }
+  .quick-forest-world .qf-gate .qf-sign { min-height: 48px; }
+  .quick-forest-world .qf-gate .qf-sign strong { font-size: 13px; }
+  .quick-forest-world .qf-gate .qf-sign small, .quick-forest-world .qf-gate .qf-sign > span { font-size: 12px; }
+  .quick-forest-world .qf-gate .qf-equal .qf-sign { min-height: 30px; }
+  .quick-forest-world .qf-gate .qf-equal .qf-sign strong { font-size: 12px; }
+  .quick-forest-world .qf-gate .qf-empty, .quick-forest-world .qf-gate .qf-pivot-label, .quick-forest-world .qf-gate .qf-pool-label { font-size: 13px; }
+  .quick-forest-world .qf-gate .qf-pivot > small, .quick-forest-world .qf-gate .qf-pool-label small, .quick-forest-world .qf-gate .qf-waiting span { font-size: 12px; }
+  .quick-forest-world .qf-gate .qf-pivot > small { white-space: nowrap; }
+  .quick-forest-world .qf-node { min-height: 44px; font-size: 12px; padding: 8px; color: #526348; }
+  .quick-forest-world .qf-node small { font-size: 11px; opacity: 1; }
+
+  /* Pick a pivot before presenting destinations. The opening state is a compact
+     crew selection, with no empty gate or disabled sorting controls to scan. */
+  .quick-forest-world .qf-content { justify-content: flex-start; padding-top: 24px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) {
+    grid-template-columns: minmax(0,1fr); grid-template-areas: "pool" "pivot";
+    gap: 18px; padding: 8px 4px 12px;
+  }
+  .quick-forest-world .qf-gate:not(.has-milestone) :is(.qf-group, .qf-woodland) { display: none; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool { --card: 80px; width: 100%; max-width: 360px; margin: 0 auto; padding: 0; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool-label { font-size: 14px; padding-bottom: 12px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool-friends { gap: 14px; padding: 0; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-friend > strong { font-size: min(34px, calc(61cqw / max(1, var(--digits) * .56))); }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot { min-height: 0; padding: 0; width: 100%; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot :is(div, small) { display: none; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot::after { display: none; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot-label {
+    width: min(100%, 260px); min-height: 48px; padding: 10px 16px;
+    border: 2px solid #b9cca3; border-radius: 16px; background: #eef5df;
+    color: #405b30; font-size: 16px; box-shadow: 0 3px 0 #b9cca3;
+  }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot-label:disabled { color: #718067; background: #f0f1e9; border-color: #d5dacb; box-shadow: none; }
+  .quick-forest-world .qf-content.is-choosing-pivot .qf-actions .chunky-button { display: none; }
+  .quick-forest-world .qf-content.is-choosing-pivot .qf-actions:not(:has(button:enabled)) { display: none; }
+  .quick-forest-world .qf-gate.has-milestone :is(.qf-trails, .qf-gate-arch) { display: none; }
+  .quick-forest-world .qf-gate.has-milestone .qf-pivot::before {
+    content: ""; position: absolute; z-index: -1; top: 27px; bottom: 20px; left: 7%; right: 7%;
+    border: 5px solid #b69a70; border-bottom: 0; border-radius: 38px 38px 0 0;
+  }
+}

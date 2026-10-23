@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import { ChevronRight, Map, RotateCcw, Sparkles } from "lucide-react";
 import Pig from "./Pig";
+import * as TreeIcons from "./TreeAssetIcons";
 import { LEVELS } from "../engine/gameConfig";
 import type { Difficulty } from "../engine/quicksort";
 
@@ -27,6 +28,7 @@ export default function VictoryCelebration({
   onMap,
 }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const treeArtwork = className.split(" ").includes("tree-victory");
   const titleRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     const panel = dialog.current;
@@ -83,7 +85,7 @@ export default function VictoryCelebration({
             className={`chunky-button ${next ? "button-purple" : "button-green"}`}
             onClick={onReplay}
           >
-            <RotateCcw size={19} /> Chơi lại
+            {treeArtwork ? <TreeIcons.RotateCcw size={19} /> : <RotateCcw size={19} />} Chơi lại
           </button>
           {next && (
             <button
@@ -96,14 +98,14 @@ export default function VictoryCelebration({
           )}
           <button className="victory-map-button" onClick={onMap}>
             <span className="victory-map-icon" aria-hidden="true">
-              <Map size={21} />
+              {treeArtwork ? <TreeIcons.Map size={21} /> : <Map size={21} />}
             </span>
             <span>Đi tiếp cùng Buta</span>
-            <ChevronRight
+            {treeArtwork ? <TreeIcons.ChevronRight className="victory-map-arrow" size={19} /> : <ChevronRight
               className="victory-map-arrow"
               size={19}
               aria-hidden="true"
-            />
+            />}
           </button>
         </div>
       </div>

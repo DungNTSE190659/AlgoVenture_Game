@@ -1,3 +1,4 @@
+import QuickForestGame from "./components/QuickForestGame";
 import QueueGame from "./components/QueueGame";
 import { useEffect, useState } from "react";
 import AdventureMap from "./components/AdventureMap";
@@ -22,6 +23,8 @@ import { useInterfaceAudio } from "./audio/useInterfaceAudio";
 import { completeLinkedLevel, linkedLevelUnlocked, readLinkedLevelProgress, saveLinkedLevelProgress, type LinkedLevel, type LinkedTrackId } from "./engine/linkedCurriculum";
 import GraphGame from "./components/GraphGame";
 import GraphLesson from "./components/GraphLesson";
+import TreeGame from "./components/TreeGame";
+import type { TreeLessonId } from "./engine/tree";
 import type { GraphDifficulty } from "./engine/graph";
 
 export default function App() {
@@ -158,10 +161,12 @@ export default function App() {
         onSound={() => changeSound(!sound)}
       />
     );
+  if (algorithm === "quick") return <QuickForestGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "queue") return <QueueGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={()=>start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed}/>;
   if (algorithm === "stack") return <StackGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={()=>start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed}/>;
   if (algorithm === "selection") return <SelectionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "insertion") return <InsertionGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
+  if (regionForLesson(algorithm).id === "trees") return <TreeGame key={`${session}:${scene}:${algorithm}`} algorithm={algorithm as TreeLessonId} mode={scene} sound={sound} onSoundChange={changeSound} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} />;
   if (algorithm === "merge") return <MergeGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "bubble")
     return (

@@ -22,11 +22,11 @@ export function createGraphLesson(difficulty: GraphDifficulty): GraphLessonFrame
       case "tutorial":
         return {
           vertices: [
-            { id: 0, label: "A", x: 100, y: 100 },
-            { id: 1, label: "B", x: 200, y: 50 },
-            { id: 2, label: "C", x: 200, y: 150 },
-            { id: 3, label: "D", x: 300, y: 50 },
-            { id: 4, label: "E", x: 300, y: 150 },
+            { id: 0, label: "A", place: "Nhà",    x: 80,  y: 200 },
+            { id: 1, label: "B", place: "Chợ",    x: 240, y: 90  },
+            { id: 2, label: "C", place: "Chùa",   x: 240, y: 310 },
+            { id: 3, label: "D", place: "Trường",  x: 420, y: 90  },
+            { id: 4, label: "E", place: "Kho",    x: 420, y: 310 },
           ],
           edges: [
             { from: 0, to: 1 },
@@ -45,12 +45,12 @@ export function createGraphLesson(difficulty: GraphDifficulty): GraphLessonFrame
       case "cycle":
         return {
           vertices: [
-            { id: 0, label: "A", x: 100, y: 100 },
-            { id: 1, label: "B", x: 200, y: 50 },
-            { id: 2, label: "C", x: 200, y: 150 },
-            { id: 3, label: "D", x: 300, y: 100 },
-            { id: 4, label: "E", x: 400, y: 50 },
-            { id: 5, label: "F", x: 400, y: 150 },
+            { id: 0, label: "A", place: "Nhà",   x: 75,  y: 200 },
+            { id: 1, label: "B", place: "Chợ",   x: 220, y: 90  },
+            { id: 2, label: "C", place: "Chùa",  x: 220, y: 310 },
+            { id: 3, label: "D", place: "Rừng",  x: 360, y: 200 },
+            { id: 4, label: "E", place: "Suối",  x: 490, y: 90  },
+            { id: 5, label: "F", place: "Kho",   x: 490, y: 310 },
           ],
           edges: [
             { from: 0, to: 1 },
@@ -71,14 +71,14 @@ export function createGraphLesson(difficulty: GraphDifficulty): GraphLessonFrame
       case "complex":
         return {
           vertices: [
-            { id: 0, label: "A", x: 100, y: 100 },
-            { id: 1, label: "B", x: 200, y: 50 },
-            { id: 2, label: "C", x: 200, y: 150 },
-            { id: 3, label: "D", x: 300, y: 50 },
-            { id: 4, label: "E", x: 300, y: 150 },
-            { id: 5, label: "F", x: 400, y: 50 },
-            { id: 6, label: "G", x: 400, y: 150 },
-            { id: 7, label: "H", x: 500, y: 100 },
+            { id: 0, label: "A", place: "Nhà",    x: 70,  y: 200 },
+            { id: 1, label: "B", place: "Chợ",    x: 195, y: 95  },
+            { id: 2, label: "C", place: "Chùa",   x: 195, y: 305 },
+            { id: 3, label: "D", place: "Trường",  x: 320, y: 95  },
+            { id: 4, label: "E", place: "Rừng",   x: 320, y: 305 },
+            { id: 5, label: "F", place: "Suối",   x: 445, y: 95  },
+            { id: 6, label: "G", place: "Núi",    x: 445, y: 305 },
+            { id: 7, label: "H", place: "Kho",    x: 540, y: 200 },
           ],
           edges: [
             { from: 0, to: 1 },

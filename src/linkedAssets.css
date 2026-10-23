@@ -1,0 +1,274 @@
+/* Visual skin comes from portable sprites. Layout and game geometry live in
+   linkedResponsive.css; Unity sprite borders are recorded in unity-assets.json. */
+.linked-world,
+.linked-world.linked-demo,
+.linked-world.linked-algorithm-world { background: transparent; }
+.linked-scenery { background: transparent; }
+.linked-scenery picture,
+.linked-scenery .linked-landscape-asset { display: block; width: 100%; height: 100%; }
+.linked-scenery .linked-landscape-asset { object-fit: cover; }
+.linked-world .linked-ui-icon { display: inline-block; flex: 0 0 auto; object-fit: contain; pointer-events: none; }
+
+/* A sliced sprite keeps its corner radii at both phone and desktop sizes. */
+.linked-world.linked-stage-layout .linked-assembly,
+.linked-world.linked-stage-layout .linked-bank,
+.linked-world .linked-settings {
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.linked-world.linked-stage-layout .linked-assembly::before,
+.linked-world.linked-stage-layout .linked-bank::before,
+.linked-world .linked-settings::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border: 20px solid transparent;
+  border-image: url("/assets/hybrid-casual-ui/linked/svg/panel-board.svg") 32 fill stretch;
+  pointer-events: none;
+}
+.linked-world.linked-stage-layout .linked-bank::before { border-image-source: url("/assets/hybrid-casual-ui/linked/svg/panel-bank.svg"); }
+.linked-world .linked-settings::before { border-image-source: url("/assets/hybrid-casual-ui/linked/svg/panel-dialog.svg"); }
+
+.linked-world .linked-check-button {
+  --linked-rest: url("/assets/hybrid-casual-ui/linked/svg/btn-check-mint.svg");
+  --linked-hover: url("/assets/hybrid-casual-ui/linked/svg/btn-check-mint-hover.svg");
+  --linked-pressed: url("/assets/hybrid-casual-ui/linked/svg/btn-check-mint-pressed.svg");
+  --linked-disabled: url("/assets/hybrid-casual-ui/linked/svg/btn-check-mint-disabled.svg");
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  color: #238a69;
+}
+.linked-world .linked-buta-hint {
+  --linked-rest: url("/assets/hybrid-casual-ui/linked/svg/btn-hint-yellow.svg");
+  --linked-hover: url("/assets/hybrid-casual-ui/linked/svg/btn-hint-yellow-hover.svg");
+  --linked-pressed: url("/assets/hybrid-casual-ui/linked/svg/btn-hint-yellow-pressed.svg");
+  --linked-disabled: url("/assets/hybrid-casual-ui/linked/svg/btn-hint-yellow-disabled.svg");
+}
+.linked-world .button-green {
+  --linked-rest: url("/assets/hybrid-casual-ui/linked/svg/btn-action-green.svg");
+  --linked-hover: url("/assets/hybrid-casual-ui/linked/svg/btn-action-green-hover.svg");
+  --linked-pressed: url("/assets/hybrid-casual-ui/linked/svg/btn-action-green-pressed.svg");
+  --linked-disabled: url("/assets/hybrid-casual-ui/linked/svg/btn-action-green-disabled.svg");
+}
+.linked-world .button-purple {
+  --linked-rest: url("/assets/hybrid-casual-ui/linked/svg/btn-action-purple.svg");
+  --linked-hover: url("/assets/hybrid-casual-ui/linked/svg/btn-action-purple-hover.svg");
+  --linked-pressed: url("/assets/hybrid-casual-ui/linked/svg/btn-action-purple-pressed.svg");
+  --linked-disabled: url("/assets/hybrid-casual-ui/linked/svg/btn-action-purple-disabled.svg");
+}
+.linked-world :is(.round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset) {
+  --linked-rest: url("/assets/hybrid-casual-ui/linked/svg/btn-icon-squircle.svg");
+  --linked-hover: url("/assets/hybrid-casual-ui/linked/svg/btn-icon-squircle-hover.svg");
+  --linked-pressed: url("/assets/hybrid-casual-ui/linked/svg/btn-icon-squircle-pressed.svg");
+  --linked-disabled: url("/assets/hybrid-casual-ui/linked/svg/btn-icon-squircle-disabled.svg");
+}
+/* Slice the sprite instead of stretching its outline with the button width.
+   The pseudo-element paints the skin without changing the hit box or layout. */
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset) {
+  position: relative;
+  isolation: isolate;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  filter: none;
+  translate: none;
+  transition: transform 100ms ease-out;
+}
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: var(--linked-sprite-border, 20px) solid transparent;
+  border-image: var(--linked-rest) var(--linked-sprite-slice, 28) fill stretch;
+  pointer-events: none;
+}
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):hover:not(:disabled),
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):active:not(:disabled) {
+  background: none;
+  box-shadow: none;
+  filter: none;
+  translate: none;
+}
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):hover:not(:disabled)::before { border-image-source: var(--linked-hover); }
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):active:not(:disabled)::before { border-image-source: var(--linked-pressed); }
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):disabled { opacity: 1; }
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):disabled::before { border-image-source: var(--linked-disabled); }
+.linked-world :is(.round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset) {
+  --linked-sprite-slice: 20;
+  --linked-sprite-border: 18px;
+}
+.linked-world.linked-stage-layout .linked-challenge-secondary > button { padding-inline: 12px; color: #425c4c; }
+.linked-world .linked-challenge-secondary > button:disabled { color: #8b9485; }
+.linked-world .linked-challenge-secondary > button:disabled .linked-ui-icon { opacity: .45; }
+.linked-world .linked-settings-reset { padding: 8px 16px; }
+.linked-world .linked-settings-backdrop { background: transparent url("/assets/hybrid-casual-ui/linked/svg/screen-scrim.svg") center / 100% 100% no-repeat; }
+.linked-world .linked-complete-check {
+  border: 0; box-shadow: none;
+  background: transparent url("/assets/hybrid-casual-ui/linked/svg/badge-complete.svg") center / 100% 100% no-repeat;
+}
+.linked-world .ll-rope-anchor,
+.linked-world .linked-null-dot {
+  border: 0; box-shadow: none;
+  background: transparent url("/assets/hybrid-casual-ui/linked/svg/rope-anchor.svg") center / 100% 100% no-repeat;
+}
+.linked-world .journey-pig-pickup {
+  border-color: transparent; box-shadow: none;
+  background: transparent url("/assets/hybrid-casual-ui/linked/svg/slot-frame-available.svg") center / 100% 100% no-repeat;
+}
+.linked-world .linked-ropes path,
+.linked-world .journey-wires path { stroke: url(#linked-rope-material); filter: none; }
+.linked-world .linked-node .linked-node-body {
+  border: 0;
+  box-shadow: none;
+  background: transparent url("/assets/hybrid-casual-ui/linked/svg/node-block-peach.svg") center / 100% 100% no-repeat;
+}
+.linked-world .linked-node-mint .linked-node-body { background-image: url("/assets/hybrid-casual-ui/linked/svg/node-block-mint.svg"); }
+.linked-world .linked-node-lavender .linked-node-body { background-image: url("/assets/hybrid-casual-ui/linked/svg/node-block-lavender.svg"); }
+.linked-world .linked-node-body::after { display: none; }
+.linked-world .linked-slot {
+  border: 0;
+  background: transparent url("/assets/hybrid-casual-ui/linked/svg/slot-frame.svg") center / 100% 100% no-repeat;
+}
+.linked-world .linked-slot .linked-slot-label {
+  padding: 3px 9px 5px;
+  border-radius: 0;
+  background: transparent url("/assets/hybrid-casual-ui/linked/svg/badge-slot-default.svg") center / 100% 100% no-repeat;
+  color: #425c4c;
+}
+.linked-world .linked-null-target {
+  border: 0;
+  box-shadow: none;
+  background: transparent url("/assets/hybrid-casual-ui/linked/svg/null-target-block.svg") center / 100% 100% no-repeat;
+}
+.linked-world .linked-node.node-selected .linked-node-body {
+  outline: none;
+  background-image: url("/assets/hybrid-casual-ui/linked/svg/node-block-peach-selected.svg");
+}
+.linked-world .linked-node-mint.node-selected .linked-node-body { background-image: url("/assets/hybrid-casual-ui/linked/svg/node-block-mint-selected.svg"); }
+.linked-world .linked-node-lavender.node-selected .linked-node-body { background-image: url("/assets/hybrid-casual-ui/linked/svg/node-block-lavender-selected.svg"); }
+.linked-world .linked-demo-step-status progress { appearance: none; border: 0; background: transparent; }
+.linked-world .linked-demo-step-status progress::-webkit-progress-bar { background: transparent url("/assets/hybrid-casual-ui/linked/svg/progress-track.svg") center / 100% 100% no-repeat; }
+.linked-world .linked-demo-step-status progress::-webkit-progress-value { background: transparent url("/assets/hybrid-casual-ui/linked/svg/progress-fill.svg") center / 100% 100% no-repeat; }
+.linked-world .linked-demo-step-status progress::-moz-progress-bar { background: transparent url("/assets/hybrid-casual-ui/linked/svg/progress-fill.svg") center / 100% 100% no-repeat; }
+@media (max-width: 700px) {
+  .linked-world.linked-stage-layout .linked-challenge-secondary > button { padding-inline: 5px; }
+  .linked-world.linked-stage-layout .linked-demo-playback .chunky-button .linked-ui-icon { width: 16px; height: 16px; }
+}
+@media (max-width: 360px) and (max-height: 680px) {
+  .linked-world.linked-stage-layout .linked-demo-dialogue p { line-height: 1.35; }
+}
+
+/* Buta and its portable, sliced speech panel share the same layout in both modes. */
+.linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 0;
+  height: 100%;
+}
+.linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .pig {
+  float: none;
+  width: 96px;
+  height: 112px;
+  flex: 0 0 96px;
+  margin: 0;
+}
+.linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .linked-speech {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+  padding: 14px;
+  flex: 1 1 0;
+}
+.linked-world.linked-stage-layout .linked-speech::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 18px solid transparent;
+  border-image: url("/assets/hybrid-casual-ui/linked/svg/panel-speech.svg") 28 fill stretch;
+  pointer-events: none;
+}
+.linked-world.linked-stage-layout .linked-speech::after {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 28px;
+  width: 16px;
+  height: 24px;
+  background: url("/assets/hybrid-casual-ui/linked/svg/speech-tail.svg") center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+.linked-world.linked-stage-layout .linked-speech .linked-speaker { flex: none; color: #7c8e61; font-size: 11px; font-weight: 900; }
+.linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) .linked-speech p {
+  display: block;
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  color: #4d6648;
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: left;
+}
+.linked-world.linked-stage-layout .linked-challenge-guide .linked-speech p.is-error { color: #b57460; }
+@media (max-width: 700px) {
+  .linked-world.linked-stage-layout {
+    --linked-slot-width: clamp(112px, 35vw, 156px);
+    --linked-row-height: calc(var(--linked-block-height) + 32px);
+  }
+  .linked-world.linked-stage-layout .linked-slot-label {
+    top: auto;
+    bottom: -8px;
+    left: 4px;
+    z-index: 7;
+  }
+  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) { flex-direction: column; gap: 6px; }
+  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .pig {
+    width: 84px;
+    height: 96px;
+    flex: 0 0 96px;
+    align-self: center;
+  }
+  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .linked-speech {
+    width: 100%;
+    padding: 12px;
+    flex: 0 1 auto;
+  }
+  .linked-world.linked-stage-layout .linked-speech::after {
+    left: calc(50% - 8px);
+    top: -14px;
+    transform: rotate(90deg);
+  }
+  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) .linked-speech p { font-size: 15px; line-height: 1.4; }
+}
+@media (max-width: 700px) and (max-height: 680px) {
+  .linked-world.linked-stage-layout { --linked-row-height: calc(var(--linked-block-height) + 28px); }
+  .linked-world.linked-stage-layout .linked-board,
+  .linked-world.linked-stage-layout .journey-chain { gap: 10px; padding-block: 8px 2px; }
+  .linked-world.linked-stage-layout:not(.linked-demo) .linked-board,
+  .linked-world.linked-stage-layout:not(.linked-demo) .journey-chain { gap: 10px; padding-block: 8px 2px; }
+  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .pig { width: 56px; height: 64px; flex-basis: 64px; }
+  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) > .linked-speech { padding: 10px; }
+  .linked-world.linked-stage-layout :is(.linked-demo-dialogue, .linked-challenge-guide) .linked-speech p { font-size: 14px; line-height: 1.35; }
+}
+
+@media (max-width: 700px) and (max-height: 600px) {
+  .linked-world.linked-stage-layout { --linked-row-height: calc(var(--linked-block-height) + 8px); }
+}
+@media (max-width: 700px) and (min-height: 601px) and (max-height: 680px) {
+  .linked-world.linked-stage-layout:not(.linked-demo):has(.linked-ready) { --linked-row-height: calc(var(--linked-block-height) + 20px); }
+}

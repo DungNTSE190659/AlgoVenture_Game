@@ -1,0 +1,14 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "assets": [
+    {
+      "file": "backgrounds/meadow-landscape.png",
+      "prompt": "Use case: stylized-concept. Asset type: finished 2D background image for a Unity hybrid casual educational puzzle game, landscape 1536x1024 or wider. Create an orthographic top-down soft 3D clay/toy meadow game board environment. A large calm uninterrupted pale warm mint-green playfield occupies central 80 percent, subtle soft lighting with almost no texture so colorful UI is clearly legible. Rounded little low-poly toy trees, tufts, pebbles only at the far outer edges, a very small pale aqua stream tucked against the extreme right edge, gently raised grass perimeter corners with soft ambient occlusion. Premium polished mobile puzzle game background, warm friendly pastel palette, smooth chunky sculpted forms, soft contact shadows, no black outlines. Entire scene seen directly from above, no horizon, no perspective convergence. The interior remains quiet and almost flat in color. No roads crossing the play area. No buttons, no panels, no letters, no numbers, no interface, no characters, no watermark. Output only the background artwork filling the whole rectangular image."
+    },
+    {
+      "file": "backgrounds/meadow-portrait.png",
+      "reference": "backgrounds/meadow-landscape.png",
+      "prompt": "Use case: stylized-concept. Create the matching portrait background asset for the same Unity hybrid casual educational puzzle game. Input is a STYLE REFERENCE for the existing landscape game background. Output a tall PORTRAIT 1024x1536 composition. Match its top-down orthographic soft 3D clay toy meadow, warm pale green playfield, rounded toy trees and pebbles at the extreme perimeter, soft shadows, tiny aqua stream confined to the extreme right edge. Crucial: central 85 percent must be completely calm pale light green negative space for UI. Trees stay only on corners and extreme edges, no objects inside the playing field. No panels, no buttons, no letters, no numbers, no UI, no character, no watermark. A polished actual game background, no perspective horizon."
+    }
+  ]
+}

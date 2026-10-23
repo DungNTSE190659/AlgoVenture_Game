@@ -17,6 +17,7 @@ function visualClone(element: Element): Element {
     copy.removeAttribute("id");
     copy.setAttribute("tabindex", "-1");
   });
+  (clone as HTMLElement).style.opacity = "1";
   return clone;
 }
 
@@ -114,8 +115,8 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
       Object.assign(ghost.style, { position: "fixed", left: `${box.left}px`, top: `${box.top}px`, right: "auto", bottom: "auto", width: `${box.width}px`, height: `${box.height}px`, margin: "0", transform: "none", transformOrigin: "center", pointerEvents: "none", zIndex: "100", transition: "none" });
       document.body.append(ghost);
       const target = element as HTMLElement | SVGElement;
-      const visibility = hiddenHardware.current.get(target) ?? target.style.visibility;
-      target.style.visibility = "hidden";
+      const opacity = target.style.opacity;
+      target.style.opacity = "0";
       const x = activeBox ? activeBox.left - box.left : dx;
       const y = activeBox ? activeBox.top - box.top : dy;
       const animation = ghost.animate(previous ? [
@@ -126,7 +127,7 @@ export default function useLinkedDemoMotion(enabled: boolean, step: number) {
       const finish = () => {
         animation.cancel();
         ghost.remove();
-        target.style.visibility = visibility;
+        target.style.opacity = opacity;
         if (flights.current.get(key)?.animation === animation) flights.current.delete(key);
         syncHardware();
       };

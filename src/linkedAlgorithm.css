@@ -82,7 +82,6 @@
 .journey-wires path { fill: none; stroke: #dfbf87; stroke-width: 5px; stroke-linecap: round; }
 .journey-piece { display: flex; align-items: center; gap: 12px; }
 .journey-slot { flex: none; }
-.journey-current { border-color: #88b57a; background: #e6f0d8; }
 .journey-pig { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); pointer-events: none; }
 .journey-pig .pig { display: block; width: 60px; height: 67px; }
 .journey-pig-pickup { display: grid; justify-items: center; border: 2px dashed #9bb98e; border-radius: 16px; padding: 8px 18px; background: #eef4df; color: #607652; cursor: grab; touch-action: none; }

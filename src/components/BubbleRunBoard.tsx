@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import type { BubbleState } from "../engine/bubbleSort";
 import type { Item } from "../engine/quicksort";
+import Pig from "./Pig";
 
 type Props = {
   state: BubbleState;
@@ -75,7 +76,10 @@ export default function BubbleRunBoard({ state, interactive, paused, onMove }: P
         {state.items.find(item => item.id === ghost.id)?.value}<small>GIỮ VÀ KÉO</small>
       </div>}
     </div>
-  );
+    <p className="bubble-focus-status" aria-live="polite">{state.phase === "pass" ? `Số ${state.items[state.end + 1].value} đã vào trại.` : state.phase === "done" ? "Đã xếp xong!" : `Cặp ${pair + 1}–${pair + 2}`}</p>
+    <div className="bridge-step-dots" aria-hidden="true">{state.items.slice(1).map((_, i) => <span key={i} className={i + 1 > state.end ? "is-past" : i === pair ? "is-here" : ""} />)}</div>
+    {ghost && <div className="bubble-drag-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true"><strong>{state.items.find(item => item.id === ghost.id)?.value}</strong><Footprints size={16} /></div>}
+  </div>;
 }
 
 function RunBubble({
@@ -102,45 +106,59 @@ function RunBubble({
     animation = useRef<Animation | null>(null),
     pausedByUi = useRef(false);
   useLayoutEffect(() => {
-    const old = previous.current;
-    previous.current = index;
-    const node = ref.current;
-    if (
-      !node ||
-      old === index ||
-      matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    const width = node.getBoundingClientRect().width,
-      parent = node.parentElement!;
-    const stride =
-      (parent.getBoundingClientRect().width - width) /
-      (parent.querySelectorAll(".bubble-tile").length - 1);
-    const dx = (old - index) * stride;
+    const node = ref.current, before = previous.current; previous.current = position;
+    if (!node || before === position || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     animation.current?.cancel();
-    pausedByUi.current = paused;
-    animation.current = node.animate(
-      [
-        { transform: `translate(${dx}px,0)` },
-        {
-          transform: `translate(${dx * 0.5}px,${old < index ? -42 : 35}px) scale(1.08)`,
-          offset: 0.5,
-        },
-        { transform: "translate(0,0)" },
-      ],
-      { duration: 450, easing: "cubic-bezier(.2,.65,.35,1)" },
-    );
+    const dx = (before - position) / 100 * node.parentElement!.clientWidth;
+    animation.current = node.animate([{ translate: `${dx}px 0` }, { translate: `${dx / 2}px -7px`, offset: .5 }, { translate: "0px 0px" }], { duration: 450, easing: "ease-in-out" });
     if (paused) animation.current.pause();
-  }, [index, paused]);
-  useEffect(() => {
-    if (paused && animation.current?.playState === "running") {
-      animation.current.pause();
-      pausedByUi.current = true;
-    } else if (!paused && pausedByUi.current) {
-      animation.current?.play();
-      pausedByUi.current = false;
+  }, [position, paused]);
+  useEffect(() => { if (paused) animation.current?.pause(); else if (animation.current?.playState === "paused") animation.current.play(); }, [paused]);
+  useEffect(() => () => animation.current?.cancel(), []);
+  return <div ref={ref} className="bridge-buta" style={{ left: `${position}%` }} aria-hidden="true"><Pig mood={mood} /></div>;
+}
+
+/** Identities follow the cards through swaps, including equal values. */
+export function FriendArt({ id, resting }: { id: number; resting: boolean }) {
+  const kind = id % 4;
+  const fur = ["#dca477", "#e5d3b4", "#b7bcb2", "#bd9a7b"][kind];
+  const scarf = ["#a8bd94", "#b7a6c8", "#d9b276", "#94b9bf", "#d19e9c", "#a8b8d3", "#c8b997", "#a9c6b1"][id % 8];
+  return <svg className="bridge-friend-art" viewBox="0 0 100 116" aria-hidden="true">
+    <ellipse cx="50" cy="108" rx="30" ry="5" fill="#685c4230" />
+    <g className="friend-body">
+      <path d="M28 86l-4 19q6 7 14 1l4-15m16 0 4 15q8 6 14-1l-4-19" fill={fur} stroke="#826f5b" strokeWidth="2" />
+      <ellipse cx="50" cy="78" rx="28" ry="25" fill={fur} stroke="#826f5b" strokeWidth="2" />
+      {kind === 1 ? <><ellipse cx="33" cy="25" rx="10" ry="23" fill={fur} stroke="#826f5b" strokeWidth="2" /><ellipse cx="67" cy="25" rx="10" ry="23" fill={fur} stroke="#826f5b" strokeWidth="2" /><path d="M33 12v21m34-21v21" stroke="#d3ada1" strokeWidth="6" strokeLinecap="round" /></> : kind === 0 ? <><path d="M20 44L15 9l29 20m12 0L85 9l-5 35" fill={fur} stroke="#826f5b" strokeWidth="2" /><path d="M22 20l3 18 11-8m42-10-3 18-11-8" fill="#efd6ba" /></> : <><circle cx="26" cy="28" r="14" fill={fur} stroke="#826f5b" strokeWidth="2" /><circle cx="74" cy="28" r="14" fill={fur} stroke="#826f5b" strokeWidth="2" /><circle cx="26" cy="28" r="7" fill="#d5b8a2" /><circle cx="74" cy="28" r="7" fill="#d5b8a2" /></>}
+      <ellipse cx="50" cy="47" rx="34" ry="28" fill={fur} stroke="#826f5b" strokeWidth="2" />
+      {kind === 2 && <path d="M19 41q13-15 25 0l-1 10q-16 8-24-10m62 0q-13-15-25 0l1 10q16 8 24-10" fill="#7f8e86" />}
+      <ellipse cx="50" cy="57" rx="20" ry="13" fill="#faf0d9" />
+      {resting ? <path d="M31 45q5 5 10 0m18 0q5 5 10 0" fill="none" stroke="#615747" strokeWidth="2.7" strokeLinecap="round" /> : <><ellipse cx="36" cy="44" rx="3" ry="4" fill="#615747" /><ellipse cx="64" cy="44" rx="3" ry="4" fill="#615747" /></>}
+      <path d="M46 53q4-4 8 0l-4 4Z" fill="#73614f" /><path d="M50 57v4m-6 0q6 6 12 0" fill="none" stroke="#73614f" strokeWidth="1.6" strokeLinecap="round" />
+      <ellipse cx="27" cy="55" rx="5" ry="3" fill="#d794853d" /><ellipse cx="73" cy="55" rx="5" ry="3" fill="#d794853d" />
+      <path d="M27 68q23 9 46 0l-3 10q-20 7-40 0Z" fill={scarf} stroke="#826f5b" strokeWidth="1.5" /><path d="M64 74l10 15-13-2-5-12" fill={scarf} stroke="#826f5b" strokeWidth="1.5" />
+    </g>
+  </svg>;
+}
+
+function ForestFriend({ item, index, active, prominent, settled, paused, style, enabled, onPointerDown, onClick, onKeyDown }: {
+  item: Item; index: number; active: boolean; prominent: boolean; settled: boolean; paused: boolean; style: CSSProperties; enabled: boolean;
+  onPointerDown: React.PointerEventHandler<HTMLButtonElement>; onClick: React.MouseEventHandler<HTMLButtonElement>; onKeyDown: React.KeyboardEventHandler<HTMLButtonElement>;
+}) {
+  const ref = useRef<HTMLButtonElement>(null), previous = useRef<{ x: number; y: number } | null>(null), animation = useRef<Animation | null>(null);
+  useLayoutEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const position = { x: node.offsetLeft, y: node.offsetTop }, old = previous.current;
+    previous.current = position;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (old && (old.x !== position.x || old.y !== position.y)) {
+      const dx = old.x - position.x, dy = old.y - position.y;
+      animation.current?.cancel();
+      animation.current = node.animate([{ translate: `${dx}px ${dy}px` }, { translate: `${dx * .5}px ${dy * .5 + (dx < 0 ? -24 : 14)}px`, rotate: dx < 0 ? "-5deg" : "5deg", offset: .5 }, { translate: "0px 0px", rotate: "0deg" }], { duration: 450, easing: "cubic-bezier(.2,.65,.35,1)" });
     }
-  }, [paused]);
+    if (paused) animation.current?.pause();
+  });
+  useEffect(() => { if (paused && animation.current?.playState === "running") animation.current.pause(); else if (!paused && animation.current?.playState === "paused") animation.current.play(); }, [paused]);
   useEffect(() => () => animation.current?.cancel(), []);
   return (
     <button

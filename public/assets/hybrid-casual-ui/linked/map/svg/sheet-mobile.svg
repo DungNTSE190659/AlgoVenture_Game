@@ -1,0 +1,5 @@
+<svg data-ui-border="tonal" data-ui-depth="soft" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 362 164" width="362" height="164" fill="none">
+ <rect x="2" y="4" width="358" height="157" rx="25" fill="#1D3527" opacity="0.063"/>
+ <rect x="2" y="2" width="358" height="157" rx="25" fill="#CCDDE6" stroke="#babec0" stroke-opacity="0.65" stroke-width="1.30"/>
+ <rect x="3" y="3" width="356" height="154.00" rx="24" fill="#F5FAFD"/>
+ <path d="M27 3H335" stroke="#FFFFFF" stroke-opacity="0.325" stroke-width="1.30" stroke-linecap="round"/></svg>

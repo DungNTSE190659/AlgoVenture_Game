@@ -198,7 +198,7 @@ test("demo explains swap, equality and early exit; controls and custom array per
   await expect(page.locator(".bubble-play")).toBeVisible();
   expect(
     await page
-      .locator(".bubble-tile")
+      .locator(".bubble-overview-item")
       .evaluateAll((nodes) =>
         nodes.map((n) => Number(n.getAttribute("data-value"))),
       ),
@@ -217,7 +217,7 @@ test("eight bubbles and dialogue fit laptop and phone widths; settings reject ma
     [844, 390],
   ]) {
     await page.setViewportSize({ width, height });
-    const boxes = await page.locator(".bubble-tile").evaluateAll((nodes) =>
+    const boxes = await page.locator(".bubble-overview-item").evaluateAll((nodes) =>
       nodes.map((n) => {
         const r = n.getBoundingClientRect();
         return { left: r.left, right: r.right };
@@ -251,7 +251,7 @@ test("eight bubbles and dialogue fit laptop and phone widths; settings reject ma
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBeLessThanOrEqual(width);
-    const blocks = await page.locator(".bubble-tile").evaluateAll((nodes) =>
+    const blocks = await page.locator(".bubble-overview-item").evaluateAll((nodes) =>
       nodes.map((node) => {
         const r = node.getBoundingClientRect();
         return { left: r.left, right: r.right };

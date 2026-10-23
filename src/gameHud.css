@@ -120,3 +120,29 @@
   }
 }
 
+/* ── Landscape: reduce chrome height so more game fits ──────────────── */
+@media (max-height: 520px) and (orientation: landscape) {
+  .play-header {
+    flex: 0 0 56px;
+    min-height: 56px;
+    padding: 8px 16px 4px;
+  }
+  .play-header h1 {
+    font-size: 20px;
+  }
+  .play-header .round-button {
+    width: 40px;
+    height: 40px;
+  }
+  .game-play-footer {
+    min-height: 70px;
+    padding-top: 10px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+  .game-play-footer .game-hint-button {
+    min-height: 44px;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+

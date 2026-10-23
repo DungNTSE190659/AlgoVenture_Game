@@ -51,7 +51,7 @@ for (const algorithm of ["Quick Sort", "Bubble Sort", "Selection Sort", "Inserti
       found = await page.evaluate(() => {
         const animation = document.getAnimations().find(candidate => {
           const target = (candidate.effect as KeyframeEffect)?.target;
-          return target instanceof Element && target.matches(".lesson-cell, .bubble-tile, .selection-tile, .insertion-tile");
+          return target instanceof Element && target.matches(".lesson-cell, .bubble-tile, .selection-tile, .insertion-tile, .qf-friend");
         });
         if (!animation) return false;
         animation.pause();

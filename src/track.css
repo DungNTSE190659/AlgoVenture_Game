@@ -123,12 +123,41 @@
   .track-welcome h2 { font-size: 24px; }.track-welcome p { font-size: 12px; margin: 12px 0 18px; }.welcome-note { margin-top: 18px; }
 }
 @media (max-width: 350px) { .track-header h1 { font-size: 17px; }.track-header { padding-left: 13px; padding-right: 13px; }.sheet-heading h2 { font-size: 19px; }.sheet-actions button { font-size: 12px; gap: 5px; }.sheet-challenge > svg:last-child { display: none; }.stop-caption { min-width: 116px; padding: 7px 8px; }.stop-caption strong { font-size: 14px; }.buta-resting .buta-body { translate: 48px 0; }.buta-here { left: 36px; } }
+
+@media (max-width: 700px) {
+  .learning-map .track-sheet { display: flex; flex-direction: column; padding: 24px 18px 22px; gap: 8px; }
+  .track-sheet .sheet-heading { gap: 8px; min-width: 0; }
+  .track-sheet .sheet-heading > div { flex: 1; min-width: 0; }
+  .track-sheet .sheet-heading h2 { font-size: clamp(17px, 4.4vw, 22px); overflow-wrap: anywhere; }
+  .track-sheet :is(.sheet-status, .sheet-done) { flex-shrink: 0; margin-left: 0; }
+  .track-sheet .sheet-description { margin: 0; }
+  .learning-map .track-sheet .sheet-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: auto; gap: 10px; }
+  .learning-map .track-sheet .sheet-actions-single { grid-template-columns: minmax(0, 1fr); }
+  .track-sheet .sheet-actions button { min-width: 0; min-height: 46px; flex-shrink: 0; }
+  .track-sheet .sheet-actions button > :is(svg, img) { flex-shrink: 0; }
+}
 @media (max-height: 480px) and (min-width: 600px) {
   .learning-map { --track-top: 70px; }.track-header { margin: 0; width: 58%; }.track-progress { display: none; }
   .track-viewport { right: 41%; bottom: 0; }.track-sheet { left: auto; right: 14px; transform: none; width: 38%; bottom: 50%; translate: 0 50%; }.track-locate { right: 43%; bottom: 16px; }
   .track-scroll-hint { left: 29%; }.track-welcome { height: calc(100dvh - 69px); padding-left: 195px; max-width: 680px; }.welcome-pig { position: absolute; left: 0; top: 20px; }.welcome-overline { font-size: 8px; }.track-welcome h2 { font-size: 24px; }.welcome-note { font-size: 8px; }
 }
 @media (prefers-reduced-motion: reduce) { .learning-map *, .learning-map *::before, .learning-map *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+/* ── Narrow landscape (phones < 600px wide, e.g. iPhone SE 568×320) ── */
+@media (max-height: 480px) and (max-width: 599px) and (orientation: landscape) {
+  .learning-map { --sheet-height: 130px; --track-top: 72px; }
+  .learning-map.map-has-status { --sheet-height: 148px; }
+  .track-header { height: 62px; padding: 8px 18px; gap: 10px; }
+  .track-header h1 { font-size: 17px; }
+  .track-back, .track-sound { width: 34px; height: 34px; border-radius: 11px; }
+  .track-progress { display: none; }
+  .track-sheet { padding: 16px 14px 10px; border-radius: 20px; bottom: 8px; }
+  .sheet-heading h2 { font-size: 17px; }
+  .sheet-description { font-size: 10px; margin: 5px 0; }
+  .sheet-actions { gap: 7px; margin-top: 10px; }
+  .sheet-actions button { min-height: 40px; font-size: 12px; }
+  .track-locate { bottom: calc(var(--sheet-height) + 30px); }
+}
 
 .learning-map.has-route-picker { --track-top: 190px; }
 .track-routes { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: min(calc(100% - 48px), 740px); margin: 4px auto 10px; }

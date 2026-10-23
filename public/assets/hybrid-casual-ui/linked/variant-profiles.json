@@ -1,0 +1,570 @@
+{
+  "version": 1,
+  "note": "Supplementary Unity choices; existing web layout is unchanged. Sizes are logical pixels, exported PNGs are 2x.",
+  "assets": [
+    {
+      "id": "node-block-peach-assembly",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: assembly; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-assembly-selected",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: assembly; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-bank",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-bank-selected",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-mobile",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: mobile; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-mobile-selected",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: mobile; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-compact",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: compact; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-compact-selected",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: compact; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-peach-bank-mobile",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; peach; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "peach",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-peach-bank-mobile-selected",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; peach; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "peach",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-assembly",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: assembly; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-assembly-selected",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: assembly; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-bank",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-bank-selected",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-mobile",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: mobile; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-mobile-selected",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: mobile; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-compact",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: compact; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-compact-selected",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: compact; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-mint-bank-mobile",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; mint; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "mint",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-mint-bank-mobile-selected",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; mint; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "mint",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-assembly",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: assembly; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-assembly-selected",
+      "nativeSize": [
+        124,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: assembly; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "assembly",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-bank",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-bank-selected",
+      "nativeSize": [
+        116,
+        56
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-mobile",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: mobile; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-mobile-selected",
+      "nativeSize": [
+        94,
+        64
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: mobile; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "mobile",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-compact",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: compact; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-compact-selected",
+      "nativeSize": [
+        77,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: compact; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "compact",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "node-block-lavender-bank-mobile",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; lavender; normal. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "lavender",
+      "state": "normal"
+    },
+    {
+      "id": "node-block-lavender-bank-mobile-selected",
+      "nativeSize": [
+        58,
+        44
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Node body: bank-mobile; lavender; selected. Keep number, socket and pointer as separate children.",
+      "profile": "bank-mobile",
+      "color": "lavender",
+      "state": "selected"
+    },
+    {
+      "id": "slot-frame-desktop",
+      "nativeSize": [
+        148,
+        80
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Assembly slot: desktop; normal. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "desktop",
+      "state": "normal"
+    },
+    {
+      "id": "slot-frame-desktop-available",
+      "nativeSize": [
+        148,
+        80
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Assembly slot: desktop; available drop target. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "desktop",
+      "state": "available"
+    },
+    {
+      "id": "slot-frame-mobile-tall",
+      "nativeSize": [
+        136,
+        96
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-tall; normal. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-tall",
+      "state": "normal"
+    },
+    {
+      "id": "slot-frame-mobile-tall-available",
+      "nativeSize": [
+        136,
+        96
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-tall; available drop target. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-tall",
+      "state": "available"
+    },
+    {
+      "id": "slot-frame-mobile-medium",
+      "nativeSize": [
+        131,
+        72
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-medium; normal. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-medium",
+      "state": "normal"
+    },
+    {
+      "id": "slot-frame-mobile-medium-available",
+      "nativeSize": [
+        131,
+        72
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-medium; available drop target. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-medium",
+      "state": "available"
+    },
+    {
+      "id": "slot-frame-mobile-compact",
+      "nativeSize": [
+        112,
+        52
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-compact; normal. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-compact",
+      "state": "normal"
+    },
+    {
+      "id": "slot-frame-mobile-compact-available",
+      "nativeSize": [
+        112,
+        52
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Assembly slot: mobile-compact; available drop target. Fixed dash lengths and outline thickness; select matching aspect ratio.",
+      "profile": "mobile-compact",
+      "state": "available"
+    },
+    {
+      "id": "btn-neutral-wide",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "usage": "Wide neutral actions: Try it yourself, reset, undo. Use Sprite Swap plus 9-slice for nearby sizes.",
+      "state": "normal"
+    },
+    {
+      "id": "btn-neutral-wide-hover",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "usage": "Wide neutral actions: Try it yourself, reset, undo. Use Sprite Swap plus 9-slice for nearby sizes.",
+      "state": "hover"
+    },
+    {
+      "id": "btn-neutral-wide-pressed",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "usage": "Wide neutral actions: Try it yourself, reset, undo. Use Sprite Swap plus 9-slice for nearby sizes.",
+      "state": "pressed"
+    },
+    {
+      "id": "btn-neutral-wide-disabled",
+      "nativeSize": [
+        264,
+        62
+      ],
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "usage": "Wide neutral actions: Try it yourself, reset, undo. Use Sprite Swap plus 9-slice for nearby sizes.",
+      "state": "disabled"
+    },
+    {
+      "id": "speech-tail-up",
+      "nativeSize": [
+        24,
+        20
+      ],
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "usage": "Mobile speech bubble pointing upward toward Buta. Separate from the sliced bubble body; do not stretch."
+    }
+  ]
+}

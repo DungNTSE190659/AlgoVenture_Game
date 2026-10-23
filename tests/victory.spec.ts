@@ -22,14 +22,14 @@ async function win(page: Page, algorithm: string) {
   }
   else {
     for (const [id, target] of [
-      [0, "Đặt khối làm chốt"],
-      [1, "Đưa khối vào nhóm lớn"],
+      [0, "Chọn làm mốc"],
+      [1, "Đưa vào nhóm lớn hơn"],
     ] as const) {
-      await page.locator(`[data-cargo="${id}"]`).focus();
+      await page.locator(`[data-friend="${id}"]`).focus();
       await page.keyboard.press("Enter");
       await page.getByRole("button", { name: target, exact: true }).click();
     }
-    await page.getByRole("button", { name: "Kiểm tra", exact: true }).click();
+    await page.getByRole("button", { name: "Kiểm tra nhóm", exact: true }).click();
   }
   await expect(page.locator(".victory-celebration")).toBeVisible();
   const panel = page.getByRole("dialog", {
@@ -73,8 +73,8 @@ for (const algorithm of ["Bubble Sort", "Quick Sort"])
     await page.getByRole("button", { name: "Chơi lại", exact: true }).click();
     await expect(page.locator(".victory-celebration")).toHaveCount(0);
     if (algorithm === "Bubble Sort")
-      await expect(page.locator(".bubble-tile")).toHaveCount(2);
-    else await expect(page.locator(".cargo-pool .cargo-crate")).toHaveCount(2);
+      await expect(page.locator(".bubble-overview-item")).toHaveCount(2);
+    else await expect(page.locator(".qf-pool .qf-friend")).toHaveCount(2);
     await win(page, algorithm);
     for (const [level, count] of [
       ["medium", 7],
@@ -87,8 +87,8 @@ for (const algorithm of ["Bubble Sort", "Quick Sort"])
       await expect(
         page.locator(
           algorithm === "Bubble Sort"
-            ? ".bubble-tile"
-            : ".cargo-pool .cargo-crate",
+            ? ".bubble-overview-item"
+            : ".qf-pool .qf-friend",
         ),
       ).toHaveCount(count);
       await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
@@ -115,18 +115,12 @@ for (const algorithm of ["Bubble Sort", "Quick Sort"])
     }
   });
 
-test("Bubble demo uses a clear background and circles; play removes the redundant legend", async ({
-  page,
-}) => {
+test("Bubble demo and play keep the whole forest party on the bridge", async ({ page }) => {
   await enter(page, "Bubble Sort", "Demo");
-  await expect(page.locator(".world-scenery")).toHaveCount(0);
-  expect(
-    await page
-      .locator(".bubble-tile")
-      .first()
-      .evaluate((node) => getComputedStyle(node).borderRadius),
-  ).toBe("50%");
-  await page.screenshot({ path: ".qa/bubble-white-demo.png" });
+  await expect(page.locator(".bridge-scene")).toBeVisible();
+  await expect(page.locator(".bridge-friend")).toHaveCount(5);
+  await expect(page.locator(".bridge-buta")).toBeVisible();
+  await page.screenshot({ path: ".qa/bubble-bridge-demo.png" });
   await page.getByRole("button", { name: "Về bản đồ", exact: true }).click();
   await page.getByRole("button", { name: "Thử thách", exact: true }).click();
   await expect(page.locator(".bubble-legend")).toHaveCount(0);

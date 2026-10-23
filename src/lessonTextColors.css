@@ -1,0 +1,12 @@
+/* Topic cards and route text share the lesson's black typography. */
+.atlas-map .sheet-number { color: #fff; }
+.atlas-map :is(#atlas-title, .atlas-enter, .atlas-description, .atlas-region-progress),
+.learning-map:is(.region-linear-structures, .region-trees) :is(h1, h2, p, button, .stop-name, .sheet-status) {
+  color: #000 !important;
+}
+
+/* Keep the existing colors of tree values, including tokens while dragging. */
+.tree-game,
+.tree-game :not(:is(.tree-node, .tree-node *, .tree-supply-seed, .tree-supply-seed *, .tree-drag-ghost, .tree-drag-ghost *, .tree-demo-ghost, .tree-demo-ghost *, .tree-result-chip, .tree-result-chip *, svg, svg *)) {
+  color: #000 !important;
+}
