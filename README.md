@@ -42,9 +42,13 @@ Muốn thử trên điện thoại cùng Wi-Fi: chạy `npx vite --host 0.0.0.0`
 
 - Vào chủ đề Mảng rồi chọn đảo Bubble Sort. Cả năm thuật toán Sort đều có nhánh Demo / Thử thách và dấu hoàn thành riêng.
 - Demo minh họa từng cặp cạnh nhau: quan sát, giải thích vì sao đổi hoặc giữ nguyên, chuyển động đổi chỗ, số lớn nhất về cuối sau mỗi lượt. Hai số bằng nhau giữ thứ tự. Một lượt không đổi chỗ cho phép dừng sớm. Có lùi bước, tạm dừng, tốc độ 1x / 1.5x / 2x và mảng riêng từ 2 đến 8 số.
-- **Play – Đường đua bong bóng:** chọn bong bóng lớn hơn của cặp đang sáng, giữ và kéo sang phải. Bong bóng lớn bên trái vượt hàng xóm bằng một lần đổi chỗ; bong bóng lớn đã ở bên phải tiếp sức mà không đổi vị trí hai số. Giữ tay để đi qua nhiều ô trong một lần kéo; khi gặp hàng xóm lớn hơn, thả tay và chuyển sang kéo bong bóng đó. Nút Giữ nguyên luôn hiện dưới mảng khi xét một cặp: bấm khi số trái nhỏ hơn hoặc bằng số phải để chuyển sang cặp kế tiếp. Bấm sai giữ nguyên trạng thái và giải thích để thử lại. Thao tác kéo tiếp sức cũ vẫn hoạt động. Bàn phím dùng Tab chọn bong bóng rồi nhấn phím sang phải hoặc Enter. Cuối mỗi lượt, số lớn nhất chuyển xanh tại đích; lượt sau quay về đầu, phần cần xét ngắn hơn.
-- Mỗi cặp đúng được 100 điểm; thao tác sai trừ 25 điểm. Buta chỉ giải thích khi bấm gợi ý. Có âm thanh và biểu cảm ăn mừng khi hoàn tất.
-- Logic so sánh dùng chung cho Demo và Play trong `src/engine/bubbleSort.ts`; giao diện trong `src/components/BubbleGame.tsx`, thao tác tiếp sức liên tục trong `src/components/BubbleRunBoard.tsx`, bố cục trong `src/bubble.css`.
+- **Thử thách – Tự khám phá từng bước:** mọi bong bóng cùng màu xanh, không đánh dấu cặp cần xét hay khóa phần đuôi đã xếp. Người chơi có thể thử kéo bất kỳ số nào, nhưng mỗi thao tác được kiểm tra theo Bubble Sort: xét từng cặp cạnh nhau từ trái sang phải, đổi chỗ khi trái lớn hơn phải. Không cho nhảy qua nhiều ô hoặc đổi cặp chưa đến lượt. Có thể kéo một trong hai số để đổi chỗ cặp hiện tại; hỗ trợ chuột, cảm ứng và mũi tên bàn phím.
+- Không có nút **Giữ nguyên**: game tự xét và bỏ qua những cặp đã tăng dần hoặc bằng nhau, kể cả ở đầu lượt hay khi chuyển lượt. Người chơi tự nhận biết cặp tiếp theo cần đổi; giao diện không đánh dấu đáp án. **Kết thúc thuật toán** nộp bài khi đã thực hiện hết các lần đổi cần thiết.
+- Tổng kết cuối màn gồm số bước người chơi thực hiện (đổi đúng + thao tác sai), bước đúng/sai, tổng cặp đã so sánh (gồm các cặp tự bỏ qua) và số lượt so sánh. Các bước tự bỏ qua không cộng vào độ chính xác của người chơi: độ chính xác = lần đổi đúng / tổng thao tác. 100% được 3 sao; từ 50% đến dưới 100% được 2 sao; trên 0% đến dưới 50% được 1 sao; 0% được 0 sao. Mảng vốn đã sắp xếp được nộp ngay, không lỗi thì 3 sao. Lỗi thứ 5 vẫn dừng màn và không lưu hoàn thành.
+
+- Buta đứng riêng trong sân chơi, không có ô nút hay nhãn “Bước vừa làm”. Sau mỗi bước đúng, bong bóng thoại cạnh Buta khen lại cặp vừa hoàn thành trong khoảng 3 giây rồi ẩn. Bấm trực tiếp vào Buta để nghe lại đúng lời khen gần nhất, cũng tự ẩn sau 3 giây. Sai không xóa lời khen gần nhất; chơi lại xóa lời thoại cũ. Không tiết lộ cặp hay đáp án tiếp theo. **Buta gợi ý** vẫn là nút riêng, chỉ giải thích bước hiện tại khi được gọi.
+
+- Logic ở `src/engine/bubbleSort.ts`; màn chơi ở `src/components/BubbleGame.tsx`, kéo thả ở `src/components/BubbleRunBoard.tsx`, bố cục ở `src/bubble.css`.
 
 ## Kết thúc màn chơi
 

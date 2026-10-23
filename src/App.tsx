@@ -174,6 +174,7 @@ export default function App() {
         speed={speed}
         onBack={back}
         onPlay={() => start("play")}
+        onDemo={() => start("demo")}
         onChooseMap={chooseMap}
         onComplete={complete}
         onChange={updateArray}

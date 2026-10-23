@@ -1,231 +1,79 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type PointerEvent,
-} from "react";
-import { Check } from "lucide-react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import type { BubbleState } from "../engine/bubbleSort";
 import type { Item } from "../engine/quicksort";
 
 type Props = {
-  onInteract: () => void;
   state: BubbleState;
   interactive: boolean;
   paused: boolean;
-  onPush: (id: number) => boolean;
-  onHandoff: () => void;
+  onMove: (id: number, target: number) => void;
 };
-type Hold = {
-  id: number;
-  pointer: number;
-  startX: number;
-  x: number;
-  y: number;
-  steps: number;
-  waiting: boolean;
-  blocked: boolean;
-};
+type Drag = { id: number; pointer: number; startX: number; startY: number; x: number; y: number; moved: boolean };
 
-/** A held bubble can travel through several adjacent comparisons in one gesture. */
-export default function BubbleRunBoard({
-  onInteract,
-  state,
-  interactive,
-  paused,
-  onPush,
-  onHandoff,
-}: Props) {
+export default function BubbleRunBoard({ state, interactive, paused, onMove }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const hold = useRef<Hold | null>(null);
-  const [ghost, setGhost] = useState<{
-    id: number;
-    x: number;
-    y: number;
-  } | null>(null);
-  const suppressClick = useRef(false);
-  const current = useRef({ state, interactive, paused, onPush, onHandoff });
-  current.current = { state, interactive, paused, onPush, onHandoff };
-
-  function advance() {
-    const gesture = hold.current,
-      {
-        state: s,
-        interactive: enabled,
-        paused: isPaused,
-        onPush: push,
-        onHandoff: handoff,
-      } = current.current;
-    if (
-      !gesture ||
-      gesture.blocked ||
-      gesture.waiting ||
-      !enabled ||
-      isPaused ||
-      s.phase !== "compare"
-    )
-      return;
-    const left = s.items[s.pair],
-      right = s.items[s.pair + 1];
-    if (gesture.id !== left.id && gesture.id !== right.id) {
-      hold.current = null;
-      setGhost(null);
-      return;
-    }
-    const target = ref.current?.querySelector<HTMLElement>(
-      `[data-bubble-id="${right.id}"]`,
-    );
-    if (!target) return;
-    const box = target.getBoundingClientRect();
-    const stride = box.width + (window.innerWidth <= 700 ? 8 : 14);
-    const goal =
-      gesture.id === left.id
-        ? box.left + box.width * 0.5
-        : Math.min(
-            window.innerWidth - 12,
-            box.left + box.width * 0.5 + stride * 0.65,
-          );
-    if (
-      gesture.x < goal ||
-      gesture.x - gesture.startX < 12 ||
-      Math.abs(gesture.y - (box.top + box.height / 2)) > 100
-    )
-      return;
-    // A long drag ends naturally when a larger neighbour takes over the relay.
-    if (
-      gesture.steps > 0 &&
-      gesture.id === left.id &&
-      left.value <= right.value
-    ) {
-      gesture.blocked = true;
-      setGhost(null);
-      handoff();
-      return;
-    }
-    gesture.waiting = true;
-    if (push(gesture.id)) gesture.steps++;
-    else {
-      gesture.blocked = true;
-      setGhost(null);
-    }
-  }
+  const drag = useRef<Drag | null>(null);
+  const [ghost, setGhost] = useState<Drag | null>(null);
   useEffect(() => {
-    if (paused || state.phase !== "compare") {
-      hold.current = null;
+    if (!interactive || paused) {
+      drag.current = null;
       setGhost(null);
-      return;
     }
-    if (interactive && hold.current) {
-      hold.current.waiting = false;
-      advance();
-    }
-  }, [interactive, paused, state]);
-
+  }, [interactive, paused]);
   function begin(event: PointerEvent<HTMLButtonElement>, id: number) {
-    if (!interactive || event.button !== 0) return;
-    onInteract();
-    const board = ref.current;
-    if (!board) return;
-    suppressClick.current = false;
-    hold.current = {
-      id,
-      pointer: event.pointerId,
-      startX: event.clientX,
-      x: event.clientX,
-      y: event.clientY,
-      steps: 0,
-      waiting: false,
-      blocked: false,
-    };
-    // Capture on the board: the bubble itself becomes temporarily disabled during a swap.
-    board.setPointerCapture(event.pointerId);
+    if (!interactive || paused || event.button !== 0) return;
+    drag.current = { id, pointer: event.pointerId, startX: event.clientX, startY: event.clientY, x: event.clientX, y: event.clientY, moved: false };
+    ref.current?.setPointerCapture(event.pointerId);
   }
   function move(event: PointerEvent<HTMLDivElement>) {
-    const gesture = hold.current;
+    const gesture = drag.current;
     if (!gesture || gesture.pointer !== event.pointerId) return;
     gesture.x = event.clientX;
     gesture.y = event.clientY;
-    if (
-      Math.hypot(gesture.x - gesture.startX, event.movementY) > 7 &&
-      !gesture.blocked
-    ) {
-      suppressClick.current = true;
-      setGhost({ id: gesture.id, x: gesture.x, y: gesture.y });
-      advance();
-    }
+    gesture.moved ||= Math.hypot(gesture.x - gesture.startX, gesture.y - gesture.startY) > 7;
+    if (gesture.moved) setGhost({ ...gesture });
   }
   function end(event: PointerEvent<HTMLDivElement>) {
-    if (hold.current?.pointer !== event.pointerId) return;
-    advance();
-    hold.current = null;
+    const gesture = drag.current;
+    if (!gesture || gesture.pointer !== event.pointerId) return;
+    drag.current = null;
     setGhost(null);
-    if (event.currentTarget.hasPointerCapture(event.pointerId))
-      event.currentTarget.releasePointerCapture(event.pointerId);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    if (!gesture.moved || !interactive || paused) return;
+    const board = ref.current;
+    if (!board) return;
+    const bounds = board.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top - 60 || event.clientY > bounds.bottom + 60) return;
+    const tiles = Array.from(board.querySelectorAll<HTMLElement>(".bubble-tile"));
+    const target = tiles.reduce((best, tile, index) => {
+      const box = tile.getBoundingClientRect();
+      const distance = Math.abs(event.clientX - box.left - box.width / 2);
+      return distance < best.distance ? { index, distance } : best;
+    }, { index: 0, distance: Infinity }).index;
+    onMove(gesture.id, target);
   }
-  const active = state.items
-    .slice(state.pair, state.pair + 2)
-    .map((item) => item.id);
   return (
     <div className="bubble-board-area bubble-run-area">
-      <div
-        className="bubble-board bubble-run-track"
-        ref={ref}
-        style={{ "--count": state.items.length } as CSSProperties}
-        aria-label="Mảng Bubble Sort"
-        onPointerMove={move}
-        onPointerUp={end}
-        onPointerCancel={() => {
-          hold.current = null;
-          setGhost(null);
-        }}
-      >
+      <div className="bubble-board bubble-run-track" ref={ref}
+        style={{ "--count": state.items.length } as CSSProperties} aria-label="Mảng Bubble Sort"
+        onPointerMove={move} onPointerUp={end}
+        onPointerCancel={() => { drag.current = null; setGhost(null); }}>
         <div className="bubble-river" aria-hidden="true" />
-        {state.phase === "compare" && (
-          <div
-            className="bubble-pair-window"
-            style={{ left: `calc(var(--step) * ${state.pair} - 8px)` }}
-            aria-hidden="true"
-          ></div>
-        )}
         {state.items.map((item, index) => (
-          <RunBubble
-            key={item.id}
-            item={item}
-            index={index}
-            settled={index > state.end}
-            active={state.phase === "compare" && active.includes(item.id)}
-            enabled={interactive && active.includes(item.id)}
-            held={ghost?.id === item.id}
-            paused={paused}
-            onPointerDown={(event) => begin(event, item.id)}
-            onClick={(event) => {
-              if (suppressClick.current && event.detail !== 0) {
-                suppressClick.current = false;
-                return;
-              }
-              if (event.detail === 0) current.current.onPush(item.id);
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "ArrowRight") {
+          <RunBubble key={item.id} item={item} index={index} enabled={interactive && !paused}
+            held={ghost?.id === item.id} paused={paused}
+            onPointerDown={event => begin(event, item.id)} onClick={() => {}}
+            onKeyDown={event => {
+              if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
                 event.preventDefault();
-                current.current.onPush(item.id);
+                onMove(item.id, index + (event.key === "ArrowLeft" ? -1 : 1));
               }
-            }}
-          />
+            }} />
         ))}
       </div>
-      {ghost && (
-        <div
-          className="bubble-drag-ghost bubble-run-ghost"
-          style={{ left: ghost.x, top: ghost.y }}
-          aria-hidden="true"
-        >
-          {state.items.find((item) => item.id === ghost.id)?.value}
-          <small>GIỮ VÀ KÉO</small>
-        </div>
-      )}
+      {ghost && <div className="bubble-drag-ghost bubble-run-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true">
+        {state.items.find(item => item.id === ghost.id)?.value}<small>GIỮ VÀ KÉO</small>
+      </div>}
     </div>
   );
 }
@@ -233,8 +81,6 @@ export default function BubbleRunBoard({
 function RunBubble({
   item,
   index,
-  settled,
-  active,
   enabled,
   held,
   paused,
@@ -244,8 +90,6 @@ function RunBubble({
 }: {
   item: Item;
   index: number;
-  settled: boolean;
-  active: boolean;
   enabled: boolean;
   held: boolean;
   paused: boolean;
@@ -301,14 +145,13 @@ function RunBubble({
   return (
     <button
       ref={ref}
-      className={`bubble-tile bubble-run-tile ${active ? "is-active" : ""} ${settled ? "is-settled" : ""} ${held ? "is-dragging" : ""}`}
+      className={`bubble-tile bubble-run-tile ${held ? "is-dragging" : ""}`}
       style={{ left: `calc(var(--step) * ${index})` }}
       disabled={!enabled}
-      aria-label={`Bong bóng ${item.value}, vị trí ${index + 1}. Kéo sang phải hoặc nhấn phím sang phải`}
+      aria-label={`Bong bóng ${item.value}, vị trí ${index + 1}. Kéo sang trái hoặc phải, hoặc dùng phím mũi tên`}
       data-bubble-id={item.id}
       data-value={item.value}
       data-index={index}
-      data-active={active}
       onPointerDown={onPointerDown}
       onClick={onClick}
       onKeyDown={onKeyDown}
@@ -316,7 +159,6 @@ function RunBubble({
       <span className="bubble-tile-shine" />
       <strong>{item.value}</strong>
       <small>{index + 1}</small>
-      {settled && <Check size={19} className="bubble-fixed-check" />}
     </button>
   );
 }

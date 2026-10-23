@@ -51,7 +51,7 @@ test("winning Bubble persists progress and Buta walks along the newly opened roa
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
   await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, 2");
   await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
-  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
+  await page.getByRole("button", { name: "Kết thúc thuật toán", exact: true }).click();
   await expect(page.locator(".victory-celebration")).toBeVisible();
   await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
   await expect(page.locator(".buta-walking")).toBeVisible();
@@ -87,7 +87,7 @@ test("revisiting and replaying completed lessons keeps Buta at the newest unlock
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
   await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, 2");
   await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
-  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
+  await page.getByRole("button", { name: "Kết thúc thuật toán", exact: true }).click();
   await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
   await expect(page.locator("#track-sheet-title")).toHaveText("Bubble Sort");
   await expect(page.locator(".track-buta")).toHaveAttribute("aria-label", "Buta đang ở Insertion Sort");

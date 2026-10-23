@@ -14,131 +14,159 @@ async function custom(page: Page, values: string) {
     .getByRole("button", { name: "Dùng mảng này", exact: true })
     .click();
 }
-async function push(page: Page, side: 0 | 1) {
-  const blocks = page.locator('.bubble-tile[data-active="true"]');
-  await expect(blocks.nth(side)).toBeEnabled();
-  const a = (await blocks.nth(0).boundingBox())!,
-    b = (await blocks.nth(1).boundingBox())!;
-  const box = side === 0 ? a : b;
-  const x = box.x + box.width / 2,
-    y = box.y + box.height / 2;
-  const goal =
-    side === 0
-      ? b.x + b.width / 2 + 2
-      : Math.min(page.viewportSize()!.width - 10, x + (b.x - a.x) * 0.75);
-  await page.mouse.move(x, y);
-  await page.mouse.down();
-  await page.mouse.move(goal, y, { steps: 10 });
-  await page.mouse.up();
+
+async function values(page: Page) {
+  return page.locator('.bubble-tile').evaluateAll(nodes => nodes.map(node => Number(node.getAttribute('data-value'))));
 }
-async function solve(page: Page) {
-  for (let step = 0; step < 45; step++) {
-    if (await page.locator(".bubble-victory").count()) return;
-    const next = page.getByRole("button", {
-      name: "Lượt tiếp theo",
-      exact: true,
-    });
-    if (await next.count()) {
-      await next.click();
-      continue;
-    }
-    const blocks = page.locator('.bubble-tile[data-active="true"]');
-    await expect(blocks.first()).toBeEnabled();
-    const pair = await blocks.evaluateAll((nodes) =>
-      nodes.map((n) => Number(n.getAttribute("data-value"))),
-    );
-    await push(page, pair[0] > pair[1] ? 0 : 1);
-    await expect(page.locator(".bubble-play")).toHaveAttribute(
-      "data-busy",
-      "false",
-    );
+
+test("Buta stands in the scene and replays the same brief praise when clicked", async ({ page }) => {
+  page.setDefaultTimeout(6000);
+  await enter(page);
+  await custom(page, '3, 1, 2');
+  const buta = page.getByRole('button', { name: 'Buta: nghe lại lời khen', exact: true });
+  const recap = page.locator('.bubble-recap');
+  await expect(buta.locator('.pig')).toBeVisible();
+  expect(await buta.evaluate(node => getComputedStyle(node).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
+  await expect(page.getByText('Bước vừa làm', { exact: true })).toHaveCount(0);
+  await buta.click();
+  await expect(recap).toHaveCount(0);
+  await page.locator('[data-bubble-id="1"]').focus();
+  await page.keyboard.press('ArrowLeft');
+  const praise = 'Bạn đã đổi 3 và 1 thành 1, 3. Cặp này đúng rồi!';
+  await expect(recap).toHaveText(praise);
+  await expect(page.locator('.bubble-hint')).toHaveCount(0);
+  for (const [width, height] of [[390, 844], [320, 568], [1280, 720]]) {
+    await page.setViewportSize({ width, height });
+    await buta.click();
+    await expect(recap).toHaveText(praise);
+    const bounds = await page.locator('.bubble-companion').boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    await page.screenshot({ path: `.qa/bubble-buta-praise-${width}.png`, fullPage: true });
   }
-  throw new Error("Bubble game did not finish");
-}
-test("relay play rejects the smaller carrier and sorts through adjacent passes", async ({
-  page,
-}) => {
-  const errors: string[] = [];
-  page.on("pageerror", (e) => errors.push(e.message));
-  await enter(page);
-  await custom(page, "4, 1, 3, 2");
-  await push(page, 1);
-  await expect(page.getByRole("status")).toContainText(
-    "Bong bóng bên trái lớn hơn",
-  );
-  await expect(page.locator(".bubble-topline")).toContainText("0 lần so sánh");
-  await solve(page);
-  expect(
-    await page
-      .locator(".bubble-tile")
-      .evaluateAll((nodes) =>
-        nodes.map((n) => Number(n.getAttribute("data-value"))),
-      ),
-  ).toEqual([1, 2, 3, 4]);
-  await expect(page.locator(".bubble-topline")).toContainText("6 lần so sánh");
-  await page
-    .getByRole("button", { name: "Đi tiếp cùng Buta", exact: true })
-    .click();
-  await expect(page.locator('.track-stop.stop-complete')).toHaveCount(1);
-  await expect(page.locator('#track-sheet-title')).toHaveText('Selection Sort');
-  await expect(page.getByRole('button', { name: 'Thử thách', exact: true })).toBeEnabled();
-  expect(errors).toEqual([]);
+  await expect(recap).toHaveCount(0, { timeout: 4500 });
+  await expect(buta).toBeVisible();
+  await buta.click();
+  await expect(recap).toHaveText(praise);
+  expect(await values(page)).toEqual([1, 3, 2]);
+  await page.getByRole('button', { name: 'Kết thúc thuật toán', exact: true }).click();
+  await expect(recap).toHaveCount(0);
+  await buta.click();
+  await expect(recap).toHaveText(praise);
+  await page.locator('[data-bubble-id="0"]').focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(recap).toContainText('Bạn đã đổi 3 và 2 thành 2, 3.');
+  await page.getByRole('button', { name: 'Buta gợi ý', exact: true }).click();
+  await expect(recap).toHaveCount(0);
+  await expect(page.locator('.bubble-hint')).toBeVisible();
+  await buta.click();
+  await expect(page.locator('.bubble-hint')).toHaveCount(0);
+  await expect(recap).toContainText('đổi 3 và 2 thành 2, 3');
+  await page.getByRole('button', { name: 'Kết thúc thuật toán', exact: true }).click();
+  await page.getByRole('button', { name: 'Chơi lại', exact: true }).click();
+  await buta.click();
+  await expect(recap).toHaveCount(0);
 });
 
-test("visible keep action advances ordered pairs once and rejects an inverted pair", async ({
-  page,
-}) => {
+test("ordered pairs skip silently while accuracy counts only player actions", async ({ page }) => {
   await enter(page);
-  await custom(page, "3, 6, 2");
-  const keep = page.getByRole("button", { name: "Giữ nguyên", exact: true });
-  await expect(keep).toBeVisible();
-  await keep.dblclick();
-  await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
-  await expect(keep).toBeEnabled();
-  expect(
-    await page
-      .locator('.bubble-tile[data-active="true"]')
-      .evaluateAll((nodes) =>
-        nodes.map((node) => Number(node.getAttribute("data-value"))),
-      ),
-  ).toEqual([6, 2]);
-  await keep.click();
-  await expect(page.getByRole("status")).toContainText(
-    "Bong bóng bên trái lớn hơn",
-  );
-  await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
-  await push(page, 0);
-  await page
-    .getByRole("button", { name: "Lượt tiếp theo", exact: true })
-    .click();
-  await push(page, 0);
-  await expect(page.locator(".bubble-victory")).toBeVisible();
+  await custom(page, '1, 3, 2, 4');
+  await expect(page.getByRole('button', { name: /Giữ nguyên/ })).toHaveCount(0);
+  await expect(page.locator('.bubble-topline,.bubble-star-meter,.bubble-pair-window,.bubble-tile.is-active')).toHaveCount(0);
+  // The first ordered pair is skipped, but swapping it is still a mistake.
+  await page.locator('[data-bubble-id="0"]').focus();
+  await page.keyboard.press('ArrowRight');
+  expect(await values(page)).toEqual([1, 3, 2, 4]);
+  await expect(page.getByRole('status')).toContainText('Chưa đúng bước');
+  await page.getByRole('button', { name: 'Buta gợi ý', exact: true }).click();
+  await expect(page.locator('.bubble-hint')).toContainText('ô 2 và 3');
+  await page.locator('[data-bubble-id="2"]').focus();
+  await page.keyboard.press('ArrowLeft');
+  expect(await values(page)).toEqual([1, 2, 3, 4]);
+  await expect(page.locator('.bubble-victory')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Kết thúc thuật toán', exact: true }).click();
+  await expect(page.locator('.bubble-victory .victory-stars')).toHaveAttribute('aria-label', '2 trên 3 sao');
+  const summary = page.locator('.bubble-victory .bubble-result-summary');
+  await expect(summary).toContainText('50%');
+  await expect(summary).toContainText('Bước đã thực hiện2');
+  await expect(summary).toContainText('Cặp đã so sánh5');
+  await expect(summary).toContainText('Lượt so sánh2');
+  await page.getByRole('button', { name: 'Chơi lại', exact: true }).click();
+  expect(await values(page)).toEqual([1, 3, 2, 4]);
 });
 
-test("keep is discoverable for equal values and works by touch and keyboard at the end of a pass", async ({
-  browser,
-}) => {
-  const context = await browser.newContext({
-    viewport: { width: 390, height: 844 },
-    hasTouch: true,
-    isMobile: true,
-  });
+for (const touch of [false, true]) test(`all bubbles accept drag attempts; wrong pair and jumps count as mistakes (${touch ? 'touch' : 'mouse'})`, async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: touch, isMobile: touch, reducedMotion: 'reduce' });
   const page = await context.newPage();
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
   await enter(page);
-  await custom(page, "2, 2, 3");
-  const keep = page.getByRole("button", { name: "Giữ nguyên", exact: true });
-  await keep.tap();
-  await expect(keep).toBeEnabled();
-  await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
-  await keep.focus();
-  await page.keyboard.press("Enter");
-  await expect(page.locator(".bubble-victory")).toBeVisible();
-  await expect(page.locator(".bubble-topline")).toContainText("2 lần so sánh");
-  await custom(page, "3, 6, 2, 5, 8");
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.screenshot({ path: ".qa/bubble-keep-action.png" });
+  await custom(page, '4, 1, 2');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const cdp = touch ? await context.newCDPSession(page) : null;
+  async function drag(id: number, target: number | 'outside') {
+    const from = (await page.locator(`[data-bubble-id="${id}"]`).boundingBox())!;
+    const to = target === 'outside' ? { x: 10, y: 5, width: 0, height: 0 } : (await page.locator(`[data-index="${target}"]`).boundingBox())!;
+    const x = from.x + from.width / 2, y = from.y + from.height / 2;
+    const endX = to.x + to.width / 2, endY = to.y + to.height / 2;
+    if (cdp) {
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y, id: 1 }] });
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: endX, y: endY, id: 1 }] });
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    } else {
+      await page.mouse.move(x, y); await page.mouse.down();
+      await page.mouse.move(endX, endY, { steps: 8 }); await page.mouse.up();
+    }
+  }
+  await drag(0, 'outside');
+  await drag(2, 1);
+  expect(await values(page)).toEqual([4, 1, 2]);
+  await drag(0, 2);
+  expect(await values(page)).toEqual([4, 1, 2]);
+  await drag(1, 0);
+  expect(await values(page)).toEqual([1, 4, 2]);
+  await drag(0, 2);
+  expect(await values(page)).toEqual([1, 2, 4]);
+  await page.getByRole('button', { name: 'Kết thúc thuật toán', exact: true }).click();
+  await expect(page.locator('.bubble-victory')).toBeVisible();
+  expect(errors).toEqual([]);
   await context.close();
 });
+
+test("five mistakes end the round and the result uses accuracy, with replay or demo", async ({ page }) => {
+  await enter(page);
+  await custom(page, '3, 1, 2');
+  const keep = page.getByRole('button', { name: 'Kết thúc thuật toán', exact: true });
+  for (let mistake = 1; mistake <= 4; mistake++) {
+    await keep.click();
+    await expect(keep).toBeEnabled();
+    await expect(page.locator('.bubble-failure')).toHaveCount(0);
+  }
+  // A successful step contributes to accuracy while the five-error limit stays in force.
+  await page.locator('[data-bubble-id="1"]').focus();
+  await page.keyboard.press('ArrowLeft');
+  expect(await values(page)).toEqual([1, 3, 2]);
+  await keep.click();
+  const failure = page.getByRole('dialog', { name: 'Hết lượt thử rồi!' });
+  await expect(failure).toBeVisible();
+  await expect(failure.getByRole('img', { name: '1 trên 3 sao' })).toBeVisible();
+  await expect(failure).toContainText('xem lại Demo');
+  await expect(failure.locator('.bubble-result-summary')).toContainText('16,7%');
+  await expect(page.locator('.bubble-tile:enabled')).toHaveCount(0);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('algoventure.world-progress.v3') || '{}').bubble)).not.toBe(true);
+  await failure.getByRole('button', { name: 'Chơi lại', exact: true }).click();
+  expect(await values(page)).toEqual([3, 1, 2]);
+  for (let i = 0; i < 5; i++) await keep.click();
+  await expect(failure.getByRole('img', { name: '0 trên 3 sao' })).toBeVisible();
+  await expect(failure.locator('.bubble-result-summary')).toContainText('0%');
+  await failure.getByRole('button', { name: 'Xem lại Demo', exact: true }).click();
+  await expect(page.locator('.bubble-demo')).toBeVisible();
+  expect(await values(page)).toEqual([3, 1, 2]);
+  await page.getByRole('button', { name: 'Về bản đồ', exact: true }).click();
+  await page.getByRole('button', { name: 'Thử thách', exact: true }).click();
+});
+
 test("demo explains swap, equality and early exit; controls and custom array persist into play", async ({
   page,
 }) => {
@@ -176,101 +204,6 @@ test("demo explains swap, equality and early exit; controls and custom array per
       ),
   ).toEqual([2, 1, 1]);
 });
-test("touch relay and keyboard both finish without duplicate comparisons", async ({
-  browser,
-}) => {
-  const context = await browser.newContext({
-    viewport: { width: 390, height: 844 },
-    isMobile: true,
-    hasTouch: true,
-    reducedMotion: "reduce",
-  });
-  const page = await context.newPage();
-  await enter(page);
-  await custom(page, "2, 1, 3");
-  const cdp = await context.newCDPSession(page);
-  async function touchPush(side: 0 | 1) {
-    const pair = page.locator('.bubble-tile[data-active="true"]');
-    await expect(pair.first()).toBeEnabled();
-    const a = (await pair.nth(0).boundingBox())!,
-      b = (await pair.nth(1).boundingBox())!;
-    const box = side === 0 ? a : b,
-      x = box.x + box.width / 2,
-      y = box.y + box.height / 2;
-    const goal =
-      side === 0
-        ? b.x + b.width / 2 + 2
-        : Math.min(380, x + (b.x - a.x) * 0.75);
-    await cdp.send("Input.dispatchTouchEvent", {
-      type: "touchStart",
-      touchPoints: [{ x, y, id: 1 }],
-    });
-    for (let i = 1; i <= 8; i++)
-      await cdp.send("Input.dispatchTouchEvent", {
-        type: "touchMove",
-        touchPoints: [{ x: x + ((goal - x) * i) / 8, y, id: 1 }],
-      });
-    await cdp.send("Input.dispatchTouchEvent", {
-      type: "touchEnd",
-      touchPoints: [],
-    });
-  }
-  await touchPush(0);
-  await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
-  await touchPush(1);
-  await page.getByRole("button", { name: "Lượt tiếp theo", exact: true }).tap();
-  const right = page.locator('.bubble-tile[data-active="true"]').nth(1);
-  await expect(right).toBeEnabled();
-  await right.focus();
-  await page.keyboard.press("ArrowRight");
-  await expect(page.locator(".bubble-victory")).toBeVisible();
-  await expect(page.locator(".bubble-topline")).toContainText("3 lần so sánh");
-  await context.close();
-});
-
-test("holding a bubble carries it across multiple neighbours and hands off at a larger bubble", async ({
-  page,
-}) => {
-  await enter(page);
-  await custom(page, "9, 1, 2, 3, 4");
-  let first = (await page.locator('[data-bubble-id="0"]').boundingBox())!,
-    last = (await page.locator('[data-bubble-id="4"]').boundingBox())!;
-  await page.mouse.move(first.x + first.width / 2, first.y + first.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(last.x + last.width / 2 + 3, last.y + last.height / 2, {
-    steps: 15,
-  });
-  await expect(
-    page.getByRole("button", { name: "Lượt tiếp theo", exact: true }),
-  ).toBeVisible();
-  await page.mouse.up();
-  await expect(page.locator(".bubble-topline")).toContainText("4 lần so sánh");
-  await expect(page.locator(".bubble-topline")).toContainText("4 lần đổi chỗ");
-  expect(
-    await page
-      .locator(".bubble-tile")
-      .evaluateAll((nodes) =>
-        nodes.map((n) => Number(n.getAttribute("data-value"))),
-      ),
-  ).toEqual([1, 2, 3, 4, 9]);
-  await custom(page, "3, 1, 5, 2");
-  first = (await page.locator('[data-bubble-id="0"]').boundingBox())!;
-  last = (await page.locator('[data-bubble-id="3"]').boundingBox())!;
-  await page.mouse.move(first.x + first.width / 2, first.y + first.height / 2);
-  await page.mouse.down();
-  await page.mouse.move(last.x + last.width / 2, last.y + last.height / 2, {
-    steps: 15,
-  });
-  await expect(page.getByRole("status")).toContainText(
-    "Cặp này đã đúng thứ tự",
-  );
-  await page.mouse.up();
-  await expect(page.locator(".bubble-topline")).toContainText("1 lần so sánh");
-  await expect(page.locator(".bubble-score")).toHaveText("100");
-  await solve(page);
-  await expect(page.locator(".bubble-victory")).toBeVisible();
-});
-
 test("eight bubbles and dialogue fit laptop and phone widths; settings reject malformed input", async ({
   page,
 }) => {

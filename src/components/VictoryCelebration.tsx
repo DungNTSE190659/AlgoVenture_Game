@@ -66,7 +66,12 @@ export default function VictoryCelebration({
               className={`victory-award ${index < stars ? "earned" : "unearned"}`}
               aria-hidden="true"
             >
-              <AwardStar earned={index < stars} />
+              {stars > index && stars < index + 1 ? <>
+                <AwardStar earned={false} />
+                <span className="victory-partial-star" style={{ clipPath: `inset(0 ${(1 - (stars - index)) * 100}% 0 0)` }}>
+                  <AwardStar earned />
+                </span>
+              </> : <AwardStar earned={index < stars} />}
             </span>
           ))}
         </div>
