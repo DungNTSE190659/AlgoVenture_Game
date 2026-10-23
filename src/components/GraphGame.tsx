@@ -297,7 +297,6 @@ export default function GraphGame({
         title="BFS · Tìm đường"
         onBack={onBack}
         onSettings={() => { gameAudio.unlock(); setSettings(true); }}
-        showBack={false}
       />
       <GameStats score={score} className="graph-stats">
         <span>Lượt {Math.min(currentMove, playerSteps.length)}/{playerSteps.length}</span>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Pause, Play, RotateCcw, Settings, SkipBack, SkipForward, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Pause, Play, RotateCcw, Settings, SkipBack, SkipForward, Volume2, VolumeX, X } from "lucide-react";
 import { createGraphLesson, type GraphLessonFrame, type GraphDifficulty } from "../engine/graphLesson";
 import GraphBoard from "./GraphBoard";
 import Pig from "./Pig";
@@ -87,7 +87,7 @@ export default function GraphLesson({
   return (
     <main className={`lesson-world lesson-state-${frame.kind.toLowerCase()}`}>
       <header className="lesson-header">
-        <div style={{ width: 46 }} aria-hidden="true" />
+        <button className="round-button" aria-label="Về bản đồ" onClick={() => { gameAudio.stop(); onBack(); }}><ArrowLeft size={24} /></button>
         <h1>BFS · Tìm đường</h1>
         <button className="round-button" onClick={() => { gameAudio.stop(); setSettings(true); }} aria-label="Tùy chọn">
           <Settings size={23} />

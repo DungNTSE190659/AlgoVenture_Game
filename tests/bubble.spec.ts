@@ -2,6 +2,7 @@ import { enterTrack } from "./track-navigation";
 import { test, expect, type Page } from "@playwright/test";
 
 async function enter(page: Page, mode = "Play") {
+  page.on("pageerror", error => { throw error; });
   await enterTrack(page, "Bubble Sort", mode);
   await expect(page.locator(".bubble-world")).toBeVisible();
 }
@@ -23,9 +24,9 @@ test("Buta stands in the scene and replays the same brief praise when clicked", 
   page.setDefaultTimeout(6000);
   await enter(page);
   await custom(page, '3, 1, 2');
-  const buta = page.getByRole('button', { name: 'Buta: nghe lại lời khen', exact: true });
+  const buta = page.getByRole('button', { name: 'Cáo: nghe lại lời khen', exact: true });
   const recap = page.locator('.bubble-recap');
-  await expect(buta.locator('.pig')).toBeVisible();
+  await expect(buta.locator('.bubble-fox')).toBeVisible();
   expect(await buta.evaluate(node => getComputedStyle(node).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
   await expect(page.getByText('Bước vừa làm', { exact: true })).toHaveCount(0);
   await buta.click();
@@ -57,7 +58,7 @@ test("Buta stands in the scene and replays the same brief praise when clicked", 
   await page.locator('[data-bubble-id="0"]').focus();
   await page.keyboard.press('ArrowRight');
   await expect(recap).toContainText('Bạn đã đổi 3 và 2 thành 2, 3.');
-  await page.getByRole('button', { name: 'Buta gợi ý', exact: true }).click();
+  await page.getByRole('button', { name: 'Cáo gợi ý', exact: true }).click();
   await expect(recap).toHaveCount(0);
   await expect(page.locator('.bubble-hint')).toBeVisible();
   await buta.click();
@@ -78,8 +79,8 @@ test("ordered pairs skip silently while accuracy counts only player actions", as
   await page.locator('[data-bubble-id="0"]').focus();
   await page.keyboard.press('ArrowRight');
   expect(await values(page)).toEqual([1, 3, 2, 4]);
-  await expect(page.getByRole('status')).toContainText('Chưa đúng bước');
-  await page.getByRole('button', { name: 'Buta gợi ý', exact: true }).click();
+  await expect(page.locator('.bubble-chat').getByRole('status')).toContainText('Chưa đúng bước');
+  await page.getByRole('button', { name: 'Cáo gợi ý', exact: true }).click();
   await expect(page.locator('.bubble-hint')).toContainText('ô 2 và 3');
   await page.locator('[data-bubble-id="2"]').focus();
   await page.keyboard.press('ArrowLeft');
@@ -164,6 +165,8 @@ test("five mistakes end the round and the result uses accuracy, with replay or d
   await expect(page.locator('.bubble-demo')).toBeVisible();
   expect(await values(page)).toEqual([3, 1, 2]);
   await page.getByRole('button', { name: 'Về bản đồ', exact: true }).click();
+  await page.getByRole('button', { name: 'Mở nhánh Array' }).click();
+  await page.getByRole('button', { name: 'Bubble Sort', exact: true }).click();
   await page.getByRole('button', { name: 'Thử thách', exact: true }).click();
 });
 
@@ -198,7 +201,7 @@ test("demo explains swap, equality and early exit; controls and custom array per
   await expect(page.locator(".bubble-play")).toBeVisible();
   expect(
     await page
-      .locator(".bubble-overview-item")
+      .locator(".bubble-run-track .bubble-tile")
       .evaluateAll((nodes) =>
         nodes.map((n) => Number(n.getAttribute("data-value"))),
       ),
@@ -217,13 +220,14 @@ test("eight bubbles and dialogue fit laptop and phone widths; settings reject ma
     [844, 390],
   ]) {
     await page.setViewportSize({ width, height });
-    const boxes = await page.locator(".bubble-overview-item").evaluateAll((nodes) =>
+    const boxes = await page.locator(".bubble-board .bubble-tile").evaluateAll((nodes) =>
       nodes.map((n) => {
         const r = n.getBoundingClientRect();
-        return { left: r.left, right: r.right };
+        return { left: r.left, right: r.right, height: r.height };
       }),
     );
-    expect(boxes.every((r) => r.left >= 0 && r.right <= width)).toBe(true);
+    expect(boxes).toHaveLength(8);
+    expect(boxes.every((r) => r.left >= 0 && r.right <= width && r.height >= 24)).toBe(true);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBeLessThanOrEqual(width);
@@ -241,6 +245,8 @@ test("eight bubbles and dialogue fit laptop and phone widths; settings reject ma
   await expect(page.getByRole("alert")).toContainText("số nguyên");
   await page.getByRole("button", { name: "Đóng", exact: true }).click();
   await page.getByRole("button", { name: "Về bản đồ", exact: true }).click();
+  await page.getByRole("button", { name: "Mở nhánh Array" }).click();
+  await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();
   await page.getByRole("button", { name: "Thử thách", exact: true }).click();
   for (const [width, height] of [
     [1440, 900],
@@ -251,13 +257,14 @@ test("eight bubbles and dialogue fit laptop and phone widths; settings reject ma
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth),
     ).toBeLessThanOrEqual(width);
-    const blocks = await page.locator(".bubble-overview-item").evaluateAll((nodes) =>
+    const blocks = await page.locator(".bubble-board .bubble-tile").evaluateAll((nodes) =>
       nodes.map((node) => {
         const r = node.getBoundingClientRect();
-        return { left: r.left, right: r.right };
+        return { left: r.left, right: r.right, height: r.height };
       }),
     );
-    expect(blocks.every((box) => box.left >= 0 && box.right <= width)).toBe(
+    expect(blocks).toHaveLength(8);
+    expect(blocks.every((box) => box.left >= 0 && box.right <= width && box.height >= 24)).toBe(
       true,
     );
     await page.screenshot({

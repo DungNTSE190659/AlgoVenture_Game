@@ -1,6 +1,10 @@
+import { bubbleSounds } from "./bubbleSounds";
+
 /** Small, original synthesized game sounds. No downloads or audio assets required. */
 export type SoundCue =
   | "tap"
+  | "bubble-hover"
+  | "bubble-pick"
   | "topic-next"
   | "topic-prev"
   | "island-select"
@@ -30,7 +34,7 @@ export type SoundCue =
   | "stack-peek"
   | "stack-error"
   | "stack-clear";
-type Tone = {
+export type Tone = {
   at: number;
   frequency: number;
   end?: number;
@@ -40,6 +44,8 @@ type Tone = {
   wave?: OscillatorType;
 };
 const melodies: Record<SoundCue, Tone[]> = {
+  "bubble-hover": bubbleSounds["bubble-hover"]!,
+  "bubble-pick": bubbleSounds["bubble-pick"]!,
   "stack-push": [
     {at:0,frequency:640,end:260,duration:.12,volume:.065,wave:"triangle"},
     {at:.09,frequency:180,end:120,duration:.09,volume:.07,wave:"triangle"},
@@ -151,9 +157,10 @@ export function renderCue(
   output: AudioNode,
   cue: SoundCue,
   start = context.currentTime,
+  profile: "default" | "bubble" = "default",
 ): AudioScheduledSourceNode[] {
   const sources: AudioScheduledSourceNode[] = [];
-  for (const tone of melodies[cue]) {
+  for (const tone of (profile === "bubble" ? bubbleSounds[cue] : undefined) ?? melodies[cue]) {
     const oscillator = context.createOscillator();
     const envelope = context.createGain();
     const pan = context.createStereoPanner();
@@ -182,7 +189,7 @@ export function renderCue(
     sources.push(oscillator);
   }
   const navigation = cue === "topic-next" || cue === "topic-prev";
-  if (cue === "swap" || cue === "pivot-move" || navigation) {
+  if (profile !== "bubble" && (cue === "swap" || cue === "pivot-move" || navigation)) {
     const noise = context.createBufferSource();
     const buffer = context.createBuffer(
       1,
@@ -228,6 +235,7 @@ export function readSoundPreference(): boolean {
 }
 
 class GameAudio {
+  private profile: "default" | "bubble" = "default";
   private context: AudioContext | null = null;
   private master: GainNode | null = null;
   private sources = new Map<AudioScheduledSourceNode, SoundCue>();
@@ -237,6 +245,11 @@ class GameAudio {
   private requests = 0;
   private lastInterface = -Infinity;
   get requestVersion() { return this.requests; }
+
+  setProfile(profile: "default" | "bubble") {
+    this.stop();
+    this.profile = profile;
+  }
 
   /** A fallback button click must not double an action's own sound. */
   playInterface(cue: SoundCue = "tap") {
@@ -296,7 +309,7 @@ class GameAudio {
     )
       return false;
     try {
-      const sources = renderCue(this.context, this.master, cue);
+      const sources = renderCue(this.context, this.master, cue, this.context.currentTime, this.profile);
       for (const source of sources) {
         this.sources.set(source, cue);
         const cleanup = source.onended;

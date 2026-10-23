@@ -1,0 +1,32 @@
+import { expect, test } from "@playwright/test";
+
+for (const mobile of [false, true]) test(`lesson popup opens at a diamond and dismisses outside (${mobile ? "phone" : "desktop"})`, async ({ browser }) => {
+  const context = await browser.newContext({ viewport: mobile ? { width: 390, height: 844 } : { width: 1280, height: 720 }, hasTouch: mobile, isMobile: mobile });
+  const page = await context.newPage();
+  await page.goto("/");
+  const popup = page.locator("#roadmap-lesson-popup");
+  await expect(popup).toBeHidden();
+  await page.getByRole("button", { name: "Mở nhánh Array" }).click();
+  const lesson = page.getByRole("button", { name: "Bubble Sort", exact: true });
+  await lesson.click();
+  await expect(popup).toBeVisible();
+  await expect(popup).toContainText("Demo");
+  await expect(popup).toContainText("Challenge");
+  const rect = (await popup.boundingBox())!;
+  expect(rect.x).toBeGreaterThanOrEqual(0);
+  expect(rect.x + rect.width).toBeLessThanOrEqual(mobile ? 390 : 1280);
+  await page.locator("h1").click();
+  await expect(popup).toBeHidden();
+  await lesson.click();
+  await page.keyboard.press("Escape");
+  await expect(popup).toBeHidden();
+  await lesson.click();
+  await popup.getByRole("button", { name: "Thử thách", exact: true }).click();
+  await expect(page.locator(".bubble-play")).toBeVisible();
+  await page.getByRole("button", { name: "Về bản đồ", exact: true }).click();
+  await expect(popup).toBeHidden();
+  await page.getByRole("button", { name: "Mở nhánh Array" }).click();
+  await page.getByRole("button", { name: "Selection Sort", exact: true }).click();
+  await expect(popup.getByRole("button", { name: "Thử thách", exact: true })).toBeDisabled();
+  await context.close();
+});

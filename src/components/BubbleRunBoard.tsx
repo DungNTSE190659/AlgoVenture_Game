@@ -8,7 +8,10 @@ type Props = {
   paused: boolean;
   onMove: (id: number, target: number) => void;
 };
-type Drag = { id: number; pointer: number; startX: number; startY: number; x: number; y: number; moved: boolean };
+type Drag = {
+  id: number; pointer: number; startX: number; startY: number; x: number; y: number; moved: boolean;
+  width: number; height: number; labelStyle: CSSProperties; paddingBottom: string;
+};
 
 export default function BubbleRunBoard({ state, interactive, paused, onMove }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,7 +25,16 @@ export default function BubbleRunBoard({ state, interactive, paused, onMove }: P
   }, [interactive, paused]);
   function begin(event: PointerEvent<HTMLButtonElement>, id: number) {
     if (!interactive || paused || event.button !== 0) return;
-    drag.current = { id, pointer: event.pointerId, startX: event.clientX, startY: event.clientY, x: event.clientX, y: event.clientY, moved: false };
+    const tile = event.currentTarget;
+    const bounds = tile.getBoundingClientRect();
+    const label = getComputedStyle(tile.querySelector("strong")!);
+    drag.current = {
+      id, pointer: event.pointerId, startX: event.clientX, startY: event.clientY,
+      x: event.clientX, y: event.clientY, moved: false,
+      width: bounds.width, height: bounds.height, paddingBottom: getComputedStyle(tile).paddingBottom,
+      labelStyle: { fontSize: label.fontSize, fontWeight: label.fontWeight, lineHeight: label.lineHeight,
+        WebkitTextStrokeWidth: label.webkitTextStrokeWidth, textShadow: label.textShadow },
+    };
     ref.current?.setPointerCapture(event.pointerId);
   }
   function move(event: PointerEvent<HTMLDivElement>) {
@@ -53,12 +65,11 @@ export default function BubbleRunBoard({ state, interactive, paused, onMove }: P
     onMove(gesture.id, target);
   }
   return (
-    <div className="bubble-board-area bubble-run-area">
+    <div className="bubble-board-area bubble-run-area" style={{ "--count": state.items.length } as CSSProperties}>
       <div className="bubble-board bubble-run-track" ref={ref}
         style={{ "--count": state.items.length } as CSSProperties} aria-label="Mảng Bubble Sort"
         onPointerMove={move} onPointerUp={end}
         onPointerCancel={() => { drag.current = null; setGhost(null); }}>
-        <div className="bubble-river" aria-hidden="true" />
         {state.items.map((item, index) => (
           <RunBubble key={item.id} item={item} index={index} enabled={interactive && !paused}
             held={ghost?.id === item.id} paused={paused}
@@ -71,8 +82,8 @@ export default function BubbleRunBoard({ state, interactive, paused, onMove }: P
             }} />
         ))}
       </div>
-      {ghost && <div className="bubble-drag-ghost bubble-run-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true">
-        {state.items.find(item => item.id === ghost.id)?.value}<small>GIỮ VÀ KÉO</small>
+      {ghost && <div className="bubble-drag-ghost bubble-run-ghost" style={{ left: ghost.x, top: ghost.y, width: ghost.width, height: ghost.height, paddingBottom: ghost.paddingBottom }} aria-hidden="true">
+        <strong style={ghost.labelStyle}>{state.items.find(item => item.id === ghost.id)?.value}</strong>
       </div>}
     </div>
   );
@@ -112,6 +123,7 @@ function RunBubble({
     animation.current = node.animate([
       { translate: `${dx}px 0` },
       { translate: `${dx / 2}px -7px`, offset: .5 },
+      { translate: "0px 3px", offset: .88 },
       { translate: "0px 0px" },
     ], { duration: 450, easing: "ease-in-out" });
     if (paused) animation.current.pause();
@@ -135,7 +147,7 @@ function RunBubble({
       onClick={onClick}
       onKeyDown={onKeyDown}
     >
-      <span className="bubble-tile-shine" />
+      <img className="bubble-tile-art" src={`${import.meta.env.BASE_URL}assets/bubble-ui/tile.svg`} alt="" draggable={false} />
       <strong>{item.value}</strong>
       <small>{index + 1}</small>
     </button>

@@ -40,3 +40,7 @@ import "./stack.css";
 
 import "./queue.css";
 import "./sortingPortrait.css";
+
+import "./bubbleStudio.css";
+
+import "./curriculumMap.css";

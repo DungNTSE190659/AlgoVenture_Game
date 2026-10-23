@@ -1,0 +1,301 @@
+/* Bubble Sort only. Artwork lives in public/assets/bubble-ui. */
+.bubble-world.bubble-studio {
+  display: flex; flex-direction: column; height: 100dvh; min-height: 100dvh;
+  overflow: auto; background: #9191ff; color: #000;
+  --bubble-ink: #000;
+}
+.bubble-studio::before, .bubble-studio::after { display: none; }
+.bubble-studio .bubble-header {
+  display: grid; grid-template-columns: 50px minmax(0, 1fr) 50px;
+  flex: 0 0 82px; min-height: 82px; width: min(100%, 1440px);
+  padding: 16px 28px; gap: 12px; margin: 0 auto;
+}
+.bubble-studio .bubble-header h1 { margin: 0; text-align: center; color: #000; font-size: 32px; font-weight: 1000; }
+.bubble-studio .round-button,
+.bubble-studio .bubble-finish-button,
+.bubble-studio .bubble-hint-button,
+.bubble-studio .chunky-button {
+  border: 12px solid transparent; border-image: url('/assets/bubble-ui/button.svg') 12 fill stretch;
+  border-radius: 0; background: none; box-shadow: none; color: #f6f6eb;
+  padding: 0 6px; min-height: 56px; font-weight: 800; transition: transform .12s;
+}
+.bubble-studio button:not(:disabled):active { transform: translateY(2px); }
+.bubble-studio button:focus-visible { outline: 3px solid #526f83; outline-offset: 3px; }
+.bubble-studio .round-button { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; min-height: 50px; padding: 0; }
+.bubble-world.bubble-studio :is(.round-button, .chunky-button, .bubble-finish-button, .bubble-hint-button):hover:not(:disabled) {
+  background: transparent;
+}
+.bubble-studio .bubble-workspace {
+  display: grid; grid-template-columns: minmax(0, 1fr) 440px; gap: 32px; align-items: center;
+  width: min(100%, 1440px); margin: 0 auto; padding: 8px 28px 28px;
+  flex: 1 0 auto; min-height: calc(100dvh - 82px);
+}
+.bubble-studio .bubble-content {
+  display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch;
+  min-width: 0; min-height: 360px; padding: 18px 20px; margin: 0;
+  border: 0; border-image: none; background: transparent; box-shadow: none;
+  border-radius: 0; grid-area: auto;
+}
+.bubble-studio .bubble-board-heading { display: flex; justify-content: space-between; gap: 12px; color: #66776e; font-size: 12px; font-weight: 800; letter-spacing: .7px; }
+.bubble-studio .bubble-task { margin: 20px auto 0; max-width: 520px; font-size: 16px; line-height: 1.6; color: #526359; text-align: center; }
+.bubble-studio .bubble-content h2 { font-size: 25px; margin: 18px 0 0; color: #34483f; text-align: center; }
+.bubble-studio .bubble-board-area { container-type: inline-size; width: min(100%, calc(var(--count) * 116px + (var(--count) - 1) * 18px)); margin: auto; padding: 64px 0 56px; flex: 0 0 auto; }
+.bubble-studio .bubble-board {
+  --tile: min(116px, calc((100cqw - (var(--count) - 1) * 18px) / var(--count)));
+  --step: calc((100% - var(--tile)) / (var(--count) - 1));
+  position: relative; width: 100%; height: calc(var(--tile) * 1.09);
+  margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
+  touch-action: none; user-select: none;
+}
+.bubble-studio .bubble-tile {
+  position: absolute; top: 0; width: var(--tile); height: calc(var(--tile) * 1.09);
+  display: flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 0; padding: 0 0 6px; background: none; box-shadow: none;
+  color: #f5f5ef; opacity: 1; overflow: visible; isolation: isolate;
+}
+.bubble-studio .bubble-tile-art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.bubble-studio .bubble-tile strong { font-size: clamp(20px, 3.2vw, 42px); line-height: 1; color: #fff; -webkit-text-stroke: 1.5px #202326; paint-order: stroke fill; text-shadow: 0 2px 0 #202326; }
+.bubble-studio .bubble-tile small { position: absolute; top: calc(100% + 12px); bottom: auto; left: 0; width: 100%; font-size: 13px; color: #66776e; text-align: center; }
+.bubble-studio .bubble-tile.is-dragging { opacity: .35; }
+.bubble-studio .bubble-tile:not(:disabled) { cursor: grab; }
+.bubble-studio .bubble-tile:not(:disabled):active { cursor: grabbing; transform: none; }
+.bubble-studio .bubble-pair-window { position: absolute; top: -14px; height: calc(var(--tile) * 1.09 + 28px); width: calc(var(--step) + var(--tile) + 16px); border: 2px dashed #a18a63; border-radius: 14px; background: none; pointer-events: none; }
+.bubble-studio .bubble-pair-window span { position: absolute; top: -30px; width: 100%; text-align: center; font-size: 12px; color: #73603f; }
+.bubble-studio .bubble-fixed-check { position: absolute; right: 3px; top: 3px; width: 14px; height: 14px; color: #f5f5ef; }
+.bubble-studio .bubble-input-note { margin: 0; padding-top: 18px; text-align: center; color: #66776e; font-size: 12px; line-height: 1.5; }
+.bubble-studio .bubble-sidebar { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 0; gap: 20px; }
+.bubble-studio .bubble-companion, .bubble-studio .bubble-dialogue {
+  display: flex; flex-direction: row; align-items: center; justify-content: flex-start;
+  width: 100%; min-height: 0; margin: 0; padding: 0; gap: 16px; pointer-events: auto;
+  grid-area: auto;
+}
+.bubble-studio .bubble-buta-character .pig, .bubble-studio .bubble-dialogue > .pig { width: 128px; height: 160px; flex: 0 0 auto; }
+.bubble-studio .bubble-buta-character { background: transparent; }
+.bubble-studio .bubble-chat {
+  position: relative; width: 100%; min-height: 0; border: 12px solid transparent;
+  border-image: url('/assets/bubble-ui/dialogue.svg') 12 fill stretch;
+  padding: 10px 10px 12px; color: #465349;
+}
+.bubble-studio .bubble-chat > strong { display: block; font-size: 14px; margin-bottom: 8px; color: #435248; }
+.bubble-studio .bubble-chat p, .bubble-studio .bubble-feedback {
+  margin: 0; padding: 0; min-height: 0; background: none; border: 0; border-radius: 0;
+  box-shadow: none; font-size: 16px; line-height: 1.65; color: #4b594f; text-align: left;
+}
+.bubble-studio .bubble-chat.is-error > strong, .bubble-studio .bubble-chat .is-error { color: #925747; }
+.bubble-studio .bubble-chat .bubble-hint, .bubble-studio .bubble-chat .bubble-recap {
+  position: static; inset: auto; translate: none; display: flex; gap: 8px;
+  width: 100%; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
+}
+.bubble-studio .bubble-chat .bubble-recap::before { display: none; }
+.bubble-studio .bubble-chat .bubble-hint p { font-size: 16px; }
+.bubble-studio .bubble-chat .bubble-hint .round-button { width: 30px; height: 30px; min-height: 30px; flex: 0 0 30px; border-width: 8px; padding: 0; }
+.bubble-studio .bubble-action-area { margin-top: 0; width: 100%; padding: 0; }
+.bubble-studio .bubble-step-actions { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+.bubble-studio .bubble-finish-button, .bubble-studio .bubble-hint-button { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; font-size: 15px; }
+.bubble-studio .bubble-finish-button, .bubble-studio .button-purple { border-image-source: url('/assets/bubble-ui/button-primary.svg'); color: #f3f4ed; }
+.bubble-studio .bubble-hint-button { border-image-source: url('/assets/bubble-ui/button-hint.svg'); color: #182d27; }
+.bubble-studio .bubble-controls { width: 100%; margin-top: 0; padding: 0; grid-area: auto; }
+.bubble-studio .bubble-playback { display: flex; justify-content: center; gap: 8px; }
+.bubble-studio .bubble-playback .chunky-button { min-width: 0; flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 15px; }
+.bubble-studio .bubble-step-status { margin-top: 16px; }
+.bubble-studio .bubble-topline { margin: 18px 0 0; font-size: 12px; color: #65766c; }
+.bubble-studio .bubble-equation { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 40px; margin-bottom: 18px; }
+.bubble-studio .bubble-rule, .bubble-studio .bubble-legend { text-align: center; font-size: 12px; color: #66776e; }
+.bubble-studio .bubble-legend { margin-top: 48px; }
+.bubble-studio .bubble-legend-current, .bubble-studio .bubble-legend-fixed { display: inline-block; width: 12px; height: 12px; margin: 0 4px 0 12px; background: url('/assets/bubble-ui/tile-active.svg') center / contain no-repeat; }
+.bubble-studio .bubble-legend-fixed { background-image: url('/assets/bubble-ui/tile-settled.svg'); }
+.bubble-studio .bubble-drag-ghost { position: fixed; z-index: 100; translate: -50% -50%; min-width: 0; display: flex; align-items: center; justify-content: center; background: url('/assets/bubble-ui/tile.svg') center / 100% 100% no-repeat; border: 0; box-shadow: none; border-radius: 0; rotate: 0; font-size: 28px; color: #f5f5ef; pointer-events: none; }
+.bubble-studio .bubble-drag-ghost small { display: none; }
+@media (min-width: 1001px) and (max-width: 1200px) {
+  .bubble-studio .bubble-workspace { grid-template-columns: minmax(0, 1fr) 380px; gap: 24px; padding-inline: 20px; }
+  .bubble-studio .bubble-content { padding-inline: 10px; }
+}
+@media (max-width: 760px) {
+  .bubble-studio .bubble-header { flex-basis: 68px; min-height: 68px; padding: 10px 16px; }
+  .bubble-studio .bubble-header h1 { font-size: 23px; }
+  .bubble-studio .bubble-workspace { grid-template-columns: minmax(0, 1fr); align-content: center; min-height: calc(100dvh - 68px); gap: 24px; padding: 6px 12px 24px; }
+  .bubble-studio .bubble-content { min-height: 220px; padding: 12px 4px; }
+  .bubble-studio .bubble-board-heading { font-size: 10px; letter-spacing: .2px; }
+  .bubble-studio .bubble-task { margin-top: 18px; font-size: 14px; }
+  .bubble-studio .bubble-content h2 { font-size: 22px; }
+  .bubble-studio .bubble-board { --tile: min(78px, calc((100cqw - (var(--count) - 1) * 5px) / var(--count))); }
+  .bubble-studio .bubble-tile strong { font-size: clamp(12px, 5.5vw, 30px); }
+  .bubble-studio .bubble-tile small { font-size: 11px; }
+  .bubble-studio .bubble-sidebar { padding: 0; gap: 18px; }
+  .bubble-studio .bubble-companion, .bubble-studio .bubble-dialogue { flex-direction: row; align-items: flex-start; gap: 8px; }
+  .bubble-studio .bubble-buta-character .pig, .bubble-studio .bubble-dialogue > .pig { width: 84px; height: 108px; }
+  .bubble-studio .bubble-chat { flex: 1; min-width: 0; min-height: 0; padding: 8px 4px 10px; }
+  .bubble-studio .bubble-chat p, .bubble-studio .bubble-chat .bubble-hint p { font-size: 14px; }
+  .bubble-studio .bubble-chat > strong { font-size: 13px; margin-bottom: 8px; }
+  .bubble-studio .bubble-input-note { font-size: 11px; }
+  .bubble-studio .bubble-step-actions { max-width: 440px; margin: 0 auto; }
+}
+
+/* Press feedback stays separate from the stationary hover brackets. */
+.bubble-world.bubble-studio button {
+  transition: transform 180ms cubic-bezier(.2,.7,.3,1), filter 180ms ease;
+}
+.bubble-world.bubble-studio button:not(:disabled):not([aria-disabled="true"]):active {
+  transform: translateY(2px); filter: none; transition-duration: 70ms;
+}
+.bubble-world.bubble-studio .bubble-tile.is-dragging { transform: none; filter: none; }
+.bubble-studio .lesson-speed-button, .bubble-studio .lesson-sound-toggle {
+  background: #ffdb3b; color: #000; border: 2px solid #202326; box-shadow: 0 3px 0 #d99a14;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bubble-world.bubble-studio button { transition: none; }
+  .bubble-world.bubble-studio button:not(:disabled):hover,
+  .bubble-world.bubble-studio button:not(:disabled):active { transform: none; }
+}
+
+/* Plain black lesson text; interactive controls retain contrasting labels. */
+.bubble-world.bubble-studio :is(h1, h2, h3, p, label, dt, dd, small,
+  .bubble-topline, .bubble-topline span, .bubble-legend,
+  .bubble-equation, .bubble-equation b, .bubble-equation strong,
+  .bubble-chat > strong, .bubble-step-status > span, .bubble-result-summary > strong) {
+  color: #000;
+}
+
+/* Shared cartoon finish across artwork, labels and icons. */
+.bubble-studio .bubble-icon { display: inline-block; object-fit: contain; flex-shrink: 0; vertical-align: middle; pointer-events: none; }
+.bubble-studio .bubble-finish-button, .bubble-studio .bubble-hint-button,
+.bubble-studio .bubble-playback .chunky-button {
+  font-size: 17px; font-weight: 1000; color: #fff;
+  -webkit-text-stroke: 1px #202326; paint-order: stroke fill; text-shadow: 0 1px 0 #202326;
+}
+.bubble-studio .bubble-step-status > span { flex-shrink: 0; white-space: nowrap; }
+.bubble-studio .bubble-step-status progress { flex: 1; min-width: 0; width: auto; }
+.bubble-studio .bubble-finish-button .bubble-icon, .bubble-studio .bubble-hint-button .bubble-icon { width: 26px; height: 26px; }
+.bubble-studio .bubble-chat::before {
+  content: ""; position: absolute; top: -32px; left: calc(50% - 21px); width: 42px; height: 26px;
+  background: url('/assets/bubble-ui/speech-tail.svg') center / contain no-repeat;
+}
+.bubble-studio .bubble-pair-window { border-color: #202326; }
+.bubble-studio .bubble-tile small { font-size: 13px; font-weight: 900; }
+.bubble-studio .bubble-failure-stars .bubble-icon { width: 42px; height: 42px; }
+.bubble-studio .bubble-drag-ghost { color: #fff; -webkit-text-stroke: 1px #202326; paint-order: stroke fill; }
+@media (max-width: 760px) {
+  .bubble-studio .bubble-workspace { gap: 18px; }
+  .bubble-studio .bubble-sidebar { gap: 16px; }
+  .bubble-studio .bubble-chat::before { top: 22px; left: -34px; transform: rotate(-90deg); }
+  .bubble-studio .bubble-tile strong { -webkit-text-stroke-width: .7px; text-shadow: 0 1px 0 #202326; }
+  .bubble-studio .bubble-finish-button, .bubble-studio .bubble-hint-button { font-size: 16px; }
+  .bubble-studio .bubble-board-area { padding: 40px 0; }
+}
+
+/* Results and settings share the same cream, black outlines and game buttons. */
+.bubble-studio dialog.victory-screen,
+.bubble-studio dialog.lesson-settings {
+  width: min(620px, calc(100vw - 32px)); max-width: none;
+  max-height: calc(100dvh - 40px); margin: auto; padding: 24px;
+  background: #efedff; color: #000;
+  border: 3px solid #202326; border-radius: 24px;
+  box-shadow: 0 7px 0 #202326; overflow: auto;
+  scrollbar-width: thin; scrollbar-color: #5c4ca3 #efedff;
+}
+.bubble-studio dialog::backdrop { background: #29224866; backdrop-filter: none; }
+.bubble-studio dialog.bubble-failure { width: min(500px, calc(100vw - 32px)); }
+.bubble-studio .bubble-failure-content { max-width: none; width: 100%; padding: 0; gap: 12px; color: #000; }
+.bubble-studio .bubble-failure-content h2 { font-size: 27px; line-height: 1.25; }
+.bubble-studio .bubble-failure-content .pig { width: 96px; height: 120px; }
+.bubble-studio .bubble-failure-content > strong { color: #000; }
+.bubble-studio .bubble-failure-content > p { font-size: 14px; line-height: 1.5; }
+.bubble-studio dialog .bubble-result-summary { font-size: 14px; }
+.bubble-studio dialog .bubble-result-summary > strong { font-size: 20px; margin-bottom: 10px; }
+.bubble-studio .bubble-failure-content > button { width: 100%; min-height: 48px; }
+.bubble-studio dialog .chunky-button, .bubble-studio dialog .modal-primary,
+.bubble-studio dialog .victory-map-button {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 0 8px; border: 12px solid transparent; border-radius: 0;
+  border-image: url('/assets/bubble-ui/button.svg') 12 fill stretch;
+  background: none; box-shadow: none; font-size: 16px; font-weight: 1000; color: #fff;
+  -webkit-text-stroke: 1px #202326; paint-order: stroke fill; text-shadow: 0 1px 0 #202326;
+}
+.bubble-studio dialog .button-purple, .bubble-studio dialog .modal-primary {
+  border-image-source: url('/assets/bubble-ui/button-primary.svg');
+}
+.bubble-studio dialog .victory-map-button, .bubble-studio .bubble-failure-content > .bubble-finish-button {
+  border-image-source: url('/assets/bubble-ui/button-hint.svg');
+}
+.bubble-studio dialog .victory-map-icon { background: none; border: 0; box-shadow: none; }
+.bubble-studio dialog .victory-summary { color: #000; }
+.bubble-studio dialog .victory-title { font-size: 27px; }
+.bubble-studio dialog .victory-actions { margin-top: 12px; gap: 12px; }
+.bubble-studio dialog .victory-award .award-star { display: none; }
+.bubble-studio dialog .victory-award { background: url('/assets/bubble-ui/icon-star.svg') center / contain no-repeat; }
+.bubble-studio dialog .victory-award.unearned { background-image: url('/assets/bubble-ui/icon-star-empty.svg'); }
+.bubble-studio dialog .bubble-victory { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 16px; }
+.bubble-studio dialog .victory-stars { grid-column: 1 / -1; justify-content: center; min-height: 64px; gap: 12px; }
+.bubble-studio dialog .victory-stars .victory-award { width: 60px; height: 64px; margin: 0; }
+.bubble-studio dialog .victory-buta .pig { width: 96px; }
+.bubble-studio dialog .victory-actions { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.bubble-studio dialog .victory-actions button { min-width: 0; white-space: normal; }
+.bubble-studio dialog .victory-map-button { grid-column: 1 / -1; }
+.bubble-studio dialog .modal-header h2 { font-size: 24px; }
+.bubble-studio dialog :is(.setting-select, .custom-input) {
+  background: #faf9ff; color: #000; border: 2px solid #202326; border-radius: 12px; box-shadow: none;
+}
+@media (max-width: 600px) {
+  .bubble-studio dialog.victory-screen, .bubble-studio dialog.lesson-settings { padding: 18px; }
+  .bubble-studio .bubble-failure-content { gap: 10px; }
+  .bubble-studio .bubble-failure-content h2 { font-size: 24px; }
+}
+
+/* Lavender and yellow palette, shared by every Bubble Sort screen. */
+.bubble-world.bubble-studio :is(.round-button, .chunky-button, .bubble-finish-button,
+  .bubble-hint-button, .modal-primary, .victory-map-button) {
+  color: #171522; -webkit-text-stroke: 0; text-shadow: none;
+}
+.bubble-studio dialog .victory-actions:has(> button:nth-child(3)) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.bubble-studio dialog .victory-actions > button {
+  height: auto; min-height: 52px; flex-direction: row;
+}
+
+/* Fox and speech stay side by side in every lesson mode. */
+.bubble-studio .bubble-companion, .bubble-studio .bubble-dialogue { gap: 16px; align-items: center; }
+.bubble-studio .bubble-fox { display: block; flex: 0 0 128px; width: 128px; height: 174px; }
+.bubble-studio .bubble-fox img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.bubble-studio .bubble-buta-character { flex: 0 0 auto; }
+.bubble-studio .bubble-chat { flex: 1; min-width: 0; }
+.bubble-studio .bubble-chat::before { top: 38px; left: -34px; transform: rotate(-90deg); }
+.bubble-studio .bubble-failure-content .bubble-fox { flex: 0 0 auto; width: 96px; height: 120px; }
+.bubble-studio dialog .victory-buta .bubble-fox { width: 96px; height: 130px; }
+@media (max-width: 1000px) {
+  .bubble-studio .bubble-workspace { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 24px; }
+  .bubble-studio .bubble-content { min-height: 240px; }
+  .bubble-studio .bubble-sidebar { width: min(100%, 560px); margin-inline: auto; }
+}
+@media (max-width: 760px) {
+  .bubble-studio .bubble-companion, .bubble-studio .bubble-dialogue { gap: 12px; }
+  .bubble-studio .bubble-fox { flex-basis: 86px; width: 86px; height: 124px; }
+  .bubble-studio .bubble-board-area { width: min(100%, calc(var(--count) * 78px + (var(--count) - 1) * 5px)); }
+}
+
+/* Four illustrated corners indicate focus without moving the control. */
+.bubble-world.bubble-studio .bubble-tile::after {
+  content: ""; position: absolute; inset: calc(-1 * var(--focus-outset, 8px));
+  border: 14px solid transparent; border-image: url('/assets/bubble-ui/focus-corners.svg') 22 stretch;
+  background: none; pointer-events: none; opacity: 0; z-index: 3;
+  transform: scale(1.04); transition: opacity 120ms ease, transform 120ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .bubble-world.bubble-studio .bubble-tile:not(:disabled):not([aria-disabled="true"]):not(.is-dragging):hover::after {
+    opacity: 1; transform: none;
+  }
+}
+.bubble-world.bubble-studio .bubble-tile:not(:disabled):not([aria-disabled="true"]):focus-visible { outline: none; }
+.bubble-world.bubble-studio .bubble-tile:not(:disabled):not([aria-disabled="true"]):focus-visible::after {
+  opacity: 1; transform: none;
+}
+.bubble-world.bubble-studio .bubble-tile:not(:disabled):not([aria-disabled="true"])[data-touch-focus="true"]::after {
+  opacity: 1; transform: none;
+}
+.bubble-studio .bubble-drag-ghost::after {
+  content: ""; position: absolute; inset: -8px; border: 14px solid transparent;
+  border-image: url('/assets/bubble-ui/focus-corners.svg') 22 stretch; pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bubble-world.bubble-studio .bubble-tile::after { transition: none; transform: none; }
+}
