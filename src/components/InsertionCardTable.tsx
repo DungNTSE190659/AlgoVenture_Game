@@ -62,6 +62,7 @@ export default function InsertionCardTable({ state, guided, enabled, paused, onA
       style={{ "--hand-count": handCount } as CSSProperties}
       onPointerMove={move} onPointerUp={end} onPointerCancel={cancel}
       onLostPointerCapture={event => { if (event.target === event.currentTarget) cancel(); }}>
+      <img className="array-insertion-table-art" src="/assets/hybrid-casual-ui/array/game/illustrations/insertion-desk.png" alt="" aria-hidden="true" draggable={false} />
       <div className="insertion-deck-label">CHƯA XẾP <span>{pending}</span></div>
       <div className={`insertion-deck-outline ${pending === 0 ? "deck-empty" : ""}`} aria-hidden="true"><Leaf size={26} /></div>
       <div className="insertion-stage-label">{done ? "XẾP XONG!" : "ĐANG CẦM"}</div>
@@ -140,6 +141,7 @@ function PlayingCard({ item, index, style, held, inDeck, next, guided, dragging,
     disabled={disabled} aria-label={held ? `Số đang cầm ${item.value}, chèn vào ô trống` : `Số ${item.value}, ô ${index}`}
     data-item-id={item.id} data-value={item.value} data-index={held ? "held" : index} data-next={next} data-zone={inDeck ? "deck" : held ? "held" : "hand"}
     onClick={onClick} onPointerDown={onPointerDown}>
+    <img className="insertion-card-art" src={`/assets/hybrid-casual-ui/array/game/items/card-${inDeck ? "back" : "front"}.png`} alt="" aria-hidden="true" draggable={false} />
     {inDeck ? <><Leaf size={26} /><span className="insertion-card-back-label">{next ? "RÚT THẺ" : "BUTA"}</span></>
       : <><span className="insertion-card-corner">{item.value}<small>{MARKS[item.id % MARKS.length]}</small></span><strong>{item.value}</strong><span className="insertion-card-suit">{MARKS[item.id % MARKS.length]}</span></>}
   </button>;

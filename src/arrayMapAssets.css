@@ -1,0 +1,17 @@
+/* Existing Array illustrations: topic and route maps only. */
+.atlas-map[data-topic="arrays"] {
+  background: #edf0cd url('/assets/hybrid-casual-ui/array/backgrounds/village-landscape.png') center / cover no-repeat;
+}
+.atlas-map .topic-arrays .atlas-buta:not(.buta-walking) .buta-body { translate: 0 0; }
+.learning-map.region-arrays { background: #edf0cd; }
+.array-map-backdrop { position: absolute; inset: 0; pointer-events: none; }
+.array-map-backdrop img { width: 100%; height: 100%; object-fit: cover; }
+.region-arrays .stop-land {
+  left: -3px; top: -12px; width: 156px; height: 136px;
+  border: 0; border-radius: 0; box-shadow: none;
+  background: transparent url('/assets/hybrid-casual-ui/array/illustrations/island-village.png') center / contain no-repeat;
+}
+.region-arrays .stop-land > * { display: none; }
+@media (max-width: 700px) and (orientation: portrait) {
+  .atlas-map[data-topic="arrays"] { background-image: url('/assets/hybrid-casual-ui/array/backgrounds/village-portrait.png'); }
+}

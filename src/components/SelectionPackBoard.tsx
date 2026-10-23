@@ -1,24 +1,18 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { Backpack, Binoculars, Check, CookingPot, Flag, Flashlight, Map, Search, Tent } from "lucide-react";
+import { Backpack, Check, Flag, Search } from "lucide-react";
 import type { SelectionState } from "../engine/selectionSort";
 import type { Item } from "../engine/quicksort";
 
 const equipment = [
-  { name: "Ba lô", Icon: Backpack, color: "#afbf98" },
-  { name: "Bình nước", Icon: WaterBottle, color: "#a6c5c8" },
-  { name: "Đèn pin", Icon: Flashlight, color: "#d9bf88" },
-  { name: "La bàn", Icon: FieldCompass, color: "#d0b4a0" },
-  { name: "Bản đồ", Icon: Map, color: "#c0c89e" },
-  { name: "Lều trại", Icon: Tent, color: "#b6b0c9" },
-  { name: "Ống nhòm", Icon: Binoculars, color: "#a5bbb0" },
-  { name: "Nồi nhỏ", Icon: CookingPot, color: "#c9b9a3" },
+  { name: "Ba lô", asset: "backpack" },
+  { name: "Bình nước", asset: "bottle" },
+  { name: "Đèn pin", asset: "flashlight" },
+  { name: "La bàn", asset: "compass" },
+  { name: "Bản đồ", asset: "map" },
+  { name: "Lều trại", asset: "tent" },
+  { name: "Ống nhòm", asset: "binoculars" },
+  { name: "Nồi nhỏ", asset: "pot" },
 ];
-function WaterBottle({ className, style }: { className?: string; style?: CSSProperties }) {
-  return <svg className={className} style={style} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 2h6v4H9zM9 6 6 10v10q0 2 2 2h8q2 0 2-2V10l-3-4M6 12h12M6 18h12" /></svg>;
-}
-function FieldCompass({ className, style }: { className?: string; style?: CSSProperties }) {
-  return <svg className={className} style={style} viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="m16.5 7.5-3 6-6 3 3-6Z" fill="#f8efda" /><path d="m16.5 7.5-3 6-3-3Z" fill="#aa826b" /></svg>;
-}
 
 type Props = {
   state: SelectionState; target: number; candidate: number | null; scan: number | null; wrong: number | null;
@@ -98,8 +92,8 @@ function position(index: number, columns: number): CSSProperties {
   return { left: `calc(var(--pad) + var(--step-x) * ${index % columns})`, top: `calc(var(--pad) + var(--step-y) * ${Math.floor(index / columns)})` };
 }
 function GearArt({ id }: { id: number }) {
-  const { Icon, color } = equipment[id % equipment.length];
-  return <Icon className="pack-equipment" style={{ "--gear-color": color } as CSSProperties} aria-hidden="true" />;
+  const { asset } = equipment[id % equipment.length];
+  return <img className="pack-equipment" src={`/assets/hybrid-casual-ui/array/game/items/${asset}.png`} alt="" aria-hidden="true" draggable={false} />;
 }
 function PackItem({ item, index, style, settled, candidate, scanning, wrong, held, target, paused, enabled, onClick, onPointerDown }: {
   item: Item; index: number; style: CSSProperties; settled: boolean; candidate: boolean; scanning: boolean; wrong: boolean; held: boolean; target: boolean; paused: boolean; enabled: boolean;

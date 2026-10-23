@@ -1,0 +1,263 @@
+/* Array map chrome: layout belongs to the card, not a stretched illustration. */
+.atlas-map[data-topic="arrays"] .atlas-sheet,
+.learning-map.region-arrays .track-sheet {
+  box-sizing: border-box; display: flex; flex-direction: column; gap: 12px;
+  padding: 22px; background: #fff7df; border: 1px solid #d3bf96;
+  border-radius: 24px; box-shadow: 0 3px 0 #bbac7d25;
+}
+.atlas-map[data-topic="arrays"] .atlas-sheet-heading,
+.region-arrays .track-sheet .sheet-heading { width: 100%; min-width: 0; gap: 12px; }
+.atlas-map[data-topic="arrays"] .atlas-sheet-heading > div,
+.region-arrays .track-sheet .sheet-heading > div { flex: 1; min-width: 0; }
+.atlas-map[data-topic="arrays"] .atlas-sheet .sheet-number,
+.region-arrays .track-sheet .sheet-number { position: static; flex: 0 0 42px; width: 42px; height: 42px; margin: 0; }
+.atlas-map[data-topic="arrays"] .atlas-actions,
+.region-arrays .track-sheet .sheet-actions { width: 100%; margin: auto 0 0; min-width: 0; gap: 12px; }
+.atlas-map[data-topic="arrays"] .atlas-enter,
+.region-arrays .track-sheet .sheet-actions button {
+  box-sizing: border-box; width: 100%; min-width: 0; min-height: 46px; padding: 10px 16px;
+  border: 1px solid #7d995c; border-radius: 14px; background: #94ae70;
+  box-shadow: 0 2px 0 #82975c26; color: #35482a; font-weight: 800;
+}
+.region-arrays .track-sheet .sheet-actions .sheet-demo { background: #fffbed; border-color: #d8cba5; color: #64563d; }
+.atlas-map[data-topic="arrays"] .atlas-enter:hover:not(:disabled),
+.region-arrays .track-sheet .sheet-actions button:hover:not(:disabled) { background: #a4bc80; filter: none; }
+.region-arrays .track-sheet .sheet-actions .sheet-demo:hover:not(:disabled) { background: #fffdf5; }
+.atlas-map[data-topic="arrays"] .atlas-enter:disabled,
+.region-arrays .track-sheet .sheet-actions button:disabled { background: #e0e1cf; border-color: #c8c9b3; color: #838774; }
+.region-arrays .road-shadow { stroke: #ad9668; opacity: .45; }
+.region-arrays .road-fill { stroke: #d6b67b; stroke-width: 26px; animation: none; }
+.region-arrays .road-dashes { stroke: #fff7df; stroke-width: 3px; }
+.region-arrays .road-locked { opacity: .8; }
+.region-arrays .road-locked .road-fill { stroke: #c4bc97; }
+.region-arrays .stop-button { border-radius: 26px; outline: 0; }
+.region-arrays .stop-selected .stop-button { background-image: var(--array-station); outline: 2px solid #fff9d9; outline-offset: -5px; }
+.region-arrays .stop-button:focus-visible { outline: 2px solid #fff9d9; outline-offset: -5px; }
+.region-arrays .stop-land,.region-arrays .stop-locked .stop-land { background-color: transparent; box-shadow: none; border: 0; }
+
+/* One shared workspace for both modes, following Tree / Linked List. */
+main.array-stage {
+  display: flex; flex-direction: column; height: 100dvh; min-height: 0;
+  max-height: 100dvh; overflow: clip;
+}
+main.array-stage > .lesson-header { flex: 0 0 60px; min-height: 60px; width: min(1280px,100%); margin: 0 auto; padding: 8px 16px; }
+main.array-stage > :is(.play-stats,.selection-stats,.insertion-stats,.qf-stats) { flex: 0 0 34px; min-height: 34px; margin: 0; }
+.array-stage .array-workspace {
+  display: grid; grid-template-columns: minmax(0,1fr) 360px; gap: 26px;
+  width: min(1280px,100%); flex: 1 1 0; min-height: 0;
+  margin: 0 auto; padding: 18px 16px 16px; align-items: stretch;
+}
+main.array-stage .array-board-pane {
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  position: relative; width: 100%; min-width: 0; min-height: 0; height: 100%;
+  flex: none; padding: 18px 12px; margin: 0; gap: 8px; grid-column: 1; grid-row: 1;
+  justify-content: center; border: 1px solid #c6cfad; border-radius: 24px; background: #f4f7eb;
+}
+.array-stage .array-guide {
+  grid-column: 2; grid-row: 1;
+  align-self: stretch; min-width: 0; min-height: 0; padding: 0; border: 0;
+  background: transparent; box-shadow: none;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.array-stage .array-challenge-dialogue,.array-stage .array-demo-dialogue { display: flex; align-items: center; flex: 1; min-height: 0; gap: 10px; }
+.array-stage .array-challenge-dialogue > .pig { width: 100px; height: 126px; flex: 0 0 100px; }
+.array-stage .array-instruction { position: relative; flex: 1; min-width: 0; padding: 16px; border: 1px solid #d4c39e; border-radius: 18px; background: #fffbed; }
+.array-stage .array-instruction::before,.array-stage .array-demo-dialogue p::before { content: ""; position: absolute; width: 12px; height: 12px; top: calc(50% - 6px); left: -7px; rotate: 45deg; background: #fffbed; border-left: 1px solid #d4c39e; border-bottom: 1px solid #d4c39e; }
+.array-stage .array-instruction > p { font-size: 17px; line-height: 1.5; margin: 0; color: #574a35; text-align: left; }
+.array-stage .array-challenge-tools { display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #fffbed; border: 1px solid #d4c39e; border-radius: 20px; }
+.array-stage .array-challenge-tools:has(> .merge-feedback:empty):not(:has(button)) { padding: 0; border: 0; background: transparent; }
+.array-stage .array-guide-actions { margin-top: auto; flex: 0 0 auto; }
+.array-stage .array-guide :is(.bubble-action-area,.selection-action,.qf-actions) {
+  position: static; inset: auto; width: 100%; display: flex; justify-content: center;
+  flex-wrap: wrap; min-height: 0; margin: 0; padding: 0; gap: 8px;
+}
+.array-stage .array-guide :is(.chunky-button,.bubble-keep-button,.game-hint-button,.bubble-next-pass) {
+  width: 100%; min-width: 0; min-height: 46px; height: auto; padding: 11px 16px;
+  background: #93ad70; border: 1px solid #7e985e; border-radius: 14px;
+  box-shadow: 0 2px 0 #84936420; font-size: 15px; color: #354a27;
+}
+.array-stage .array-guide :is(.game-hint-button,.bubble-keep-button) { background: #fffbef; border-color: #d9cba6; color: #574a35; }
+.array-stage .array-guide :is(.chunky-button,.bubble-keep-button,.game-hint-button):hover:not(:disabled) { background: #a5bb85; }
+.array-stage .array-guide :is(.chunky-button,.bubble-keep-button,.game-hint-button):disabled { background: #e4e3d2; color: #939582; border-color: #cecfb7; }
+.array-stage .array-guide :is(.bubble-feedback,.selection-feedback,.insertion-feedback,.merge-feedback,.qf-feedback) { font-size: 14px; line-height: 1.4; margin: 0; min-height: 0; text-align: left; }
+.array-stage .array-guide .game-play-footer { position: static; display: flex; flex-direction: column; width: 100%; min-height: 0; margin: 0; padding: 0; gap: 10px; }
+.array-stage .array-guide :is(.bubble-hint,.selection-hint,.insertion-hint,.merge-hint,.qf-hint) { position: static; inset: auto; translate: none; transform: none; width: 100%; padding: 10px; margin: 0; background: #f6efd9; border: 1px solid #d6c69f; border-radius: 12px; box-shadow: none; }
+.array-stage .array-guide :is(.bubble-hint,.selection-hint,.insertion-hint,.merge-hint,.qf-hint) .pig { display: none; }
+.array-stage .array-guide :is(.bubble-controls,.selection-controls,.insertion-controls,.merge-controls,.qf-demo-controls) { position: static; inset: auto; width: 100%; padding: 0; margin: 0; align-self: auto; }
+.array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) { display: flex; flex-direction: row; align-items: center; width: 100%; padding: 0; margin: 0; gap: 12px; }
+.array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) > .pig { width: 100px; height: 126px; flex: 0 0 100px; }
+.array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) p { position: relative; min-width: 0; border: 1px solid #d4c39e; border-radius: 18px; background: #fffbed; padding: 16px; margin: 0; box-shadow: none; width: auto; flex: 1; font-size: 16px; line-height: 1.5; text-align: left; }
+.array-stage .array-guide :is(.bubble-playback,.selection-playback,.insertion-playback,.merge-playback,.qf-playback) { display: flex; gap: 8px; justify-content: center; }
+.array-stage .array-guide :is(.bubble-playback,.selection-playback,.insertion-playback,.merge-playback,.qf-playback) .chunky-button { flex: 1; font-size: 14px; padding: 10px 8px; }
+.array-stage .array-guide .round-button { flex: 0 0 42px; width: 42px; height: 44px; min-width: 42px; min-height: 44px; }
+.array-stage .array-guide :is(.bubble-step-status,.selection-demo-progress,.insertion-demo-progress,.merge-demo-progress,.qf-demo-progress) { margin-top: 12px; gap: 8px; font-size: 12px; }
+.array-stage .array-guide progress { min-width: 0; width: 100%; flex: 1; }
+.array-stage .array-guide .lesson-speed-button { flex-shrink: 0; }
+
+/* Keep only the necessary task in the guide and live values on the board. */
+.array-stage :is(.bridge-route-heading,.bubble-focus-status,.bridge-step-dots,.bubble-rule,.bubble-equation,.pack-heading,.pack-reading-order,.insertion-steps,.insertion-stability-note) { display: none; }
+.array-stage .bridge-buta,.array-stage .insertion-table-buta,.array-stage .stream-bank-buta { visibility: hidden; }
+.array-stage .array-board-pane .bubble-topline { font-size: 12px; margin: 0 0 4px; }
+
+/* Soft terrain edges blend into the meadow instead of exposing a rectangle. */
+.array-stage :is(.array-bridge-art,.array-stream-art,.array-insertion-table-art) {
+  mask-image: linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent), linear-gradient(transparent,#000 4%,#000 82%,transparent);
+  mask-composite: intersect;
+}
+.array-stage .array-bridge-art { height: 140%; }
+.array-stage .array-workspace:has(.is-choosing-pivot) .qf-actions .chunky-button { display: none; }
+.array-stage .array-workspace:has(.is-choosing-pivot) .qf-actions:not(:has(button:enabled)) { display: none; }
+.array-stage .array-workspace:has(.is-choosing-pivot) .array-challenge-tools:not(:has(button:enabled)) { display: none; }
+.array-stage .pack-table { mask-image: linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); }
+.array-stage .qf-gate.has-milestone { border-radius: 38px; }
+.array-stage .qf-gate,.array-stage .qf-gate:not(.has-milestone) { background: transparent; border: 0; }
+.array-stage .qf-gate::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url('/assets/hybrid-casual-ui/array/game/illustrations/quick-crossroads.png') center / contain no-repeat; mask-image: linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent),linear-gradient(transparent,#000 5%,#000 90%,transparent); mask-composite: intersect; }
+.array-stage .qf-gate.has-milestone .qf-pool:not(:has(.qf-friend)) { margin: 0; padding: 0; }
+.array-stage .qf-gate.has-milestone .qf-pool-friends:not(:has(.qf-friend)) { display: none; }
+.array-stage :is(.bridge-buta,.insertion-table-buta,.stream-bank-buta) { display: none; }
+.array-stage .array-board-pane .bubble-board-area { width: 100%; max-width: none; margin: 0; }
+.array-stage .array-board-pane .bridge-scene { height: clamp(270px,52dvh,520px); --deck: clamp(175px,31dvh,300px); width: 100%; }
+.array-stage .array-board-pane .bridge-party { --unit: min(115px,calc(100% / (var(--crew-count) + 1))); width: 92%; }
+.array-stage .bridge-friend { height: calc(var(--friend-width) * 1.3); }
+.array-stage .bridge-friend .friend-number { left: 6%; right: 6%; height: 44%; min-height: 1em; bottom: 4%; font-size: max(26px,min(44px,calc(128cqw / (var(--digits) + 1)))); }
+.array-stage .bridge-friend.is-prominent .friend-number { font-size: max(28px,min(52px,calc(145cqw / (var(--digits) + 1)))); }
+.array-stage .bubble-position { font-size: 14px; bottom: -22px; }
+.array-stage .array-board-pane .pack-table { width: 100%; max-width: 900px; padding: 58px 38px 38px; }
+.array-stage .pack-mat { --card-height: clamp(120px,19dvh,190px); --pad: 12px; --gap: 14px; }
+.array-stage .pack-equipment { width: 94px; height: 94px; }
+.array-stage .selection-tile strong { font-size: min(44px,calc((100cqw - 8px) / (var(--digits) * .65))); padding: 3px 10px; }
+.array-stage .array-board-pane .insertion-card-table { width: min(100%,940px); height: clamp(320px,60dvh,510px); --card: clamp(70px,11cqw,110px); --stage-y: 45px; --hand-y: clamp(205px,33dvh,300px); }
+.array-stage .insertion-tile strong { font-size: max(26px,min(46px,calc(var(--card) * 1.5 / (var(--digits) + 1)))); }
+.array-stage .insertion-hand-label { top: calc(var(--hand-y) - 28px); font-size: 11px; }
+.array-stage .array-board-pane .merge-stream-board { width: min(100%,1000px); height: clamp(320px,57dvh,520px); --leaf: 110px; --small-leaf: 70px; }
+.array-stage .stream-group-leaves { --small-leaf: 70px; }
+.array-stage .stream-leaf strong { font-size: max(24px,min(40px,calc(var(--leaf) / max(1,var(--digits) * .65)))); }
+.array-stage .stream-leaf.is-small strong { font-size: max(22px,min(32px,calc(var(--small-leaf) / max(1,var(--digits) * .65)))); }
+.array-stage .array-board-pane:has(.qf-gate) { container-type: size; }
+.array-stage .array-board-pane .qf-gate { --card: 78px; container-type: inline-size; width: min(100%,calc((100cqh - 72px) * 1.5)); max-width: 1060px; aspect-ratio: 3 / 2; }
+.array-stage .qf-gate .qf-pool { --card: 78px; max-width: 760px; }
+.array-stage .qf-gate .qf-friend > strong { font-size: max(24px,min(40px,calc(72cqw / max(1,var(--digits) * .6)))); height: 38%; min-height: 32px; }
+.array-stage .qf-gate .qf-pivot,.array-stage .qf-gate .qf-pool-friends.has-pivot { --card: 102px; }
+.array-stage .qf-gate:not(.has-milestone) .qf-pool { --card: 90px; }
+.array-stage .qf-gate .qf-group-friends { max-width: 260px; }
+
+@media (min-width: 701px) and (min-height: 521px) {
+  .array-stage .qf-gate .qf-group { --card: clamp(40px,8cqw,78px); }
+  .array-stage .qf-gate .qf-group-friends { max-width: 100%; gap: 4px; }
+  .array-stage .qf-gate .qf-pool,.array-stage .qf-gate:not(.has-milestone) .qf-pool { --card: clamp(44px,8cqw,78px); }
+  .array-stage .qf-gate .qf-pivot,.array-stage .qf-gate .qf-pool-friends.has-pivot { --card: clamp(60px,12cqw,102px); }
+}
+
+@media (max-width: 1000px) and (min-width: 701px) {
+  .array-stage .array-workspace { grid-template-columns: minmax(0,1fr) 280px; gap: 16px; padding: 10px 18px 16px; }
+  .array-stage .array-guide { padding: 0; }
+  .array-stage .array-challenge-dialogue > .pig,.array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) > .pig { width: 76px; height: 98px; flex-basis: 76px; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) p { font-size: 15px; }
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .atlas-map[data-topic="arrays"] .atlas-sheet,.learning-map.region-arrays .track-sheet { padding: 18px; gap: 8px; }
+  .region-arrays .track-sheet .sheet-actions { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  main.array-stage > .lesson-header { flex-basis: 48px; min-height: 48px; padding: 4px 12px; }
+  main.array-stage > :is(.play-stats,.selection-stats,.insertion-stats,.qf-stats) { flex-basis: 30px; min-height: 30px; font-size: 10px; }
+  .array-stage .array-workspace { grid-template-columns: minmax(0,1fr); grid-template-rows: minmax(0,1fr) auto; padding: 4px 12px 10px; gap: 6px; }
+  main.array-stage .array-board-pane { padding: 6px; gap: 3px; justify-content: center; border-radius: 18px; }
+  .array-stage .array-guide { grid-column: 1; grid-row: 2; padding: 0; gap: 8px; }
+  .array-stage .array-instruction { padding: 10px 12px; border-radius: 14px; }
+  .array-stage .array-challenge-tools { padding: 0; border: 0; background: transparent; }
+  .array-stage .array-challenge-dialogue { flex-direction: row; align-items: center; gap: 10px; }
+  .array-stage .array-challenge-dialogue > .pig { width: 52px; height: 66px; flex: 0 0 52px; }
+  .array-stage .array-instruction > p { font-size: 14px; line-height: 1.35; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) { flex-direction: row; gap: 10px; margin-bottom: 8px; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) > .pig { width: 52px; height: 66px; flex: 0 0 52px; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) p { width: auto; flex: 1; padding: 10px 12px; font-size: 13px; line-height: 1.35; }
+  .array-stage .array-guide :is(.chunky-button,.bubble-keep-button,.game-hint-button,.bubble-next-pass) { min-height: 40px; padding: 8px 12px; font-size: 13px; }
+  .array-stage .array-guide-play { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .array-stage .array-guide-play > .array-challenge-dialogue { grid-column: 1 / -1; grid-row: 1; }
+  .array-stage .array-guide-play > .array-challenge-tools { grid-column: 1; grid-row: 2; }
+  .array-stage .array-guide-play > .array-guide-actions { grid-column: 2; grid-row: 2; align-self: start; margin: 0; }
+  .array-stage .array-guide-play .game-play-footer { justify-content: flex-start; }
+  .array-stage .array-guide-play .array-challenge-tools:empty { display: none; }
+  .array-stage .array-guide-play:not(:has(.array-challenge-tools)) > .array-guide-actions { grid-column: 1 / -1; }
+  /* Choosing an item reveals another action and feedback. Reserve their space
+     so the board and drop target never move during the same drag. */
+  .selection-world .array-guide-play > .array-challenge-dialogue { min-height: 60px; }
+  .selection-world .array-guide .selection-action { min-height: 88px; align-content: start; }
+  .selection-world .array-guide .selection-feedback { min-height: 46px; }
+  .array-stage .array-guide :is(.bubble-feedback,.selection-feedback,.insertion-feedback,.merge-feedback,.qf-feedback) { font-size: 11px; }
+  .array-stage .array-guide :is(.bubble-step-status,.selection-demo-progress,.insertion-demo-progress,.merge-demo-progress,.qf-demo-progress) { margin-top: 5px; font-size: 10px; }
+  .array-stage .array-board-pane .bridge-scene { height: clamp(175px,34dvh,330px); --deck: clamp(105px,21dvh,205px); }
+  .array-stage .array-board-pane .bridge-party { --unit: min(76px,calc(100% / (var(--crew-count) + 1))); width: 96%; }
+  .array-stage .bridge-friend .friend-number { font-size: max(20px,min(32px,calc(128cqw / (var(--digits) + 1)))); }
+  .array-stage .bridge-friend.is-prominent .friend-number { font-size: max(22px,min(38px,calc(145cqw / (var(--digits) + 1)))); }
+  .array-stage .bubble-position { font-size: 10px; bottom: -17px; }
+  .array-stage .array-board-pane .pack-table { padding: 30px 18px 20px; }
+  .array-stage .pack-mat { --card-height: clamp(68px,11dvh,105px); --pad: 7px; --gap: 6px; }
+  .array-stage .pack-equipment { width: clamp(34px,6dvh,58px); height: clamp(34px,6dvh,58px); }
+  .array-stage .selection-tile strong { font-size: max(22px,min(32px,calc((100cqw - 6px) / (var(--digits) * .65)))); }
+  .array-stage .array-board-pane .insertion-card-table { height: clamp(205px,36dvh,345px); --card: clamp(46px,15cqw,70px); --stage-y: 26px; --hand-y: clamp(115px,21dvh,195px); }
+  .array-stage .insertion-tile strong { font-size: max(20px,min(34px,calc(var(--card) * 1.5 / (var(--digits) + 1)))); }
+  .array-stage .insertion-hand-label { top: calc(var(--hand-y) - 23px); font-size: 9px; }
+  .array-stage .array-board-pane .merge-stream-board { height: clamp(230px,40dvh,360px); --leaf: 78px; --small-leaf: 44px; }
+  .array-stage .stream-group-leaves { --small-leaf: 44px; flex-wrap: wrap; }
+  .array-stage .stream-leaf strong { font-size: max(20px,min(30px,calc(var(--leaf) / max(1,var(--digits) * .65)))); }
+  .array-stage .stream-leaf.is-small strong { font-size: max(18px,min(26px,calc(var(--small-leaf) / max(1,var(--digits) * .65)))); }
+  .array-stage .array-board-pane .qf-gate { --card: 48px; width: 100%; aspect-ratio: auto; }
+  .array-stage .qf-gate .qf-pool { --card: 48px; }
+  .array-stage .qf-gate .qf-pivot,.array-stage .qf-gate .qf-pool-friends.has-pivot { --card: 58px; }
+  .array-stage .qf-gate:not(.has-milestone) .qf-pool { --card: 64px; }
+  .array-stage .qf-gate .qf-friend > strong { font-size: max(20px,min(30px,calc(65cqw / max(1,var(--digits) * .6)))); min-height: 26px; }
+}
+
+@media (max-height: 650px) and (orientation: portrait) {
+  .array-stage .array-guide { padding: 0; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) > .pig,.array-stage .array-challenge-dialogue > .pig { width: 38px; height: 48px; flex-basis: 38px; }
+  .array-stage .array-board-pane .pack-table { padding: 20px 16px 12px; }
+  .array-stage .pack-mat { --card-height: 58px; --gap: 4px; --pad: 6px; }
+  .array-stage .pack-equipment { width: 28px; height: 28px; }
+  .array-stage .selection-tile strong { font-size: 24px; }
+  .array-stage .array-board-pane .insertion-card-table { height: 195px; --card: 46px; --stage-y: 22px; --hand-y: 110px; }
+  .array-stage .array-board-pane .merge-stream-board { height: 210px; --small-leaf: 36px; }
+  .array-stage .stream-group-leaves { --small-leaf: 36px; margin-block: 4px; }
+  .array-stage .qf-gate:not(.has-milestone) .qf-pool { --card: 52px; }
+  .array-stage .array-board-pane .qf-gate { --card: 44px; }
+  .array-stage .qf-gate .qf-pivot,.array-stage .qf-gate .qf-pool-friends.has-pivot { --card: 48px; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  main.array-stage > .lesson-header { min-height: 46px; flex-basis: 46px; padding: 1px 12px; }
+  main.array-stage > :is(.play-stats,.selection-stats,.insertion-stats,.qf-stats) { min-height: 26px; flex-basis: 26px; }
+  .array-stage .array-workspace { grid-template-columns: minmax(0,1fr) 260px; gap: 12px; padding: 4px 14px 10px; }
+  .array-stage .array-guide { padding: 0; gap: 8px; }
+  .array-stage .array-challenge-tools { padding: 8px; border-radius: 14px; }
+  .array-stage .array-instruction { padding: 10px; border-radius: 14px; }
+  main.array-stage .array-board-pane { padding: 0; gap: 3px; justify-content: center; }
+  .array-stage .array-challenge-dialogue { flex-direction: row; gap: 8px; }
+  .array-stage .array-challenge-dialogue > .pig { width: 40px; height: 52px; flex: 0 0 40px; }
+  .array-stage .array-instruction > p { font-size: 13px; line-height: 1.3; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) { flex-direction: row; gap: 7px; margin-bottom: 8px; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) > .pig { width: 38px; height: 50px; flex: 0 0 38px; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) p { width: auto; flex: 1; padding: 10px; font-size: 12px; line-height: 1.3; }
+  .array-stage .array-guide :is(.chunky-button,.bubble-keep-button,.game-hint-button) { min-height: 40px; padding: 7px 10px; font-size: 12px; }
+  .array-stage .array-board-pane .bridge-scene { height: 155px; --deck: 95px; }
+  .array-stage .array-board-pane .bridge-party { --unit: min(58px,calc(100% / (var(--crew-count) + 1))); }
+  .array-stage .bridge-friend .friend-number,.array-stage .bridge-friend.is-prominent .friend-number { font-size: max(18px,min(30px,calc(130cqw / (var(--digits) + 1)))); }
+  .array-stage .array-board-pane .pack-table { padding: 18px 14px 10px; }
+  .array-stage .pack-mat { --card-height: 64px; --gap: 5px; --pad: 6px; }
+  .array-stage .pack-equipment { width: 32px; height: 32px; }
+  .array-stage .selection-tile strong { font-size: 24px; }
+  .array-stage .array-board-pane .insertion-card-table { height: 190px; --card: 46px; --stage-y: 20px; --hand-y: 106px; }
+  .array-stage .array-board-pane .merge-stream-board { height: 190px; --leaf: 60px; --small-leaf: 36px; }
+  .array-stage .stream-group-leaves { --small-leaf: 36px; }
+  .array-stage .stream-leaf strong { font-size: 24px; }
+  .array-stage .stream-leaf.is-small strong { font-size: 19px; }
+  .array-stage .array-board-pane .qf-gate { --card: 44px; width: 100%; aspect-ratio: auto; }
+  .array-stage .qf-gate .qf-pivot,.array-stage .qf-gate .qf-pool-friends.has-pivot { --card: 44px; }
+  .array-stage .qf-gate:not(.has-milestone) .qf-pool { --card: 48px; }
+  .array-stage .qf-gate .qf-friend > strong { font-size: 22px; min-height: 25px; }
+}
+@media (max-width: 700px) and (orientation: landscape) {
+  .array-stage .array-workspace { grid-template-columns: minmax(0,1fr) 220px; padding: 3px 10px 8px; }
+  .array-stage .array-guide { padding: 0; }
+  .array-stage .array-guide :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) > .pig { width: 30px; height: 40px; flex-basis: 30px; }
+  .array-stage .array-guide :is(.bubble-step-status,.selection-demo-progress,.insertion-demo-progress,.merge-demo-progress,.qf-demo-progress) { margin-top: 5px; font-size: 10px; }
+}

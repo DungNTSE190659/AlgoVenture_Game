@@ -1,0 +1,351 @@
+/* Live Array art. Runtime numbers, identity and interaction geometry stay separate. */
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) {
+  --array-ink: #574a35;
+  color: var(--array-ink);
+  background: #e6e9bf url('/assets/hybrid-casual-ui/array/backgrounds/village-landscape.png') center / cover no-repeat;
+}
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.world-scenery,.stream-scenery) { display: none; }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(h1,h2) { color: #574a35; }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.chunky-button,.bubble-keep-button,.game-hint-button) {
+  color: #42562f; border: 0; box-shadow: none;
+  background: transparent url('/assets/hybrid-casual-ui/array/game/svg/button-primary-normal.svg') center / 100% 100% no-repeat;
+}
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.chunky-button,.bubble-keep-button,.game-hint-button):hover:not(:disabled) { background-image: url('/assets/hybrid-casual-ui/array/game/svg/button-primary-hover.svg'); filter: none; }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.chunky-button,.bubble-keep-button,.game-hint-button):active:not(:disabled) { background-image: url('/assets/hybrid-casual-ui/array/game/svg/button-primary-pressed.svg'); }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.chunky-button,.bubble-keep-button,.game-hint-button):disabled { background-image: url('/assets/hybrid-casual-ui/array/game/svg/button-primary-disabled.svg'); color: #777a66; }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.game-hint-button,.bubble-keep-button) { color: #574a35; background-image: url('/assets/hybrid-casual-ui/array/game/svg/button-secondary-normal.svg'); }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .round-button { border: 1px solid #d4c09a; background: #fff6dc; box-shadow: 0 2px 0 #bbaa7f22; color: #65563d; }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) p { border: 1px solid #d4c09a; background: #fff6dcf5; color: #574a35; box-shadow: none; }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .play-score { background: #fff0c8; border: 1px solid #d8c493; box-shadow: none; color: #7e693c; }
+:is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-task,.selection-task,.insertion-task,.merge-task,.qf-task) { color: #52633d; }
+
+/* Theme card with Vào / Tiếp tục, plus the lesson card. */
+.atlas-map[data-topic="arrays"] {
+  --atlas-panel: url('/assets/hybrid-casual-ui/array/game/svg/panel-topic.svg');
+  --atlas-panel-status: url('/assets/hybrid-casual-ui/array/game/svg/panel-map.svg');
+  --atlas-enter-normal: url('/assets/hybrid-casual-ui/array/game/svg/button-primary-normal.svg');
+  --atlas-enter-hover: url('/assets/hybrid-casual-ui/array/game/svg/button-primary-hover.svg');
+  --atlas-enter-pressed: url('/assets/hybrid-casual-ui/array/game/svg/button-primary-pressed.svg');
+  --atlas-enter-disabled: url('/assets/hybrid-casual-ui/array/game/svg/button-primary-disabled.svg');
+}
+.atlas-map[data-topic="arrays"] :is(.atlas-sheet h2,.atlas-region-progress) { color: #574a35; }
+.atlas-map[data-topic="arrays"] .atlas-enter { color: #354a25; }
+.atlas-map[data-topic="arrays"] .sheet-number { background: #8dad71; color: #fff9e9; border: 1px solid #7c995f; border-radius: 12px; }
+.atlas-map[data-topic="arrays"] .sheet-handle { background: #c6cf9c; border-radius: 8px; }
+.region-arrays .track-sheet { border: 0; box-shadow: none; background: transparent url('/assets/hybrid-casual-ui/array/game/svg/panel-map.svg') center / 100% 100% no-repeat; }
+.region-arrays .sheet-number { border: 1px solid #d8c493; background: #fff0c8; color: #745f39; box-shadow: none; }
+.region-arrays .sheet-handle { background: #c6cf9c; }
+.region-arrays .sheet-actions button { border: 0; box-shadow: none; color: #42562f; background: transparent url('/assets/hybrid-casual-ui/array/game/svg/button-primary-normal.svg') center / 100% 100% no-repeat; }
+.region-arrays .sheet-actions .sheet-demo { color: #574a35; background-image: url('/assets/hybrid-casual-ui/array/game/svg/button-secondary-normal.svg'); }
+.region-arrays .sheet-actions button:disabled { background-image: url('/assets/hybrid-casual-ui/array/game/svg/button-primary-disabled.svg'); color: #858773; opacity: 1; }
+.region-arrays .stop-button { border: 0; border-radius: 0; box-shadow: none; background: transparent var(--array-station) center / contain no-repeat; color: #fff9e9; }
+.region-arrays .stop-button[aria-label="Bubble Sort"] { --array-station: url('/assets/hybrid-casual-ui/array/game/svg/map-bubble-normal.svg'); --array-selected: url('/assets/hybrid-casual-ui/array/game/svg/map-bubble-selected.svg'); --array-locked: url('/assets/hybrid-casual-ui/array/game/svg/map-bubble-locked.svg'); }
+.region-arrays .stop-button[aria-label="Selection Sort"] { --array-station: url('/assets/hybrid-casual-ui/array/game/svg/map-selection-normal.svg'); --array-selected: url('/assets/hybrid-casual-ui/array/game/svg/map-selection-selected.svg'); --array-locked: url('/assets/hybrid-casual-ui/array/game/svg/map-selection-locked.svg'); }
+.region-arrays .stop-button[aria-label="Insertion Sort"] { --array-station: url('/assets/hybrid-casual-ui/array/game/svg/map-insertion-normal.svg'); --array-selected: url('/assets/hybrid-casual-ui/array/game/svg/map-insertion-selected.svg'); --array-locked: url('/assets/hybrid-casual-ui/array/game/svg/map-insertion-locked.svg'); }
+.region-arrays .stop-button[aria-label="Merge Sort"] { --array-station: url('/assets/hybrid-casual-ui/array/game/svg/map-merge-normal.svg'); --array-selected: url('/assets/hybrid-casual-ui/array/game/svg/map-merge-selected.svg'); --array-locked: url('/assets/hybrid-casual-ui/array/game/svg/map-merge-locked.svg'); }
+.region-arrays .stop-button[aria-label="Quick Sort"] { --array-station: url('/assets/hybrid-casual-ui/array/game/svg/map-quick-normal.svg'); --array-selected: url('/assets/hybrid-casual-ui/array/game/svg/map-quick-selected.svg'); --array-locked: url('/assets/hybrid-casual-ui/array/game/svg/map-quick-locked.svg'); }
+.region-arrays .stop-selected .stop-button { background-image: var(--array-selected,var(--array-station)); outline-color: #b8bd86; }
+.region-arrays .stop-locked .stop-button { background-image: var(--array-locked,var(--array-station)); }
+/* Non-Sort routes keep their existing colors and controls. */
+.region-arrays .stop-button:not([style]):is([aria-label="Linear Search"],[aria-label="Binary Search"],[aria-label="Stack"],[aria-label="Queue"]) { background: var(--stop-color); border-radius: 24px; }
+
+/* Artwork replaces decorative chrome only: all buttons, gestures and IDs remain. */
+.array-bridge-art { position: absolute; width: 104%; left: -2%; height: 160%; top: -40%; object-fit: fill; pointer-events: none; }
+.bubble-world :is(.bridge-forest,.bridge-bank,.bridge-path,.bridge-rope,.bridge-camp,.bridge-deck) { visibility: hidden; }
+.bubble-world .friend-number { border: 0; box-shadow: none; border-radius: 0; background: transparent url('/assets/hybrid-casual-ui/array/game/svg/tag-normal.svg') center / 100% 100% no-repeat; color: #574a35; }
+.bubble-world .is-active .friend-number { background-image: url('/assets/hybrid-casual-ui/array/game/svg/tag-compare.svg'); }
+.bubble-world .is-settled .friend-number { background: transparent url('/assets/hybrid-casual-ui/array/game/svg/tag-sorted.svg') center / 100% 100% no-repeat; color: #665039; }
+.selection-world .pack-table { padding: 60px 28px 30px; background: url('/assets/hybrid-casual-ui/array/game/illustrations/selection-camp.png') center / 100% 100% no-repeat; }
+.selection-world .pack-mat { background: transparent; box-shadow: none; }
+.selection-world .pack-slot { border-color: #b9ab83; background: #fff6db44; }
+.selection-world .pack-equipment { object-fit: contain; filter: none; }
+.selection-world .pack-heading { position: relative; z-index: 2; padding: 3px 6px; border-radius: 8px; background: #fff6dce8; }
+.selection-world .selection-tile strong { border: 0; box-shadow: none; background: #fff5d9; color: #574a35; }
+.array-insertion-table-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; pointer-events: none; }
+.insertion-world :is(.insertion-hand-mat,.insertion-table-buta) { visibility: hidden; }
+.insertion-world .insertion-tile { border: 0; outline: 0; box-shadow: none; background: transparent; overflow: visible; }
+.insertion-card-art { position: absolute; inset: -11% -38%; width: 176%; height: 122%; object-fit: fill; pointer-events: none; z-index: -1; }
+.insertion-world .tile-deck::after,.insertion-world .tile-deck > svg { display: none; }
+.insertion-world .tile-deck .insertion-card-back-label { position: absolute; top: 100%; margin: 3px 0 0; background: #fff6dc; border-radius: 5px; padding: 1px 4px; color: #574a35; }
+.insertion-world .tile-guided { outline: 2px solid #ceac59; outline-offset: 2px; border-radius: 10px; }
+.insertion-world .insertion-tile strong { color: #574a35; }
+.insertion-world .insertion-card-suit { margin-top: 3px; }
+.insertion-world .insertion-slot { background: #d8dfb355; border: 1px dashed #7c9363; color: #556c3d; }
+.insertion-world .insertion-hand-label { color: #435735; background: #fff6dcbf; border-radius: 10px; left: 15%; width: 70%; }
+.array-stream-art { position: absolute; inset: -3% -2%; width: 104%; height: 106%; object-fit: fill; z-index: -1; pointer-events: none; }
+.merge-world .merge-stream-board { isolation: isolate; }
+.merge-world .stream-waterways { visibility: hidden; }
+.merge-world .stream-pond { background: #e1eed2b5; border: 1px solid #aabd94; box-shadow: none; }
+.merge-world .stream-split-bank { background: #eff3d3aa; border: 1px dashed #a4b77f; }
+.stream-leaf-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.merge-world .stream-leaf strong { top: 50%; transform: translateY(-50%); left: 0; width: 100%; letter-spacing: -.3px; color: #514934; text-shadow: none; }
+.stream-flower-mark { position: absolute; left: 18%; top: 3%; font-size: 11px; line-height: 1; pointer-events: none; }
+.merge-world .stream-leaf.is-guided { filter: none; outline: 1.5px dashed #ba9b57; outline-offset: 1px; border-radius: 45%; }
+.quick-forest-world .qf-woodland { visibility: hidden; }
+.quick-forest-world .qf-gate { background: url('/assets/hybrid-casual-ui/array/game/illustrations/quick-crossroads.png') center / 100% 100% no-repeat; }
+.quick-forest-world .qf-sign { background: #fff6dce8; border: 1px solid #cdb88e; box-shadow: none; color: #574a35; }
+.quick-forest-world .qf-friend { background: transparent; border: 0; box-shadow: none; }
+.quick-forest-world .qf-friend > strong { border: 0; box-shadow: none; border-radius: 5px; background: #fff5d9; color: #574a35; }
+.quick-forest-world .qf-friend.is-selected > strong { background: #d2e4df; }
+.quick-forest-world .qf-pivot::after { visibility: hidden; }
+.quick-forest-world .qf-gate:not(.has-milestone) { background: #fff6dcbb; border: 1px solid #d4c09a; border-radius: 22px; }
+
+/* Viewport layout. Reserve chrome first, then size boards to remaining space.
+   No scaled parents: pointer coordinates and FLIP animations retain their units. */
+@media (max-width: 700px) and (orientation: portrait) {
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) {
+    height: 100dvh; min-height: 0; max-height: 100dvh; overflow: clip;
+    background-image: url('/assets/hybrid-casual-ui/array/backgrounds/village-portrait.png');
+    padding-top: env(safe-area-inset-top);
+  }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .lesson-header { min-height: 50px; flex: 0 0 50px; padding: 5px 14px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .lesson-header h1 { font-size: 21px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .lesson-header .round-button { width: 40px; height: 40px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.play-stats,.insertion-stats,.selection-stats,.qf-stats) { min-height: 30px; font-size: 11px; gap: 4px 10px; padding: 2px 8px; }
+  :is(.bubble-content,.selection-content,.insertion-content,.merge-content,.qf-content) { flex: 1 1 0; min-height: 0; width: 100%; padding: 4px 10px; justify-content: center; gap: 0; }
+  :is(.bubble-content,.selection-content,.insertion-content,.merge-content,.qf-content) h2 { font-size: 20px; line-height: 1.2; margin: 2px 6px 5px; flex-shrink: 0; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-task,.selection-task,.insertion-task,.merge-task,.qf-task) { margin: 0 6px 6px; font-size: 13px; line-height: 1.35; flex-shrink: 0; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .game-play-footer { min-height: 52px; padding: 4px 12px max(8px,env(safe-area-inset-bottom)); }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .game-hint-button { min-height: 40px; padding: 8px 18px; font-size: 13px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-feedback,.selection-feedback,.insertion-feedback,.merge-feedback,.qf-feedback) { min-height: 20px; margin: 4px 8px 0; font-size: 11px; line-height: 1.3; flex-shrink: 0; }
+  :is(.bubble-controls,.selection-controls,.insertion-controls,.merge-controls,.qf-demo-controls) { flex: 0 0 auto; padding: 4px 12px max(8px,env(safe-area-inset-bottom)); }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) { gap: 6px; margin: 2px auto 6px; padding: 0; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) p { font-size: 13px; line-height: 1.35; padding: 8px 10px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) .pig { width: 42px; height: 54px; flex: 0 0 42px; }
+  :is(.bubble-playback,.selection-playback,.insertion-playback,.merge-playback,.qf-playback) { gap: 10px; }
+  :is(.bubble-playback,.selection-playback,.insertion-playback,.merge-playback,.qf-playback) .chunky-button { min-height: 42px; height: auto; min-width: 150px; font-size: 13px; padding: 9px 12px; }
+  :is(.bubble-step-status,.selection-demo-progress,.insertion-demo-progress,.merge-demo-progress,.qf-demo-progress) { font-size: 10px; margin-top: 5px; gap: 8px; }
+  .bubble-world .bubble-board-area { margin-top: 0; width: 100%; }
+  .bubble-world .bridge-scene,.bubble-demo .bridge-scene { height: clamp(160px,32dvh,280px); --deck: clamp(100px,20dvh,175px); }
+  .bubble-world .bridge-party,.bubble-demo .bridge-party { --unit: min(55px,calc(100% / (var(--crew-count) + 1))); }
+  .bubble-world .bridge-friend { height: calc(var(--friend-width) * 1.5); }
+  .bubble-world .bridge-friend.is-prominent { min-height: 44px; min-width: 44px; }
+  .bubble-world .bridge-buta { top: calc(var(--deck) + 24px); width: 36px; height: 46px; margin-left: -18px; }
+  .bubble-world .bubble-position { font-size: 10px; bottom: -18px; }
+  .bubble-world .bridge-route-heading,.bubble-world .bridge-route-heading small { font-size: 9px; }
+  .bubble-world .bubble-focus-status { font-size: 11px; }
+  .bubble-world .bubble-action-area { margin-top: 4px; }
+  .bubble-world .bubble-keep-button { min-height: 42px; padding: 7px 20px; font-size: 13px; }
+  .bubble-world .bubble-equation { min-height: 24px; margin-top: 0; }
+  .bubble-world .bubble-rule { font-size: 11px; }
+  .selection-world .pack-table { padding: 35px 18px 20px; width: min(100%,460px); }
+  .selection-world .pack-mat,.selection-demo .pack-mat { --pad: 8px; --gap: 6px; --card-height: clamp(66px,10dvh,92px); }
+  .selection-world .pack-equipment { width: clamp(32px,5.5dvh,50px); height: clamp(32px,5.5dvh,50px); }
+  .selection-world .selection-tile { padding: 12px 2px 2px; gap: 1px; }
+  .selection-world .selection-tile strong { font-size: min(28px,calc((100cqw - 6px) / (var(--digits) * .65))); padding: 2px 4px; line-height: 1; }
+  .selection-world .pack-heading,.selection-world .pack-heading small { margin-bottom: 4px; font-size: 9px; letter-spacing: 0; }
+  .selection-world .pack-slot > span { font-size: 10px; top: 2px; left: 4px; }
+  .selection-world .selection-action { display: flex; justify-content: center; min-height: 44px; padding: 4px 0 0; gap: 6px; }
+  .selection-world .selection-action .chunky-button { min-height: 40px; min-width: 0; padding: 8px 14px; font-size: 12px; }
+  .selection-world .selection-goal > span { font-size: 9px; }
+  .selection-demo .pack-mat { --card-height: clamp(56px,9dvh,80px); }
+  .insertion-world .insertion-card-table,.insertion-demo .insertion-card-table { height: clamp(190px,33dvh,290px); --card: clamp(44px,13cqw,62px); --stage-y: 24px; --hand-y: clamp(106px,19dvh,165px); }
+  .insertion-world .insertion-deck-label,.insertion-world .insertion-stage-label { top: 5px; font-size: 9px; }
+  .insertion-world .insertion-hand-label { top: calc(var(--hand-y) - 23px); font-size: 10px; }
+  .insertion-world .insertion-steps { margin: 3px 0; gap: 3px; }
+  .insertion-world .insertion-steps > span { font-size: 10px; padding: 3px; }
+  .insertion-world .insertion-tile strong { font-size: max(18px,min(30px,calc(var(--card) * 1.6 / (var(--digits) + 1)))); }
+  .insertion-world .insertion-card-corner { font-size: 8px; left: 2px; top: 3px; }
+  .insertion-world .insertion-card-corner small { font-size: 8px; }
+  .insertion-world .insertion-stability-note { font-size: 11px; }
+  .merge-world .stream-branch-picker { margin: 0 0 4px; gap: 4px; }
+  .merge-world .stream-branch-picker button { min-height: 44px; font-size: 12px; padding: 5px 9px; }
+  .merge-world .stream-mobile-group { margin: 0 0 3px; font-size: 11px; }
+  .merge-world .merge-stream-board,.merge-demo .merge-stream-board { height: clamp(210px,37dvh,330px); --leaf: clamp(60px,10dvh,84px); --small-leaf: clamp(32px,5.5dvh,48px); }
+  .merge-world .stream-group-leaves { --small-leaf: clamp(36px,5.5dvh,48px); margin: 6px 0; gap: 2px; }
+  .merge-world .stream-split-stage { padding-top: 4px; }
+  .merge-world .stream-split-handle { min-height: 40px; padding: 6px 12px; font-size: 13px; }
+  .merge-world .stream-split-banks { margin-top: 10px; width: 96%; gap: 8px; }
+  .merge-world .stream-split-bank { padding: 7px 3px; min-height: 62px; }
+  .merge-world .stream-split-bank > div { --small-leaf: clamp(28px,5dvh,42px); gap: 1px; }
+  .merge-world .stream-split-bank > span,.merge-world .stream-caption { font-size: 10px; margin-bottom: 4px; }
+  .merge-world .stream-sources { height: clamp(96px,17dvh,140px); margin-top: 8px; width: 92%; }
+  .merge-world .stream-leaf-stack { height: clamp(54px,10dvh,86px); margin-top: 8px; }
+  .merge-world .stream-pond { min-height: 72px; padding: 7px 6px; margin-top: 8px; width: 94%; }
+  .merge-world .stream-output { margin-top: 6px; gap: 3px; }
+  .merge-world .stream-leaf strong { font-size: min(30px,calc(var(--leaf) * 1.2 / (var(--digits) + 1))); }
+  .merge-world .stream-leaf.is-small strong { font-size: max(18px,min(24px,calc(var(--small-leaf) * 1.6 / (var(--digits) + 1)))); }
+  .merge-world .stream-next-leaves,.merge-world .stream-empty { font-size: 10px; }
+  .merge-world .stream-group-success { height: 90px; }
+  .quick-forest-world .qf-content { padding: 4px 8px; justify-content: center; }
+  .quick-forest-world .qf-gate { --card: 44px; padding: 6px 3px; gap: 3px 5px; grid-template-columns: minmax(0,1fr) minmax(75px,.8fr) minmax(0,1fr); }
+  .quick-forest-world .qf-gate .qf-group { padding: 5px 1px 2px; }
+  .quick-forest-world .qf-gate .qf-sign { min-height: 34px; padding: 3px 2px; }
+  .quick-forest-world .qf-gate .qf-sign strong { font-size: 10px; }
+  .quick-forest-world .qf-gate .qf-sign > span,.quick-forest-world .qf-gate .qf-sign small { font-size: 10px; }
+  .quick-forest-world .qf-gate .qf-group-friends { min-height: 48px; padding-top: 5px; gap: 3px; }
+  .quick-forest-world .qf-gate .qf-group:has(.qf-friend:nth-child(5)) .qf-friend { height: 44px; }
+  .quick-forest-world .qf-gate .qf-equal { padding: 0; }
+  .quick-forest-world .qf-gate .qf-equal .qf-group-friends { padding: 2px; min-height: 40px; }
+  .quick-forest-world .qf-gate .qf-equal:has(.qf-friend:nth-child(3)) { grid-column: 1 / -1; grid-row: 2; }
+  .quick-forest-world .qf-gate .qf-equal:has(.qf-friend:nth-child(3)) .qf-group-friends { max-width: none; }
+  .quick-forest-world .qf-gate .qf-friend { height: calc(var(--card) * 1.25); }
+  .quick-forest-world .qf-gate .qf-friend > strong { height: 44%; min-height: 25px; font-size: max(18px,min(27px,calc(61cqw / max(1,var(--digits) * .56)))); }
+  .quick-forest-world .qf-gate .qf-pivot { --card: 56px; min-height: 95px; padding: 1px 0 0; }
+  .quick-forest-world .qf-gate .qf-pivot > div { min-height: 72px; }
+  .quick-forest-world .qf-gate .qf-pivot-label { font-size: 10px; }
+  .quick-forest-world .qf-gate .qf-pivot-empty { width: 48px; height: 65px; }
+  .quick-forest-world .qf-gate .qf-pool { --card: 44px; margin-top: 2px; }
+  .quick-forest-world .qf-gate .qf-pool-friends { min-height: 60px; gap: 4px; padding: 2px; }
+  .quick-forest-world .qf-gate .qf-pool-friends.has-pivot { --card: 50px; min-height: 67px; }
+  .quick-forest-world .qf-gate .qf-pool-label,.quick-forest-world .qf-gate .qf-pool-label small { font-size: 10px; padding-bottom: 2px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) { gap: 6px; padding: 5px 3px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool { --card: 55px; max-width: 330px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool-friends { gap: 7px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-friend > strong { font-size: max(18px,min(27px,calc(61cqw / max(1,var(--digits) * .56)))); min-height: 28px; height: 45%; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot-label { min-height: 40px; font-size: 13px; padding: 7px 14px; }
+  .quick-forest-world .qf-map { margin-bottom: 5px; gap: 4px; }
+  .quick-forest-world .qf-node { min-height: 30px; font-size: 10px; padding: 4px 6px; }
+  .quick-forest-world .qf-overview { margin-bottom: 5px; gap: 4px; }
+  .quick-forest-world .qf-actions { margin-top: 3px; gap: 8px; }
+  .quick-forest-world .qf-actions .chunky-button { min-height: 40px; font-size: 13px; padding: 7px 14px; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) { overflow: clip; }
+  .selection-world .pack-table { padding: 25px 18px 14px; }
+  .selection-world .pack-mat { --card-height: 64px; --pad: 8px; --gap: 6px; }
+  .selection-world .selection-tile { padding: 8px 2px 2px; gap: 1px; }
+  .selection-world .pack-equipment { width: 30px; height: 30px; }
+  .selection-world .selection-tile strong { font-size: 23px; padding: 1px 3px; }
+  .insertion-world .insertion-card-table { height: 190px; --card: 42px; --stage-y: 22px; --hand-y: 110px; }
+  .insertion-world .insertion-hand-label { top: 85px; font-size: 9px; }
+  .quick-forest-world .qf-content { flex: 1 1 0; min-height: 0; }
+  .quick-forest-world .qf-gate { --card: 44px; grid-template-columns: minmax(0,1fr) 65px minmax(0,1fr); padding: 4px; gap: 2px 4px; }
+  .quick-forest-world .qf-gate .qf-group { padding: 0 2px 2px; }
+  .quick-forest-world .qf-gate .qf-sign { min-height: 32px; padding: 2px; gap: 1px 3px; }
+  .quick-forest-world .qf-gate .qf-sign strong { font-size: 10px; }
+  .quick-forest-world .qf-gate .qf-sign > span { font-size: 9px; }
+  .quick-forest-world .qf-gate .qf-group-friends { min-height: 44px; padding-top: 3px; padding-bottom: 0; gap: 2px; }
+  .quick-forest-world .qf-gate .qf-friend { height: 44px; }
+  .quick-forest-world .qf-gate .qf-equal:has(.qf-friend:nth-child(3)) { grid-column: 1 / -1; grid-row: 2; }
+  .quick-forest-world .qf-gate .qf-equal:has(.qf-friend:nth-child(3)) .qf-group-friends { max-width: none; }
+  .quick-forest-world .qf-gate .qf-pool { margin-top: 0; padding: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .quick-forest-world .qf-gate .qf-pool-friends.has-pivot { --card: 44px; min-height: 44px; padding: 0; }
+  .quick-forest-world .qf-gate .qf-pivot { --card: 48px; min-height: 72px; }
+  .quick-forest-world .qf-gate .qf-pivot > div { min-height: 50px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-group { display: none; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool { --card: 44px; display: block; width: 100%; margin: 0; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool-friends { min-height: 44px; gap: 5px; padding: 3px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot { min-height: 0; padding: 0; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot > div { display: none; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot-label { min-height: 36px; padding: 6px; border: 1px solid #c6bd91; border-radius: 10px; background: #fff6dc; }
+}
+
+/* Short phones use the right column for playback/actions instead of stacking it
+   below the board. The board itself keeps native pointer coordinates. */
+@media (max-width: 700px) and (max-height: 520px) and (orientation: landscape) {
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) {
+    display: grid; grid-template-columns: minmax(0,1.45fr) minmax(0,1fr);
+    grid-template-rows: 46px 26px minmax(0,1fr); height: 100dvh; min-height: 0; overflow: clip;
+  }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) > .lesson-header { grid-column: 1 / -1; grid-row: 1; min-height: 46px; padding: 1px 12px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .lesson-header h1 { font-size: 19px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .lesson-header .round-button { width: 44px; height: 44px; min-width: 44px; min-height: 44px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) > :is(.play-stats,.selection-stats,.insertion-stats,.qf-stats) { grid-column: 1 / -1; grid-row: 2; min-height: 26px; font-size: 10px; padding: 0 8px; gap: 4px 10px; }
+  :is(.bubble-content,.selection-content,.insertion-content,.merge-content,.qf-content) { grid-column: 1; grid-row: 3; display: flex; flex-direction: column; justify-content: center; min-height: 0; width: 100%; padding: 2px 8px; }
+  :is(.bubble-content,.selection-content,.insertion-content,.merge-content,.qf-content) h2 { font-size: 16px; line-height: 1.1; margin: 0 4px 3px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-task,.selection-task,.insertion-task,.merge-task,.qf-task) { font-size: 11px; line-height: 1.2; margin: 0 4px 4px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) > :is(.bubble-controls,.selection-controls,.insertion-controls,.merge-controls,.qf-demo-controls) { grid-column: 2; grid-row: 3; position: relative; inset: auto; width: 100%; align-self: center; padding: 6px 8px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) > .game-play-footer { grid-column: 2; grid-row: 3; min-height: 48px; width: 100%; margin: 0; padding: 6px 10px; align-self: end; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) .game-hint-button { min-height: 40px; font-size: 12px; padding: 8px 14px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) { gap: 4px; margin: 0 0 6px; padding: 0; width: 100%; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) p { font-size: 12px; line-height: 1.3; padding: 7px 8px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-dialogue,.selection-dialogue,.insertion-dialogue,.merge-dialogue,.qf-dialogue) .pig { width: 30px; height: 40px; flex: 0 0 30px; }
+  :is(.bubble-playback,.selection-playback,.insertion-playback,.merge-playback,.qf-playback) { gap: 6px; }
+  :is(.bubble-playback,.selection-playback,.insertion-playback,.merge-playback,.qf-playback) .chunky-button { min-width: 108px; min-height: 40px; height: auto; font-size: 11px; padding: 7px 8px; }
+  :is(.bubble-playback,.selection-playback,.insertion-playback,.merge-playback,.qf-playback) .round-button { min-width: 34px; min-height: 36px; width: 34px; height: 36px; }
+  :is(.bubble-step-status,.selection-demo-progress,.insertion-demo-progress,.merge-demo-progress,.qf-demo-progress) { margin-top: 6px; gap: 5px; font-size: 9px; }
+  :is(.bubble-step-status,.selection-demo-progress,.insertion-demo-progress,.merge-demo-progress,.qf-demo-progress) progress { width: 80px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-feedback,.selection-feedback,.insertion-feedback,.merge-feedback,.qf-feedback) { font-size: 10px; line-height: 1.2; min-height: 14px; margin: 2px 4px 0; }
+  :is(.bubble-action-area,.selection-action,.qf-actions) { position: fixed; right: 12px; bottom: 76px; width: calc(100vw / 2.45 - 24px); margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; min-height: 0; z-index: 4; }
+  :is(.bubble-action-area,.selection-action,.qf-actions) .chunky-button,.bubble-world .bubble-keep-button { min-height: 40px; min-width: 0; font-size: 12px; padding: 7px 10px; }
+  .bubble-world > .bubble-dialogue { grid-column: 2; grid-row: 3; align-self: start; width: 100%; padding: 6px 8px; }
+  .bubble-world > .bubble-controls { align-self: end; }
+  .bubble-world .bridge-scene,.bubble-demo .bridge-scene { height: 130px; --deck: 75px; }
+  .bubble-world .bridge-party { --unit: min(42px,calc(100% / (var(--crew-count) + 1))); }
+  .bubble-world .bridge-buta { top: calc(var(--deck) + 20px); width: 26px; height: 34px; margin-left: -13px; }
+  .bubble-world .bridge-route-heading,.bubble-world .bridge-step-dots { display: none; }
+  .bubble-world .bubble-focus-status { font-size: 10px; margin-top: 0; }
+  .bubble-world .bubble-topline { font-size: 10px; margin: 0; }
+  .bubble-world .bubble-rule { font-size: 10px; margin: 2px 4px; }
+  .bubble-world .bubble-equation { min-height: 24px; gap: 6px; }
+  .bubble-world .bubble-next-pass { position: fixed; right: 16px; bottom: 90px; font-size: 12px; min-height: 40px; }
+  .selection-world .pack-table { width: 100%; padding: 22px 14px 10px; }
+  .selection-world .pack-mat { --card-height: 54px; --gap: 4px; --pad: 6px; }
+  .selection-world .selection-tile { padding: 4px 2px 2px; gap: 0; }
+  .selection-world .pack-equipment { width: 24px; height: 24px; }
+  .selection-world .selection-tile strong { font-size: 23px; padding: 0 2px; }
+  .selection-world .pack-heading,.selection-world .pack-heading small { font-size: 8px; margin-bottom: 3px; letter-spacing: 0; }
+  .selection-world .selection-goal > span { font-size: 8px; }
+  .insertion-world .insertion-card-table { height: 170px; --card: 42px; --stage-y: 20px; --hand-y: 100px; }
+  .insertion-world .insertion-hand-label { top: 77px; font-size: 8px; }
+  .insertion-world .insertion-deck-label,.insertion-world .insertion-stage-label { top: 3px; font-size: 8px; }
+  .insertion-world .insertion-steps { margin: 2px 0; }
+  .insertion-world .insertion-steps > span { font-size: 9px; padding: 2px; }
+  .insertion-world .insertion-stability-note { font-size: 10px; margin: 0; }
+  .merge-world .merge-stream-map { display: none; }
+  .merge-world .stream-branch-picker { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; margin: 0 0 3px; }
+  .merge-world .stream-branch-picker button { min-height: 30px; font-size: 10px; padding: 3px 7px; }
+  .merge-world .stream-mobile-group { display: none; }
+  .merge-world .merge-stream-board { height: 180px; --leaf: 54px; --small-leaf: 36px; }
+  .merge-world .stream-split-stage { padding-top: 0; }
+  .merge-world .stream-group-leaves { --small-leaf: 36px; flex-wrap: wrap; margin: 4px 0; }
+  .merge-world .stream-split-handle { min-height: 36px; margin-top: 2px; font-size: 11px; padding: 4px 9px; }
+  .merge-world .stream-split-banks { width: 96%; gap: 8px; margin-top: 8px; }
+  .merge-world .stream-split-bank { min-height: 50px; padding: 6px 2px; }
+  .merge-world .stream-split-bank > span,.merge-world .stream-caption { margin-bottom: 3px; font-size: 9px; }
+  .merge-world .stream-split-bank > div { --small-leaf: 30px; flex-wrap: wrap; }
+  .merge-world .stream-sources { width: 92%; height: 75px; margin-top: 4px; }
+  .merge-world .stream-leaf-stack { height: 48px; margin-top: 6px; }
+  .merge-world .stream-pond { min-height: 68px; width: 94%; margin-top: 5px; padding: 6px; }
+  .merge-world .stream-output { margin-top: 3px; gap: 2px; }
+  .merge-world .stream-leaf strong { font-size: 23px; }
+  .merge-world .stream-leaf.is-small strong { font-size: 18px; }
+  .merge-world .stream-next-leaves,.merge-world .stream-empty { font-size: 9px; }
+  .merge-world .stream-group-success { height: 70px; }
+  .quick-forest-world .qf-gate { --card: 32px; grid-template-columns: minmax(0,1fr) 60px minmax(0,1fr); gap: 2px 3px; padding: 3px; }
+  .quick-forest-world .qf-gate .qf-sign { min-height: 28px; padding: 1px; }
+  .quick-forest-world .qf-gate .qf-sign strong,.quick-forest-world .qf-gate .qf-sign > span { font-size: 9px; }
+  .quick-forest-world .qf-gate .qf-group { padding-inline: 0; }
+  .quick-forest-world .qf-gate .qf-group-friends { gap: 2px; padding-top: 2px; }
+  .quick-forest-world .qf-gate .qf-pivot { --card: 44px; min-height: 62px; }
+  .quick-forest-world .qf-gate .qf-pivot > div { min-height: 44px; }
+  .quick-forest-world .qf-gate .qf-pool-friends.has-pivot { --card: 36px; min-height: 42px; }
+  .quick-forest-world .qf-gate .qf-pool-label { font-size: 9px; }
+  .quick-forest-world .qf-map { margin-bottom: 3px; gap: 3px; }
+  .quick-forest-world .qf-node { min-height: 24px; font-size: 8px; padding: 3px 5px; }
+  .quick-forest-world .qf-overview { margin-bottom: 3px; gap: 3px; }
+  .quick-forest-world .qf-overview > span { height: 20px; font-size: 10px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 6px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-group { display: none; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool { --card: 44px; display: block; width: 100%; margin: 0; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool-friends { min-height: 44px; gap: 5px; padding: 3px; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot { min-height: 0; padding: 0; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot > div { display: none; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pivot-label { min-height: 36px; padding: 6px; border: 1px solid #c6bd91; border-radius: 10px; background: #fff6dc; }
+  .quick-forest-world .qf-content.is-choosing-pivot .qf-actions .chunky-button { display: none; }
+  .quick-forest-world .qf-content.is-choosing-pivot .qf-actions:not(:has(button:enabled)) { display: none; }
+}
+
+@media (max-width: 700px) and (orientation: portrait) and (max-height: 650px) {
+  :is(.bubble-content,.selection-content,.insertion-content,.merge-content,.qf-content) h2 { font-size: 18px; }
+  :is(.bubble-world,.selection-world,.insertion-world,.merge-world,.quick-forest-world) :is(.bubble-task,.selection-task,.insertion-task,.merge-task,.qf-task) { font-size: 12px; margin-bottom: 4px; }
+  .selection-world .pack-table { padding-top: 27px; padding-bottom: 14px; }
+  .selection-world .pack-mat { --card-height: 60px; --gap: 5px; --pad: 6px; }
+  .selection-world .pack-equipment { width: 30px; height: 30px; }
+  .selection-world .selection-tile { padding-top: 9px; }
+  .selection-world .selection-tile strong { font-size: min(25px,calc((100cqw - 6px) / (var(--digits) * .65))); }
+  .selection-demo .pack-table { padding: 16px 16px 6px; }
+  .selection-demo .pack-mat { --card-height: 54px; --pad: 6px; --gap: 4px; }
+  .selection-demo .pack-equipment { width: 24px; height: 24px; }
+  .selection-demo .selection-tile { padding: 4px 2px 2px; gap: 0; }
+  .selection-demo .selection-tile strong { padding: 0 3px; font-size: 24px; }
+  .selection-demo .selection-content h2 { margin: 0 4px 3px; font-size: 17px; }
+  .selection-demo .selection-dialogue .pig { display: none; }
+  .selection-demo .selection-dialogue p { padding: 6px 8px; line-height: 1.3; }
+  .quick-forest-world .qf-gate:not(.has-milestone) .qf-pool { --card: 48px; }
+  .quick-forest-world .qf-node { min-height: 27px; font-size: 9px; }
+  .quick-forest-world .qf-gate .qf-group-friends { gap: 2px; }
+}

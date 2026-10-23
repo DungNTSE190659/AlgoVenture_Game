@@ -40,3 +40,6 @@ import "./stack.css";
 
 import "./queue.css";
 import "./sortingPortrait.css";
+import "./arrayMapAssets.css";
+import "./arrayGameAssets.css";
+import "./arrayStage.css";

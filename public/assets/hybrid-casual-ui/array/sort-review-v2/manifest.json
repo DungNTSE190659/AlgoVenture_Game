@@ -1,0 +1,1417 @@
+{
+  "version": 2,
+  "status": "pending-user-review",
+  "liveIntegration": false,
+  "palette": {
+    "ink": "#574A35",
+    "cream": "#FFF6DC",
+    "paper": "#FFF9E9",
+    "sage": "#8DA969",
+    "sageDark": "#738C53",
+    "river": "#7AB8CE",
+    "riverDark": "#639CAF",
+    "honey": "#DDB05E",
+    "wood": "#D8AC70",
+    "clay": "#DD947D",
+    "edge": "#CCB991"
+  },
+  "assets": [
+    {
+      "id": "tag-normal",
+      "svg": "svg/tag-normal.svg",
+      "png": "png/tag-normal.png",
+      "nativeSize": [
+        88,
+        94
+      ],
+      "pngScale": 2,
+      "kind": "hanging-number-tag",
+      "state": "normal",
+      "usage": "Number and identity rendered by runtime; preserve item.id"
+    },
+    {
+      "id": "card-normal",
+      "svg": "svg/card-normal.svg",
+      "png": "png/card-normal.png",
+      "nativeSize": [
+        104,
+        148
+      ],
+      "pngScale": 2,
+      "kind": "paper-playing-card",
+      "state": "normal"
+    },
+    {
+      "id": "leaf-normal",
+      "svg": "svg/leaf-normal.svg",
+      "png": "png/leaf-normal.png",
+      "nativeSize": [
+        108,
+        132
+      ],
+      "pngScale": 2,
+      "kind": "illustrated-leaf-token",
+      "state": "normal"
+    },
+    {
+      "id": "tag-selected",
+      "svg": "svg/tag-selected.svg",
+      "png": "png/tag-selected.png",
+      "nativeSize": [
+        88,
+        94
+      ],
+      "pngScale": 2,
+      "kind": "hanging-number-tag",
+      "state": "selected",
+      "usage": "Number and identity rendered by runtime; preserve item.id"
+    },
+    {
+      "id": "card-selected",
+      "svg": "svg/card-selected.svg",
+      "png": "png/card-selected.png",
+      "nativeSize": [
+        104,
+        148
+      ],
+      "pngScale": 2,
+      "kind": "paper-playing-card",
+      "state": "selected"
+    },
+    {
+      "id": "leaf-selected",
+      "svg": "svg/leaf-selected.svg",
+      "png": "png/leaf-selected.png",
+      "nativeSize": [
+        108,
+        132
+      ],
+      "pngScale": 2,
+      "kind": "illustrated-leaf-token",
+      "state": "selected"
+    },
+    {
+      "id": "tag-compare",
+      "svg": "svg/tag-compare.svg",
+      "png": "png/tag-compare.png",
+      "nativeSize": [
+        88,
+        94
+      ],
+      "pngScale": 2,
+      "kind": "hanging-number-tag",
+      "state": "compare",
+      "usage": "Number and identity rendered by runtime; preserve item.id"
+    },
+    {
+      "id": "card-compare",
+      "svg": "svg/card-compare.svg",
+      "png": "png/card-compare.png",
+      "nativeSize": [
+        104,
+        148
+      ],
+      "pngScale": 2,
+      "kind": "paper-playing-card",
+      "state": "compare"
+    },
+    {
+      "id": "leaf-compare",
+      "svg": "svg/leaf-compare.svg",
+      "png": "png/leaf-compare.png",
+      "nativeSize": [
+        108,
+        132
+      ],
+      "pngScale": 2,
+      "kind": "illustrated-leaf-token",
+      "state": "compare"
+    },
+    {
+      "id": "tag-sorted",
+      "svg": "svg/tag-sorted.svg",
+      "png": "png/tag-sorted.png",
+      "nativeSize": [
+        88,
+        94
+      ],
+      "pngScale": 2,
+      "kind": "hanging-number-tag",
+      "state": "sorted",
+      "usage": "Number and identity rendered by runtime; preserve item.id"
+    },
+    {
+      "id": "card-sorted",
+      "svg": "svg/card-sorted.svg",
+      "png": "png/card-sorted.png",
+      "nativeSize": [
+        104,
+        148
+      ],
+      "pngScale": 2,
+      "kind": "paper-playing-card",
+      "state": "sorted"
+    },
+    {
+      "id": "leaf-sorted",
+      "svg": "svg/leaf-sorted.svg",
+      "png": "png/leaf-sorted.png",
+      "nativeSize": [
+        108,
+        132
+      ],
+      "pngScale": 2,
+      "kind": "illustrated-leaf-token",
+      "state": "sorted"
+    },
+    {
+      "id": "tag-moving",
+      "svg": "svg/tag-moving.svg",
+      "png": "png/tag-moving.png",
+      "nativeSize": [
+        88,
+        94
+      ],
+      "pngScale": 2,
+      "kind": "hanging-number-tag",
+      "state": "moving",
+      "usage": "Number and identity rendered by runtime; preserve item.id"
+    },
+    {
+      "id": "card-moving",
+      "svg": "svg/card-moving.svg",
+      "png": "png/card-moving.png",
+      "nativeSize": [
+        104,
+        148
+      ],
+      "pngScale": 2,
+      "kind": "paper-playing-card",
+      "state": "moving"
+    },
+    {
+      "id": "leaf-moving",
+      "svg": "svg/leaf-moving.svg",
+      "png": "png/leaf-moving.png",
+      "nativeSize": [
+        108,
+        132
+      ],
+      "pngScale": 2,
+      "kind": "illustrated-leaf-token",
+      "state": "moving"
+    },
+    {
+      "id": "tag-wrong",
+      "svg": "svg/tag-wrong.svg",
+      "png": "png/tag-wrong.png",
+      "nativeSize": [
+        88,
+        94
+      ],
+      "pngScale": 2,
+      "kind": "hanging-number-tag",
+      "state": "wrong",
+      "usage": "Number and identity rendered by runtime; preserve item.id"
+    },
+    {
+      "id": "card-wrong",
+      "svg": "svg/card-wrong.svg",
+      "png": "png/card-wrong.png",
+      "nativeSize": [
+        104,
+        148
+      ],
+      "pngScale": 2,
+      "kind": "paper-playing-card",
+      "state": "wrong"
+    },
+    {
+      "id": "leaf-wrong",
+      "svg": "svg/leaf-wrong.svg",
+      "png": "png/leaf-wrong.png",
+      "nativeSize": [
+        108,
+        132
+      ],
+      "pngScale": 2,
+      "kind": "illustrated-leaf-token",
+      "state": "wrong"
+    },
+    {
+      "id": "tag-disabled",
+      "svg": "svg/tag-disabled.svg",
+      "png": "png/tag-disabled.png",
+      "nativeSize": [
+        88,
+        94
+      ],
+      "pngScale": 2,
+      "kind": "hanging-number-tag",
+      "state": "disabled",
+      "usage": "Number and identity rendered by runtime; preserve item.id"
+    },
+    {
+      "id": "card-disabled",
+      "svg": "svg/card-disabled.svg",
+      "png": "png/card-disabled.png",
+      "nativeSize": [
+        104,
+        148
+      ],
+      "pngScale": 2,
+      "kind": "paper-playing-card",
+      "state": "disabled"
+    },
+    {
+      "id": "leaf-disabled",
+      "svg": "svg/leaf-disabled.svg",
+      "png": "png/leaf-disabled.png",
+      "nativeSize": [
+        108,
+        132
+      ],
+      "pngScale": 2,
+      "kind": "illustrated-leaf-token",
+      "state": "disabled"
+    },
+    {
+      "id": "card-hole",
+      "svg": "svg/card-hole.svg",
+      "png": "png/card-hole.png",
+      "nativeSize": [
+        104,
+        148
+      ],
+      "pngScale": 2,
+      "kind": "empty-slot"
+    },
+    {
+      "id": "button-primary-normal",
+      "svg": "svg/button-primary-normal.svg",
+      "png": "png/button-primary-normal.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "normal",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-primary-hover",
+      "svg": "svg/button-primary-hover.svg",
+      "png": "png/button-primary-hover.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "hover",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-primary-pressed",
+      "svg": "svg/button-primary-pressed.svg",
+      "png": "png/button-primary-pressed.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "pressed",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-primary-disabled",
+      "svg": "svg/button-primary-disabled.svg",
+      "png": "png/button-primary-disabled.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "disabled",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-secondary-normal",
+      "svg": "svg/button-secondary-normal.svg",
+      "png": "png/button-secondary-normal.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "normal",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-secondary-hover",
+      "svg": "svg/button-secondary-hover.svg",
+      "png": "png/button-secondary-hover.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "hover",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-secondary-pressed",
+      "svg": "svg/button-secondary-pressed.svg",
+      "png": "png/button-secondary-pressed.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "pressed",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-secondary-disabled",
+      "svg": "svg/button-secondary-disabled.svg",
+      "png": "png/button-secondary-disabled.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "disabled",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-river-normal",
+      "svg": "svg/button-river-normal.svg",
+      "png": "png/button-river-normal.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "normal",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-river-hover",
+      "svg": "svg/button-river-hover.svg",
+      "png": "png/button-river-hover.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "hover",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-river-pressed",
+      "svg": "svg/button-river-pressed.svg",
+      "png": "png/button-river-pressed.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "pressed",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-river-disabled",
+      "svg": "svg/button-river-disabled.svg",
+      "png": "png/button-river-disabled.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "disabled",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-clay-normal",
+      "svg": "svg/button-clay-normal.svg",
+      "png": "png/button-clay-normal.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "normal",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-clay-hover",
+      "svg": "svg/button-clay-hover.svg",
+      "png": "png/button-clay-hover.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "hover",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-clay-pressed",
+      "svg": "svg/button-clay-pressed.svg",
+      "png": "png/button-clay-pressed.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "pressed",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "button-clay-disabled",
+      "svg": "svg/button-clay-disabled.svg",
+      "png": "png/button-clay-disabled.png",
+      "nativeSize": [
+        256,
+        58
+      ],
+      "pngScale": 2,
+      "kind": "village-button",
+      "state": "disabled",
+      "stretch": "nine-slice",
+      "slice": [
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    {
+      "id": "map-bubble-old",
+      "svg": "svg/map-bubble-old.svg",
+      "png": "png/map-bubble-old.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "old",
+      "oldFace": "#89C4DA",
+      "newFace": "#7AB8CE",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-bubble-normal",
+      "svg": "svg/map-bubble-normal.svg",
+      "png": "png/map-bubble-normal.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "normal",
+      "oldFace": "#89C4DA",
+      "newFace": "#7AB8CE",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-bubble-hover",
+      "svg": "svg/map-bubble-hover.svg",
+      "png": "png/map-bubble-hover.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "hover",
+      "oldFace": "#89C4DA",
+      "newFace": "#7AB8CE",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-bubble-pressed",
+      "svg": "svg/map-bubble-pressed.svg",
+      "png": "png/map-bubble-pressed.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "pressed",
+      "oldFace": "#89C4DA",
+      "newFace": "#7AB8CE",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-bubble-selected",
+      "svg": "svg/map-bubble-selected.svg",
+      "png": "png/map-bubble-selected.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "selected",
+      "oldFace": "#89C4DA",
+      "newFace": "#7AB8CE",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-bubble-locked",
+      "svg": "svg/map-bubble-locked.svg",
+      "png": "png/map-bubble-locked.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "locked",
+      "oldFace": "#89C4DA",
+      "newFace": "#7AB8CE",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-bubble-complete",
+      "svg": "svg/map-bubble-complete.svg",
+      "png": "png/map-bubble-complete.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "complete",
+      "oldFace": "#89C4DA",
+      "newFace": "#7AB8CE",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-selection-old",
+      "svg": "svg/map-selection-old.svg",
+      "png": "png/map-selection-old.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "old",
+      "oldFace": "#E9BC6B",
+      "newFace": "#DDB05E",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-selection-normal",
+      "svg": "svg/map-selection-normal.svg",
+      "png": "png/map-selection-normal.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "normal",
+      "oldFace": "#E9BC6B",
+      "newFace": "#DDB05E",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-selection-hover",
+      "svg": "svg/map-selection-hover.svg",
+      "png": "png/map-selection-hover.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "hover",
+      "oldFace": "#E9BC6B",
+      "newFace": "#DDB05E",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-selection-pressed",
+      "svg": "svg/map-selection-pressed.svg",
+      "png": "png/map-selection-pressed.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "pressed",
+      "oldFace": "#E9BC6B",
+      "newFace": "#DDB05E",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-selection-selected",
+      "svg": "svg/map-selection-selected.svg",
+      "png": "png/map-selection-selected.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "selected",
+      "oldFace": "#E9BC6B",
+      "newFace": "#DDB05E",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-selection-locked",
+      "svg": "svg/map-selection-locked.svg",
+      "png": "png/map-selection-locked.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "locked",
+      "oldFace": "#E9BC6B",
+      "newFace": "#DDB05E",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-selection-complete",
+      "svg": "svg/map-selection-complete.svg",
+      "png": "png/map-selection-complete.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "complete",
+      "oldFace": "#E9BC6B",
+      "newFace": "#DDB05E",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-insertion-old",
+      "svg": "svg/map-insertion-old.svg",
+      "png": "png/map-insertion-old.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "old",
+      "oldFace": "#9ABB80",
+      "newFace": "#8DAD71",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-insertion-normal",
+      "svg": "svg/map-insertion-normal.svg",
+      "png": "png/map-insertion-normal.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "normal",
+      "oldFace": "#9ABB80",
+      "newFace": "#8DAD71",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-insertion-hover",
+      "svg": "svg/map-insertion-hover.svg",
+      "png": "png/map-insertion-hover.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "hover",
+      "oldFace": "#9ABB80",
+      "newFace": "#8DAD71",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-insertion-pressed",
+      "svg": "svg/map-insertion-pressed.svg",
+      "png": "png/map-insertion-pressed.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "pressed",
+      "oldFace": "#9ABB80",
+      "newFace": "#8DAD71",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-insertion-selected",
+      "svg": "svg/map-insertion-selected.svg",
+      "png": "png/map-insertion-selected.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "selected",
+      "oldFace": "#9ABB80",
+      "newFace": "#8DAD71",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-insertion-locked",
+      "svg": "svg/map-insertion-locked.svg",
+      "png": "png/map-insertion-locked.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "locked",
+      "oldFace": "#9ABB80",
+      "newFace": "#8DAD71",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-insertion-complete",
+      "svg": "svg/map-insertion-complete.svg",
+      "png": "png/map-insertion-complete.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "complete",
+      "oldFace": "#9ABB80",
+      "newFace": "#8DAD71",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-merge-old",
+      "svg": "svg/map-merge-old.svg",
+      "png": "png/map-merge-old.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "old",
+      "oldFace": "#91BFAD",
+      "newFace": "#83B39F",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-merge-normal",
+      "svg": "svg/map-merge-normal.svg",
+      "png": "png/map-merge-normal.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "normal",
+      "oldFace": "#91BFAD",
+      "newFace": "#83B39F",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-merge-hover",
+      "svg": "svg/map-merge-hover.svg",
+      "png": "png/map-merge-hover.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "hover",
+      "oldFace": "#91BFAD",
+      "newFace": "#83B39F",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-merge-pressed",
+      "svg": "svg/map-merge-pressed.svg",
+      "png": "png/map-merge-pressed.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "pressed",
+      "oldFace": "#91BFAD",
+      "newFace": "#83B39F",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-merge-selected",
+      "svg": "svg/map-merge-selected.svg",
+      "png": "png/map-merge-selected.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "selected",
+      "oldFace": "#91BFAD",
+      "newFace": "#83B39F",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-merge-locked",
+      "svg": "svg/map-merge-locked.svg",
+      "png": "png/map-merge-locked.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "locked",
+      "oldFace": "#91BFAD",
+      "newFace": "#83B39F",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-merge-complete",
+      "svg": "svg/map-merge-complete.svg",
+      "png": "png/map-merge-complete.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "complete",
+      "oldFace": "#91BFAD",
+      "newFace": "#83B39F",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-quick-old",
+      "svg": "svg/map-quick-old.svg",
+      "png": "png/map-quick-old.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "old",
+      "oldFace": "#E9A18C",
+      "newFace": "#DD947D",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-quick-normal",
+      "svg": "svg/map-quick-normal.svg",
+      "png": "png/map-quick-normal.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "normal",
+      "oldFace": "#E9A18C",
+      "newFace": "#DD947D",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-quick-hover",
+      "svg": "svg/map-quick-hover.svg",
+      "png": "png/map-quick-hover.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "hover",
+      "oldFace": "#E9A18C",
+      "newFace": "#DD947D",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-quick-pressed",
+      "svg": "svg/map-quick-pressed.svg",
+      "png": "png/map-quick-pressed.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "pressed",
+      "oldFace": "#E9A18C",
+      "newFace": "#DD947D",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-quick-selected",
+      "svg": "svg/map-quick-selected.svg",
+      "png": "png/map-quick-selected.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "selected",
+      "oldFace": "#E9A18C",
+      "newFace": "#DD947D",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-quick-locked",
+      "svg": "svg/map-quick-locked.svg",
+      "png": "png/map-quick-locked.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "locked",
+      "oldFace": "#E9A18C",
+      "newFace": "#DD947D",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "map-quick-complete",
+      "svg": "svg/map-quick-complete.svg",
+      "png": "png/map-quick-complete.png",
+      "nativeSize": [
+        84,
+        88
+      ],
+      "pngScale": 2,
+      "kind": "map-station",
+      "state": "complete",
+      "oldFace": "#E9A18C",
+      "newFace": "#DD947D",
+      "usage": "Same rounded tile family and lesson icon. Only moderately richer than current Array; soft tonal rim."
+    },
+    {
+      "id": "gear-backpack",
+      "svg": "svg/gear-backpack.svg",
+      "png": "png/gear-backpack.png",
+      "nativeSize": [
+        100,
+        100
+      ],
+      "pngScale": 2,
+      "kind": "camping-equipment",
+      "usage": "Preserve equipment identity order from SelectionPackBoard"
+    },
+    {
+      "id": "gear-bottle",
+      "svg": "svg/gear-bottle.svg",
+      "png": "png/gear-bottle.png",
+      "nativeSize": [
+        100,
+        100
+      ],
+      "pngScale": 2,
+      "kind": "camping-equipment",
+      "usage": "Preserve equipment identity order from SelectionPackBoard"
+    },
+    {
+      "id": "gear-flashlight",
+      "svg": "svg/gear-flashlight.svg",
+      "png": "png/gear-flashlight.png",
+      "nativeSize": [
+        100,
+        100
+      ],
+      "pngScale": 2,
+      "kind": "camping-equipment",
+      "usage": "Preserve equipment identity order from SelectionPackBoard"
+    },
+    {
+      "id": "gear-compass",
+      "svg": "svg/gear-compass.svg",
+      "png": "png/gear-compass.png",
+      "nativeSize": [
+        100,
+        100
+      ],
+      "pngScale": 2,
+      "kind": "camping-equipment",
+      "usage": "Preserve equipment identity order from SelectionPackBoard"
+    },
+    {
+      "id": "gear-map",
+      "svg": "svg/gear-map.svg",
+      "png": "png/gear-map.png",
+      "nativeSize": [
+        100,
+        100
+      ],
+      "pngScale": 2,
+      "kind": "camping-equipment",
+      "usage": "Preserve equipment identity order from SelectionPackBoard"
+    },
+    {
+      "id": "gear-tent",
+      "svg": "svg/gear-tent.svg",
+      "png": "png/gear-tent.png",
+      "nativeSize": [
+        100,
+        100
+      ],
+      "pngScale": 2,
+      "kind": "camping-equipment",
+      "usage": "Preserve equipment identity order from SelectionPackBoard"
+    },
+    {
+      "id": "gear-pot",
+      "svg": "svg/gear-pot.svg",
+      "png": "png/gear-pot.png",
+      "nativeSize": [
+        100,
+        100
+      ],
+      "pngScale": 2,
+      "kind": "camping-equipment",
+      "usage": "Preserve equipment identity order from SelectionPackBoard"
+    },
+    {
+      "id": "gear-binoculars",
+      "svg": "svg/gear-binoculars.svg",
+      "png": "png/gear-binoculars.png",
+      "nativeSize": [
+        100,
+        100
+      ],
+      "pngScale": 2,
+      "kind": "camping-equipment",
+      "usage": "Preserve equipment identity order from SelectionPackBoard"
+    },
+    {
+      "id": "icon-ArrowLeft",
+      "svg": "svg/icon-ArrowLeft.svg",
+      "png": "png/icon-ArrowLeft.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Settings",
+      "svg": "svg/icon-Settings.svg",
+      "png": "png/icon-Settings.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Lightbulb",
+      "svg": "svg/icon-Lightbulb.svg",
+      "png": "png/icon-Lightbulb.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Play",
+      "svg": "svg/icon-Play.svg",
+      "png": "png/icon-Play.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Pause",
+      "svg": "svg/icon-Pause.svg",
+      "png": "png/icon-Pause.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-RotateCcw",
+      "svg": "svg/icon-RotateCcw.svg",
+      "png": "png/icon-RotateCcw.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Undo2",
+      "svg": "svg/icon-Undo2.svg",
+      "png": "png/icon-Undo2.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Check",
+      "svg": "svg/icon-Check.svg",
+      "png": "png/icon-Check.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Flag",
+      "svg": "svg/icon-Flag.svg",
+      "png": "png/icon-Flag.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-ArrowRight",
+      "svg": "svg/icon-ArrowRight.svg",
+      "png": "png/icon-ArrowRight.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-CircleDot",
+      "svg": "svg/icon-CircleDot.svg",
+      "png": "png/icon-CircleDot.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Search",
+      "svg": "svg/icon-Search.svg",
+      "png": "png/icon-Search.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Layers3",
+      "svg": "svg/icon-Layers3.svg",
+      "png": "png/icon-Layers3.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-GitMerge",
+      "svg": "svg/icon-GitMerge.svg",
+      "png": "png/icon-GitMerge.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    },
+    {
+      "id": "icon-Shuffle",
+      "svg": "svg/icon-Shuffle.svg",
+      "png": "png/icon-Shuffle.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngScale": 2,
+      "kind": "control-icon"
+    }
+  ],
+  "illustrations": [
+    {
+      "id": "bubble-bridge",
+      "path": "illustrations/bubble-bridge.png",
+      "type": "generated-raster",
+      "usage": "Review environment; runtime values and interactive items are separate",
+      "alpha": true
+    },
+    {
+      "id": "selection-camp",
+      "path": "illustrations/selection-camp.png",
+      "type": "generated-raster",
+      "usage": "Review environment; runtime values and interactive items are separate",
+      "alpha": true
+    },
+    {
+      "id": "insertion-desk",
+      "path": "illustrations/insertion-desk.png",
+      "type": "generated-raster",
+      "usage": "Review environment; runtime values and interactive items are separate",
+      "alpha": true
+    },
+    {
+      "id": "merge-stream",
+      "path": "illustrations/merge-stream.png",
+      "type": "generated-raster",
+      "usage": "Review environment; runtime values and interactive items are separate",
+      "alpha": true
+    },
+    {
+      "id": "quick-crossroads",
+      "path": "illustrations/quick-crossroads.png",
+      "type": "generated-raster",
+      "usage": "Review environment; runtime values and interactive items are separate",
+      "alpha": true
+    }
+  ]
+}

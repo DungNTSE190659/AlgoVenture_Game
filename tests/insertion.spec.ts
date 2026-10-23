@@ -266,12 +266,13 @@ test("six-number demo keeps tiles, narration and controls visible", async ({ pag
       await expect(page.locator(".insertion-tile")).toHaveCount(6);
       expect(await page.locator(".insertion-board-scroll").evaluate(node => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(1);
       for (const tile of await page.locator(".insertion-tile").all()) await expectLessonVisible(page, tile);
-      await expectLessonVisible(page, page.locator(".insertion-controls .insertion-dialogue"));
+      await expectLessonVisible(page, page.locator(".array-demo-dialogue .insertion-dialogue"));
       await expectLessonVisible(page, page.locator(".insertion-playback"));
       await expectLessonVisible(page, page.locator(".insertion-demo-progress"));
       const board = (await page.locator(".insertion-board").boundingBox())!;
-      const narration = (await page.locator(".insertion-controls .insertion-dialogue").boundingBox())!;
-      if (height > 500) expect(board.y + board.height).toBeLessThanOrEqual(narration.y + 1);
+      const narration = (await page.locator(".array-demo-dialogue .insertion-dialogue").boundingBox())!;
+      if (width <= 700 && height > 500) expect(board.y + board.height).toBeLessThanOrEqual(narration.y + 1);
+      else expect(board.x + board.width).toBeLessThanOrEqual(narration.x + 1);
       await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
     }
     await page.screenshot({ path: `.qa/insertion-demo-six-${width}.png` });

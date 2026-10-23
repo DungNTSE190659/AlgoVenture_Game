@@ -285,7 +285,8 @@ test("eight-item demo keeps scanning, choosing, swapping and completion visible 
       await expectLessonFits(page, ".selection-world");
       for (const node of await page.locator(".selection-tile,.selection-content h2,.selection-task,.selection-controls,.selection-dialogue p").all()) await expectLessonVisible(page, node);
       const board = (await page.locator(".pack-table").boundingBox())!, controls = (await page.locator(".selection-controls").boundingBox())!;
-      if (height > 500) expect(board.y + board.height).toBeLessThanOrEqual(controls.y + 1);
+      if (width <= 700 && height > 500) expect(board.y + board.height).toBeLessThanOrEqual(controls.y + 1);
+      else expect(board.x + board.width).toBeLessThanOrEqual(controls.x + 1);
     }
     if (cursor < frames.length - 1) await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
   }

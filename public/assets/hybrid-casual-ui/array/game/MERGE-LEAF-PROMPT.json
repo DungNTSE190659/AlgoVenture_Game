@@ -1,0 +1,6 @@
+{
+  "tool": "built-in image_gen",
+  "asset": "items/merge-leaf.png",
+  "transparent_background": true,
+  "prompt": "Generate one production game sprite: a single broad rounded floating leaf, viewed from directly above, for a friendly woodland Merge Sort educational game. Transparent background with true alpha. Hand painted polished 2D cartoon illustration, soft sage and olive green, warm ivory highlights, subtle golden tan rim, gentle curved leaf veins near the perimeter. Leaf points toward upper right with short curled stem toward bottom left, but broad almost oval silhouette fills a centered square with only 5 percent padding. Central 65 percent is quiet pale warm sage with no heavy vein, reserved for a large runtime number. Clearly a living leaf, not a card or badge. Cozy illustrated forest storybook style, clean softly outlined edges, light natural volume, readable at 36 pixels. No text, letters, numbers, flowers, face, props, water, shadow outside silhouette, border frame or scenery. Just one isolated leaf."
+}

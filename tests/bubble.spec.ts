@@ -220,10 +220,10 @@ test("demo explains swap, equality and early exit; controls and custom array per
   while (
     await page.getByRole("button", { name: "Bước tiếp", exact: true }).count()
   ) {
-    titles.push((await page.locator(".bubble-content h2").textContent())!);
+    titles.push((await page.locator(".bubble-dialogue p").textContent())!);
     await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
   }
-  expect(titles).toContain("Hai số bằng nhau");
+  expect(titles.some(text => text.includes("Hai số đều bằng"))).toBe(true);
   await expect(page.locator(".bubble-dialogue")).toContainText(
     "không có lần đổi chỗ nào",
   );
@@ -404,7 +404,7 @@ test("demo pauses the actual swap animation and does not replay finished moves a
   await enter(page, "Demo");
   for (let step = 0; step < 3; step++)
     await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
-  await expect(page.locator(".bubble-content h2")).toHaveText("Đổi chỗ hai số");
+  await expect(page.locator(".bubble-dialogue p")).toContainText("đã sang trái");
   await page.getByRole("button", { name: "Tiếp tục", exact: true }).click();
   await page.getByRole("button", { name: "Tạm dừng", exact: true }).click();
   const tile = page.locator('[data-bubble-id="0"]');

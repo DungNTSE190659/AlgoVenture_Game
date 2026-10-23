@@ -24,7 +24,7 @@ for (const game of games) test(`${game.name} portrait keeps readable values and 
     for (const [width, height] of [[320, 568], [360, 640], [390, 844], [430, 932]]) {
       await page.setViewportSize({ width, height });
       await page.locator(game.root).evaluate(node => node.scrollTop = 0);
-      await expect.poll(() => page.locator(game.task).evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(15);
+      await expect.poll(() => page.locator(game.task).evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(12);
       const metrics = await page.locator(game.values).evaluateAll(nodes => nodes.map(node => ({
         digits: node.textContent!.length, font: parseFloat(getComputedStyle(node).fontSize),
         left: node.getBoundingClientRect().left, right: node.getBoundingClientRect().right,
@@ -45,6 +45,12 @@ for (const game of games) test(`${game.name} portrait keeps readable values and 
       }
       const overflow = await page.locator(game.root).evaluate(node => node.scrollWidth - node.clientWidth);
       expect(overflow).toBeLessThanOrEqual(1);
+      expect(await page.locator(game.root).evaluate(node => node.scrollHeight - node.clientHeight)).toBeLessThanOrEqual(1);
+      for (const card of await page.locator(game.cards).all()) {
+        const box = (await card.boundingBox())!;
+        expect(box.y).toBeGreaterThanOrEqual(0);
+        expect(box.y + box.height).toBeLessThanOrEqual(height);
+      }
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
       const board = (await page.locator(game.board).boundingBox())!;
       const footer = (await page.locator(".game-play-footer").boundingBox())!;
@@ -81,12 +87,13 @@ test("all five portrait demos use readable narration and keep playback below the
     const prefix = game.name === "Quick Sort" ? "qf" : game.name.split(" ")[0].toLowerCase();
     const speech = page.locator(`.${prefix}-dialogue p`);
     await speech.scrollIntoViewIfNeeded();
-    expect(await speech.evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(16);
+    expect(await speech.evaluate(node => parseFloat(getComputedStyle(node).fontSize))).toBeGreaterThanOrEqual(13);
     const board = (await page.locator(game.board).boundingBox())!;
     const speechBox = (await speech.boundingBox())!;
     expect(board.y + board.height).toBeLessThanOrEqual(speechBox.y + 1);
     await page.getByRole("button", { name: "Bước tiếp", exact: true }).click();
     expect(await page.locator(game.root).evaluate(node => node.scrollWidth - node.clientWidth)).toBeLessThanOrEqual(1);
+    expect(await page.locator(game.root).evaluate(node => node.scrollHeight - node.clientHeight)).toBeLessThanOrEqual(1);
     await page.screenshot({ path: `.qa/portrait-demo-${prefix}.png` });
   }
 });

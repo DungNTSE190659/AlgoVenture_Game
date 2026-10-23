@@ -55,6 +55,7 @@ export default function BubbleRunBoard({ state, comparing, interactive, paused, 
     onPointerMove={move} onPointerUp={end} onPointerCancel={cancel} onLostPointerCapture={event => { if (event.target === event.currentTarget) cancel(); }}>
     <div className="bridge-route-heading"><span><Footprints size={13} /> Cầu gỗ</span><small><TentTree size={14} /> {settledCount}/{count} vào trại</small></div>
     <div className="bubble-board bridge-scene" style={{ "--crew-count": count } as CSSProperties} aria-label="Cả đoàn trên cầu gỗ">
+      <img className="array-bridge-art" src="/assets/hybrid-casual-ui/array/game/illustrations/bubble-bridge.png" alt="" aria-hidden="true" draggable={false} />
       <svg className="bridge-forest" viewBox="0 0 900 300" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0 120Q130 30 270 115T580 90T900 90V300H0Z" fill="#dfe8cd" />
         <path d="M0 180Q140 90 340 160T620 140T900 170V300H0Z" fill="#cbdcba" />
@@ -106,22 +107,9 @@ function BridgeGuide({ position, paused, mood }: { position: number; paused: boo
 
 /** Identities follow the cards through swaps, including equal values. */
 export function FriendArt({ id, resting }: { id: number; resting: boolean }) {
-  const kind = id % 4;
-  const fur = ["#dca477", "#e5d3b4", "#b7bcb2", "#bd9a7b"][kind];
-  const scarf = ["#a8bd94", "#b7a6c8", "#d9b276", "#94b9bf", "#d19e9c", "#a8b8d3", "#c8b997", "#a9c6b1"][id % 8];
-  return <svg className="bridge-friend-art" viewBox="0 0 100 116" aria-hidden="true">
-    <ellipse cx="50" cy="108" rx="30" ry="5" fill="#685c4230" />
+  return <svg className="bridge-friend-art" viewBox="0 0 100 116" aria-hidden="true" data-resting={resting}>
     <g className="friend-body">
-      <path d="M28 86l-4 19q6 7 14 1l4-15m16 0 4 15q8 6 14-1l-4-19" fill={fur} stroke="#826f5b" strokeWidth="2" />
-      <ellipse cx="50" cy="78" rx="28" ry="25" fill={fur} stroke="#826f5b" strokeWidth="2" />
-      {kind === 1 ? <><ellipse cx="33" cy="25" rx="10" ry="23" fill={fur} stroke="#826f5b" strokeWidth="2" /><ellipse cx="67" cy="25" rx="10" ry="23" fill={fur} stroke="#826f5b" strokeWidth="2" /><path d="M33 12v21m34-21v21" stroke="#d3ada1" strokeWidth="6" strokeLinecap="round" /></> : kind === 0 ? <><path d="M20 44L15 9l29 20m12 0L85 9l-5 35" fill={fur} stroke="#826f5b" strokeWidth="2" /><path d="M22 20l3 18 11-8m42-10-3 18-11-8" fill="#efd6ba" /></> : <><circle cx="26" cy="28" r="14" fill={fur} stroke="#826f5b" strokeWidth="2" /><circle cx="74" cy="28" r="14" fill={fur} stroke="#826f5b" strokeWidth="2" /><circle cx="26" cy="28" r="7" fill="#d5b8a2" /><circle cx="74" cy="28" r="7" fill="#d5b8a2" /></>}
-      <ellipse cx="50" cy="47" rx="34" ry="28" fill={fur} stroke="#826f5b" strokeWidth="2" />
-      {kind === 2 && <path d="M19 41q13-15 25 0l-1 10q-16 8-24-10m62 0q-13-15-25 0l1 10q16 8 24-10" fill="#7f8e86" />}
-      <ellipse cx="50" cy="57" rx="20" ry="13" fill="#faf0d9" />
-      {resting ? <path d="M31 45q5 5 10 0m18 0q5 5 10 0" fill="none" stroke="#615747" strokeWidth="2.7" strokeLinecap="round" /> : <><ellipse cx="36" cy="44" rx="3" ry="4" fill="#615747" /><ellipse cx="64" cy="44" rx="3" ry="4" fill="#615747" /></>}
-      <path d="M46 53q4-4 8 0l-4 4Z" fill="#73614f" /><path d="M50 57v4m-6 0q6 6 12 0" fill="none" stroke="#73614f" strokeWidth="1.6" strokeLinecap="round" />
-      <ellipse cx="27" cy="55" rx="5" ry="3" fill="#d794853d" /><ellipse cx="73" cy="55" rx="5" ry="3" fill="#d794853d" />
-      <path d="M27 68q23 9 46 0l-3 10q-20 7-40 0Z" fill={scarf} stroke="#826f5b" strokeWidth="1.5" /><path d="M64 74l10 15-13-2-5-12" fill={scarf} stroke="#826f5b" strokeWidth="1.5" />
+      <image href={`/assets/hybrid-casual-ui/array/game/characters/friend-${id % 8}.png`} width="100" height="116" preserveAspectRatio="xMidYMax meet" />
     </g>
   </svg>;
 }

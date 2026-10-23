@@ -1,0 +1,1987 @@
+{
+  "version": 1,
+  "status": "draft-for-review",
+  "palette": {
+    "cream": "#FFF9EB",
+    "terracotta": "#D49670",
+    "terracottaEdge": "#AD7655",
+    "river": "#94C9DA",
+    "riverEdge": "#6C9EAF",
+    "sage": "#A4BB83",
+    "sageEdge": "#7F9760",
+    "ink": "#594A3C",
+    "muted": "#DDE0D3",
+    "rim": "#D8CDB8",
+    "board": "#F7F6EB"
+  },
+  "pixelsPerUnit": 100,
+  "alphaIsTransparency": true,
+  "spriteMeshType": "FullRect",
+  "filterMode": "Bilinear",
+  "assets": [
+    {
+      "id": "button-primary-desktop-normal",
+      "svg": "svg/button-primary-desktop-normal.svg",
+      "png": "png/button-primary-desktop-normal.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "primary",
+      "state": "normal"
+    },
+    {
+      "id": "button-primary-desktop-hover",
+      "svg": "svg/button-primary-desktop-hover.svg",
+      "png": "png/button-primary-desktop-hover.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "primary",
+      "state": "hover"
+    },
+    {
+      "id": "button-primary-desktop-pressed",
+      "svg": "svg/button-primary-desktop-pressed.svg",
+      "png": "png/button-primary-desktop-pressed.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "primary",
+      "state": "pressed"
+    },
+    {
+      "id": "button-primary-desktop-disabled",
+      "svg": "svg/button-primary-desktop-disabled.svg",
+      "png": "png/button-primary-desktop-disabled.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "primary",
+      "state": "disabled"
+    },
+    {
+      "id": "button-secondary-desktop-normal",
+      "svg": "svg/button-secondary-desktop-normal.svg",
+      "png": "png/button-secondary-desktop-normal.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "secondary",
+      "state": "normal"
+    },
+    {
+      "id": "button-secondary-desktop-hover",
+      "svg": "svg/button-secondary-desktop-hover.svg",
+      "png": "png/button-secondary-desktop-hover.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "secondary",
+      "state": "hover"
+    },
+    {
+      "id": "button-secondary-desktop-pressed",
+      "svg": "svg/button-secondary-desktop-pressed.svg",
+      "png": "png/button-secondary-desktop-pressed.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "secondary",
+      "state": "pressed"
+    },
+    {
+      "id": "button-secondary-desktop-disabled",
+      "svg": "svg/button-secondary-desktop-disabled.svg",
+      "png": "png/button-secondary-desktop-disabled.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "secondary",
+      "state": "disabled"
+    },
+    {
+      "id": "button-river-desktop-normal",
+      "svg": "svg/button-river-desktop-normal.svg",
+      "png": "png/button-river-desktop-normal.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "river",
+      "state": "normal"
+    },
+    {
+      "id": "button-river-desktop-hover",
+      "svg": "svg/button-river-desktop-hover.svg",
+      "png": "png/button-river-desktop-hover.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "river",
+      "state": "hover"
+    },
+    {
+      "id": "button-river-desktop-pressed",
+      "svg": "svg/button-river-desktop-pressed.svg",
+      "png": "png/button-river-desktop-pressed.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "river",
+      "state": "pressed"
+    },
+    {
+      "id": "button-river-desktop-disabled",
+      "svg": "svg/button-river-desktop-disabled.svg",
+      "png": "png/button-river-desktop-disabled.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "river",
+      "state": "disabled"
+    },
+    {
+      "id": "button-hint-desktop-normal",
+      "svg": "svg/button-hint-desktop-normal.svg",
+      "png": "png/button-hint-desktop-normal.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "hint",
+      "state": "normal"
+    },
+    {
+      "id": "button-hint-desktop-hover",
+      "svg": "svg/button-hint-desktop-hover.svg",
+      "png": "png/button-hint-desktop-hover.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "hint",
+      "state": "hover"
+    },
+    {
+      "id": "button-hint-desktop-pressed",
+      "svg": "svg/button-hint-desktop-pressed.svg",
+      "png": "png/button-hint-desktop-pressed.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "hint",
+      "state": "pressed"
+    },
+    {
+      "id": "button-hint-desktop-disabled",
+      "svg": "svg/button-hint-desktop-disabled.svg",
+      "png": "png/button-hint-desktop-disabled.png",
+      "nativeSize": [
+        240,
+        48
+      ],
+      "pngSize": [
+        480,
+        96
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "hint",
+      "state": "disabled"
+    },
+    {
+      "id": "cell-desktop-normal",
+      "svg": "svg/cell-desktop-normal.svg",
+      "png": "png/cell-desktop-normal.png",
+      "nativeSize": [
+        72,
+        72
+      ],
+      "pngSize": [
+        144,
+        144
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "normal",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-desktop-selected",
+      "svg": "svg/cell-desktop-selected.svg",
+      "png": "png/cell-desktop-selected.png",
+      "nativeSize": [
+        72,
+        72
+      ],
+      "pngSize": [
+        144,
+        144
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "selected",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-desktop-compare",
+      "svg": "svg/cell-desktop-compare.svg",
+      "png": "png/cell-desktop-compare.png",
+      "nativeSize": [
+        72,
+        72
+      ],
+      "pngSize": [
+        144,
+        144
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "compare",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-desktop-sorted",
+      "svg": "svg/cell-desktop-sorted.svg",
+      "png": "png/cell-desktop-sorted.png",
+      "nativeSize": [
+        72,
+        72
+      ],
+      "pngSize": [
+        144,
+        144
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "sorted",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-desktop-moving",
+      "svg": "svg/cell-desktop-moving.svg",
+      "png": "png/cell-desktop-moving.png",
+      "nativeSize": [
+        72,
+        72
+      ],
+      "pngSize": [
+        144,
+        144
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "moving",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-desktop-empty",
+      "svg": "svg/cell-desktop-empty.svg",
+      "png": "png/cell-desktop-empty.png",
+      "nativeSize": [
+        72,
+        72
+      ],
+      "pngSize": [
+        144,
+        144
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "empty",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-desktop-disabled",
+      "svg": "svg/cell-desktop-disabled.svg",
+      "png": "png/cell-desktop-disabled.png",
+      "nativeSize": [
+        72,
+        72
+      ],
+      "pngSize": [
+        144,
+        144
+      ],
+      "profile": "desktop",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "disabled",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "panel-card-desktop",
+      "svg": "svg/panel-card-desktop.svg",
+      "png": "png/panel-card-desktop.png",
+      "nativeSize": [
+        520,
+        170
+      ],
+      "pngSize": [
+        1040,
+        340
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        52,
+        52,
+        52,
+        52
+      ]
+    },
+    {
+      "id": "panel-board-desktop",
+      "svg": "svg/panel-board-desktop.svg",
+      "png": "png/panel-board-desktop.png",
+      "nativeSize": [
+        520,
+        300
+      ],
+      "pngSize": [
+        1040,
+        600
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        52,
+        52,
+        52,
+        52
+      ]
+    },
+    {
+      "id": "panel-speech-desktop",
+      "svg": "svg/panel-speech-desktop.svg",
+      "png": "png/panel-speech-desktop.png",
+      "nativeSize": [
+        520,
+        132
+      ],
+      "pngSize": [
+        1040,
+        264
+      ],
+      "profile": "desktop",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        52,
+        52,
+        52,
+        52
+      ]
+    },
+    {
+      "id": "button-primary-mobile-normal",
+      "svg": "svg/button-primary-mobile-normal.svg",
+      "png": "png/button-primary-mobile-normal.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "primary",
+      "state": "normal"
+    },
+    {
+      "id": "button-primary-mobile-hover",
+      "svg": "svg/button-primary-mobile-hover.svg",
+      "png": "png/button-primary-mobile-hover.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "primary",
+      "state": "hover"
+    },
+    {
+      "id": "button-primary-mobile-pressed",
+      "svg": "svg/button-primary-mobile-pressed.svg",
+      "png": "png/button-primary-mobile-pressed.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "primary",
+      "state": "pressed"
+    },
+    {
+      "id": "button-primary-mobile-disabled",
+      "svg": "svg/button-primary-mobile-disabled.svg",
+      "png": "png/button-primary-mobile-disabled.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "primary",
+      "state": "disabled"
+    },
+    {
+      "id": "button-secondary-mobile-normal",
+      "svg": "svg/button-secondary-mobile-normal.svg",
+      "png": "png/button-secondary-mobile-normal.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "secondary",
+      "state": "normal"
+    },
+    {
+      "id": "button-secondary-mobile-hover",
+      "svg": "svg/button-secondary-mobile-hover.svg",
+      "png": "png/button-secondary-mobile-hover.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "secondary",
+      "state": "hover"
+    },
+    {
+      "id": "button-secondary-mobile-pressed",
+      "svg": "svg/button-secondary-mobile-pressed.svg",
+      "png": "png/button-secondary-mobile-pressed.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "secondary",
+      "state": "pressed"
+    },
+    {
+      "id": "button-secondary-mobile-disabled",
+      "svg": "svg/button-secondary-mobile-disabled.svg",
+      "png": "png/button-secondary-mobile-disabled.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "secondary",
+      "state": "disabled"
+    },
+    {
+      "id": "button-river-mobile-normal",
+      "svg": "svg/button-river-mobile-normal.svg",
+      "png": "png/button-river-mobile-normal.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "river",
+      "state": "normal"
+    },
+    {
+      "id": "button-river-mobile-hover",
+      "svg": "svg/button-river-mobile-hover.svg",
+      "png": "png/button-river-mobile-hover.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "river",
+      "state": "hover"
+    },
+    {
+      "id": "button-river-mobile-pressed",
+      "svg": "svg/button-river-mobile-pressed.svg",
+      "png": "png/button-river-mobile-pressed.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "river",
+      "state": "pressed"
+    },
+    {
+      "id": "button-river-mobile-disabled",
+      "svg": "svg/button-river-mobile-disabled.svg",
+      "png": "png/button-river-mobile-disabled.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "river",
+      "state": "disabled"
+    },
+    {
+      "id": "button-hint-mobile-normal",
+      "svg": "svg/button-hint-mobile-normal.svg",
+      "png": "png/button-hint-mobile-normal.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "hint",
+      "state": "normal"
+    },
+    {
+      "id": "button-hint-mobile-hover",
+      "svg": "svg/button-hint-mobile-hover.svg",
+      "png": "png/button-hint-mobile-hover.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "hint",
+      "state": "hover"
+    },
+    {
+      "id": "button-hint-mobile-pressed",
+      "svg": "svg/button-hint-mobile-pressed.svg",
+      "png": "png/button-hint-mobile-pressed.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "hint",
+      "state": "pressed"
+    },
+    {
+      "id": "button-hint-mobile-disabled",
+      "svg": "svg/button-hint-mobile-disabled.svg",
+      "png": "png/button-hint-mobile-disabled.png",
+      "nativeSize": [
+        156,
+        48
+      ],
+      "pngSize": [
+        312,
+        96
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        36,
+        36,
+        36,
+        36
+      ],
+      "kind": "hint",
+      "state": "disabled"
+    },
+    {
+      "id": "cell-mobile-normal",
+      "svg": "svg/cell-mobile-normal.svg",
+      "png": "png/cell-mobile-normal.png",
+      "nativeSize": [
+        56,
+        56
+      ],
+      "pngSize": [
+        112,
+        112
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "normal",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-mobile-selected",
+      "svg": "svg/cell-mobile-selected.svg",
+      "png": "png/cell-mobile-selected.png",
+      "nativeSize": [
+        56,
+        56
+      ],
+      "pngSize": [
+        112,
+        112
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "selected",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-mobile-compare",
+      "svg": "svg/cell-mobile-compare.svg",
+      "png": "png/cell-mobile-compare.png",
+      "nativeSize": [
+        56,
+        56
+      ],
+      "pngSize": [
+        112,
+        112
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "compare",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-mobile-sorted",
+      "svg": "svg/cell-mobile-sorted.svg",
+      "png": "png/cell-mobile-sorted.png",
+      "nativeSize": [
+        56,
+        56
+      ],
+      "pngSize": [
+        112,
+        112
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "sorted",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-mobile-moving",
+      "svg": "svg/cell-mobile-moving.svg",
+      "png": "png/cell-mobile-moving.png",
+      "nativeSize": [
+        56,
+        56
+      ],
+      "pngSize": [
+        112,
+        112
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "moving",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-mobile-empty",
+      "svg": "svg/cell-mobile-empty.svg",
+      "png": "png/cell-mobile-empty.png",
+      "nativeSize": [
+        56,
+        56
+      ],
+      "pngSize": [
+        112,
+        112
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "empty",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "cell-mobile-disabled",
+      "svg": "svg/cell-mobile-disabled.svg",
+      "png": "png/cell-mobile-disabled.png",
+      "nativeSize": [
+        56,
+        56
+      ],
+      "pngSize": [
+        112,
+        112
+      ],
+      "profile": "mobile",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "disabled",
+      "usage": "Array value is runtime text; index is displayed below the sprite."
+    },
+    {
+      "id": "panel-card-mobile",
+      "svg": "svg/panel-card-mobile.svg",
+      "png": "png/panel-card-mobile.png",
+      "nativeSize": [
+        350,
+        170
+      ],
+      "pngSize": [
+        700,
+        340
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        52,
+        52,
+        52,
+        52
+      ]
+    },
+    {
+      "id": "panel-board-mobile",
+      "svg": "svg/panel-board-mobile.svg",
+      "png": "png/panel-board-mobile.png",
+      "nativeSize": [
+        350,
+        300
+      ],
+      "pngSize": [
+        700,
+        600
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        52,
+        52,
+        52,
+        52
+      ]
+    },
+    {
+      "id": "panel-speech-mobile",
+      "svg": "svg/panel-speech-mobile.svg",
+      "png": "png/panel-speech-mobile.png",
+      "nativeSize": [
+        350,
+        132
+      ],
+      "pngSize": [
+        700,
+        264
+      ],
+      "profile": "mobile",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        52,
+        52,
+        52,
+        52
+      ]
+    },
+    {
+      "id": "button-icon-normal",
+      "svg": "svg/button-icon-normal.svg",
+      "png": "png/button-icon-normal.png",
+      "nativeSize": [
+        48,
+        50
+      ],
+      "pngSize": [
+        96,
+        100
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "normal"
+    },
+    {
+      "id": "button-icon-hover",
+      "svg": "svg/button-icon-hover.svg",
+      "png": "png/button-icon-hover.png",
+      "nativeSize": [
+        48,
+        50
+      ],
+      "pngSize": [
+        96,
+        100
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "hover"
+    },
+    {
+      "id": "button-icon-pressed",
+      "svg": "svg/button-icon-pressed.svg",
+      "png": "png/button-icon-pressed.png",
+      "nativeSize": [
+        48,
+        50
+      ],
+      "pngSize": [
+        96,
+        100
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "pressed"
+    },
+    {
+      "id": "button-icon-disabled",
+      "svg": "svg/button-icon-disabled.svg",
+      "png": "png/button-icon-disabled.png",
+      "nativeSize": [
+        48,
+        50
+      ],
+      "pngSize": [
+        96,
+        100
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "disabled"
+    },
+    {
+      "id": "tab-normal",
+      "svg": "svg/tab-normal.svg",
+      "png": "png/tab-normal.png",
+      "nativeSize": [
+        200,
+        54
+      ],
+      "pngSize": [
+        400,
+        108
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "state": "normal"
+    },
+    {
+      "id": "tab-selected",
+      "svg": "svg/tab-selected.svg",
+      "png": "png/tab-selected.png",
+      "nativeSize": [
+        200,
+        54
+      ],
+      "pngSize": [
+        400,
+        108
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "state": "selected"
+    },
+    {
+      "id": "tab-disabled",
+      "svg": "svg/tab-disabled.svg",
+      "png": "png/tab-disabled.png",
+      "nativeSize": [
+        200,
+        54
+      ],
+      "pngSize": [
+        400,
+        108
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        40,
+        40,
+        40,
+        40
+      ],
+      "state": "disabled"
+    },
+    {
+      "id": "badge-open",
+      "svg": "svg/badge-open.svg",
+      "png": "png/badge-open.png",
+      "nativeSize": [
+        40,
+        42
+      ],
+      "pngSize": [
+        80,
+        84
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "open"
+    },
+    {
+      "id": "badge-complete",
+      "svg": "svg/badge-complete.svg",
+      "png": "png/badge-complete.png",
+      "nativeSize": [
+        40,
+        42
+      ],
+      "pngSize": [
+        80,
+        84
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "complete"
+    },
+    {
+      "id": "badge-locked",
+      "svg": "svg/badge-locked.svg",
+      "png": "png/badge-locked.png",
+      "nativeSize": [
+        40,
+        42
+      ],
+      "pngSize": [
+        80,
+        84
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "locked"
+    },
+    {
+      "id": "station-normal",
+      "svg": "svg/station-normal.svg",
+      "png": "png/station-normal.png",
+      "nativeSize": [
+        80,
+        84
+      ],
+      "pngSize": [
+        160,
+        168
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "normal"
+    },
+    {
+      "id": "station-selected",
+      "svg": "svg/station-selected.svg",
+      "png": "png/station-selected.png",
+      "nativeSize": [
+        80,
+        84
+      ],
+      "pngSize": [
+        160,
+        168
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "selected"
+    },
+    {
+      "id": "station-complete",
+      "svg": "svg/station-complete.svg",
+      "png": "png/station-complete.png",
+      "nativeSize": [
+        80,
+        84
+      ],
+      "pngSize": [
+        160,
+        168
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "complete"
+    },
+    {
+      "id": "station-locked",
+      "svg": "svg/station-locked.svg",
+      "png": "png/station-locked.png",
+      "nativeSize": [
+        80,
+        84
+      ],
+      "pngSize": [
+        160,
+        168
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "state": "locked"
+    },
+    {
+      "id": "progress-track",
+      "svg": "svg/progress-track.svg",
+      "png": "png/progress-track.png",
+      "nativeSize": [
+        320,
+        12
+      ],
+      "pngSize": [
+        640,
+        24
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        10,
+        10,
+        10,
+        10
+      ]
+    },
+    {
+      "id": "progress-fill",
+      "svg": "svg/progress-fill.svg",
+      "png": "png/progress-fill.png",
+      "nativeSize": [
+        320,
+        12
+      ],
+      "pngSize": [
+        640,
+        24
+      ],
+      "profile": "shared",
+      "unityImageType": "Sliced",
+      "preserveAspect": false,
+      "borderPixels": [
+        10,
+        10,
+        10,
+        10
+      ]
+    },
+    {
+      "id": "speech-tail",
+      "svg": "svg/speech-tail.svg",
+      "png": "png/speech-tail.png",
+      "nativeSize": [
+        20,
+        24
+      ],
+      "pngSize": [
+        40,
+        48
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-back",
+      "svg": "svg/icon-back.svg",
+      "png": "png/icon-back.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-next",
+      "svg": "svg/icon-next.svg",
+      "png": "png/icon-next.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-play",
+      "svg": "svg/icon-play.svg",
+      "png": "png/icon-play.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-pause",
+      "svg": "svg/icon-pause.svg",
+      "png": "png/icon-pause.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-check",
+      "svg": "svg/icon-check.svg",
+      "png": "png/icon-check.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-hint",
+      "svg": "svg/icon-hint.svg",
+      "png": "png/icon-hint.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-reset",
+      "svg": "svg/icon-reset.svg",
+      "png": "png/icon-reset.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-undo",
+      "svg": "svg/icon-undo.svg",
+      "png": "png/icon-undo.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-sound",
+      "svg": "svg/icon-sound.svg",
+      "png": "png/icon-sound.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-settings",
+      "svg": "svg/icon-settings.svg",
+      "png": "png/icon-settings.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-sort",
+      "svg": "svg/icon-sort.svg",
+      "png": "png/icon-sort.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-search",
+      "svg": "svg/icon-search.svg",
+      "png": "png/icon-search.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-stack",
+      "svg": "svg/icon-stack.svg",
+      "png": "png/icon-stack.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "icon-flag",
+      "svg": "svg/icon-flag.svg",
+      "png": "png/icon-flag.png",
+      "nativeSize": [
+        28,
+        28
+      ],
+      "pngSize": [
+        56,
+        56
+      ],
+      "profile": "shared",
+      "unityImageType": "Simple",
+      "preserveAspect": true,
+      "borderPixels": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "illustrations": [
+    {
+      "file": "illustrations/island-village.png",
+      "nativeSize": [
+        1254,
+        1254
+      ],
+      "preserveAspect": true,
+      "unityImageType": "Simple",
+      "transparent": true
+    },
+    {
+      "file": "backgrounds/village-landscape.png",
+      "nativeSize": [
+        1672,
+        941
+      ],
+      "preserveAspect": true,
+      "unityImageType": "Simple",
+      "transparent": false
+    },
+    {
+      "file": "backgrounds/village-portrait.png",
+      "nativeSize": [
+        941,
+        1672
+      ],
+      "preserveAspect": true,
+      "unityImageType": "Simple",
+      "transparent": false
+    }
+  ]
+}

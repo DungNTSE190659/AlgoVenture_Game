@@ -19,7 +19,7 @@ test("desktop demo keeps every section visible without scrolling at browser zoom
         await page.setViewportSize({ width, height });
         const layout = await page.evaluate(() => {
           const world = document.querySelector<HTMLElement>(".bubble-world")!;
-          const selectors = [".bubble-header", ".bubble-topline", ".bubble-content h2", ".bubble-task", ".bubble-board-area", ".bubble-rule", ".bubble-equation", ".bubble-dialogue", ".bubble-dialogue p", ".bubble-controls", ".bubble-playback", ".bubble-step-status"];
+          const selectors = [".bubble-header", ".bubble-topline", ".bubble-board-area", ".array-guide", ".bubble-dialogue", ".bubble-dialogue p", ".bubble-controls", ".bubble-playback", ".bubble-step-status"];
           const boxes = Object.fromEntries(selectors.flatMap(selector => {
             const node = document.querySelector(selector);
             if (!node) return [];
@@ -39,12 +39,7 @@ test("desktop demo keeps every section visible without scrolling at browser zoom
         }
         const box = layout.boxes;
         expect(box[".bubble-header"].bottom, context).toBeLessThanOrEqual(box[".bubble-topline"].top + 1);
-        expect(box[".bubble-task"].bottom, context).toBeLessThanOrEqual(box[".bubble-board-area"].top + 1);
-        const explanation = box[".bubble-rule"] ?? box[".bubble-equation"];
-        if (explanation) {
-          expect(box[".bubble-board-area"].bottom, context).toBeLessThanOrEqual(explanation.top + 1);
-          expect(explanation.bottom, context).toBeLessThanOrEqual(box[".bubble-dialogue"].top + 1);
-        }
+        expect(box[".bubble-board-area"].right, context).toBeLessThanOrEqual(box[".array-guide"].left + 1);
         expect(box[".bubble-dialogue p"].bottom, context).toBeLessThanOrEqual(box[".bubble-controls"].top + 1);
       }
     }

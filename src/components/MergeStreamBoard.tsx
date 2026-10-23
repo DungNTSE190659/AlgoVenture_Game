@@ -4,12 +4,12 @@ import type { Item } from "../engine/quicksort";
 import type { MergeLane, MergeNode, MergeState } from "../engine/mergeSort";
 import Pig from "./Pig";
 import { activateTouchButton } from "./touchActivation";
+const FLOWERS = ["#d58d9f", "#dbb25b", "#9986bf", "#dc9b6a", "#84a8cc", "#c78dbf", "#73a899", "#be9e6b"];
 
 type Props = {
   state: MergeState; groups?: MergeNode[]; selected?: string; guided: boolean; enabled: boolean; paused: boolean;
   onSelect: (id: string) => void; onSplit: () => void; onLeaf: (lane: MergeLane, id: number) => void; onNext: () => void;
 };
-const FLOWERS = ["#d58d9f", "#dbb25b", "#9986bf", "#dc9b6a", "#84a8cc", "#c78dbf", "#73a899", "#be9e6b"];
 
 export function MergeStreamMap({ state, groups, selected, onSelect, enabled }: Pick<Props, "state" | "groups" | "selected" | "onSelect" | "enabled">) {
   const nodes: { node: MergeNode; depth: number; x: number; y: number }[] = [];
@@ -131,6 +131,7 @@ export default function MergeStreamBoard({ state, groups, selected, guided, enab
       event.preventDefault(); activateTouchButton(button);
     }}
     onPointerMove={move} onPointerUp={end} onPointerCancel={cancel} onLostPointerCapture={event => { if (event.target === event.currentTarget) cancel(); }}>
+    <img className="array-stream-art" src="/assets/hybrid-casual-ui/array/game/illustrations/merge-stream.png" alt="" aria-hidden="true" draggable={false} />
     <svg className="stream-waterways" viewBox="0 0 600 340" preserveAspectRatio="none" aria-hidden="true">
       <path d="M120 -10C70 80 240 120 260 245M480 -10C530 80 360 120 340 245" className="stream-bank" />
       <path d="M120 -10C70 80 240 120 260 245M480 -10C530 80 360 120 340 245" className="stream-water" />
@@ -180,11 +181,7 @@ function Leaf({ item, small = false, output = false, lane, head, guided, disable
   item: Item; small?: boolean; output?: boolean; lane?: MergeLane; head?: boolean; guided?: boolean; disabled?: boolean;
   style?: CSSProperties; onPointerDown?: React.PointerEventHandler<HTMLButtonElement>; onClick?: (detail: number) => void;
 }) {
-  const face = <><svg viewBox="0 0 100 86" aria-hidden="true"><ellipse cx="50" cy="72" rx="44" ry="9" fill="#679a8440" />
-    <path d="M52 44 94 61C82 80 48 85 21 71S-2 33 14 17 66 1 87 18 104 44 96 56Z" fill={lane === "right" ? "#9fcbbd" : "#b2d39a"} stroke="#78a68b" strokeWidth="2" />
-    <path d="M17 32 49 43 28 65M48 12 49 43 72 73M81 21 49 43" fill="none" stroke="#e4f2cb" strokeWidth="1.3" opacity=".65" />
-    <g fill={FLOWERS[item.id % FLOWERS.length]} stroke="#fff7e4" strokeWidth=".8"><circle cx="29" cy="12" r="5" /><circle cx="36" cy="14" r="5" /><circle cx="33" cy="21" r="5" /><circle cx="25" cy="19" r="5" /><circle cx="29" cy="17" r="2" fill="#ffedaa" /></g>
-    </svg><strong>{item.value}</strong><small>{item.id + 1}</small></>;
+  const face = <><img className="stream-leaf-art" src="/assets/hybrid-casual-ui/array/game/items/merge-leaf.png" alt="" aria-hidden="true" draggable={false} /><span className="stream-flower-mark" style={{ color: FLOWERS[item.id % FLOWERS.length] }} aria-hidden="true">✿</span><strong>{item.value}</strong><small>{item.id + 1}</small></>;
   const className = `stream-leaf ${small ? "is-small" : ""} ${output ? "is-output" : ""} ${guided ? "is-guided" : ""}`;
   const leafStyle = { ...style, "--digits": String(item.value).length } as CSSProperties;
   if (!lane) return <span className={className} data-stream-item={output ? item.id : undefined} data-value={item.value} data-item-id={item.id} style={leafStyle}>{face}</span>;

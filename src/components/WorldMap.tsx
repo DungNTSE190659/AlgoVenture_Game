@@ -185,7 +185,7 @@ export default function WorldMap({ completed, sound, onSound, onEnter, location,
         return <section key={region.id} className={`atlas-slide ${selected === index ? "slide-selected" : ""}`} role="group" aria-roledescription="slide" aria-label={`${index + 1} trên ${REGIONS.length}: ${region.name}`}>
           <div className={`atlas-canvas topic-${region.id} ${isLocked ? "region-locked" : "region-open"}`} style={{ "--region-color": region.color } as CSSProperties}>
             <button className="atlas-region" aria-label={region.name} tabIndex={selected === index ? 0 : -1} disabled={walking || isLocked} onClick={() => travel(index, true)}>
-              {["linear-structures", "trees"].includes(region.id) ? <img className="atlas-island-art" src={`/assets/hybrid-casual-ui/atlas/islands/${region.id === "trees" ? "trees" : "linked-list"}.png`} alt="" aria-hidden="true" draggable={false} /> : <>
+              {["arrays", "linear-structures", "trees"].includes(region.id) ? <img className="atlas-island-art" src={region.id === "arrays" ? "/assets/hybrid-casual-ui/array/illustrations/island-village.png" : `/assets/hybrid-casual-ui/atlas/islands/${region.id === "trees" ? "trees" : "linked-list"}.png`} alt="" aria-hidden="true" draggable={false} /> : <>
                 <RegionTerrain index={index} />
                 <span className="atlas-landmark"><RegionLandmark region={region.id} /></span>
               </>}

@@ -1,0 +1,1133 @@
+{
+  "version": 1,
+  "status": "pending-user-review",
+  "liveGameIntegration": false,
+  "palette": {
+    "ink": "#594F43",
+    "cream": "#FFFCF4",
+    "edge": "#D8D0BF",
+    "sage": "#E6EEDC",
+    "river": "#E0EEF0",
+    "sand": "#F4E9CB",
+    "clay": "#EFDFD2",
+    "error": "#F2E0DA"
+  },
+  "pngScale": 2,
+  "numberRendering": "runtime-text",
+  "identity": "Keep existing item.id, species, scarf, suit and stable ordering",
+  "assets": [
+    {
+      "id": "value-normal",
+      "svg": "svg/value-normal.svg",
+      "png": "png/value-normal.png",
+      "nativeSize": [
+        72,
+        80
+      ],
+      "role": "Value backing; numbers, identity and index remain live text",
+      "state": "normal"
+    },
+    {
+      "id": "insertion-card-normal",
+      "svg": "svg/insertion-card-normal.svg",
+      "png": "png/insertion-card-normal.png",
+      "nativeSize": [
+        96,
+        132
+      ],
+      "role": "Playing card backing. Keep suit, value and identity separate",
+      "state": "normal"
+    },
+    {
+      "id": "merge-leaf-normal",
+      "svg": "svg/merge-leaf-normal.svg",
+      "png": "png/merge-leaf-normal.png",
+      "nativeSize": [
+        96,
+        116
+      ],
+      "role": "Leaf data item; preserve original identity and stable order",
+      "state": "normal"
+    },
+    {
+      "id": "value-selected",
+      "svg": "svg/value-selected.svg",
+      "png": "png/value-selected.png",
+      "nativeSize": [
+        72,
+        80
+      ],
+      "role": "Value backing; numbers, identity and index remain live text",
+      "state": "selected"
+    },
+    {
+      "id": "insertion-card-selected",
+      "svg": "svg/insertion-card-selected.svg",
+      "png": "png/insertion-card-selected.png",
+      "nativeSize": [
+        96,
+        132
+      ],
+      "role": "Playing card backing. Keep suit, value and identity separate",
+      "state": "selected"
+    },
+    {
+      "id": "merge-leaf-selected",
+      "svg": "svg/merge-leaf-selected.svg",
+      "png": "png/merge-leaf-selected.png",
+      "nativeSize": [
+        96,
+        116
+      ],
+      "role": "Leaf data item; preserve original identity and stable order",
+      "state": "selected"
+    },
+    {
+      "id": "value-compare",
+      "svg": "svg/value-compare.svg",
+      "png": "png/value-compare.png",
+      "nativeSize": [
+        72,
+        80
+      ],
+      "role": "Value backing; numbers, identity and index remain live text",
+      "state": "compare"
+    },
+    {
+      "id": "insertion-card-compare",
+      "svg": "svg/insertion-card-compare.svg",
+      "png": "png/insertion-card-compare.png",
+      "nativeSize": [
+        96,
+        132
+      ],
+      "role": "Playing card backing. Keep suit, value and identity separate",
+      "state": "compare"
+    },
+    {
+      "id": "merge-leaf-compare",
+      "svg": "svg/merge-leaf-compare.svg",
+      "png": "png/merge-leaf-compare.png",
+      "nativeSize": [
+        96,
+        116
+      ],
+      "role": "Leaf data item; preserve original identity and stable order",
+      "state": "compare"
+    },
+    {
+      "id": "value-sorted",
+      "svg": "svg/value-sorted.svg",
+      "png": "png/value-sorted.png",
+      "nativeSize": [
+        72,
+        80
+      ],
+      "role": "Value backing; numbers, identity and index remain live text",
+      "state": "sorted"
+    },
+    {
+      "id": "insertion-card-sorted",
+      "svg": "svg/insertion-card-sorted.svg",
+      "png": "png/insertion-card-sorted.png",
+      "nativeSize": [
+        96,
+        132
+      ],
+      "role": "Playing card backing. Keep suit, value and identity separate",
+      "state": "sorted"
+    },
+    {
+      "id": "merge-leaf-sorted",
+      "svg": "svg/merge-leaf-sorted.svg",
+      "png": "png/merge-leaf-sorted.png",
+      "nativeSize": [
+        96,
+        116
+      ],
+      "role": "Leaf data item; preserve original identity and stable order",
+      "state": "sorted"
+    },
+    {
+      "id": "value-moving",
+      "svg": "svg/value-moving.svg",
+      "png": "png/value-moving.png",
+      "nativeSize": [
+        72,
+        80
+      ],
+      "role": "Value backing; numbers, identity and index remain live text",
+      "state": "moving"
+    },
+    {
+      "id": "insertion-card-moving",
+      "svg": "svg/insertion-card-moving.svg",
+      "png": "png/insertion-card-moving.png",
+      "nativeSize": [
+        96,
+        132
+      ],
+      "role": "Playing card backing. Keep suit, value and identity separate",
+      "state": "moving"
+    },
+    {
+      "id": "merge-leaf-moving",
+      "svg": "svg/merge-leaf-moving.svg",
+      "png": "png/merge-leaf-moving.png",
+      "nativeSize": [
+        96,
+        116
+      ],
+      "role": "Leaf data item; preserve original identity and stable order",
+      "state": "moving"
+    },
+    {
+      "id": "value-wrong",
+      "svg": "svg/value-wrong.svg",
+      "png": "png/value-wrong.png",
+      "nativeSize": [
+        72,
+        80
+      ],
+      "role": "Value backing; numbers, identity and index remain live text",
+      "state": "wrong"
+    },
+    {
+      "id": "insertion-card-wrong",
+      "svg": "svg/insertion-card-wrong.svg",
+      "png": "png/insertion-card-wrong.png",
+      "nativeSize": [
+        96,
+        132
+      ],
+      "role": "Playing card backing. Keep suit, value and identity separate",
+      "state": "wrong"
+    },
+    {
+      "id": "merge-leaf-wrong",
+      "svg": "svg/merge-leaf-wrong.svg",
+      "png": "png/merge-leaf-wrong.png",
+      "nativeSize": [
+        96,
+        116
+      ],
+      "role": "Leaf data item; preserve original identity and stable order",
+      "state": "wrong"
+    },
+    {
+      "id": "value-disabled",
+      "svg": "svg/value-disabled.svg",
+      "png": "png/value-disabled.png",
+      "nativeSize": [
+        72,
+        80
+      ],
+      "role": "Value backing; numbers, identity and index remain live text",
+      "state": "disabled"
+    },
+    {
+      "id": "insertion-card-disabled",
+      "svg": "svg/insertion-card-disabled.svg",
+      "png": "png/insertion-card-disabled.png",
+      "nativeSize": [
+        96,
+        132
+      ],
+      "role": "Playing card backing. Keep suit, value and identity separate",
+      "state": "disabled"
+    },
+    {
+      "id": "merge-leaf-disabled",
+      "svg": "svg/merge-leaf-disabled.svg",
+      "png": "png/merge-leaf-disabled.png",
+      "nativeSize": [
+        96,
+        116
+      ],
+      "role": "Leaf data item; preserve original identity and stable order",
+      "state": "disabled"
+    },
+    {
+      "id": "button-primary-normal",
+      "svg": "svg/button-primary-normal.svg",
+      "png": "png/button-primary-normal.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "normal",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-primary-hover",
+      "svg": "svg/button-primary-hover.svg",
+      "png": "png/button-primary-hover.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "hover",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-primary-pressed",
+      "svg": "svg/button-primary-pressed.svg",
+      "png": "png/button-primary-pressed.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "pressed",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-primary-disabled",
+      "svg": "svg/button-primary-disabled.svg",
+      "png": "png/button-primary-disabled.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "disabled",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-secondary-normal",
+      "svg": "svg/button-secondary-normal.svg",
+      "png": "png/button-secondary-normal.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "normal",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-secondary-hover",
+      "svg": "svg/button-secondary-hover.svg",
+      "png": "png/button-secondary-hover.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "hover",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-secondary-pressed",
+      "svg": "svg/button-secondary-pressed.svg",
+      "png": "png/button-secondary-pressed.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "pressed",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-secondary-disabled",
+      "svg": "svg/button-secondary-disabled.svg",
+      "png": "png/button-secondary-disabled.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "disabled",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-hint-normal",
+      "svg": "svg/button-hint-normal.svg",
+      "png": "png/button-hint-normal.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "normal",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-hint-hover",
+      "svg": "svg/button-hint-hover.svg",
+      "png": "png/button-hint-hover.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "hover",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-hint-pressed",
+      "svg": "svg/button-hint-pressed.svg",
+      "png": "png/button-hint-pressed.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "pressed",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-hint-disabled",
+      "svg": "svg/button-hint-disabled.svg",
+      "png": "png/button-hint-disabled.png",
+      "nativeSize": [
+        240,
+        52
+      ],
+      "role": "Stretch using nine-slice; no baked text",
+      "state": "disabled",
+      "slice": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    {
+      "id": "button-icon-normal",
+      "svg": "svg/button-icon-normal.svg",
+      "png": "png/button-icon-normal.png",
+      "nativeSize": [
+        48,
+        50
+      ],
+      "state": "normal"
+    },
+    {
+      "id": "button-icon-hover",
+      "svg": "svg/button-icon-hover.svg",
+      "png": "png/button-icon-hover.png",
+      "nativeSize": [
+        48,
+        50
+      ],
+      "state": "hover"
+    },
+    {
+      "id": "button-icon-pressed",
+      "svg": "svg/button-icon-pressed.svg",
+      "png": "png/button-icon-pressed.png",
+      "nativeSize": [
+        48,
+        50
+      ],
+      "state": "pressed"
+    },
+    {
+      "id": "button-icon-disabled",
+      "svg": "svg/button-icon-disabled.svg",
+      "png": "png/button-icon-disabled.png",
+      "nativeSize": [
+        48,
+        50
+      ],
+      "state": "disabled"
+    },
+    {
+      "id": "panel-board",
+      "svg": "svg/panel-board.svg",
+      "png": "png/panel-board.png",
+      "nativeSize": [
+        800,
+        340
+      ],
+      "role": "Nine-slice panel",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ]
+    },
+    {
+      "id": "panel-speech",
+      "svg": "svg/panel-speech.svg",
+      "png": "png/panel-speech.png",
+      "nativeSize": [
+        540,
+        100
+      ],
+      "role": "Nine-slice panel",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ]
+    },
+    {
+      "id": "panel-stats",
+      "svg": "svg/panel-stats.svg",
+      "png": "png/panel-stats.png",
+      "nativeSize": [
+        360,
+        52
+      ],
+      "role": "Nine-slice panel",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ]
+    },
+    {
+      "id": "panel-selection-mat",
+      "svg": "svg/panel-selection-mat.svg",
+      "png": "png/panel-selection-mat.png",
+      "nativeSize": [
+        760,
+        220
+      ],
+      "role": "Nine-slice panel",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ]
+    },
+    {
+      "id": "panel-insertion-mat",
+      "svg": "svg/panel-insertion-mat.svg",
+      "png": "png/panel-insertion-mat.png",
+      "nativeSize": [
+        760,
+        150
+      ],
+      "role": "Nine-slice panel",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ]
+    },
+    {
+      "id": "panel-quick-group",
+      "svg": "svg/panel-quick-group.svg",
+      "png": "png/panel-quick-group.png",
+      "nativeSize": [
+        240,
+        175
+      ],
+      "role": "Nine-slice panel",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ]
+    },
+    {
+      "id": "panel-quick-pool",
+      "svg": "svg/panel-quick-pool.svg",
+      "png": "png/panel-quick-pool.png",
+      "nativeSize": [
+        680,
+        140
+      ],
+      "role": "Nine-slice panel",
+      "slice": [
+        24,
+        24,
+        24,
+        24
+      ]
+    },
+    {
+      "id": "slot-empty",
+      "svg": "svg/slot-empty.svg",
+      "png": "png/slot-empty.png",
+      "nativeSize": [
+        96,
+        132
+      ],
+      "role": "Real empty insertion hole; never a data value"
+    },
+    {
+      "id": "insertion-held-tray",
+      "svg": "svg/insertion-held-tray.svg",
+      "png": "png/insertion-held-tray.png",
+      "nativeSize": [
+        132,
+        164
+      ]
+    },
+    {
+      "id": "selection-target",
+      "svg": "svg/selection-target.svg",
+      "png": "png/selection-target.png",
+      "nativeSize": [
+        92,
+        106
+      ],
+      "role": "Flag target; runtime location stays unchanged"
+    },
+    {
+      "id": "bubble-pair-bracket",
+      "svg": "svg/bubble-pair-bracket.svg",
+      "png": "png/bubble-pair-bracket.png",
+      "nativeSize": [
+        220,
+        26
+      ]
+    },
+    {
+      "id": "arrow-swap",
+      "svg": "svg/arrow-swap.svg",
+      "png": "png/arrow-swap.png",
+      "nativeSize": [
+        110,
+        32
+      ]
+    },
+    {
+      "id": "arrow-shift",
+      "svg": "svg/arrow-shift.svg",
+      "png": "png/arrow-shift.png",
+      "nativeSize": [
+        80,
+        32
+      ]
+    },
+    {
+      "id": "quick-pivot-plinth",
+      "svg": "svg/quick-pivot-plinth.svg",
+      "png": "png/quick-pivot-plinth.png",
+      "nativeSize": [
+        132,
+        132
+      ],
+      "role": "Pivot marker, number remains runtime text"
+    },
+    {
+      "id": "quick-branch-open",
+      "svg": "svg/quick-branch-open.svg",
+      "png": "png/quick-branch-open.png",
+      "nativeSize": [
+        180,
+        48
+      ]
+    },
+    {
+      "id": "quick-branch-done",
+      "svg": "svg/quick-branch-done.svg",
+      "png": "png/quick-branch-done.png",
+      "nativeSize": [
+        180,
+        48
+      ]
+    },
+    {
+      "id": "progress-track",
+      "svg": "svg/progress-track.svg",
+      "png": "png/progress-track.png",
+      "nativeSize": [
+        320,
+        10
+      ]
+    },
+    {
+      "id": "progress-fill",
+      "svg": "svg/progress-fill.svg",
+      "png": "png/progress-fill.png",
+      "nativeSize": [
+        320,
+        10
+      ]
+    },
+    {
+      "id": "bubble-bridge-scene",
+      "svg": "svg/bubble-bridge-scene.svg",
+      "png": "png/bubble-bridge-scene.png",
+      "nativeSize": [
+        900,
+        300
+      ]
+    },
+    {
+      "id": "bubble-bridge-deck",
+      "svg": "svg/bubble-bridge-deck.svg",
+      "png": "png/bubble-bridge-deck.png",
+      "nativeSize": [
+        800,
+        100
+      ]
+    },
+    {
+      "id": "bubble-camp",
+      "svg": "svg/bubble-camp.svg",
+      "png": "png/bubble-camp.png",
+      "nativeSize": [
+        100,
+        90
+      ]
+    },
+    {
+      "id": "merge-stream-scene",
+      "svg": "svg/merge-stream-scene.svg",
+      "png": "png/merge-stream-scene.png",
+      "nativeSize": [
+        800,
+        340
+      ]
+    },
+    {
+      "id": "merge-pond",
+      "svg": "svg/merge-pond.svg",
+      "png": "png/merge-pond.png",
+      "nativeSize": [
+        600,
+        120
+      ]
+    },
+    {
+      "id": "quick-junction-scene",
+      "svg": "svg/quick-junction-scene.svg",
+      "png": "png/quick-junction-scene.png",
+      "nativeSize": [
+        820,
+        400
+      ]
+    },
+    {
+      "id": "friend-0-awake",
+      "svg": "svg/friend-0-awake.svg",
+      "png": "png/friend-0-awake.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-0-resting",
+      "svg": "svg/friend-0-resting.svg",
+      "png": "png/friend-0-resting.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-1-awake",
+      "svg": "svg/friend-1-awake.svg",
+      "png": "png/friend-1-awake.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-1-resting",
+      "svg": "svg/friend-1-resting.svg",
+      "png": "png/friend-1-resting.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-2-awake",
+      "svg": "svg/friend-2-awake.svg",
+      "png": "png/friend-2-awake.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-2-resting",
+      "svg": "svg/friend-2-resting.svg",
+      "png": "png/friend-2-resting.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-3-awake",
+      "svg": "svg/friend-3-awake.svg",
+      "png": "png/friend-3-awake.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-3-resting",
+      "svg": "svg/friend-3-resting.svg",
+      "png": "png/friend-3-resting.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-4-awake",
+      "svg": "svg/friend-4-awake.svg",
+      "png": "png/friend-4-awake.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-4-resting",
+      "svg": "svg/friend-4-resting.svg",
+      "png": "png/friend-4-resting.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-5-awake",
+      "svg": "svg/friend-5-awake.svg",
+      "png": "png/friend-5-awake.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-5-resting",
+      "svg": "svg/friend-5-resting.svg",
+      "png": "png/friend-5-resting.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-6-awake",
+      "svg": "svg/friend-6-awake.svg",
+      "png": "png/friend-6-awake.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-6-resting",
+      "svg": "svg/friend-6-resting.svg",
+      "png": "png/friend-6-resting.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-7-awake",
+      "svg": "svg/friend-7-awake.svg",
+      "png": "png/friend-7-awake.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "friend-7-resting",
+      "svg": "svg/friend-7-resting.svg",
+      "png": "png/friend-7-resting.png",
+      "nativeSize": [
+        100,
+        116
+      ],
+      "role": "Existing species/scarf identity, same id % 8 mapping; value remains separate"
+    },
+    {
+      "id": "icon-back",
+      "svg": "svg/icon-back.svg",
+      "png": "png/icon-back.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-settings",
+      "svg": "svg/icon-settings.svg",
+      "png": "png/icon-settings.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-hint",
+      "svg": "svg/icon-hint.svg",
+      "png": "png/icon-hint.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-play",
+      "svg": "svg/icon-play.svg",
+      "png": "png/icon-play.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-pause",
+      "svg": "svg/icon-pause.svg",
+      "png": "png/icon-pause.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-reset",
+      "svg": "svg/icon-reset.svg",
+      "png": "png/icon-reset.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-undo",
+      "svg": "svg/icon-undo.svg",
+      "png": "png/icon-undo.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-check",
+      "svg": "svg/icon-check.svg",
+      "png": "png/icon-check.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-flag",
+      "svg": "svg/icon-flag.svg",
+      "png": "png/icon-flag.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-swap",
+      "svg": "svg/icon-swap.svg",
+      "png": "png/icon-swap.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-split",
+      "svg": "svg/icon-split.svg",
+      "png": "png/icon-split.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-merge",
+      "svg": "svg/icon-merge.svg",
+      "png": "png/icon-merge.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-shift",
+      "svg": "svg/icon-shift.svg",
+      "png": "png/icon-shift.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-backpack",
+      "svg": "svg/icon-backpack.svg",
+      "png": "png/icon-backpack.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-bottle",
+      "svg": "svg/icon-bottle.svg",
+      "png": "png/icon-bottle.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-flashlight",
+      "svg": "svg/icon-flashlight.svg",
+      "png": "png/icon-flashlight.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-compass",
+      "svg": "svg/icon-compass.svg",
+      "png": "png/icon-compass.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-map",
+      "svg": "svg/icon-map.svg",
+      "png": "png/icon-map.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-tent",
+      "svg": "svg/icon-tent.svg",
+      "png": "png/icon-tent.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-pot",
+      "svg": "svg/icon-pot.svg",
+      "png": "png/icon-pot.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    },
+    {
+      "id": "icon-binoculars",
+      "svg": "svg/icon-binoculars.svg",
+      "png": "png/icon-binoculars.png",
+      "nativeSize": [
+        32,
+        32
+      ],
+      "role": "Lucide vector icon; UI layer, not baked into data sprites"
+    }
+  ]
+}
