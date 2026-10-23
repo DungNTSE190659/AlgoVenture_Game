@@ -7,6 +7,8 @@ import type { Difficulty } from "../engine/quicksort";
 
 type Props = {
   className: string;
+  companion?: ReactNode;
+  companionName?: string;
   title?: string;
   nextLabel?: string;
   stars: number;
@@ -18,6 +20,8 @@ type Props = {
 };
 export default function VictoryCelebration({
   className,
+  companion,
+  companionName = "Buta",
   title = "Mảng đã được sắp xếp!",
   nextLabel = "Tăng độ khó",
   stars,
@@ -55,7 +59,7 @@ export default function VictoryCelebration({
           {title}
         </h2>
         <div className="victory-buta">
-          <Pig mood="celebrate" />
+          {companion ?? <Pig mood="celebrate" />}
         </div>
         <div
           className="victory-stars"
@@ -100,7 +104,7 @@ export default function VictoryCelebration({
             <span className="victory-map-icon" aria-hidden="true">
               {treeArtwork ? <TreeIcons.Map size={21} /> : <Map size={21} />}
             </span>
-            <span>Đi tiếp cùng Buta</span>
+            <span>Đi tiếp cùng {companionName}</span>
             {treeArtwork ? <TreeIcons.ChevronRight className="victory-map-arrow" size={19} /> : <ChevronRight
               className="victory-map-arrow"
               size={19}

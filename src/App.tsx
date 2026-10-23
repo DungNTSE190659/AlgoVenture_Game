@@ -1,8 +1,7 @@
 import QuickForestGame from "./components/QuickForestGame";
 import QueueGame from "./components/QueueGame";
 import { useEffect, useState } from "react";
-import AdventureMap from "./components/AdventureMap";
-import WorldMap from "./components/WorldMap";
+import CurriculumMap from "./components/CurriculumMap";
 import StackGame from "./components/StackGame";
 import InsertionGame from "./components/InsertionGame";
 import MergeGame from "./components/MergeGame";
@@ -14,13 +13,13 @@ import LinkedAlgorithmGame from "./components/LinkedAlgorithmGame";
 import LinearSearchGame from "./components/LinearSearchGame";
 import LinearSearchPlay from "./components/LinearSearchPlay";
 import BinarySearchGame from "./components/BinarySearchGame";
-import { arrayRouteForLesson, currentRouteLesson, currentLesson, lessonAvailable, lessonUnlocked, nextLesson, readTrackProgress, regionComplete, regionForLesson, REGIONS, regionUnlocked, saveTrackProgress, type ArrayRouteId, type RegionId, type TrackId } from "./engine/learningTrack";
+import { currentLesson, lessonAvailable, lessonUnlocked, nextLesson, readTrackProgress, regionForLesson, saveTrackProgress, type TrackId } from "./engine/learningTrack";
 import ExpeditionPlay from "./components/ExpeditionPlay";
 import type { Difficulty } from "./engine/quicksort";
 import { gameAudio, readSoundPreference } from "./audio/gameAudio";
 import { stopHaptics } from "./audio/gameFeedback";
 import { useInterfaceAudio } from "./audio/useInterfaceAudio";
-import { completeLinkedLevel, linkedLevelUnlocked, readLinkedLevelProgress, saveLinkedLevelProgress, type LinkedLevel, type LinkedTrackId } from "./engine/linkedCurriculum";
+import { completeLinkedLevel, readLinkedLevelProgress, saveLinkedLevelProgress, type LinkedLevel, type LinkedTrackId } from "./engine/linkedCurriculum";
 import GraphGame from "./components/GraphGame";
 import GraphLesson from "./components/GraphLesson";
 import TreeGame from "./components/TreeGame";
@@ -30,16 +29,10 @@ import type { GraphDifficulty } from "./engine/graph";
 export default function App() {
   useInterfaceAudio();
   const [scene, setScene] = useState<"map" | "demo" | "play">("map");
-  const [mapView, setMapView] = useState<"world" | "region">("world");
-  const [region, setRegion] = useState<RegionId>(() => regionForLesson(currentLesson(readTrackProgress()).id).id);
-  const [worldLocation, setWorldLocation] = useState<RegionId>(() => regionForLesson(currentLesson(readTrackProgress()).id).id);
-  const [worldArrival, setWorldArrival] = useState<RegionId | null>(null);
   const [completed, setCompleted] = useState(readTrackProgress);
   const [linkedLevels, setLinkedLevels] = useState(() => readLinkedLevelProgress(readTrackProgress()));
   const [linkedLevel, setLinkedLevel] = useState<LinkedLevel>(1);
-  const [arrivalFrom, setArrivalFrom] = useState<TrackId | null>(null);
   const [algorithm, setAlgorithm] = useState<TrackId>(() => currentLesson(readTrackProgress()).id);
-  const [arrayRoute, setArrayRoute] = useState<ArrayRouteId>(() => arrayRouteForLesson(currentLesson(readTrackProgress()).id)?.id ?? "sort");
   const [input, setInput] = useState([8, 3, 6, 2, 5]);
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
   const [graphDifficulty, setGraphDifficulty] = useState<GraphDifficulty>("tutorial");
@@ -63,7 +56,6 @@ export default function App() {
   }, []);
   function complete() {
     if (!lessonUnlocked(algorithm, completed)) return;
-    if (!completed[algorithm]) setArrivalFrom(algorithm);
     setCompleted(value => value[algorithm] ? value : { ...value, [algorithm]: true });
   }
   function start(mode: "demo" | "play") {
@@ -75,15 +67,6 @@ export default function App() {
     setLinkedLevel(algorithm === "linked-search" || algorithm === "linked-insertion" || algorithm === "linked-deletion" ? 2 : 3);
     setScene(mode);
   }
-  function startLinkedLevel(id: LinkedTrackId, level: LinkedLevel) {
-    if (!lessonAvailable(id) || !lessonUnlocked(id, completed) || !linkedLevelUnlocked(id, level, linkedLevels)) return;
-    gameAudio.unlock();
-    gameAudio.play("enter");
-    setAlgorithm(id);
-    setLinkedLevel(level);
-    setSession(value => value + 1);
-    setScene("play");
-  }
   function finishLinkedLevel() {
     const id = algorithm as LinkedTrackId;
     const next = completeLinkedLevel(linkedLevels, id, linkedLevel);
@@ -93,45 +76,12 @@ export default function App() {
   function back() {
     gameAudio.stop();
     stopHaptics();
-    setMapView("region");
     setScene("map");
   }
   function chooseMap() {
     const next = nextLesson(algorithm);
-    if (arrivalFrom && next && regionComplete(region, completed) && regionForLesson(next.id).id !== region && lessonUnlocked(next.id, completed)) {
-      gameAudio.stop();
-      const destination = regionForLesson(next.id).id;
-      setWorldArrival(region);
-      setWorldLocation(destination);
-      setRegion(destination);
-      setAlgorithm(next.id);
-      setArrivalFrom(null);
-      setMapView("world");
-      setScene("map");
-      return;
-    }
+    if (next && lessonAvailable(next.id) && lessonUnlocked(next.id, completed)) setAlgorithm(next.id);
     back();
-  }
-  function enterRegion(id: RegionId) {
-    if (!regionUnlocked(id, completed)) return;
-    setWorldArrival(null);
-    const territory = REGIONS.find(item => item.id === id)!;
-    const lesson = id === "arrays" ? currentRouteLesson(arrayRoute, completed)
-      : territory.lessons.find(item => !completed[item.id]) ?? territory.lessons[territory.lessons.length - 1];
-    setRegion(id);
-    setAlgorithm(lesson.id);
-    setArrivalFrom(null);
-    setMapView("region");
-    setWorldLocation(id);
-  }
-  function changeArrayRoute(id: ArrayRouteId) {
-    if (id === arrayRoute) return;
-    gameAudio.stop();
-    gameAudio.unlock();
-    gameAudio.play(id === "search" ? "topic-next" : "topic-prev");
-    setArrayRoute(id);
-    setAlgorithm(currentRouteLesson(id, completed).id);
-    setArrivalFrom(null);
   }
   function updateArray(values: number[], level: Difficulty) {
     gameAudio.stop();
@@ -140,27 +90,8 @@ export default function App() {
     setDifficulty(level);
     setSession((value) => value + 1);
   }
-  if (scene === "map" && mapView === "world") return <WorldMap completed={completed} sound={sound} onSound={() => changeSound(!sound)} onEnter={enterRegion} location={worldLocation} onLocation={setWorldLocation} arrivalFrom={worldArrival} onArrived={() => setWorldArrival(null)} />;
-  if (scene === "map")
-    return (
-      <AdventureMap
-        key={`${region}:${region === "arrays" ? arrayRoute : "main"}`}
-        region={region}
-        arrayRoute={arrayRoute}
-        onArrayRoute={changeArrayRoute}
-        linkedLevels={linkedLevels}
-        onLinkedLevel={startLinkedLevel}
-        onWorld={() => { setArrivalFrom(null); setMapView("world"); }}
-        onStart={start}
-        completed={completed}
-        algorithm={algorithm}
-        onAlgorithm={setAlgorithm}
-        arrivalFrom={arrivalFrom}
-        onArrived={() => setArrivalFrom(null)}
-        sound={sound}
-        onSound={() => changeSound(!sound)}
-      />
-    );
+  if (scene === "map") return <CurriculumMap completed={completed} algorithm={algorithm}
+    onAlgorithm={setAlgorithm} onStart={start} sound={sound} onSound={() => changeSound(!sound)} />;
   if (algorithm === "quick") return <QuickForestGame key={`${session}:${scene}:${input.join(",")}`} mode={scene} input={input} difficulty={difficulty} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onChange={updateArray} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "queue") return <QueueGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={()=>start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed}/>;
   if (algorithm === "stack") return <StackGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={()=>start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed}/>;

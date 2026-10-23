@@ -1,0 +1,1 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><defs><path id="corners" d="M5 19V10q0-5 5-5h9M45 5h9q5 0 5 5v9M59 45v9q0 5-5 5h-9M19 59h-9q-5 0-5-5v-9"/></defs><g fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#corners" stroke="#49367d" stroke-width="8"/><use href="#corners" stroke="#fff2ad" stroke-width="3.5"/></g></svg>
