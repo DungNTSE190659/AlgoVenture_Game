@@ -71,7 +71,7 @@ export default function BubbleRunBoard({ state, interactive, paused, onMove }: P
         onPointerMove={move} onPointerUp={end}
         onPointerCancel={() => { drag.current = null; setGhost(null); }}>
         {state.items.map((item, index) => (
-          <RunBubble key={item.id} item={item} index={index} enabled={interactive && !paused}
+          <RunBubble settled={state.phase === "done"} key={item.id} item={item} index={index} enabled={interactive && !paused}
             held={ghost?.id === item.id} paused={paused}
             onPointerDown={event => begin(event, item.id)} onClick={() => {}}
             onKeyDown={event => {
@@ -93,6 +93,7 @@ function RunBubble({
   item,
   index,
   enabled,
+  settled,
   held,
   paused,
   onPointerDown,
@@ -102,6 +103,7 @@ function RunBubble({
   item: Item;
   index: number;
   enabled: boolean;
+  settled: boolean;
   held: boolean;
   paused: boolean;
   onPointerDown: React.PointerEventHandler<HTMLButtonElement>;
@@ -147,7 +149,7 @@ function RunBubble({
       onClick={onClick}
       onKeyDown={onKeyDown}
     >
-      <img className="bubble-tile-art" src={`${import.meta.env.BASE_URL}assets/bubble-ui/tile.svg`} alt="" draggable={false} />
+      <img className="bubble-tile-art" src={`${import.meta.env.BASE_URL}assets/bubble-ui/tile${settled ? "-settled" : ""}.svg`} alt="" draggable={false} />
       <strong>{item.value}</strong>
       <small>{index + 1}</small>
     </button>

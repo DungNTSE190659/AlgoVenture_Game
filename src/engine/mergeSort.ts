@@ -65,27 +65,39 @@ export function releaseMerge(state: MergeState, lane: MergeLane): MergeState | n
 
 export function createMergeLesson(input: readonly number[]): MergeFrame[] {
   let state = createMerge(input);
-  const frames: MergeFrame[] = [{ state, kind: "intro", title: "Suối Hợp Nhất", narration: "Chia nhóm lá thành hai nhánh, tiếp tục tới khi mỗi nhóm còn một lá. Sau đó ghép các nhánh đã có thứ tự từ bé đến lớn.", groups: [state.root] }];
+  const values = (items: readonly Item[]) => `[${items.map(item => item.value).join(", ")}]`;
+  const frames: MergeFrame[] = [{ state, kind: "intro", title: "Cùng chia nhỏ mảng nhé!", narration: `Mình cùng xếp ${values(state.root.items)} từ bé đến lớn nhé! Đầu tiên, Cáo sẽ chia mảng thành những nhóm nhỏ, rồi ghép chúng lại.`, groups: [state.root] }];
   let groups = [state.root];
   while (groups.some(group => group.left)) {
+    const splitting = groups.filter(group => group.left);
+    const changes = splitting.map(group => `${values(group.items)} thành ${values(group.left!.items)} và ${values(group.right!.items)}`).join("; ");
     groups = groups.flatMap(group => group.left ? [group.left, group.right!] : [group]);
-    frames.push({ state, kind: "split", title: "Chia thành hai nhánh suối", narration: groups.every(group => !group.left) ? "Mỗi nhóm còn một lá nên đã có thứ tự. Bây giờ ghép các nhánh nhỏ lại nhé." : "Chia từng nhóm lá thành hai phần liên tiếp. Giữ nguyên thứ tự lá khi tách nhánh.", groups });
+    const single = groups.every(group => !group.left);
+    frames.push({ state, kind: "split", title: single ? "Mỗi số đã có một nhóm riêng" : "Chia đôi thêm một lần", narration: `Mình tách ${changes}. ${single ? "Mỗi nhóm còn một số rồi! Giờ mình ghép lại nhé." : "Các số vẫn giữ nguyên thứ tự. Mình sẽ chia tiếp những nhóm còn nhiều số nhé!"}`, groups });
   }
   while (state.phase !== "done") {
     while (state.left.length || state.right.length) {
       const chosen = mergeExpected(state)!;
       const a = state.left[0], b = state.right[0];
-      const narration = !a || !b ? "Một nhánh đã hết lá. Đưa từng lá đầu nhánh còn lại xuống hồ; chúng không tự trôi."
-        : a.value === b.value ? `Hai lá cùng số ${a.value}. Lấy nhánh trái trước để giữ thứ tự bông hoa.`
-        : `So sánh ${a.value} và ${b.value} ở đầu hai nhánh. Đưa ${chosen.value}, lá nhỏ hơn, xuống hồ.`;
-      frames.push({ state, kind: "compare", title: "So sánh hai lá đầu nhánh", narration, chosen: chosen.id });
-      state = releaseMerge(state, state.left[0]?.id===chosen.id ? "left" : "right")!;
-      frames.push({ state, kind: "place", title: "Ghép lá vào hồ", narration: `Đưa ${chosen.value} vào vị trí tiếp theo trong hồ. Chỉ lấy lá ở đầu mỗi nhánh suối.`, chosen: chosen.id });
+      const lane = a?.id === chosen.id ? "trái" : "phải";
+      const opening = state.output.length === 0 ? `Đến lượt ghép ${values(state.left)} với ${values(state.right)} nhé! ` : "";
+      const narration = !a || !b
+        ? `Bên ${a ? "phải" : "trái"} đã hết rồi. Bên ${lane} còn ${values(a ? state.left : state.right)}, nên mình lấy ${chosen.value} tiếp nhé!`
+        : a.value === b.value
+          ? `${opening}Hai thẻ đầu đều là ${a.value}! Mình lấy thẻ bên trái trước, để hai thẻ bằng nhau vẫn giữ thứ tự ban đầu.`
+          : `${opening}Nhìn hai thẻ đầu này: ${a.value} bên trái và ${b.value} bên phải. ${chosen.value} nhỏ hơn, nên mình chọn bên ${lane}.`;
+      frames.push({ state, kind: "compare", title: !a || !b ? `Lấy tiếp số ${chosen.value}` : `So sánh ${a.value} và ${b.value}`, narration, chosen: chosen.id });
+      state = releaseMerge(state, lane === "trái" ? "left" : "right")!;
+      const position = state.output.length;
+      frames.push({ state, kind: "place", title: `${chosen.value} đã vào ô thứ ${position}`, narration: `${chosen.value} đã xuống ô thứ ${position} rồi! ${position === 1 ? "Đây là số đầu tiên của nhóm kết quả." : `Mình đang có ${values(state.output)}, vẫn theo thứ tự từ bé đến lớn.`} ${state.phase === "joined" ? "Hai bên đều hết thẻ, nhóm này vừa ghép xong!" : "Mình xem thẻ tiếp theo nhé."}`, chosen: chosen.id });
     }
-    frames.push({ state, kind: "complete", title: "Hồ đã nhận đủ lá", narration: "Các lá trong hồ đã có thứ tự từ bé đến lớn." });
-    frames.push({ state, kind: "joined", title: "Nhóm lá đã có thứ tự", narration: "Giữ nhóm lá vừa ghép để tiếp tục hợp nhất với nhánh suối bên cạnh." });
+    const next = state.tasks[state.taskIndex + 1];
+    frames.push({ state, kind: "complete", title: `Ghép xong ${values(state.output)}`, narration: next
+      ? `Xong một nhóm rồi: ${values(state.output)}! Mình giữ nhóm này lại. Tiếp theo, mình sẽ ghép các số ở đoạn ${values(state.assembled.slice(next.start, next.end))}.`
+      : `Nhìn này, ${values(state.output)} đã đi từ bé đến lớn! Từ những nhóm chỉ có một số, mình đã ghép lại được cả mảng.` });
+    // Keep the completed group on screen for its explanation, then start the next merge.
     state = advanceMerge(state);
   }
-  frames.push({ state, kind: "done", title: "Dòng suối đã có thứ tự!", narration: "Các lá đã xếp từ bé đến lớn, hoa cùng số giữ thứ tự ban đầu. Merge Sort là chia nhỏ rồi hợp nhất. Đến lượt bạn thử nhé!" });
+  frames.push({ state, kind: "done", title: "Mảng đã có thứ tự!", narration: `Mình làm được rồi! Kết quả là ${values(state.assembled)}. Chia nhỏ, rồi ghép từng số theo thứ tự — đó là Merge Sort. Giờ đến lượt bạn thử nhé!` });
   return frames;
 }

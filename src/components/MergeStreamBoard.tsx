@@ -6,10 +6,10 @@ import Pig from "./Pig";
 import { activateTouchButton } from "./touchActivation";
 
 type Props = {
-  state: MergeState; groups?: MergeNode[]; selected?: string; guided: boolean; enabled: boolean; paused: boolean;
+  state: MergeState; groups?: MergeNode[]; selected?: string; guided: boolean; enabled: boolean; paused: boolean; wrongId?: number;
   onSelect: (id: string) => void; onSplit: () => void; onLeaf: (lane: MergeLane, id: number) => void; onNext: () => void;
 };
-const FLOWERS = ["#d58d9f", "#dbb25b", "#9986bf", "#dc9b6a", "#84a8cc", "#c78dbf", "#73a899", "#be9e6b"];
+
 
 export function MergeStreamMap({ state, groups, selected, onSelect, enabled }: Pick<Props, "state" | "groups" | "selected" | "onSelect" | "enabled">) {
   const nodes: { node: MergeNode; depth: number; x: number; y: number }[] = [];
@@ -23,7 +23,7 @@ export function MergeStreamMap({ state, groups, selected, onSelect, enabled }: P
   const completed = new Set(state.tasks.slice(0, state.completed).map(node => node.id));
   const pending = groups?.filter(node => node.left) ?? [];
   const currentTask = state.tasks[state.taskIndex];
-  return <><svg className="merge-stream-map" viewBox="0 0 340 82" role="group" aria-label="Sơ đồ chia và ghép các nhánh suối">
+  return <><svg className="merge-stream-map" viewBox="0 0 340 82" role="group" aria-label="Sơ đồ chia và ghép các nhánh">
     {nodes.map(({ node, x, y }) => node.left && nodes.some(item => item.node.id === node.left!.id) ? [node.left, node.right!].map(child => {
       const point = nodes.find(item => item.node.id === child.id)!;
       return <path key={`${node.id}-${child.id}`} d={`M${x} ${y + 6} C${x} ${y + 15},${point.x} ${point.y - 10},${point.x} ${point.y}`} fill="none" stroke="#b7d2bd" strokeWidth="2" />;
@@ -34,22 +34,22 @@ export function MergeStreamMap({ state, groups, selected, onSelect, enabled }: P
         role={selectable ? "button" : undefined} tabIndex={selectable ? 0 : undefined}
         aria-label={selectable ? `Chọn nhóm ${node.items.map(item => item.value).join(", ")} để chia` : undefined}
         onClick={() => selectable && onSelect(node.id)} onKeyDown={event => { if (selectable && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); onSelect(node.id); } }}>
-        <rect x={x - 14} y={y - 6} width="28" height="14" rx="7" /><text x={x} y={y + 4}>{node.items.length === 1 ? node.items[0].value : `${node.items.length} lá`}</text>
+        <rect x={x - 14} y={y - 6} width="28" height="14" rx="7" /><text x={x} y={y + 4}>{node.items.length === 1 ? node.items[0].value : `${node.items.length} thẻ`}</text>
       </g>;
     })}
   </svg>
-    {groups && groups.length > 1 && pending.length > 0 && <nav className="stream-branch-picker" aria-label="Chọn nhánh suối cần chia">
+    {groups && groups.length > 1 && pending.length > 0 && <nav className="stream-branch-picker" aria-label="Chọn nhánh cần chia">
       {pending.map(node => <button key={node.id} className={node.id === selected ? "is-current" : ""}
         aria-label={`Chọn nhóm ${node.items.map(item => item.value).join(", ")} để chia`}
         aria-pressed={node.id === selected} disabled={!enabled} onClick={() => onSelect(node.id)}>
         <GitFork size={16} aria-hidden="true" /><span>{node.items.map(item => item.value).join(" · ")}</span>
       </button>)}
     </nav>}
-    {!groups && currentTask && state.phase !== "done" && <p className="stream-mobile-group">Nhóm {currentTask.items.length} lá</p>}
+    {!groups && currentTask && state.phase !== "done" && <p className="stream-mobile-group">Nhóm {currentTask.items.length} thẻ</p>}
   </>;
 }
 
-export default function MergeStreamBoard({ state, groups, selected, guided, enabled, paused, onSplit, onLeaf, onNext }: Omit<Props, "onSelect">) {
+export default function MergeStreamBoard({ state, groups, selected, guided, enabled, paused, onSplit, onLeaf, onNext, wrongId }: Omit<Props, "onSelect">) {
   const root = useRef<HTMLDivElement>(null);
   const drag = useRef<{ pointer: number; x: number; y: number; moved: boolean; lane?: MergeLane; item?: Item } | null>(null);
   const suppress = useRef(false);
@@ -141,7 +141,7 @@ export default function MergeStreamBoard({ state, groups, selected, guided, enab
     </svg>
     {(groups || state.phase === "merge") && <div className="stream-bank-buta" aria-hidden="true"><Pig mood={groups ? "happy" : "thinking"} /></div>}
     {groups ? <div className="stream-split-stage">
-      <span className="stream-caption">{allSingle ? "Mỗi lá một nhóm" : "Đang chia"}</span>
+      <span className="stream-caption">{allSingle ? "Mỗi thẻ một nhóm" : "Đang chia"}</span>
       <div className="stream-group-leaves">{(allSingle ? groups.flatMap(group => group.items) : group?.items ?? []).map(item => <Leaf key={item.id} item={item} small />)}</div>
       {!allSingle && <>
         <button className="stream-split-handle" aria-label="Tách nhánh" disabled={!enabled} onPointerDown={event => begin(event)} onClick={event => click(onSplit, event.detail)}><Droplets size={21} /><span>Tách nhánh</span><GitFork size={16} /></button>
@@ -156,38 +156,32 @@ export default function MergeStreamBoard({ state, groups, selected, guided, enab
       {state.phase === "merge" && <div className="stream-sources">
         {(["left", "right"] as const).map(lane => <section className={`stream-source source-${lane}`} key={lane} aria-label={`Nhánh ${lane === "left" ? "trái" : "phải"}`}>
           <span className="stream-caption">{lane === "left" ? "Trái" : "Phải"} <b>{state[lane].length}</b></span>
-          <div className="stream-leaf-stack">{state[lane].map((item, index) => <Leaf key={item.id} item={item} lane={lane} head={index === 0} guided={guided && expected === item.id} disabled={!enabled || index !== 0}
-            style={{ left: `calc(50% - var(--leaf) / 2 + ${Math.min(index, 3) * 4}px)`, top: -Math.min(index, 3) * 5, zIndex: 20 - index }}
+          <div className="stream-leaf-stack">{state[lane].map((item, index) => <Leaf key={item.id} item={item} lane={lane} head={index === 0} guided={guided && expected === item.id} disabled={!enabled} wrong={wrongId === item.id}
             onPointerDown={event => begin(event, lane, item)} onClick={detail => click(() => onLeaf(lane, item.id), detail)} />)}
-            {!state[lane].length && <span className="stream-empty"><Check size={20} /> Hết lá</span>}
+            {!state[lane].length && <span className="stream-empty"><Check size={20} /> Hết thẻ</span>}
           </div>
-          <small className="stream-next-leaves">{state[lane].length > 1 ? `Tiếp: ${state[lane].slice(1).map(item => item.value).join(" · ")}` : ""}</small>
         </section>)}
       </div>}
-      {state.phase !== "merge" && <div className="stream-group-success"><Pig mood={state.phase === "done" ? "celebrate" : "proud"} /><div><Check size={19} /><strong>{state.phase === "done" ? "Dòng suối đã có thứ tự!" : "Đã ghép xong!"}</strong></div></div>}
-      <section className={`stream-pond ${over ? "is-over" : ""}`} data-merge-pond aria-label="Hồ ghép lá" style={{ "--pond-count": Math.min(4, Math.max(1, count)) } as CSSProperties}>
+      {state.phase !== "merge" && <div className="stream-group-success"><Pig mood={state.phase === "done" ? "celebrate" : "proud"} /><div><Check size={19} /><strong>{state.phase === "done" ? "Mảng đã có thứ tự!" : "Đã ghép xong!"}</strong></div></div>}
+      <section className={`stream-pond ${over ? "is-over" : ""}`} data-merge-pond aria-label="Kết quả hợp nhất" style={{ "--pond-count": Math.min(4, Math.max(1, count)) } as CSSProperties}>
         <span className="stream-caption">Đã ghép <span>{result.length}/{count}</span></span>
         <div className="stream-output">{Array.from({ length: count }, (_, index) => result[index] ? <Leaf key={result[index].id} item={result[index]} small output /> : <span key={`empty-${index}`} className={`stream-output-empty ${result.length === index ? "is-next" : ""}`} aria-hidden="true">{result.length === index ? <ArrowDown size={16} /> : "·"}</span>)}</div>
         {state.moves > 0 && <i key={state.moves} className="stream-ripple" aria-hidden="true" />}
       </section>
-      {state.phase === "joined" && <button className="chunky-button button-green stream-next-group" disabled={!enabled} onClick={onNext}>{state.completed === state.tasks.length ? "Hoàn tất dòng suối" : "Ghép nhánh tiếp theo"}</button>}
+      {state.phase === "joined" && <button className="chunky-button button-green stream-next-group" disabled={!enabled} onClick={onNext}>{state.completed === state.tasks.length ? "Hoàn tất mảng" : "Ghép nhánh tiếp theo"}</button>}
     </>}
     {ghost && <div className="stream-drag-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true">{ghost.item ? <Leaf item={ghost.item} /> : <Droplets size={32} />}</div>}
   </div>;
 }
 
-function Leaf({ item, small = false, output = false, lane, head, guided, disabled, style, onPointerDown, onClick }: {
-  item: Item; small?: boolean; output?: boolean; lane?: MergeLane; head?: boolean; guided?: boolean; disabled?: boolean;
+function Leaf({ item, small = false, output = false, lane, head, guided, disabled, wrong, style, onPointerDown, onClick }: {
+  item: Item; small?: boolean; output?: boolean; lane?: MergeLane; head?: boolean; guided?: boolean; disabled?: boolean; wrong?: boolean;
   style?: CSSProperties; onPointerDown?: React.PointerEventHandler<HTMLButtonElement>; onClick?: (detail: number) => void;
 }) {
-  const face = <><svg viewBox="0 0 100 86" aria-hidden="true"><ellipse cx="50" cy="72" rx="44" ry="9" fill="#679a8440" />
-    <path d="M52 44 94 61C82 80 48 85 21 71S-2 33 14 17 66 1 87 18 104 44 96 56Z" fill={lane === "right" ? "#9fcbbd" : "#b2d39a"} stroke="#78a68b" strokeWidth="2" />
-    <path d="M17 32 49 43 28 65M48 12 49 43 72 73M81 21 49 43" fill="none" stroke="#e4f2cb" strokeWidth="1.3" opacity=".65" />
-    <g fill={FLOWERS[item.id % FLOWERS.length]} stroke="#fff7e4" strokeWidth=".8"><circle cx="29" cy="12" r="5" /><circle cx="36" cy="14" r="5" /><circle cx="33" cy="21" r="5" /><circle cx="25" cy="19" r="5" /><circle cx="29" cy="17" r="2" fill="#ffedaa" /></g>
-    </svg><strong>{item.value}</strong><small>{item.id + 1}</small></>;
-  const className = `stream-leaf ${small ? "is-small" : ""} ${output ? "is-output" : ""} ${guided ? "is-guided" : ""}`;
+  const face = <><img src={`${import.meta.env.BASE_URL}assets/bubble-ui/tile.svg`} alt="" draggable={false}/><strong>{item.value}</strong><small>{String.fromCharCode(65+item.id)}</small></>;
+  const className = `stream-leaf ${small ? "is-small" : ""} ${output ? "is-output" : ""} ${guided ? "is-guided" : ""} ${wrong ? "is-wrong" : ""}`;
   const leafStyle = { ...style, "--digits": String(item.value).length } as CSSProperties;
   if (!lane) return <span className={className} data-stream-item={output ? item.id : undefined} data-value={item.value} data-item-id={item.id} style={leafStyle}>{face}</span>;
   return <button className={className} style={leafStyle} disabled={disabled} data-stream-item={item.id} data-value={item.value} data-item-id={item.id} data-lane={lane} data-head={head}
-    aria-label={`Lá ${item.value}, nhánh ${lane === "left" ? "trái" : "phải"}, hoa ${item.id + 1}`} onPointerDown={onPointerDown} onClick={event => onClick?.(event.detail)}>{face}</button>;
+    aria-label={`Thẻ ${item.value}, nhánh ${lane === "left" ? "trái" : "phải"}, thẻ ${String.fromCharCode(65+item.id)}`} onPointerDown={onPointerDown} onClick={event => onClick?.(event.detail)}>{face}</button>;
 }

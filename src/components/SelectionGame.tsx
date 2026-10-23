@@ -1,14 +1,14 @@
 import { useDemoPlayback, useDemoMotionSpeed } from "./useDemoPlayback";
-import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
+import { GameHeader, GameStats, GameLayout } from "./GameHud";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, Pause, Play, RotateCcw, SkipBack, SkipForward, Sparkles, Volume2, VolumeX, X } from "lucide-react";
-import { chooseSelection, createSelection, createSelectionLesson, placeSelection, selectionHint } from "../engine/selectionSort";
+import { chooseSelection, createSelection, createSelectionLesson, placeSelection, selectionMinimum } from "../engine/selectionSort";
 import { createArray, type Difficulty } from "../engine/quicksort";
 import { LEVELS } from "../engine/gameConfig";
 import { gameAudio } from "../audio/gameAudio";
 import { playFeedback, stopHaptics } from "../audio/gameFeedback";
 import HapticsToggle from "./HapticsToggle";
-import Pig from "./Pig";
+import Fox from "./Fox";
 import SelectionPackBoard from "./SelectionPackBoard";
 import VictoryCelebration from "./VictoryCelebration";
 import { activateTouchButton } from "./touchActivation";
@@ -35,7 +35,6 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
   const [score, setScore] = useState(0);
   const [mistakes, setMistakes] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [hint, setHint] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [outcome, setOutcome] = useState<"correct" | "retry" | "">("");
   const [wrong, setWrong] = useState<number | null>(null);
@@ -83,48 +82,42 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
   }
   function pick(id: number) {
     const before = current.current;
-    if (demo || paused || lock.current || before.phase !== "choose") return false;
+    if (demo || paused || lock.current || before.phase === "done") return false;
     gameAudio.unlock();
-    const next = chooseSelection(before, id);
-    if (!next) {
-      const value = before.items.find(item => item.id === id)?.value;
-      fail(`Thẻ ${value} chưa phải nhỏ nhất. Quan sát tất cả các món chưa buộc dây rồi thử lại nhé!`, id);
-      return false;
-    }
-    current.current = next; setState(next); setHint(false); setWrong(null);
-    setScore(value => value + 100); setOutcome("correct");
-    setFeedback(next.items[next.start].id === id ? "Đúng rồi! Món này đã ở ô cờ. Giữ vị trí và buộc dây nhé." : "Đúng rồi! Đưa món vừa chọn vào ô cờ. Món ở ô cờ sẽ đổi chỗ với nó.");
-    playFeedback("pivot");
+    const next={...before,chosen:id,phase:"place" as const};
+    current.current=next;setState(next);setWrong(null);setOutcome("");setFeedback("");
+    playFeedback("tap");
     return true;
   }
   function place(index: number) {
     const before = current.current;
     if (demo || paused || lock.current || before.phase !== "place") return;
     gameAudio.unlock();
-    const next = placeSelection(before, index);
-    if (!next) { fail(`Đưa món đã chọn về ô cờ ${before.start + 1} nhé.`); return; }
+    const checked=chooseSelection({...before,phase:"choose",chosen:null},before.chosen!);
+    if(!checked){const item=before.items.find(i=>i.id===before.chosen)!;const at=before.items.findIndex(i=>i.id===before.chosen);fail(at<before.start?"−25 điểm. Thẻ này đã được cố định. Chỉ xử lý phần chưa xếp nhé.":`−25 điểm. Thẻ ${item.value} chưa phải nhỏ nhất: phần chưa xếp còn số ${selectionMinimum(before)?.value}. Hãy tìm số nhỏ nhất trước khi đổi chỗ.`,item.id);current.current={...before,phase:"choose",chosen:null};setState(current.current);return;}
+    const next = placeSelection(checked, index);
+    if (!next) { fail(`−25 điểm. Bạn chọn ô ${index+1}, nhưng lượt này phải đưa số nhỏ nhất về ô có cờ ${before.start + 1}.`); return; }
     const swapping = before.items[before.start].id !== before.chosen;
     const combo = streak + 1;
     const bonus = combo % 3 === 0 ? 50 : 0;
     lock.current = true; setBusy(true); setLanding(before.start);
-    current.current = next; setState(next); setWrong(null); setHint(false);
-    setScore(value => value + 150 + bonus); setStreak(combo); setOutcome("correct");
-    setFeedback(bonus ? "Ba lượt liền đúng! Thêm 50 điểm thưởng." : swapping ? "Đã đổi chỗ và buộc dây! Tìm thẻ nhỏ nhất trong các món còn lại nhé." : "Đã đúng chỗ, không cần đổi! Tiếp tục với phần còn lại nhé.");
+    current.current = next; setState(next); setWrong(null);
+    setScore(value => value + 250 + bonus); setStreak(combo); setOutcome("correct");
+    setFeedback("");
     playFeedback(swapping ? "bubble-swap" : "correct");
   }
   function keepPosition() {
     const before = current.current;
-    if (demo || paused || hint || lock.current || before.phase === "done") return;
+    if (demo || paused || lock.current || before.phase === "done") return;
     gameAudio.unlock();
     const atFlag = before.items[before.start];
     const kept = chooseSelection({ ...before, phase: "choose", chosen: null }, atFlag.id);
     if (!kept) {
-      fail("Ô cờ chưa có số nhỏ nhất. Hãy tìm trong các món chưa buộc dây rồi đổi chỗ nhé.", atFlag.id);
+      fail(`−25 điểm. Ô cờ đang có ${atFlag.value}, nhưng phần chưa xếp còn số nhỏ hơn là ${selectionMinimum(before)?.value}. Không thể giữ nguyên lúc này.`, atFlag.id);
       return;
     }
-    // A direct keep earns the same total as choosing and placing. A prior choice
-    // has already earned its 100 points, including an equal minimum elsewhere.
-    if (before.phase === "choose") setScore(value => value + 100);
+    // Score only the committed round, including a direct keep.
+
     current.current = kept; setState(kept);
     place(before.start);
   }
@@ -133,20 +126,16 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
     const fresh = createSelection(input); current.current = fresh; setState(fresh);
     lock.current = false; awarded.current = false; lastCue.current = -1;
     setCursor(0); setPlaying(false); setMotionPaused(false); setSettings(false); setBusy(false); setLanding(null);
-    setScore(0); setMistakes(0); setStreak(0); setHint(false); setFeedback(""); setOutcome(""); setWrong(null);
+    setScore(0); setMistakes(0); setStreak(0);  setFeedback(""); setOutcome(""); setWrong(null);
   }
   function step(delta: number) {
     gameAudio.unlock(); gameAudio.stop(); lastCue.current = -1;
     setPlaying(false); setMotionPaused(false);
     setCursor(value => Math.max(0, Math.min(frames.length - 1, value + delta)));
   }
-  const title = demo ? frame.title : "Chuẩn bị hành trang";
-  const instruction = demo ? "Đưa số nhỏ nhất vào ô cờ."
-    : shown.phase === "choose" ? "Chọn số nhỏ nhất, hoặc giữ nguyên ô cờ."
-    : chosen?.id === shown.items[shown.start]?.id ? "Đúng ô rồi. Bấm Giữ nguyên vị trí."
-    : `Đưa số ${chosen?.value} về ô cờ ${shown.start + 1}.`;
-
-  return <GameLayout ref={motionRoot} play={!demo} className={`selection-world selection-${mode}`} data-busy={busy} data-phase={shown.phase} data-motion-paused={paused || motionPaused}
+  const title = demo ? frame.title : "";
+  function drop(id:number,index:number){if(demo||paused||lock.current)return;const staged={...current.current,chosen:id,phase:"place" as const};current.current=staged;setState(staged);place(index);}
+  return <GameLayout ref={motionRoot} play={!demo} className={`selection-world selection-${mode} selection-studio`} data-busy={busy} data-phase={shown.phase} data-motion-paused={paused || motionPaused}
     onPointerDownCapture={event => { touchStart.current = { x: event.clientX, y: event.clientY }; }}
     onPointerUpCapture={event => {
       const start = touchStart.current;
@@ -159,42 +148,43 @@ export default function SelectionGame({ mode, input, difficulty, sound, speed, o
       activateTouchButton(button);
     }}>
     <GameHeader title="Selection Sort" className="selection-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
-    <GameStats className="selection-stats" scoreClassName="selection-score" score={demo ? undefined : score}>
+    <div className="ss-workspace"><div className="ss-main">
+    {!demo&&<GameStats className="selection-stats" scoreClassName="selection-score" score={demo ? undefined : score}>
       <span>Lượt {Math.min(shown.rounds + 1, input.length - 1)} / {input.length - 1}</span>
       <span>{shown.swaps} lần đổi chỗ</span>
       {!demo && streak >= 2 && <span className="selection-combo"><Sparkles size={15} /> Chuỗi {streak}</span>}
-    </GameStats>
+    </GameStats>}
     <section className="selection-content">
-      <h2>{title}</h2>
-      <p className="selection-task">{done ? "Hành trang đã có thứ tự!" : instruction}</p>
-      <SelectionPackBoard state={shown} target={target} candidate={demo ? frame.candidate : shown.chosen} scan={demo ? frame.scan : null} wrong={wrong} enabled={!demo && !paused && !busy && !done && !hint} paused={paused || motionPaused} onPick={pick} onPlace={place} onMiss={() => {
-        setOutcome(""); setFeedback("Thả món đồ vào ô cờ, hoặc bấm nút Đưa về ô bên dưới nhé.");
+      {demo&&<h2>{title}</h2>}
+      <SelectionPackBoard state={shown} target={target} candidate={demo ? frame.candidate : shown.chosen} scan={demo ? frame.scan : null} wrong={wrong} enabled={!demo && !paused && !busy && !done} paused={paused || motionPaused} onPick={pick} onPlace={place} onDrop={drop} onMiss={() => {
+        setOutcome(""); setFeedback("");
       }} />
       {!demo && !done && <>
         <div className="selection-action">
-          <button className="chunky-button button-green" disabled={busy || paused || hint} onClick={keepPosition}><Check size={18} /> Giữ nguyên vị trí</button>
-          {shown.phase === "place" && chosen?.id !== shown.items[shown.start]?.id && <button className="chunky-button button-green" disabled={busy || paused || hint} onClick={() => place(shown.start)}>{`Đưa về ô ${shown.start + 1}`}</button>}
+          {shown.phase === "place" && <button className="chunky-button" disabled={busy||paused} onClick={()=>{const next={...current.current,chosen:null,phase:"choose" as const};current.current=next;setState(next);setFeedback("");setWrong(null);setOutcome("");}}>Bỏ chọn</button>}
+          <button className="chunky-button button-green" disabled={busy || paused} onClick={keepPosition}><Check size={18} /> Giữ nguyên vị trí</button>
+
+          {shown.phase === "place" && chosen?.id !== shown.items[shown.start]?.id && <button className="chunky-button button-green" disabled={busy || paused} onClick={() => place(shown.start)}>{`Đưa về ô ${shown.start + 1}`}</button>}
         </div>
-        <p key={`${score}:${mistakes}`} className={`selection-feedback outcome-${outcome}`} role="status">{feedback}</p>
+
 
       </>}
-      {!demo && done && <VictoryCelebration className="selection-victory" stars={mistakes === 0 ? 3 : mistakes <= 3 ? 2 : 1} difficulty={difficulty} onReplay={reset} onHarder={level => onChange(createArray(level), level)} onMap={onChooseMap}>
+      {!demo && done && <VictoryCelebration companion={<Fox mood="celebrate"/>} companionName="Cáo" className="selection-victory" stars={mistakes === 0 ? 3 : mistakes <= 3 ? 2 : 1} difficulty={difficulty} onReplay={reset} onHarder={level => onChange(createArray(level), level)} onMap={onChooseMap}>
         <strong>{score.toLocaleString("vi-VN")} điểm</strong><p>{state.rounds} lượt · {state.swaps} lần đổi chỗ · {mistakes} lần thử lại</p>
       </VictoryCelebration>}
     </section>
-    {!demo && !done && <GameFooter>
-        <GameHintButton className="bubble-hint-button" disabled={busy || paused} aria-expanded={hint} onClick={() => { gameAudio.unlock(); playFeedback("hint"); setHint(value => !value); }} />
-        {hint && <div className="selection-dialogue selection-hint"><Pig mood="thinking" /><p>{selectionHint(shown)}</p><button className="round-button" aria-label="Đóng gợi ý" onClick={() => setHint(false)}><X size={17} /></button></div>}
-    </GameFooter>}
+    </div><aside className="ss-sidebar">
+    {!demo&&!done&&<div className="selection-dialogue"><Fox mood={outcome==="retry"?"oops":"happy"}/><div className="ss-chat"><strong>Cáo đồng hành</strong><p role="status">{feedback || (shown.phase==="choose"?"Đưa số nhỏ nhất của phần chưa xếp về ô có cờ.":"Chọn ô để đặt thẻ, hoặc kéo thẻ vào ô đó.")}</p></div></div>}
     {demo && <footer className="selection-controls">
-      <div className="selection-dialogue"><Pig mood={done ? "celebrate" : frame.kind === "scan" ? "thinking" : frame.kind === "place" ? "proud" : "explaining"} /><p aria-live="polite">{frame.narration}</p></div>
+      <div className="selection-dialogue"><Fox mood={done ? "celebrate" : frame.kind === "scan" ? "thinking" : frame.kind === "place" ? "proud" : "happy"} /><div className="ss-chat"><strong>Cáo hướng dẫn</strong><p aria-live="polite">{frame.narration}</p></div></div>
       <div className="selection-playback">
         <button className="round-button" aria-label="Bước trước" disabled={cursor === 0} onClick={() => step(-1)}><SkipBack size={21} /></button>
-        <button className="chunky-button button-purple" onClick={() => { gameAudio.unlock(); if (done) onPlay(); else { setMotionPaused(playing); setPlaying(value => !value); } }}>{playing && !done ? <Pause size={22} /> : <Play size={22} />}{done ? "Tự mình thử" : playing ? "Tạm dừng" : cursor === 0 ? "Bắt đầu" : "Tiếp tục"}</button>
+        <button className="chunky-button button-purple" onClick={() => { gameAudio.unlock(); if (done) onPlay(); else { setMotionPaused(playing); setPlaying(value => !value); } }}>{playing && !done ? <Pause size={22} /> : <Play size={22} />}{done ? "Tự mình thử" : playing ? "Tạm dừng" : cursor === 0 ? "Phát demo" : "Tiếp tục"}</button>
         <button className="round-button" aria-label={done ? "Xem lại từ đầu" : "Bước tiếp"} onClick={() => done ? reset() : step(1)}>{done ? <RotateCcw size={21} /> : <SkipForward size={21} />}</button>
       </div>
       <div className="selection-demo-progress"><span>{cursor + 1}/{frames.length}</span><progress value={cursor} max={frames.length - 1} aria-label="Tiến trình demo" /><button className="lesson-speed-button" aria-label={`Tốc độ demo: ${speed}x. Bấm để đổi tốc độ`} onClick={() => onSpeedChange(speed === 1 ? 1.5 : speed === 1.5 ? 2 : 1)}>{speed}x</button></div>
     </footer>}
+    </aside></div>
     {settings && <SelectionSettings {...{ input, difficulty, sound, onChange, onSoundChange }} onClose={() => setSettings(false)} onReset={reset} />}
   </GameLayout>;
 }

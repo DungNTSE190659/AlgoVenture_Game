@@ -84,3 +84,22 @@ describe("Merge Gate",()=>{
     expect(()=>createMerge([NaN,1])).toThrow();expect(()=>createMerge([Infinity,1])).toThrow();
   });
 });
+
+
+it("demo dialogue follows actual split, comparison, placement and completion snapshots",()=>{
+  const frames=createMergeLesson([8,-3,-3,2]);
+  const split=frames.find(f=>f.kind==="split")!;
+  expect(split.narration).toContain('[8, -3]');
+  expect(split.narration).toContain('[-3, 2]');
+  for(const f of frames.filter(f=>f.kind==="compare")){
+    const head=mergeExpected(f.state)!;
+    expect(f.chosen).toBe(head.id);
+    expect(f.narration).toContain(String(head.value));
+    if(f.state.left[0]&&f.state.right[0]&&f.state.left[0].value===f.state.right[0].value)expect(f.narration).toContain('bên trái trước');
+  }
+  for(const f of frames.filter(f=>f.kind==="place")){
+    expect(f.narration).toContain(`${f.state.output.at(-1)!.value} đã xuống ô thứ ${f.state.output.length}`);
+  }
+  expect(frames.at(-1)!.narration).toContain('[-3, -3, 2, 8]');
+  expect(frames.some(f=>f.kind==="joined")).toBe(false);
+});

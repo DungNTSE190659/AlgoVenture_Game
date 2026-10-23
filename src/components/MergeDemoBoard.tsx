@@ -4,37 +4,27 @@ import type { Item } from "../engine/quicksort";
 import { useMergeMotion } from "./useMergeMotion";
 
 type Props={state:MergeState;groups?:MergeNode[];chosen?:number;paused:boolean;speed:number};
-export default function MergeDemoBoard({state,groups,chosen,paused,speed}:Props) {
+/** A passive explanation board, deliberately separate from gameplay controls. */
+export default function MergeDemoBoard({state,groups,chosen,paused,speed}:Props){
   const root=useMergeMotion(state,groups,paused,speed);
-  const task=state.tasks[state.taskIndex],count=state.root.items.length;
-  const completed=state.tasks.slice(0,state.completed);
-  const sortedAt=(index:number)=>state.phase==="done"||completed.some(node=>index>=node.start&&index<node.end);
-  const activeAt=(index:number)=>!groups&&!!task&&index>=task.start&&index<task.end;
+  const task=state.tasks[state.taskIndex],done=state.phase==="done";
   const placed=new Set(state.output.map(item=>item.id));
-  // Reconstruct the two sorted child runs, including after their parent commits.
-  // This keeps vacated source positions fixed while each identity moves downward.
   const ordered=(items:Item[])=>[...items].sort((a,b)=>a.value-b.value||a.id-b.id);
-  const sources=groups?state.root.items:task?[...state.assembled.slice(0,task.start),...ordered(task.left!.items),...ordered(task.right!.items),...state.assembled.slice(task.end)]:state.assembled;
-  const tile=(item:Item,classes="")=><span className={`merge-number ${classes} ${chosen===item.id?"is-compared":""}`} data-merge-item={item.id} data-value={item.value}><strong>{item.value}</strong><small>{String.fromCharCode(65+item.id)}</small></span>;
-  return <div className="merge-demo-board" ref={root} style={{"--merge-count":count}as CSSProperties}>
-    <div className="merge-overview" aria-label="Tiến độ toàn mảng">
-      <span className="merge-small-label">TOÀN MẢNG</span>
-      <div className="merge-overview-row">{state.assembled.map((item,index)=><span key={item.id} className={`merge-overview-number ${sortedAt(index)?"is-sorted":""} ${state.phase!=="done"&&activeAt(index)?"is-active":""}`} data-overview-id={item.id} data-value={item.value} data-sorted={sortedAt(index)} aria-label={`${item.value}${sortedAt(index)?", thuộc đoạn đã ghép có thứ tự":""}`}><b>{item.value}</b></span>)}</div>
-      <span className="merge-overview-key"><i/> Đoạn đã ghép có thứ tự</span>
-    </div>
-    {groups?<div className="merge-split-flow" aria-label="Chia mảng">
-      <div className="merge-flow-caption">{groups.length===1?"MẢNG BAN ĐẦU":"CHIA THÀNH CÁC MẢNG CON"}</div>
-      <div className="merge-flow-row merge-split-row">{groups.map(group=><div className={`merge-split-group ${group.items.length===1?"is-single":""}`} key={group.id} style={{gridColumn:`${group.start+1} / span ${group.items.length}`}}>{group.items.map(item=><span key={item.id}>{tile(item,group.items.length===1?"is-sorted":"")}</span>)}</div>)}</div>
-      <span className="merge-split-direction" aria-hidden="true">↓</span>
-    </div>:<div className="merge-flow" aria-label="Các ô đi xuống để hợp nhất">
-      <div className="merge-flow-row merge-flow-labels">{task&&<><span style={{gridColumn:`${task.start+1} / span ${task.left!.items.length}`}}>TRÁI</span><span style={{gridColumn:`${task.right!.start+1} / span ${task.right!.items.length}`}}>PHẢI</span></>}</div>
-      <div className="merge-flow-row merge-flow-sources">{sources.map((item,index)=><span key={item.id} className={`merge-flow-cell ${activeAt(index)?"is-active":"is-muted"}`} style={{gridColumn:index+1}}>{activeAt(index)&&placed.has(item.id)?<span className="merge-source-vacancy" aria-hidden="true"/>:tile(item,activeAt(index)?"is-sorted":"")}</span>)}</div>
-      <div className="merge-flow-row merge-flow-drop" aria-hidden="true"><span style={{gridColumn:`${(task?.start??0)+1} / span ${task?.items.length??count}`}}>↓</span></div>
-      <div className="merge-flow-row merge-flow-output" aria-label="Mảng kết quả">{Array.from({length:task?.items.length??count},(_,index)=>{
-        const item=state.output[index];
-        return <span className="merge-flow-cell" key={item?.id??`empty-${index}`} style={{gridColumn:(task?.start??0)+index+1}}>{item?tile(item,"is-sorted"):<span className="merge-number is-empty" aria-label={`Vị trí kết quả ${index+1}`}>{index+1}</span>}</span>;
-      })}</div>
-      <span className="merge-flow-caption merge-flow-result-label">{state.phase==="done"?"MẢNG ĐÃ ĐƯỢC SẮP XẾP":state.phase==="joined"?"ĐOẠN ĐÃ GHÉP CÓ THỨ TỰ":"ĐƯA SỐ NHỎ HƠN XUỐNG TRƯỚC"}</span>
+  const tile=(item:Item,moving=true)=><span key={item.id} className={`md-tile stream-leaf ${chosen===item.id?"is-compared":""}`} data-merge-item={moving?item.id:undefined} data-value={item.value} style={{"--digits":String(item.value).length} as CSSProperties}><img src={`${import.meta.env.BASE_URL}assets/bubble-ui/tile${done?"-settled":""}.svg`} alt="" draggable={false}/><strong>{item.value}</strong></span>;
+  const depth=groups?Math.max(...groups.map(g=>g.id.length-4)):0;
+  const previous:MergeNode[]=[];
+  function collect(node:MergeNode){if(node.id.length-4>=depth-1||!node.left)previous.push(node);else{collect(node.left);collect(node.right!);}}
+  if(groups&&depth>0)collect(state.root);
+  const row=(nodes:MergeNode[],moving:boolean)=><div className="md-groups">{nodes.map(node=><div className="md-group" key={node.id} style={{flex:node.items.length}}>{node.items.map(item=>tile(item,moving))}</div>)}</div>;
+  return <div ref={root} className="merge-demo-board" style={{"--count":groups||done?state.root.items.length:task.items.length} as CSSProperties}>
+    {groups?<div className="md-split" aria-label="Chia mảng thành các nhóm liên tiếp">
+      {depth>0&&<>{row(previous,false)}<div className="md-arrow" aria-hidden="true">↓</div></>}
+      {row(groups,true)}
+    </div>:done?<div className="md-final" aria-label="Mảng đã sắp xếp">{state.assembled.map(item=>tile(item))}</div>:<div className="md-merge">
+      <div className="md-inputs" aria-label="Hai nhóm đang ghép">{[task.left!,task.right!].map((node,index)=><section key={node.id} style={{flex:node.items.length}}><span className="md-label">{index===0?"Trái":"Phải"}</span><div className="md-run">{ordered(node.items).map(item=>placed.has(item.id)?<span className="md-vacancy" key={item.id}/>:tile(item))}</div></section>)}</div>
+      <div className="md-arrow" aria-hidden="true">↓</div>
+      <div className="md-label">Kết quả</div>
+      <div className="md-result" aria-label="Kết quả ghép">{Array.from({length:task.items.length},(_,i)=>state.output[i]?tile(state.output[i]):<span className="md-slot" key={`slot-${i}`} aria-label={`Vị trí ${i+1}`}/>)}</div>
     </div>}
   </div>;
 }

@@ -126,7 +126,7 @@ export default function InsertionGame({ mode, input: originalInput, difficulty, 
   }
   const title = demo ? frame.title : done ? "Bạn đã làm được!" : "Xếp thẻ cùng Buta";
   const instruction = done ? "Bộ thẻ đã có thứ tự!" : shown.phase === "pick" ? "Rút một thẻ để bắt đầu." : "Dịch thẻ hoặc chèn vào ô trống.";
-  return <GameLayout ref={motionRoot} play={!demo} className={`insertion-world ${demo ? "insertion-demo" : "insertion-play"}`} data-busy={busy}>
+  return <GameLayout ref={motionRoot} play={!demo} className={`insertion-world ${demo ? "insertion-demo" : "insertion-play"}`} data-busy={busy} data-sort-complete={done}>
     {!demo && <World />}
     <GameHeader title="Insertion Sort" className="insertion-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
     <GameStats className="insertion-stats" scoreClassName="insertion-score" score={demo ? undefined : score}>
