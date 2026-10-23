@@ -7,7 +7,7 @@
 .linear-card-game .linear-slot { position: relative; width: auto; min-width: 0; padding: 0; text-align: center; }
 .linear-card-game .linear-slot > small { position: static; display: block; width: auto; margin-top: 8px; font-size: 13px; line-height: 18px; color: #8c997d; }
 .linear-card-game .linear-card { display: block; position: relative; width: 100%; height: auto; aspect-ratio: 2 / 3; min-width: 0; min-height: 96px; margin: 0; padding: 0; border: 0; border-radius: 10px; background: transparent; color: #34493d; box-shadow: none; perspective: 800px; transform: none; outline: none; container-type: inline-size; }
-.linear-card-game .linear-card:not(:disabled):hover, .linear-card-game .linear-card.is-current { background: transparent; border: 0; box-shadow: none; transform: none; }
+ .linear-card-game .linear-card.is-current { background: transparent; border: 0; box-shadow: none; transform: none; }
 .linear-card-inner { position: absolute; inset: 0; display: block; transform-style: preserve-3d; transition: transform 140ms ease-out; border-radius: inherit; box-shadow: 0 4px 0 #9d9c7b55, 0 6px 10px #59654b1a; }
 .linear-card.is-open .linear-card-inner { transform: rotateY(180deg); }
 .linear-card-back, .linear-card-front { position: absolute; inset: 0; display: block; border-radius: inherit; backface-visibility: hidden; -webkit-backface-visibility: hidden; background-size: 100% 100%; background-repeat: no-repeat; overflow: hidden; }

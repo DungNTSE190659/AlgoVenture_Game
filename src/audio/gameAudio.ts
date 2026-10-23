@@ -276,8 +276,15 @@ class GameAudio {
       if (!this.context || this.context.state === "closed") {
         this.context = new AudioContext();
         this.master = this.context.createGain();
-        this.master.gain.value = 0.7;
-        this.master.connect(this.context.destination);
+        this.master.gain.value = 1.3;
+        const limiter = this.context.createDynamicsCompressor();
+        limiter.threshold.value = -18;
+        limiter.knee.value = 24;
+        limiter.ratio.value = 3;
+        limiter.attack.value = 0.008;
+        limiter.release.value = 0.16;
+        this.master.connect(limiter);
+        limiter.connect(this.context.destination);
       }
       if (this.context.state === "suspended" && !this.resuming) {
         this.resuming = true;

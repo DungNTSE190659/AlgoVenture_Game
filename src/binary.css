@@ -10,7 +10,6 @@
 .binary-tile { position: relative; display: grid; place-items: center; min-width: 0; min-height: 64px; aspect-ratio: 1; padding: 0; border: 2px solid #c0b0d4; border-radius: 19px; background: linear-gradient(#f5efff, #e0d3ef); box-shadow: 0 5px 0 #ac97c4, inset 0 0 0 3px #fff6; color: #7d6397; transition: background .2s, color .2s, opacity .2s, transform .15s; touch-action: manipulation; }
 .binary-tile { container-type: inline-size; }
 .binary-tile strong { font-size: clamp(22px, 40cqw, 45px); font-weight: 1000; }
-.binary-tile:not(:disabled):hover { transform: translateY(-3px); background: #e7daf9; }
 .binary-tile:focus-visible { outline: 3px solid #8b73ae; outline-offset: 4px; z-index: 1; }
 .binary-tile:disabled { opacity: 1; cursor: default; }
 .binary-tile.is-eliminated { background: #e7eadf; border-color: #d0d7c4; color: #a5af97; box-shadow: 0 4px 0 #c4ccb8; opacity: .47; }

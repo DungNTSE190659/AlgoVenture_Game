@@ -21,7 +21,7 @@
 .linked-answer { min-height: 64px; padding: 9px; border: 2px solid #d4d9be; border-radius: 16px; background: #f6f6e8; color: #4b654e; font: inherit; font-weight: 800; cursor: pointer; }
 .linked-answer { border-color: #d1deb6; background: #e9f1dc; box-shadow: 0 5px 0 #b9cd9d, inset 0 2px 0 #ffffffa8; transition: transform .15s, box-shadow .15s, background .15s; }
 .linked-answer:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 1px 0 #b9cd9d; }
-.linked-answer:hover:not(:disabled), .linked-answer:focus-visible { border-color: #81ac73; background: #e4f2d8; }
+ .linked-answer:focus-visible { border-color: #81ac73; background: #e4f2d8; }
 .linked-answer.answer-correct { border-color: #76ab73; background: #dff1d3; }
 .linked-answer.answer-wrong { border-color: #ca8882; background: #f8e0d9; }
 .linked-feedback { display: flex; align-items: center; gap: 12px; margin-top: 20px; padding: 12px; border-radius: 18px; background: #eff3df; }

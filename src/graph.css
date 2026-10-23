@@ -284,10 +284,6 @@
   transition: background 0.15s;
 }
 
-.graph-settings-map-btn:hover {
-  background: #f0f4e8;
-}
-
 /* ── Legend (kept for lesson, hidden in game) */
 .graph-legend {
   display: flex;

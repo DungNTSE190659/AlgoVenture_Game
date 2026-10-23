@@ -86,14 +86,13 @@
   border-image: var(--linked-rest) var(--linked-sprite-slice, 28) fill stretch;
   pointer-events: none;
 }
-.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):hover:not(:disabled),
+
 .linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):active:not(:disabled) {
   background: none;
   box-shadow: none;
   filter: none;
   translate: none;
 }
-.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):hover:not(:disabled)::before { border-image-source: var(--linked-hover); }
 .linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):active:not(:disabled)::before { border-image-source: var(--linked-pressed); }
 .linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):disabled { opacity: 1; }
 .linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset):disabled::before { border-image-source: var(--linked-disabled); }

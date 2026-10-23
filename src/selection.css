@@ -10,7 +10,7 @@
 .pack-slot, .selection-tile, .selection-goal { position: absolute; width: var(--tile); height: var(--card-height); }
 .pack-slot { border: 1px dashed #b3a17a; border-radius: 14px; background: #f5ebce55; }.pack-slot > span { position: absolute; top: 5px; left: 7px; font-size: 11px; font-weight: 850; color: #8c7958; }.pack-slot.slot-fixed { background: #d2dcba77; border-color: #a2b386; border-style: solid; }
 .selection-tile { container-type: inline-size; padding: 17px 5px 7px; border: 2px solid transparent; background: transparent; border-radius: 14px; color: #79674d; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; touch-action: none; z-index: 2; user-select: none; }
-.selection-tile:disabled { opacity: 1; cursor: default; }.selection-tile:not(:disabled) { cursor: grab; }.selection-tile:not(:disabled):hover { background: #fff5d72b; }.selection-tile:focus-visible { outline: 3px solid #9d8cba; outline-offset: 2px; }
+.selection-tile:disabled { opacity: 1; cursor: default; }.selection-tile:not(:disabled) { cursor: grab; }.selection-tile:focus-visible { outline: 3px solid #9d8cba; outline-offset: 2px; }
 .pack-equipment { width: 62px; height: 62px; flex-shrink: 0; color: #7e7057; stroke-width: 1.5; fill: var(--gear-color); filter: drop-shadow(0 3px 0 #8874511a); pointer-events: none; }
 .pack-item-name { font-size: 10px; font-weight: 650; color: #908164; line-height: 1; white-space: nowrap; pointer-events: none; }
 .selection-tile strong { font-size: min(30px, 31cqw); min-width: 48%; line-height: 1; padding: 3px 5px; border: 1.5px solid #baa577; border-radius: 6px; background: #fff7df; color: #776344; font-weight: 950; text-align: center; box-shadow: 0 2px 0 #bca77c44; pointer-events: none; }

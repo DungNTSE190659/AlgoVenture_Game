@@ -140,7 +140,7 @@
 .bubble-keep-button small { font-size: 10px; opacity: .7; font-weight: 600; margin-left: 3px; }
 .bubble-action-area { display: flex; flex-direction: column; align-items: center; width: 100%; margin-top: 8px; }
 .bubble-keep-button { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 9px 22px; border: 2px solid #c3d6b4; border-radius: 18px; background: #f3f8e7; color: #6e8e5a; box-shadow: 0 4px #b1c49966; font-size: 14px; font-weight: 850; }
-.bubble-keep-button:disabled { opacity: .55; }.bubble-keep-button:hover:not(:disabled) { background: #eaf4da; }
+.bubble-keep-button:disabled { opacity: .55; }
 .bubble-feedback { min-height: 32px; max-width: 520px; margin: 8px 12px 0; font-size: 12px; line-height: 1.4; text-align: center; color: #8a9e7d; }.bubble-feedback.is-error { color: #af7864; }.bubble-feedback.is-success { color: #7a9b68; }
 .bubble-next-pass { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; margin: 12px 0; padding: 10px 20px; font-size: 14px; }
 .bubble-equation { min-height: 40px; display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 4px; color: #6f8a7d; }.bubble-equation b { font-size: 25px; }.bubble-equation > span { font-size: 22px; }.bubble-equation strong { font-size: 14px; color: #8c9d7a; margin-left: 5px; }

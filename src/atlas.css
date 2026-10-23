@@ -17,7 +17,6 @@
 .atlas-terrain { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
 .atlas-landmark { position: absolute; left: 18%; top: 22%; width: 64%; height: 44%; pointer-events: none; transition: transform .25s; }
 .region-landmark { width: 100%; height: 100%; display: block; overflow: visible; filter: drop-shadow(0 5px 0 #75865e0a); }
-.atlas-region:hover:not(:disabled) .atlas-landmark { transform: translateY(-4px); }
 .region-locked .atlas-landmark { filter: saturate(.55); }
 .topic-map-name { position: absolute; top: 10%; left: 50%; translate: -50% 0; white-space: nowrap; font-size: clamp(10px, 3vw, 17px); font-weight: 1000; color: #798b68; letter-spacing: .5px; }
 .topic-map-status { position: absolute; top: 18%; left: 50%; translate: -50% 0; display: flex; align-items: center; justify-content: center; gap: 5px; color: #98a283; font-size: 10px; white-space: nowrap; }
