@@ -1,5 +1,5 @@
 import { useDemoPlayback, useDemoMotionSpeed } from "./useDemoPlayback";
-import { GameHeader, GameStats, GameLayout, GameFooter, GameHintButton } from "./GameHud";
+import { GameHeader, GameLayout } from "./GameHud";
 import {
   useEffect,
   useLayoutEffect,
@@ -9,6 +9,8 @@ import {
 } from "react";
 import {
   Check,
+  Lightbulb,
+  Star,
   Pause,
   Play,
   RotateCcw,
@@ -19,10 +21,12 @@ import {
   X,
 } from "lucide-react";
 import {
-  bubbleMove,
+  bubbleResults,
+  bubbleChallengeMove,
+  skipOrderedBubblePairs,
   createBubble,
   createBubbleLesson,
-  nextBubblePass,
+  type BubbleState,
 } from "../engine/bubbleSort";
 import { createArray, type Difficulty } from "../engine/quicksort";
 import { LEVELS } from "../engine/gameConfig";
@@ -43,6 +47,7 @@ type Props = {
   onBack: () => void;
   onChooseMap: () => void;
   onPlay: () => void;
+  onDemo: () => void;
   onComplete: () => void;
   onChange: (values: number[], level: Difficulty) => void;
   onSoundChange: (sound: boolean) => void;
@@ -62,6 +67,7 @@ export default function BubbleGame({
   onBack,
   onChooseMap,
   onPlay,
+  onDemo,
   onComplete,
   onChange,
   onSoundChange,
@@ -70,7 +76,7 @@ export default function BubbleGame({
   const demo = mode === "demo";
   const frames = useMemo(() => createBubbleLesson(input), [input]);
   const [cursor, setCursor] = useState(0);
-  const [state, setState] = useState(() => createBubble(input));
+  const [state, setState] = useState(() => skipOrderedBubblePairs(createBubble(input)));
   const [playing, setPlaying] = useState(false);
   const [motionPaused, setMotionPaused] = useState(false);
   const [cameraMoving, setCameraMoving] = useState(false);
@@ -78,32 +84,33 @@ export default function BubbleGame({
   const [settings, setSettings] = useState(false);
   const [visible, setVisible] = useState(!document.hidden);
   const [hint, setHint] = useState(false);
+  const [lastStep, setLastStep] = useState("");
+  const [recapMode, setRecapMode] = useState<"auto" | null>(null);
+  const [recapReplay, setRecapReplay] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
   const [mistakes, setMistakes] = useState(0);
+  const lost = !demo && mistakes >= 5;
+  const results = bubbleResults(state, mistakes, true);
+  const actionLock = useRef(false);
   const [feedback, setFeedback] = useState("");
   const [outcome, setOutcome] = useState<"correct" | "retry" | "">("");
-  const [busy, setBusy] = useState<{
-    pair: number;
-    end: number;
-    swap: boolean;
-  } | null>(null);
   const [draft, setDraft] = useState(input.join(", "));
   const [error, setError] = useState("");
   const frame = frames[cursor];
-  const shown = demo
-    ? frame.state
-    : busy
-      ? { ...state, pair: busy.pair, end: busy.end, phase: "compare" as const }
-      : state;
-  const done = demo ? frame.kind === "done" : state.phase === "done" && !busy;
+  const shown = demo ? frame.state : state;
+  const done = demo ? frame.kind === "done" : submitted;
   const comparing = demo
     ? frame.kind === "compare" ||
       frame.kind === "reason" ||
       frame.kind === "move"
     : shown.phase === "compare";
   const paused = settings || !visible || (demo && motionPaused);
-  const camera = useRef({ pair: shown.pair, pass: shown.pass });
+  useEffect(() => {
+    if (recapMode !== "auto" || paused || done || lost) return;
+    const timer = window.setTimeout(() => setRecapMode(null), 3000);
+    return () => window.clearTimeout(timer);
+  }, [recapMode, lastStep, recapReplay, paused, done, lost]);
   const finished = useRef(false);
-  const lock = useRef(false);
   const lastCue = useRef(-1);
   useLayoutEffect(() => {
     const moved = camera.current.pair !== shown.pair || camera.current.pass !== shown.pass;
@@ -149,17 +156,6 @@ export default function BubbleGame({
     lastCue.current = cursor;
   }, [demo, cursor, paused, frame.kind, frame.title]);
   useEffect(() => {
-    if (!busy || paused) return;
-    const timer = setTimeout(
-      () => {
-        setBusy(null);
-        lock.current = false;
-      },
-      busy.swap ? 500 : 280,
-    );
-    return () => clearTimeout(timer);
-  }, [busy, paused]);
-  useEffect(() => {
     if (demo || !done || finished.current) return;
     finished.current = true;
     playFeedback("finish");
@@ -167,32 +163,48 @@ export default function BubbleGame({
   }, [demo, done, onComplete]);
   const a = shown.items[shown.pair]?.value,
     b = shown.items[shown.pair + 1]?.value;
-  function answer(swap: boolean) {
-    if (demo || paused || lock.current || state.phase !== "compare")
-      return false;
-    gameAudio.unlock();
-    const next = bubbleMove(state, swap);
+  function rejectStep() {
+    setRecapMode(null);
+    actionLock.current = true;
     setHint(false);
-    if (!next) {
-      setOutcome("retry");
-      setMistakes((v) => v + 1);
-      setFeedback(
-        swap
-          ? a === b
-            ? `Hai số đều bằng ${a}. Bấm Giữ nguyên để xét cặp tiếp theo nhé.`
-            : `${a} nhỏ hơn ${b}, nên cặp này đã đúng thứ tự. Bấm Giữ nguyên để đi tiếp nhé.`
-          : "Số bên trái lớn hơn. Kéo một trong hai bạn sang bạn còn lại để đổi chỗ nhé.",
-      );
-      playFeedback("retry");
-      return false;
-    }
-    setOutcome("correct");
-    setFeedback(swap ? "Đúng rồi! Bạn mang số lớn hơn đã tiến sang phải." : "Đúng rồi! Hai số đã có thứ tự, mình giữ nguyên.");
-    lock.current = true;
-    setBusy({ pair: state.pair, end: state.end, swap });
-    setState(next);
-    playFeedback(swap ? "bubble-swap" : "keep");
-    return true;
+    setMistakes(value => value + 1);
+    setOutcome("retry");
+    setFeedback("Chưa đúng bước. Hãy thử tiếp nhé!");
+    playFeedback("retry");
+  }
+  function acceptStep(next: BubbleState) {
+    const swapped = next.swaps > state.swaps;
+    setLastStep(swapped
+      ? `Bạn đã đổi ${a} và ${b} thành ${b}, ${a}. Cặp này đúng rồi!`
+      : `Bạn đã giữ nguyên ${a} và ${b}. Cặp này đúng rồi!`);
+    setRecapMode("auto");
+    setState(skipOrderedBubblePairs(next));
+    setHint(false);
+    setFeedback("");
+    setOutcome("");
+    // Guard against duplicate clicks before React commits the next step.
+    actionLock.current = true;
+  }
+  useEffect(() => {
+    if (!lost) actionLock.current = false;
+  }, [state, mistakes, lost]);
+  function moveBubble(id: number, target: number) {
+    if (demo || paused || done || lost || actionLock.current) return;
+    const from = state.items.findIndex(item => item.id === id);
+    if (from === target || target < 0 || target >= state.items.length) return;
+    gameAudio.unlock();
+    const next = bubbleChallengeMove(state, id, target);
+    if (!next) { rejectStep(); return; }
+    acceptStep(next);
+    playFeedback("bubble-swap");
+  }
+  function checkArrangement() {
+    if (demo || paused || done || lost || actionLock.current) return;
+    gameAudio.unlock();
+    if (state.phase === "done") {
+      actionLock.current = true;
+      setSubmitted(true);
+    } else rejectStep();
   }
   function moveFrame(delta: number) {
     gameAudio.unlock();
@@ -203,33 +215,31 @@ export default function BubbleGame({
   }
   function reset() {
     gameAudio.stop();
-    lock.current = false;
     finished.current = false;
-    setState(createBubble(input));
+    actionLock.current = false;
+    setSubmitted(false);
+    setLastStep("");
+    setRecapMode(null);
+    setMistakes(0);
+    setState(skipOrderedBubblePairs(createBubble(input)));
     setCursor(0);
     setPlaying(false);
     setMotionPaused(false);
-    setBusy(null);
-    setMistakes(0);
     setHint(false);
     setFeedback("");
     setOutcome("");
     setSettings(false);
   }
-  const title = demo ? frame.title : done ? "Bạn đã làm được!" : !busy && state.phase === "pass" ? `${state.items[state.end + 1].value} đã vào trại cuối cầu` : "Buta dọn đường";
-  const hintText =
-    state.phase === "pass"
-      ? "Sau một lượt đi từ trái sang phải, số lớn nhất của phần vừa xét đã về cuối. Lượt sau mình bỏ qua các bạn đã vào trại nhé."
-      : a > b
-        ? `${a} lớn hơn ${b}. Kéo ${a} sang phải qua ${b}, hoặc kéo ${b} sang trái qua ${a} để đổi chỗ. Mỗi lần kéo xử lý một cặp; thả tay rồi tiếp tục với cặp mới nhé.`
-        : a === b
-          ? `Hai số cùng bằng ${a}, nên mình giữ nguyên thứ tự của chúng. Bấm Giữ nguyên để chuyển sang cặp tiếp theo nhé.`
-          : `${a} nhỏ hơn ${b}, nên hai số đã đúng thứ tự từ bé đến lớn. Bấm Giữ nguyên để xét cặp tiếp theo, không cần đổi chỗ nhé.`;
+  const title = demo ? frame.title : "";
+  const hintText = state.phase === "done"
+    ? "Bạn đã xét xong các cặp theo Bubble Sort. Bấm Kết thúc thuật toán để nộp bài nhé!"
+    : `Lượt ${state.pass}, xét ô ${state.pair + 1} và ${state.pair + 2}: ${a} và ${b}. ` + (a > b
+      ? `${a} lớn hơn ${b}. Đưa ${b} sang trái và ${a} sang phải bằng cách đổi chỗ hai số cạnh nhau này.`
+      : `${a === b ? "Hai số bằng nhau" : `${a} nhỏ hơn ${b}`}, nên không đổi chỗ. Cặp này được tự động bỏ qua.`);
   return (
     <GameLayout ref={motionRoot} play={!demo}
       className={`bubble-world ${demo ? "bubble-demo" : "bubble-play"}`}
-      data-busy={!!busy || cameraMoving}
-      data-phase={shown.phase}
+      data-busy={false}
       onPointerDownCapture={(event) => {
         touchStart.current = { x: event.clientX, y: event.clientY };
       }}
@@ -260,12 +270,17 @@ export default function BubbleGame({
         activateTouchButton(button);
       }}
     >
-      <GameHeader title="Bubble Sort" className="bubble-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }} />
-      {!demo && <GameStats className="bubble-topline" scoreClassName="bubble-score" score={Math.max(0, state.comparisons * 100 - mistakes * 25)}>
-        <span>Lượt {shown.pass}</span>
-        <span>{shown.comparisons} lần so sánh</span>
-        <span>{shown.swaps} lần đổi chỗ</span>
-      </GameStats>}
+      {!demo && <World />}
+      <GameHeader title="Bubble Sort" className="bubble-header" play={!demo} onBack={onBack} onSettings={() => { gameAudio.unlock(); setSettings(true); }}
+        beforeSettings={!demo && !done && !lost ? <button className="round-button bubble-header-hint" aria-label="Buta gợi ý" title="Buta gợi ý" aria-expanded={hint}
+          onClick={() => {
+            gameAudio.unlock();
+            playFeedback("hint");
+            setRecapMode(null);
+            setHint(!hint);
+            setFeedback("");
+            setOutcome("");
+          }}><Lightbulb size={22} /></button> : undefined} />
       <section className="bubble-content">
         {demo && (
           <div className="bubble-topline">
@@ -275,19 +290,21 @@ export default function BubbleGame({
           </div>
         )}
         {title && (demo || !done) && <h2 aria-live="polite">{title}</h2>}
-        <p className="bubble-task">{demo ? "Sắp xếp từ bé đến lớn" : done ? "Cả đoàn đã có thứ tự." : !busy && state.phase === "pass" ? "Lượt sau bỏ qua số đã xếp." : "Kéo để đổi chỗ, hoặc giữ nguyên."}</p>
-        <BubbleRunBoard
-          onInteract={() => gameAudio.unlock()}
-          state={shown}
-          comparing={comparing}
-          interactive={!demo && !busy && !cameraMoving && !paused && !hint && !done && state.phase === "compare"}
-          paused={paused}
-          onPush={id => {
-            const left = state.items[state.pair], right = state.items[state.pair + 1];
-            if (id !== left?.id && id !== right?.id) return false;
-            return answer(true);
-          }}
-        />
+        <p className="bubble-task">
+          {demo ? "Sắp xếp từ bé đến lớn" : done
+            ? "Tất cả bong bóng đã xếp từ bé đến lớn."
+            : "Kéo đổi chỗ từng cặp từ trái sang phải. Cặp đã đúng thứ tự được tự động bỏ qua."}
+        </p>
+        {demo ? (
+          <BubbleBoard state={shown} comparing={comparing} paused={paused} />
+        ) : (
+          <BubbleRunBoard
+            state={shown}
+            interactive={!paused && !done && !lost}
+            paused={paused}
+            onMove={moveBubble}
+          />
+        )}
         {demo && frame.kind === "reason" && (
           <div className="bubble-equation">
             <b>{a}</b>
@@ -301,60 +318,44 @@ export default function BubbleGame({
             So sánh cặp cạnh nhau · Đổi khi trái lớn hơn phải
           </p>
         )}
-        {!demo && !done && shown.phase === "compare" && (
+        {!demo && !done && !lost && (
           <div className="bubble-action-area">
-            <button
-              className="bubble-keep-button"
-              aria-label="Giữ nguyên"
-              disabled={!!busy || cameraMoving || paused || hint}
-              onClick={() => answer(false)}
-            >
-              <Check size={23} /> Giữ nguyên
-            </button>
-            <p
-              key={`${state.comparisons}:${mistakes}`}
-              className={`bubble-feedback ${outcome === "retry" ? "is-error" : outcome === "correct" ? "is-success" : ""}`}
-              role="status"
-            >
-              {feedback}
-            </p>
+            <div className="bubble-step-actions">
+              <button className="bubble-finish-button" disabled={paused} onClick={checkArrangement}>
+                <Check size={18} /> Kết thúc thuật toán
+              </button>
+            </div>
+            <p className={`bubble-feedback ${outcome === "retry" ? "is-error" : ""}`} role="status">{feedback}</p>
           </div>
         )}
-        {!demo && state.phase === "pass" && !busy && (
-          <button
-            className="chunky-button button-green bubble-next-pass"
+        {!demo && !done && !lost && <div className="bubble-companion">
+          <button className="bubble-buta-character" aria-label="Buta: nghe lại lời khen" aria-expanded={!!recapMode}
             onClick={() => {
+              if (!lastStep) return;
               gameAudio.unlock();
               playFeedback("tap");
-              setState(nextBubblePass(state));
-              setFeedback("");
               setHint(false);
-            }}
-          >
-            Lượt tiếp theo <Play size={20} />
+              setRecapMode("auto");
+              setRecapReplay(value => value + 1);
+            }}>
+            <Pig mood={hint ? "thinking" : recapMode ? "proud" : "happy"} />
           </button>
-        )}
+          {hint ? <div className="bubble-hint">
+            <p>{hintText}</p>
+            <button className="round-button" aria-label="Đóng gợi ý" onClick={() => setHint(false)}><X size={18} /></button>
+          </div> : recapMode && <div className="bubble-recap" role="status"><p>{lastStep}</p></div>}
+        </div>}
         {!demo && done && (
           <VictoryCelebration
             className="bubble-victory"
-            stars={mistakes === 0 ? 3 : mistakes <= 3 ? 2 : 1}
+            stars={results.stars}
             difficulty={difficulty}
             onReplay={reset}
             onHarder={(level) => onChange(createBubbleArray(level), level)}
             onMap={onChooseMap}
           >
-            <strong>
-              {Math.max(
-                0,
-                state.comparisons * 100 - mistakes * 25,
-              ).toLocaleString("vi-VN")}{" "}
-              điểm
-            </strong>
-            <p>
-              {state.early
-                ? "Một lượt không đổi chỗ: bạn đã biết dừng sớm!"
-                : "Từng cặp nhỏ, cả mảng đã vào đúng chỗ!"}
-            </p>
+            <BubbleResultSummary results={results} />
+            <p>Bạn đã hoàn thành từng bước Bubble Sort!</p>
           </VictoryCelebration>
         )}
       </section>
@@ -429,35 +430,8 @@ export default function BubbleGame({
             </div>
           </footer>
         </>
-      ) : (
-        !done && (
-          <GameFooter className="bubble-play-footer">
-            {hint && (
-              <div className="bubble-hint">
-                <Pig mood="thinking" />
-                <p>{hintText}</p>
-                <button
-                  className="round-button"
-                  aria-label="Đóng gợi ý"
-                  onClick={() => setHint(false)}
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            )}
-            <GameHintButton
-              className="bubble-hint-button"
-              disabled={!!busy || cameraMoving}
-              aria-expanded={hint}
-              onClick={() => {
-                gameAudio.unlock();
-                playFeedback("hint");
-                setHint((v) => !v);
-              }}
-            />
-          </GameFooter>
-        )
-      )}
+      ) : null}
+      {lost && <BubbleFailure results={results} onReplay={reset} onDemo={onDemo} onBack={onBack} />}
       {settings && (
         <BubbleSettings onClose={() => setSettings(false)}>
           <button
@@ -589,4 +563,162 @@ function BubbleSettings({
       {children}
     </dialog>
   );
+}
+
+function BubbleBoard({
+  state,
+  comparing,
+  paused,
+}: {
+  state: BubbleState;
+  comparing: boolean;
+  paused: boolean;
+}) {
+  const activeIds = state.items
+    .slice(state.pair, state.pair + 2)
+    .map((item) => item.id);
+  return (
+    <div className="bubble-board-area">
+      <div
+        className="bubble-board"
+        style={{ "--count": state.items.length } as CSSProperties}
+        aria-label="Mảng Bubble Sort"
+      >
+        {comparing && (
+          <div
+            className="bubble-pair-window"
+            style={{ left: `calc(var(--step) * ${state.pair} - 8px)` }}
+            aria-hidden="true"
+          >
+            <span>Đang so sánh</span>
+          </div>
+        )}
+        {state.items.map((item, index) => (
+          <BubbleTile
+            key={item.id}
+            item={item}
+            index={index}
+            settled={index > state.end}
+            active={comparing && activeIds.includes(item.id)}
+            paused={paused}
+          />
+        ))}
+      </div>
+      <div className="bubble-legend">
+        <span className="bubble-legend-current" /> Cặp đang xét{" "}
+        <span className="bubble-legend-fixed" /> Đã đúng chỗ
+      </div>
+    </div>
+  );
+}
+
+type TileProps = {
+  item: Item;
+  index: number;
+  settled: boolean;
+  active: boolean;
+  paused: boolean;
+};
+function BubbleTile({ item, index, settled, active, paused }: TileProps) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const previous = useRef(index);
+  const animation = useRef<Animation | null>(null);
+  const pausedByUi = useRef(false);
+  useLayoutEffect(() => {
+    const node = ref.current,
+      old = previous.current;
+    previous.current = index;
+    if (
+      !node ||
+      old === index ||
+      matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+    const parent = node.parentElement!;
+    const width = node.getBoundingClientRect().width;
+    const stride =
+      (parent.getBoundingClientRect().width - width) /
+      (parent.querySelectorAll(".bubble-tile").length - 1);
+    const dx = (old - index) * stride;
+    animation.current?.cancel();
+    pausedByUi.current = paused;
+    animation.current = node.animate(
+      [
+        { transform: `translate(${dx}px,0)` },
+        {
+          transform: `translate(${dx * 0.5}px,${old < index ? -64 : 52}px) scale(1.07)`,
+          offset: 0.5,
+        },
+        { transform: "translate(0,0)" },
+      ],
+      { duration: 1350, easing: "cubic-bezier(.35,0,.2,1)" },
+    );
+    if (paused) animation.current.pause();
+  }, [index, paused]);
+  useEffect(() => {
+    if (paused && animation.current?.playState === "running") {
+      animation.current.pause();
+      pausedByUi.current = true;
+    } else if (!paused && pausedByUi.current) {
+      animation.current?.play();
+      pausedByUi.current = false;
+    }
+  }, [paused]);
+  useEffect(() => () => animation.current?.cancel(), []);
+  return (
+    <button
+      ref={ref}
+      className={`bubble-tile ${active ? "is-active" : ""} ${settled ? "is-settled" : ""}`}
+      style={{ left: `calc(var(--step) * ${index})` }}
+      disabled
+      aria-label={`Khối ${item.value}, vị trí ${index + 1}`}
+      data-bubble-id={item.id}
+      data-value={item.value}
+      data-index={index}
+      data-active={active}
+    >
+      <span className="bubble-tile-shine" />
+      <strong>{item.value}</strong>
+      <small>{index + 1}</small>
+      {settled && <Check size={19} className="bubble-fixed-check" />}
+    </button>
+  );
+}
+
+function BubbleFailure({ results, onReplay, onDemo, onBack }: { results: ReturnType<typeof bubbleResults>; onReplay: () => void; onDemo: () => void; onBack: () => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const title = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    dialog.current?.showModal();
+    title.current?.focus();
+    gameAudio.stop();
+    stopHaptics();
+    return () => dialog.current?.close();
+  }, []);
+  return <dialog ref={dialog} className="victory-screen bubble-failure" aria-labelledby="bubble-failure-title" onCancel={event => event.preventDefault()}>
+    <div className="bubble-failure-content">
+      <h2 ref={title} tabIndex={-1} id="bubble-failure-title">Hết lượt thử rồi!</h2>
+      <Pig mood="oops" />
+      <div className="bubble-failure-stars" role="img" aria-label={`${results.stars} trên 3 sao`}>{[0, 1, 2].map(index => <Star key={index} fill={index < results.stars ? "currentColor" : "none"} aria-hidden="true" />)}</div>
+      <strong>{results.stars} sao</strong>
+      <BubbleResultSummary results={results} />
+      <p>Bạn đã sai 5 lần. Hãy xem lại Demo để học lại quy luật Bubble Sort, rồi chơi lại nhé!</p>
+      <button className="chunky-button button-purple" onClick={onDemo}><Play size={20} /> Xem lại Demo</button>
+      <button className="chunky-button button-green" onClick={onReplay}><RotateCcw size={20} /> Chơi lại</button>
+      <button className="bubble-finish-button" onClick={onBack}>Về bản đồ</button>
+    </div>
+  </dialog>;
+}
+
+function BubbleResultSummary({ results }: { results: ReturnType<typeof bubbleResults> }) {
+  const percentage = (results.accuracy * 100).toLocaleString("vi-VN", { maximumFractionDigits: 1 });
+  return <div className="bubble-result-summary">
+    <strong>Độ chính xác: {percentage}%</strong>
+    <dl>
+      <div><dt>Bước đã thực hiện</dt><dd>{results.steps}</dd></div>
+      <div><dt>Bước đúng / sai</dt><dd>{results.correct} / {results.mistakes}</dd></div>
+      <div><dt>Cặp đã so sánh</dt><dd>{results.comparisons}</dd></div>
+      <div><dt>Lượt so sánh</dt><dd>{results.passes}</dd></div>
+    </dl>
+  </div>;
 }

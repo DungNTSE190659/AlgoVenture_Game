@@ -49,7 +49,7 @@ test("new unlock footsteps follow walking; browsing old lessons stays silent and
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
   await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, 2");
   await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
-  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
+  await page.getByRole("button", { name: "Kết thúc thuật toán", exact: true }).click();
   await trace(page);
   await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
   await expect(page.locator(".buta-walking")).toBeVisible();

@@ -50,7 +50,7 @@ test("Linear unlocks Binary without Sort; winning Bubble stays on Sort and prese
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
   await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, 2");
   await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
-  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
+  await page.getByRole("button", { name: "Kết thúc thuật toán", exact: true }).click();
   await page.getByRole("button", { name: "Đi tiếp cùng Buta", exact: true }).click();
   await expect(page.locator("#track-sheet-title")).toHaveText("Selection Sort");
   await expect(page.locator(".buta-walking")).toHaveCount(0);

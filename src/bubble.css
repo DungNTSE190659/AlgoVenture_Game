@@ -23,6 +23,101 @@
 .bridge-rope { position: absolute; left: 1%; right: 1%; height: 30px; border-bottom: 3px solid #a88a5f; border-radius: 0 0 50% 50%; pointer-events: none; }
 .bridge-rope-back { top: calc(var(--deck) - 70px); opacity: .5; }.bridge-rope-front { top: calc(var(--deck) - 18px); z-index: 3; opacity: .55; }
 
+/* Free exploration: every bubble can be moved in either direction. */
+.bubble-run-track {
+  height: calc(var(--tile) + 88px);
+  touch-action: none;
+  user-select: none;
+}
+.bubble-run-tile {
+  border-radius: 50%;
+}
+.bubble-run-tile.is-active {
+  box-shadow:
+    0 6px 0 #9078b9,
+    inset 0 0 0 4px #ffffff5e,
+    0 0 0 6px #b2a0d615;
+}
+.bubble-river {
+  position: absolute;
+  left: -16px;
+  right: -16px;
+  top: calc(var(--tile) / 2 - 13px);
+  height: 44px;
+  border-top: 3px solid #d0e9dc;
+  border-bottom: 3px solid #c2ded6;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #d4e9db55, #c5e6e9aa, #c2e2d555);
+}
+.bubble-run-finish {
+  position: absolute;
+  top: calc(var(--tile) + 38px);
+  translate: -80% 0;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #8ca55d;
+  white-space: nowrap;
+}
+.bubble-run-gesture-note {
+  font-size: 17px;
+  color: #6d938b;
+  margin: 0 0 10px;
+}
+.bubble-run-ghost {
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  rotate: 0;
+  box-shadow:
+    0 8px 0 #9377b8,
+    0 0 0 10px #d3c6e944,
+    0 20px 40px #6a527633;
+}
+.bubble-run-ghost small {
+  position: absolute;
+  bottom: -29px;
+  border-radius: 10px;
+  padding: 4px 9px;
+  background: #fffdf3;
+  color: #8e79a9;
+  font-size: 10px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.bubble-play .bubble-action-area {
+  min-height: 65px;
+  padding-top: 10px;
+}
+.bubble-play .bubble-feedback {
+  margin-top: 0;
+}
+@media (max-width: 700px) {
+  .bubble-run-gesture-note {
+    font-size: 13px;
+    max-width: 310px;
+    margin: 0 auto 10px;
+  }
+  .bubble-run-finish {
+    width: 86px;
+    font-size: 10px;
+    gap: 3px;
+  }
+  .bubble-run-finish svg {
+    width: 13px;
+  }
+  .bubble-run-ghost {
+    width: 70px;
+    height: 70px;
+    font-size: 32px;
+  }
+  .bubble-play .bubble-feedback {
+    font-size: 12px;
+  }
+}
 
 .bridge-party { --unit: min(66px, calc(100% / (var(--crew-count) + 1))); position: relative; width: calc(100% - 24px); height: 100%; margin: auto; }
 .bridge-friend { container-type: inline-size; --friend-width: calc(var(--unit) * var(--friend-scale)); position: absolute; bottom: calc(100% - var(--deck) - 4px); width: var(--friend-width); height: auto; aspect-ratio: 100 / 116; margin-left: calc(var(--friend-width) / -2); border: 0; padding: 0; border-radius: 14px; background: transparent; color: #695a46; box-shadow: none; display: block; touch-action: none; z-index: 2; cursor: grab; }
@@ -115,6 +210,50 @@
   .bridge-bank::before, .bridge-bank::after { width: 11px; }.bridge-path::before, .bridge-path::after { width: 8px; }
 }
 
-/* Three-character values such as −99 must also fit the smallest signs. */
-.bridge-friend .friend-number { font-size: min(25px, 35cqw); }
-.bridge-friend.is-prominent .friend-number { font-size: min(35px, 35cqw); }
+.bubble-run-tile:not(:disabled) { cursor: grab; }
+.bubble-run-tile:not(:disabled):active { cursor: grabbing; }
+
+.bubble-step-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.bubble-step-actions .bubble-keep-button { margin-bottom: 0; }
+.bubble-finish-button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 8px 14px; border: 1px solid #a2c4b4; border-radius: 14px; background: #f7fff8; color: #59877c; font-weight: 800; }
+
+.bubble-failure-content { display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 480px; padding: 24px; text-align: center; color: #405a60; }
+.bubble-failure-content .pig { width: 125px; }
+.bubble-failure-content h2, .bubble-failure-content p { margin: 0; }
+.bubble-failure-content p { line-height: 1.6; }
+.bubble-failure-stars { display: flex; gap: 10px; color: #a8b29e; }
+.bubble-failure-stars svg { width: 42px; height: 42px; }
+
+.bubble-companion { width: min(680px, 100%); min-height: 120px; display: flex; align-items: center; gap: 18px; margin-top: 10px; }
+.bubble-buta-character { display: block; flex-shrink: 0; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; cursor: pointer; }
+.bubble-buta-character .pig { display: block; width: 110px; }
+.bubble-buta-character:focus-visible { outline: 3px solid #91b9a0; outline-offset: 5px; border-radius: 20px; }
+.bubble-recap { position: relative; padding: 14px 18px; border: 2px solid #e1dfbb; border-radius: 22px; background: #fffdf2; box-shadow: 0 5px 0 #b8ca9d35; pointer-events: none; }
+.bubble-recap::before { content: ""; position: absolute; left: -9px; top: 50%; width: 14px; height: 14px; background: #fffdf2; border-left: 2px solid #e1dfbb; border-bottom: 2px solid #e1dfbb; transform: translateY(-50%) rotate(45deg); }
+.bubble-recap p { margin: 0; font-size: 17px; line-height: 1.5; color: #648174; }
+@media (max-width: 700px) {
+  .bubble-companion { min-height: 100px; gap: 12px; }
+  .bubble-buta-character .pig { width: 82px; }
+  .bubble-recap { padding: 10px 12px; border-radius: 18px; }
+  .bubble-recap p { font-size: 14px; }
+}
+
+.bubble-companion .bubble-hint { position: relative; inset: auto; translate: none; width: auto; flex: 1; }
+.bubble-companion .bubble-hint p { font-size: 16px; }
+@media (max-width: 700px) { .bubble-companion .bubble-hint p { font-size: 14px; } }
+
+.bubble-play .bubble-content { flex: 1 0 auto; }
+.bubble-play .bubble-action-area { flex: 0 0 auto; min-height: 0; }
+.bubble-companion { flex: 0 0 auto; pointer-events: none; }
+.bubble-buta-character { pointer-events: auto; }
+
+.bubble-result-summary { width: 100%; font-size: 16px; }
+.bubble-result-summary > strong { display: block; margin-bottom: 10px; color: #59877c; font-size: 20px; }
+.bubble-result-summary dl { margin: 0; display: grid; gap: 6px; }
+.bubble-result-summary dl > div { display: flex; justify-content: space-between; gap: 20px; }
+.bubble-result-summary dd { margin: 0; font-weight: 800; }
+
+.bubble-play .bubble-header { display: grid; grid-template-columns: 46px minmax(0, 1fr) 46px 46px; gap: 8px; }
+.bubble-play .bubble-header h1 { text-align: center; margin: 0; }
+.bubble-play .bubble-header-hint { color: #ac8746; background: #fff9e6; }
+@media (max-width: 400px) { .bubble-play .bubble-header { gap: 5px; } .bubble-play .bubble-header h1 { font-size: 20px; } }

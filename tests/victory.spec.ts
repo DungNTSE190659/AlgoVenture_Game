@@ -17,8 +17,9 @@ async function custom(page: Page, algorithm: string) {
     .click();
 }
 async function win(page: Page, algorithm: string) {
-  if (algorithm === "Bubble Sort")
-    await page.getByRole("button", { name: "Giữ nguyên", exact: true }).click();
+  if (algorithm === "Bubble Sort") {
+    await page.getByRole("button", { name: "Kết thúc thuật toán", exact: true }).click();
+  }
   else {
     for (const [id, target] of [
       [0, "Chọn làm mốc"],
@@ -123,7 +124,7 @@ test("Bubble demo and play keep the whole forest party on the bridge", async ({ 
   await page.getByRole("button", { name: "Về bản đồ", exact: true }).click();
   await page.getByRole("button", { name: "Thử thách", exact: true }).click();
   await expect(page.locator(".bubble-legend")).toHaveCount(0);
-  await expect(page.locator(".bubble-pair-window")).toBeVisible();
+  await expect(page.locator(".bubble-pair-window")).toHaveCount(0);
 });
 
 test("touch array submission and victory actions never leak a click into the next game", async ({
@@ -140,16 +141,16 @@ test("touch array submission and victory actions never leak a click into the nex
   await page.getByLabel("Mảng của bạn", { exact: true }).fill("1, 2");
   await page.getByRole("button", { name: "Dùng mảng này", exact: true }).tap();
   await page.waitForTimeout(450);
-  await expect(page.locator(".bubble-topline")).toContainText("0 lần so sánh");
-  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).tap();
+  await expect(page.locator(".bubble-topline")).toHaveCount(0);
+  await page.getByRole("button", { name: "Kết thúc thuật toán", exact: true }).tap();
   await expect(page.locator(".victory-celebration")).toBeVisible();
   await page.getByRole("button", { name: "Chơi lại", exact: true }).tap();
-  await expect(page.locator(".bubble-topline")).toContainText("0 lần so sánh");
-  await page.getByRole("button", { name: "Giữ nguyên", exact: true }).tap();
+  await expect(page.locator(".bubble-topline")).toHaveCount(0);
+  await page.getByRole("button", { name: "Kết thúc thuật toán", exact: true }).tap();
   await expect(page.locator(".victory-celebration")).toBeVisible();
   await page.getByRole("button", { name: "Tăng độ khó", exact: true }).tap();
   await page.waitForTimeout(450);
-  await expect(page.locator(".bubble-overview-item")).toHaveCount(7);
-  await expect(page.locator(".bubble-topline")).toContainText("0 lần so sánh");
+  await expect(page.locator(".bubble-tile")).toHaveCount(7);
+  await expect(page.locator(".bubble-topline")).toHaveCount(0);
   await context.close();
 });

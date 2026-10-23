@@ -33,6 +33,36 @@ export function createBubble(input: number[]): BubbleState {
     early: false,
   };
 }
+export function bubbleResults(state: BubbleState, mistakes: number, automaticKeeps = false) {
+  const correct = automaticKeeps ? state.swaps : state.comparisons;
+  const steps = correct + mistakes;
+  const accuracy = steps === 0 ? (state.phase === "done" ? 1 : 0) : correct / steps;
+  const stars = accuracy === 1 ? 3 : accuracy >= 0.5 ? 2 : accuracy > 0 ? 1 : 0;
+  const passes = state.comparisons === 0 ? 0
+    : state.phase === "compare" && state.pair === 0 ? state.pass - 1 : state.pass;
+  return { steps, correct, comparisons: state.comparisons, mistakes, passes, accuracy, stars };
+}
+
+/** Silently inspect ordered/equal pairs and start new passes until a swap is needed. */
+export function skipOrderedBubblePairs(initial: BubbleState): BubbleState {
+  let state = initial;
+  while (state.phase !== "done") {
+    if (state.phase === "pass") { state = nextBubblePass(state); continue; }
+    if (state.items[state.pair].value > state.items[state.pair + 1].value) break;
+    state = bubbleMove(state, false)!;
+  }
+  return state;
+}
+
+/** Accept only an exchange of the current adjacent pair, in ascending order. */
+export function bubbleChallengeMove(state: BubbleState, id: number, target: number): BubbleState | null {
+  if (state.phase !== "compare") return null;
+  const from = state.items.findIndex(item => item.id === id);
+  const i = state.pair;
+  if (!((from === i && target === i + 1) || (from === i + 1 && target === i))) return null;
+  return bubbleMove(state, true);
+}
+
 /** A move answers exactly one adjacent comparison. Invalid moves never mutate the state. */
 export function bubbleMove(
   state: BubbleState,
