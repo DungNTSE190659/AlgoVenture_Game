@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import type { BubbleState } from "../engine/bubbleSort";
 import type { Item } from "../engine/quicksort";
-import Pig from "./Pig";
 
 type Props = {
   state: BubbleState;
@@ -76,10 +75,7 @@ export default function BubbleRunBoard({ state, interactive, paused, onMove }: P
         {state.items.find(item => item.id === ghost.id)?.value}<small>GIỮ VÀ KÉO</small>
       </div>}
     </div>
-    <p className="bubble-focus-status" aria-live="polite">{state.phase === "pass" ? `Số ${state.items[state.end + 1].value} đã vào trại.` : state.phase === "done" ? "Đã xếp xong!" : `Cặp ${pair + 1}–${pair + 2}`}</p>
-    <div className="bridge-step-dots" aria-hidden="true">{state.items.slice(1).map((_, i) => <span key={i} className={i + 1 > state.end ? "is-past" : i === pair ? "is-here" : ""} />)}</div>
-    {ghost && <div className="bubble-drag-ghost" style={{ left: ghost.x, top: ghost.y }} aria-hidden="true"><strong>{state.items.find(item => item.id === ghost.id)?.value}</strong><Footprints size={16} /></div>}
-  </div>;
+  );
 }
 
 function RunBubble({
@@ -102,20 +98,48 @@ function RunBubble({
   onKeyDown: React.KeyboardEventHandler<HTMLButtonElement>;
 }) {
   const ref = useRef<HTMLButtonElement>(null);
-  const previous = useRef(index),
-    animation = useRef<Animation | null>(null),
-    pausedByUi = useRef(false);
+  const previous = useRef(index);
+  const animation = useRef<Animation | null>(null);
   useLayoutEffect(() => {
-    const node = ref.current, before = previous.current; previous.current = position;
-    if (!node || before === position || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const node = ref.current, before = previous.current;
+    previous.current = index;
+    if (!node || before === index || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const parent = node.parentElement!;
+    const stride = (parent.getBoundingClientRect().width - node.getBoundingClientRect().width)
+      / (parent.querySelectorAll(".bubble-tile").length - 1);
+    const dx = (before - index) * stride;
     animation.current?.cancel();
-    const dx = (before - position) / 100 * node.parentElement!.clientWidth;
-    animation.current = node.animate([{ translate: `${dx}px 0` }, { translate: `${dx / 2}px -7px`, offset: .5 }, { translate: "0px 0px" }], { duration: 450, easing: "ease-in-out" });
+    animation.current = node.animate([
+      { translate: `${dx}px 0` },
+      { translate: `${dx / 2}px -7px`, offset: .5 },
+      { translate: "0px 0px" },
+    ], { duration: 450, easing: "ease-in-out" });
     if (paused) animation.current.pause();
-  }, [position, paused]);
-  useEffect(() => { if (paused) animation.current?.pause(); else if (animation.current?.playState === "paused") animation.current.play(); }, [paused]);
+  }, [index, paused]);
+  useEffect(() => {
+    if (paused) animation.current?.pause();
+    else if (animation.current?.playState === "paused") animation.current.play();
+  }, [paused]);
   useEffect(() => () => animation.current?.cancel(), []);
-  return <div ref={ref} className="bridge-buta" style={{ left: `${position}%` }} aria-hidden="true"><Pig mood={mood} /></div>;
+  return (
+    <button
+      ref={ref}
+      className={`bubble-tile bubble-run-tile ${held ? "is-dragging" : ""}`}
+      style={{ left: `calc(var(--step) * ${index})` }}
+      disabled={!enabled}
+      aria-label={`Bong bóng ${item.value}, vị trí ${index + 1}. Kéo sang trái hoặc phải, hoặc dùng phím mũi tên`}
+      data-bubble-id={item.id}
+      data-value={item.value}
+      data-index={index}
+      onPointerDown={onPointerDown}
+      onClick={onClick}
+      onKeyDown={onKeyDown}
+    >
+      <span className="bubble-tile-shine" />
+      <strong>{item.value}</strong>
+      <small>{index + 1}</small>
+    </button>
+  );
 }
 
 /** Identities follow the cards through swaps, including equal values. */
@@ -138,45 +162,4 @@ export function FriendArt({ id, resting }: { id: number; resting: boolean }) {
       <path d="M27 68q23 9 46 0l-3 10q-20 7-40 0Z" fill={scarf} stroke="#826f5b" strokeWidth="1.5" /><path d="M64 74l10 15-13-2-5-12" fill={scarf} stroke="#826f5b" strokeWidth="1.5" />
     </g>
   </svg>;
-}
-
-function ForestFriend({ item, index, active, prominent, settled, paused, style, enabled, onPointerDown, onClick, onKeyDown }: {
-  item: Item; index: number; active: boolean; prominent: boolean; settled: boolean; paused: boolean; style: CSSProperties; enabled: boolean;
-  onPointerDown: React.PointerEventHandler<HTMLButtonElement>; onClick: React.MouseEventHandler<HTMLButtonElement>; onKeyDown: React.KeyboardEventHandler<HTMLButtonElement>;
-}) {
-  const ref = useRef<HTMLButtonElement>(null), previous = useRef<{ x: number; y: number } | null>(null), animation = useRef<Animation | null>(null);
-  useLayoutEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const position = { x: node.offsetLeft, y: node.offsetTop }, old = previous.current;
-    previous.current = position;
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (old && (old.x !== position.x || old.y !== position.y)) {
-      const dx = old.x - position.x, dy = old.y - position.y;
-      animation.current?.cancel();
-      animation.current = node.animate([{ translate: `${dx}px ${dy}px` }, { translate: `${dx * .5}px ${dy * .5 + (dx < 0 ? -24 : 14)}px`, rotate: dx < 0 ? "-5deg" : "5deg", offset: .5 }, { translate: "0px 0px", rotate: "0deg" }], { duration: 450, easing: "cubic-bezier(.2,.65,.35,1)" });
-    }
-    if (paused) animation.current?.pause();
-  });
-  useEffect(() => { if (paused && animation.current?.playState === "running") animation.current.pause(); else if (!paused && animation.current?.playState === "paused") animation.current.play(); }, [paused]);
-  useEffect(() => () => animation.current?.cancel(), []);
-  return (
-    <button
-      ref={ref}
-      className={`bubble-tile bubble-run-tile ${held ? "is-dragging" : ""}`}
-      style={{ left: `calc(var(--step) * ${index})` }}
-      disabled={!enabled}
-      aria-label={`Bong bóng ${item.value}, vị trí ${index + 1}. Kéo sang trái hoặc phải, hoặc dùng phím mũi tên`}
-      data-bubble-id={item.id}
-      data-value={item.value}
-      data-index={index}
-      onPointerDown={onPointerDown}
-      onClick={onClick}
-      onKeyDown={onKeyDown}
-    >
-      <span className="bubble-tile-shine" />
-      <strong>{item.value}</strong>
-      <small>{index + 1}</small>
-    </button>
-  );
 }
