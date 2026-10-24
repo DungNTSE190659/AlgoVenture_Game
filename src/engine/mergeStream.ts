@@ -3,7 +3,7 @@ import { advanceMerge, createMerge, mergeExpected, releaseMerge, type MergeLane,
 export type MergeStream = {
   sorting: MergeState; groups: MergeNode[]; selected: string;
   phase: "split" | "merge" | "joined" | "done";
-  splits: number; mistakes: number; score: number; feedback: string;
+  splits: number; mistakes: number; score: number; feedback: string; wrongId?: number;
 };
 export function createMergeStream(input: readonly number[]): MergeStream {
   const sorting = createMerge(input);
@@ -18,7 +18,7 @@ export function splitStreamGroup(run: MergeStream): MergeStream {
   if (!group?.left || !group.right) return run;
   const groups = [...run.groups.slice(0, index), group.left, group.right, ...run.groups.slice(index + 1)];
   const next = groups.find(group => group.left);
-  return { ...run, groups, selected: next?.id ?? "", phase: next ? "split" : "merge", splits: run.splits + 1, score: run.score + 50, feedback: next ? "Đã chia thành hai nhánh. Tiếp tục với nhóm còn nhiều lá." : "Mỗi lá đã là một nhóm. Bắt đầu ghép hai nhánh nhỏ nhất nhé!" };
+  return { ...run, groups, selected: next?.id ?? "", phase: next ? "split" : "merge", splits: run.splits + 1, score: run.score + 50, feedback: next ? "Đã chia thành hai nhánh. Tiếp tục với nhóm còn nhiều thẻ." : "Mỗi thẻ đã là một nhóm. Bắt đầu ghép hai nhánh nhỏ nhất nhé!" };
 }
 export function takeStreamLeaf(run: MergeStream, lane: MergeLane, id: number): MergeStream {
   if (run.phase !== "merge") return run;
@@ -27,12 +27,12 @@ export function takeStreamLeaf(run: MergeStream, lane: MergeLane, id: number): M
   const sorting = id === item.id ? releaseMerge(run.sorting, lane) : null;
   if (!sorting) {
     const equal = id === item.id && item.value === expected?.value;
-    return { ...run, mistakes: run.mistakes + 1, score: Math.max(0, run.score - 25), feedback: id !== item.id
-      ? "Chỉ lấy lá ở đầu nhánh suối; các lá phía sau phải chờ lượt."
-      : equal ? "Hai lá cùng số: lấy nhánh trái trước để giữ thứ tự các bông hoa."
-      : `Lá ${item.value} chưa tới lượt. So sánh hai lá đầu nhánh và lấy số nhỏ hơn nhé.` };
+    return { ...run, wrongId: id, mistakes: run.mistakes + 1, score: Math.max(0, run.score - 25), feedback: "Sai quy tắc Merge Sort (−25 điểm). " + (id !== item.id
+      ? "Chỉ lấy thẻ ở đầu nhánh; các thẻ phía sau phải chờ lượt."
+      : equal ? "Hai thẻ cùng số: lấy nhánh trái trước để giữ thứ tự các ký tự."
+      : `Thẻ ${item.value} chưa tới lượt. So sánh hai thẻ đầu nhánh và lấy số nhỏ hơn nhé.`) };
   }
-  return { ...run, sorting, phase: sorting.phase === "joined" ? "joined" : "merge", score: run.score + 100, feedback: "" };
+  return { ...run, wrongId: undefined, sorting, phase: sorting.phase === "joined" ? "joined" : "merge", score: run.score + 100, feedback: "" };
 }
 export function nextStreamGroup(run: MergeStream): MergeStream {
   if (run.phase !== "joined") return run;
@@ -40,11 +40,11 @@ export function nextStreamGroup(run: MergeStream): MergeStream {
   return { ...run, sorting, phase: sorting.phase === "done" ? "done" : "merge", feedback: "" };
 }
 export function streamHint(run: MergeStream): string {
-  if (run.phase === "split") return "Chia nhóm lá thành hai nửa liên tiếp. Kéo giọt nước ở giữa sang một bờ, hoặc bấm Tách nhánh. Mỗi nhóm chỉ còn một lá thì bắt đầu ghép.";
-  if (run.phase === "joined") return "Hồ đã nhận đủ lá theo thứ tự. Bấm tiếp tục để đưa nhóm vừa ghép lên nhánh suối lớn hơn.";
-  if (run.phase === "done") return "Dòng suối đã có thứ tự từ bé đến lớn. Lá cùng số giữ nguyên thứ tự bông hoa.";
+  if (run.phase === "split") return "Chia nhóm thẻ thành hai nửa liên tiếp. Kéo giọt nước ở giữa sang một bờ, hoặc bấm Tách nhánh. Mỗi nhóm chỉ còn một thẻ thì bắt đầu ghép.";
+  if (run.phase === "joined") return "Đã ghép đủ thẻ theo thứ tự. Bấm tiếp tục để đưa nhóm vừa ghép lên nhánh lớn hơn.";
+  if (run.phase === "done") return "Dòng suối đã có thứ tự từ bé đến lớn. Thẻ cùng số giữ nguyên thứ tự ký tự.";
   const a = run.sorting.left[0], b = run.sorting.right[0];
-  if (!a || !b) return `Nhánh ${a ? "phải" : "trái"} đã hết. Đưa lần lượt từng lá đầu nhánh còn lại xuống hồ; chúng không tự trôi.`;
-  if (a.value === b.value) return `Hai lá đều mang số ${a.value}. Chọn lá nhánh trái trước để giữ thứ tự bông hoa.`;
-  return `So sánh ${a.value} và ${b.value}. Kéo lá ${Math.min(a.value, b.value)} ở đầu nhánh xuống hồ trước.`;
+  if (!a || !b) return `Nhánh ${a ? "phải" : "trái"} đã hết. Đưa lần lượt từng thẻ đầu nhánh còn lại vào kết quả; chúng không tự trôi.`;
+  if (a.value === b.value) return `Hai thẻ đều mang số ${a.value}. Chọn thẻ nhánh trái trước để giữ thứ tự ký tự.`;
+  return `So sánh ${a.value} và ${b.value}. Kéo thẻ ${Math.min(a.value, b.value)} ở đầu nhánh vào kết quả trước.`;
 }

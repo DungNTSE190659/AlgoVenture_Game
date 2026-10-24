@@ -464,11 +464,6 @@
   opacity: 0.7;
   flex-shrink: 0;
 }
-.victory-map-button:hover {
-  translate: 0 -2px;
-  box-shadow: 0 7px 0 #83aab8;
-  filter: brightness(1.03);
-}
 .victory-map-button:active {
   translate: 0 3px;
   box-shadow: 0 2px 0 #83aab8;

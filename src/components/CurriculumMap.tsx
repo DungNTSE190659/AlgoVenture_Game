@@ -17,17 +17,11 @@ export default function CurriculumMap({ completed, algorithm, onAlgorithm, sound
   const finished = ALL_LESSONS.filter(lesson => completed[lesson.id]).length;
   const missing = lessonPrerequisites(active.id).filter(lesson => !completed[lesson.id]);
   const popup = useRef<HTMLElement | null>(null);
-  const openedByHover = useRef<string | null>(null);
   const [expandedTopic, setExpandedTopic] = useState<string | null>(null);
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ left: 0, top: 0 });
 
-  function toggleTopic(id: string, pointerClick: boolean) {
-    if (pointerClick && openedByHover.current === id) {
-      openedByHover.current = null;
-      return;
-    }
-    openedByHover.current = null;
+  function toggleTopic(id: string) {
     gameAudio.unlock();
     gameAudio.play("island-select");
     popup.current?.hidePopover();
@@ -114,14 +108,7 @@ export default function CurriculumMap({ completed, algorithm, onAlgorithm, sound
           {branch(topic.upper, "upper", topic.id, expanded)}
           <button type="button" className="roadmap-topic-node" aria-label={`${expanded ? "Thu gọn" : "Mở nhánh"} ${topic.name}`}
             aria-expanded={expanded} aria-controls={branchIds}
-            onPointerEnter={event => {
-              if (event.pointerType !== "mouse" || !matchMedia("(hover: hover) and (pointer: fine)").matches || expanded) return;
-              openedByHover.current = topic.id;
-              popup.current?.hidePopover();
-              setExpandedTopic(topic.id);
-            }}
-            onPointerLeave={() => { openedByHover.current = null; }}
-            onClick={event => toggleTopic(topic.id, event.detail > 0)}>
+            onClick={() => toggleTopic(topic.id)}>
             <h2>{topic.name}</h2><small>{count}/{lessons.length}</small>
             <span className="roadmap-topic-toggle" aria-hidden="true">{expanded ? "−" : "+"}</span>
           </button>

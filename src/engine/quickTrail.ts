@@ -35,21 +35,21 @@ export function checkTrail(trail: QuickTrail, nodeId: string, a: TrailArrangemen
   }
   return { ok:true, gained:(fixed.size-trail.fixed.length)*100, trail:{ items, fixed:[...fixed], partitions:trail.partitions+1, nodes:[...trail.nodes.map(n=>n.id === nodeId ? {...n,status:"split" as const,pivot} : n),...children] } };
 }
-export type QuickTrailFrame = { trail: QuickTrail; active: string | null; arrangement: TrailArrangement; title: string; narration: string; kind: "intro" | "pivot" | "compare" | "move" | "split" | "done"; duration: number };
+export type QuickTrailFrame = { focusId?: number; trail: QuickTrail; active: string | null; arrangement: TrailArrangement; title: string; narration: string; kind: "intro" | "pivot" | "compare" | "move" | "split" | "done"; duration: number };
 export function createQuickTrailLesson(input: readonly number[]): QuickTrailFrame[] {
   let trail=createQuickTrail(input), active:string|null="root", arrangement=emptyTrailArrangement(); const frames:QuickTrailFrame[]=[];
-  function add(kind:QuickTrailFrame["kind"],title:string,narration:string){ frames.push({trail,active,arrangement,title,narration,kind,duration:Math.max(2200,narration.split(/\s+/).length*145+600)}); }
-  add("intro","Chọn mốc và chia nhóm","Quick Sort chọn một số làm mốc, gọi là pivot. Mình chia các số còn lại thành ba nhóm: nhỏ hơn, bằng và lớn hơn mốc. Các nhóm nhỏ sẽ được chia tiếp.");
+  function add(kind:QuickTrailFrame["kind"],title:string,narration:string,focusId?:number){ frames.push({focusId,trail,active,arrangement,title,narration,kind,duration:Math.max(2200,narration.split(/\s+/).length*145+600)}); }
+  add("intro","Chọn mốc và chia nhóm","Chọn một mốc (pivot), chia các số thành nhóm nhỏ hơn, bằng và lớn hơn mốc. Lặp lại với các nhóm nhỏ để sắp xếp cả mảng.");
   while(trail.nodes.some(n=>n.status === "open")){
     const node=trail.nodes.find(n=>n.status === "open")!; active=node.id;arrangement=emptyTrailArrangement();
     const pivot=node.ids[Math.floor(node.ids.length/2)],value=trail.items.find(item=>item.id === pivot)!.value;
-    add("pivot","Chọn một số làm mốc",`Quick Sort có nhiều cách chọn pivot. Mình chọn ${value} cho nhóm này. Khi chơi, bạn có thể chọn bất kỳ số nào làm mốc.`);
+    add("pivot","Chọn một số làm mốc",`Mình chọn ${value} làm mốc cho nhóm này. Khi chơi, bạn có thể chọn một số bất kỳ.`,pivot);
     arrangement=moveTrailFriend(node,arrangement,pivot,"pivot");add("pivot",`Mốc hiện tại: ${value}`,`Giữ ${value} ở vị trí mốc rồi so sánh từng số còn lại với nó. Chưa cần xếp thứ tự bên trong các nhóm.`);
     for(const id of trailPool(node,arrangement)){
       const number=trail.items.find(item=>item.id === id)!.value,group:TrailGroup=number < value ? "small" : number === value ? "equal" : "large",relation=group === "small" ? "nhỏ hơn" : group === "equal" ? "bằng" : "lớn hơn";
-      add("compare",`So sánh ${number} với ${value}`,`${number} ${relation} ${value}, nên mình đưa thẻ này vào nhóm ${relation} mốc.`);arrangement=moveTrailFriend(node,arrangement,id,group);add("move",`${number} đã vào nhóm`,`Thẻ ${number} đã vào nhóm ${relation} mốc. Tiếp tục với số đang chờ nhé.`);
+      add("compare",`So sánh ${number} với ${value}`,`${number} ${relation} ${value}, nên mình đưa thẻ này vào nhóm ${relation} mốc.`,id);arrangement=moveTrailFriend(node,arrangement,id,group);add("move",`${number} đã vào nhóm`,`Thẻ ${number} đã vào nhóm ${relation} mốc. Tiếp tục với số đang chờ nhé.`);
     }
-    const result=checkTrail(trail,node.id,arrangement);if(!result.ok)throw new Error("Demo phân nhóm không hợp lệ.");trail=result.trail;active=null;arrangement=emptyTrailArrangement();add("split","Tiếp tục với các nhóm nhỏ","Mốc và những số bằng mốc đã đúng chỗ, không cần chia tiếp. Chỉ nhóm nhỏ hơn và nhóm lớn hơn có nhiều hơn một số cần xử lý. Bạn có thể chọn nhánh nào trước cũng được.");
+    const result=checkTrail(trail,node.id,arrangement);if(!result.ok)throw new Error("Demo phân nhóm không hợp lệ.");trail=result.trail;active=null;arrangement=emptyTrailArrangement();add("split","Tiếp tục với các nhóm nhỏ","Mốc và các số bằng mốc đã đúng chỗ! Chọn nhóm nhỏ hoặc lớn còn ít nhất hai số để chia tiếp.");
   }
   add("done","Các số đã có thứ tự!","Ghép nhóm nhỏ, nhóm bằng mốc rồi nhóm lớn. Mọi nhánh đều hoàn thành, cả mảng đã được xếp từ bé đến lớn. Đến lượt bạn thử nhé!");return frames;
 }

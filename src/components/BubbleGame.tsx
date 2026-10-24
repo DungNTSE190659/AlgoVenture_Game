@@ -84,7 +84,6 @@ export default function BubbleGame({
   const [motionPaused, setMotionPaused] = useState(false);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const touchFocus = useRef<HTMLButtonElement | null>(null);
-  const lastHoverSound = useRef(-Infinity);
   useEffect(() => {
     gameAudio.setProfile("bubble");
     return () => gameAudio.setProfile("default");
@@ -235,16 +234,6 @@ export default function BubbleGame({
     <GameLayout ref={motionRoot} play={!demo}
       className={`bubble-world bubble-studio ${demo ? "bubble-demo" : "bubble-play"}`}
       data-busy={false}
-      onPointerOver={(event) => {
-        if (event.pointerType !== "mouse") return;
-        const button = (event.target as Element).closest<HTMLButtonElement>("button");
-        if (!button || button.disabled || button.getAttribute("aria-disabled") === "true" ||
-          (event.relatedTarget instanceof Node && button.contains(event.relatedTarget))) return;
-        const now = performance.now();
-        if (now - lastHoverSound.current < 100) return;
-        lastHoverSound.current = now;
-        gameAudio.playInterface("bubble-hover");
-      }}
       onPointerDownCapture={(event) => {
         touchStart.current = { x: event.clientX, y: event.clientY };
         touchFocus.current?.removeAttribute("data-touch-focus");

@@ -215,9 +215,6 @@
   left: auto;
   right: 7px;
 }
-.cargo-crate:not(:disabled):hover {
-  filter: brightness(1.06);
-}
 .cargo-crate:not(:disabled):active {
   cursor: grabbing;
 }
@@ -436,9 +433,6 @@
   border-color: #dcebc6;
   box-shadow: 0 5px 0 #769859;
 }
-.cargo-commit:not(:disabled):hover {
-  filter: brightness(1.05);
-}
 .cargo-commit:not(:disabled):active {
   box-shadow: 0 2px 0 #769859;
 }
@@ -516,9 +510,6 @@
   min-width: 220px;
   color: #5c7748;
   transition: transform 0.2s;
-}
-.expedition-island:hover:not(:disabled) {
-  transform: translateY(-6px);
 }
 .expedition-island > div {
   display: flex;

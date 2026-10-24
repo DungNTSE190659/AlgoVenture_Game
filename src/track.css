@@ -31,7 +31,6 @@
 .stop-land i:last-child { right: 19px; top: 42px; width: 15px; }
 .stop-button { position: relative; display: grid; place-items: center; width: 82px; height: 77px; margin: 0 auto; color: #fffdf3; border: 3px solid #ffffff8c; border-radius: 30px 30px 27px 27px; background: var(--stop-color); box-shadow: 0 7px 0 var(--stop-dark), inset 0 -5px 0 #00000009; transition: transform .2s, outline .2s; }
 .stop-button:disabled { opacity: 1; }
-.stop-button:hover:not(:disabled) { transform: translateY(-3px); }
 .stop-selected .stop-button { outline: 5px solid #ffffff80; outline-offset: 7px; }
 .stop-number { position: absolute; top: -11px; left: -10px; width: 27px; height: 27px; display: grid; place-items: center; background: #fffdf0; border-radius: 50%; color: var(--stop-dark); font-size: 11px; box-shadow: 0 2px 0 #cdd1b3; }
 .stop-badge { position: absolute; bottom: -10px; right: -7px; border: 3px solid #f4f5df; width: 27px; height: 27px; border-radius: 50%; display: grid; place-items: center; background: var(--stop-dark); }

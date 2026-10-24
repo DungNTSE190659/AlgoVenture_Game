@@ -4,7 +4,7 @@ export async function enterForest(page: Page, mode = "Play") { await enterTrack(
 export async function forestInput(page: Page, values: number[]) { await page.getByRole("button",{name:"Tùy chọn",exact:true}).click(); await page.getByLabel("Các phần tử của mảng").fill(values.join(",")); await page.getByRole("button",{name:"Dùng mảng này",exact:true}).click(); }
 export async function sendFriend(page: Page, id: number, group: "pivot" | "small" | "equal" | "large" | "pool") {
   await page.locator(`[data-friend="${id}"]`).click();
-  await page.getByRole("button",{ name: group === "pivot" ? "Chọn làm mốc" : group === "pool" ? /^Hàng chờ/ : `Đưa vào nhóm ${group === "small" ? "nhỏ hơn" : group === "equal" ? "bằng mốc" : "lớn hơn"}`, exact: group !== "pool" }).click();
+  await page.getByRole("button",{ name: group === "pivot" ? "Chọn làm mốc" : group === "pool" ? "Trả thẻ về nhóm chưa chia" : `Đưa vào nhóm ${group === "small" ? "nhỏ hơn" : group === "equal" ? "bằng mốc" : "lớn hơn"}`, exact: true }).click();
 }
 export async function solveForest(page: Page) {
   for (let turn=0;turn<10;turn++) {

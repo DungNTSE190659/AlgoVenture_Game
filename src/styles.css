@@ -48,9 +48,6 @@ button {
     box-shadow 0.15s,
     background 0.15s;
 }
-button:hover:not(:disabled) {
-  filter: brightness(1.025);
-}
 button:active:not(:disabled) {
   filter: brightness(0.96);
 }
@@ -179,9 +176,6 @@ p {
 .round-button:active:not(:disabled) {
   box-shadow: 0 1px 0 #d9d5bc;
   translate: 0 3px;
-}
-.round-button:hover:not(:disabled) {
-  background: #fffef8;
 }
 .sound-off-line {
   position: absolute;
@@ -326,9 +320,6 @@ p {
 }
 .node-island > svg:not(.island-flag) {
   filter: drop-shadow(0 3px 0 #0000000b);
-}
-.map-node:hover .node-island {
-  transform: translateY(-4px) rotate(-2deg);
 }
 .map-node:active .node-island {
   transform: translateY(3px);
@@ -984,12 +975,6 @@ p {
   user-select: none;
   touch-action: manipulation;
   opacity: 1 !important;
-}
-.array-tile:hover:not(:disabled) {
-  background: linear-gradient(#d1c0f1, #b8a3de);
-  box-shadow:
-    0 7px 0 #917ab8,
-    0 0 0 4px #ffffff60;
 }
 .array-tile.is-pivot {
   background: linear-gradient(#f0c18f, #e7ae76);

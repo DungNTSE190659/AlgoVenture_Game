@@ -46,9 +46,9 @@ export function selectionHint(state: SelectionState) {
     const chosen = state.items.find(item => item.id === state.chosen)!;
     return state.items[state.start].id === chosen.id
       ? `${chosen.value} đã ở đầu phần chưa xếp. Bấm Giữ nguyên vị trí để cố định số này.`
-      : `Đưa ${chosen.value} về ô cờ ${state.start + 1}. Hai số sẽ đổi chỗ, rồi mình bỏ qua món đã buộc dây.`;
+      : `Đưa ${chosen.value} về ô có cờ ${state.start + 1}. Hai số sẽ đổi chỗ, rồi mình bỏ qua món đã buộc dây.`;
   }
-  return `So sánh tất cả thẻ số ở các món chưa buộc dây, kể cả hàng dưới. Chọn số nhỏ nhất rồi đưa vào ô cờ ${state.start + 1}; món đang ở ô cờ sẽ đổi về chỗ cũ của món vừa chọn.`;
+  return `So sánh tất cả thẻ số ở các món chưa buộc dây, kể cả hàng dưới. Chọn số nhỏ nhất rồi đưa vào ô có cờ ${state.start + 1}; món đang ở ô có cờ sẽ đổi về chỗ cũ của món vừa chọn.`;
 }
 export type SelectionFrame = {
   state: SelectionState;
@@ -61,7 +61,7 @@ export function createSelectionLesson(input: readonly number[]): SelectionFrame[
   function add(kind: SelectionFrame["kind"], title: string, narration: string, cue: SoundCue, scan: number | null = null, candidate: number | null = null, target = state.start) {
     frames.push({ kind, title, narration, cue, scan, candidate, target, state });
   }
-  add("intro", "Buta chuẩn bị hành trang", "Các món đồ đang nằm trên thảm. Mình đọc hàng trên từ trái sang phải, rồi xuống hàng dưới. Mỗi lượt tìm thẻ số nhỏ nhất trong các món chưa buộc dây, đổi vào ô cờ rồi buộc dây cố định.", "scan");
+  add("intro", "Cùng tìm số nhỏ nhất", "Mình cùng xếp các số từ bé đến lớn nhé! Mỗi lượt, Cáo tìm số nhỏ nhất trong phần chưa xếp rồi đổi vào ô có cờ. Những số có dấu tích đã ở đúng chỗ.", "scan");
   while (state.phase !== "done") {
     let minimum = state.items[state.start];
     for (let index = state.start + 1; index < state.items.length; index++) {
@@ -80,12 +80,12 @@ export function createSelectionLesson(input: readonly number[]): SelectionFrame[
     state = chooseSelection(state, minimum.id)!;
     add("choose", `Tìm thấy số nhỏ nhất: ${minimum.value}`, source === target
       ? `${minimum.value} đã đứng đầu phần chưa xếp. Mình giữ nguyên vị trí, không cần đổi với chính nó.`
-      : `Đã xét hết phần chưa xếp. Bây giờ đưa ${minimum.value} về ô cờ ${target + 1}, đổi chỗ với ${other}.`, "pivot", null, minimum.id);
+      : `Đã xét hết phần chưa xếp. Bây giờ đưa ${minimum.value} về ô có cờ ${target + 1}, đổi chỗ với ${other}.`, "pivot", null, minimum.id);
     state = placeSelection(state, target)!;
     add("place", source === target ? `Cố định ${minimum.value}` : `Đổi ${minimum.value} với ${other}`,
-      `${minimum.value} đã đứng đúng chỗ. ${state.phase === "done" ? "Số cuối cùng cũng tự vào đúng vị trí, cả mảng đã xong!" : "Món đã buộc dây được bỏ qua. Lượt tiếp theo, mình tìm số nhỏ nhất trong phần còn lại."}`,
+      `${minimum.value} đã đứng đúng chỗ. ${state.phase === "done" ? "Số cuối cùng cũng tự vào đúng vị trí, cả mảng đã xong!" : "Mình giữ số này lại, rồi tìm số nhỏ nhất trong phần chưa có dấu tích."}`,
       source === target ? "correct" : "bubble-swap", null, null, target);
   }
-  add("done", "Mảng đã được sắp xếp!", "Mỗi lượt cố định một số nhỏ nhất. Bạn đã hiểu Selection Sort rồi! Giờ hãy tự chọn số và đưa về đúng ô nhé.", "finish");
+  add("done", "Mảng đã được sắp xếp!", "Mỗi lượt cố định một số nhỏ nhất. Đó là cách Selection Sort xếp cả mảng. Giờ đến lượt bạn thử nhé!", "finish");
   return frames;
 }

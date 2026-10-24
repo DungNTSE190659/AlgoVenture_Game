@@ -22,9 +22,6 @@
 .bubble-studio button:not(:disabled):active { transform: translateY(2px); }
 .bubble-studio button:focus-visible { outline: 3px solid #526f83; outline-offset: 3px; }
 .bubble-studio .round-button { display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; min-height: 50px; padding: 0; }
-.bubble-world.bubble-studio :is(.round-button, .chunky-button, .bubble-finish-button, .bubble-hint-button):hover:not(:disabled) {
-  background: transparent;
-}
 .bubble-studio .bubble-workspace {
   display: grid; grid-template-columns: minmax(0, 1fr) 440px; gap: 32px; align-items: center;
   width: min(100%, 1440px); margin: 0 auto; padding: 8px 28px 28px;
@@ -130,7 +127,6 @@
   .bubble-studio .bubble-input-note { font-size: 11px; }
   .bubble-studio .bubble-step-actions { max-width: 440px; margin: 0 auto; }
 }
-
 /* Press feedback stays separate from the stationary hover brackets. */
 .bubble-world.bubble-studio button {
   transition: transform 180ms cubic-bezier(.2,.7,.3,1), filter 180ms ease;
@@ -144,10 +140,8 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .bubble-world.bubble-studio button { transition: none; }
-  .bubble-world.bubble-studio button:not(:disabled):hover,
   .bubble-world.bubble-studio button:not(:disabled):active { transform: none; }
 }
-
 /* Plain black lesson text; interactive controls retain contrasting labels. */
 .bubble-world.bubble-studio :is(h1, h2, h3, p, label, dt, dd, small,
   .bubble-topline, .bubble-topline span, .bubble-legend,
@@ -155,7 +149,6 @@
   .bubble-chat > strong, .bubble-step-status > span, .bubble-result-summary > strong) {
   color: #000;
 }
-
 /* Shared cartoon finish across artwork, labels and icons. */
 .bubble-studio .bubble-icon { display: inline-block; object-fit: contain; flex-shrink: 0; vertical-align: middle; pointer-events: none; }
 .bubble-studio .bubble-finish-button, .bubble-studio .bubble-hint-button,
@@ -182,7 +175,6 @@
   .bubble-studio .bubble-finish-button, .bubble-studio .bubble-hint-button { font-size: 16px; }
   .bubble-studio .bubble-board-area { padding: 40px 0; }
 }
-
 /* Results and settings share the same cream, black outlines and game buttons. */
 .bubble-studio dialog.victory-screen,
 .bubble-studio dialog.lesson-settings {
@@ -240,7 +232,6 @@
   .bubble-studio .bubble-failure-content { gap: 10px; }
   .bubble-studio .bubble-failure-content h2 { font-size: 24px; }
 }
-
 /* Lavender and yellow palette, shared by every Bubble Sort screen. */
 .bubble-world.bubble-studio :is(.round-button, .chunky-button, .bubble-finish-button,
   .bubble-hint-button, .modal-primary, .victory-map-button) {
@@ -252,7 +243,6 @@
 .bubble-studio dialog .victory-actions > button {
   height: auto; min-height: 52px; flex-direction: row;
 }
-
 /* Fox and speech stay side by side in every lesson mode. */
 .bubble-studio .bubble-companion, .bubble-studio .bubble-dialogue { gap: 16px; align-items: center; }
 .bubble-studio .bubble-fox { display: block; flex: 0 0 128px; width: 128px; height: 174px; }
@@ -272,18 +262,12 @@
   .bubble-studio .bubble-fox { flex-basis: 86px; width: 86px; height: 124px; }
   .bubble-studio .bubble-board-area { width: min(100%, calc(var(--count) * 78px + (var(--count) - 1) * 5px)); }
 }
-
 /* Four illustrated corners indicate focus without moving the control. */
 .bubble-world.bubble-studio .bubble-tile::after {
   content: ""; position: absolute; inset: calc(-1 * var(--focus-outset, 8px));
   border: 14px solid transparent; border-image: url('/assets/bubble-ui/focus-corners.svg') 22 stretch;
   background: none; pointer-events: none; opacity: 0; z-index: 3;
   transform: scale(1.04); transition: opacity 120ms ease, transform 120ms ease;
-}
-@media (hover: hover) and (pointer: fine) {
-  .bubble-world.bubble-studio .bubble-tile:not(:disabled):not([aria-disabled="true"]):not(.is-dragging):hover::after {
-    opacity: 1; transform: none;
-  }
 }
 .bubble-world.bubble-studio .bubble-tile:not(:disabled):not([aria-disabled="true"]):focus-visible { outline: none; }
 .bubble-world.bubble-studio .bubble-tile:not(:disabled):not([aria-disabled="true"]):focus-visible::after {

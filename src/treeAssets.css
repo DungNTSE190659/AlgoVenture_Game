@@ -21,7 +21,6 @@
 .tree-game .tree-node.tree-replacement-target { --tree-node-state: var(--tree-node-target); outline: none; }
 .tree-game .tree-node.tree-item-selected { outline: 2px solid #5E824899; outline-offset: 2px; }
 .tree-game .tree-node.tree-drop-over { outline: 2px solid #5E824899; outline-offset: 2px; }
-.tree-game .tree-node:not(:disabled):hover { filter: none; }
 .tree-game .tree-node:focus-visible { outline: 3px solid #4F733D; outline-offset: 3px; }
 .tree-game .tree-node-relation, .tree-game .tree-board-caption { color: #587345; }
 .tree-game .tree-node-check { border: 0; padding: 2px; background: transparent var(--tree-badge) center / contain no-repeat; }
@@ -113,47 +112,38 @@
 .tree-game .tree-drop-over:not(.tree-node) { background: transparent !important; outline-color: #F7B83D; }
 .tree-game .round-button { --tree-button-image: var(--tree-button-icon-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .round-button::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .round-button:hover:not(:disabled) { --tree-button-image: var(--tree-button-icon-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .round-button:active:not(:disabled) { --tree-button-image: var(--tree-button-icon-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .round-button:disabled { --tree-button-image: var(--tree-button-icon-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .button-green { --tree-button-image: var(--tree-button-action-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .button-green::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .button-green:hover:not(:disabled) { --tree-button-image: var(--tree-button-action-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .button-green:active:not(:disabled) { --tree-button-image: var(--tree-button-action-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .button-green:disabled { --tree-button-image: var(--tree-button-action-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .button-purple { --tree-button-image: var(--tree-button-play-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .button-purple::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .button-purple:hover:not(:disabled) { --tree-button-image: var(--tree-button-play-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .button-purple:active:not(:disabled) { --tree-button-image: var(--tree-button-play-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .button-purple:disabled { --tree-button-image: var(--tree-button-play-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-hint { --tree-button-image: var(--tree-button-hint-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .tree-hint::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .tree-hint:hover:not(:disabled) { --tree-button-image: var(--tree-button-hint-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-hint:active:not(:disabled) { --tree-button-image: var(--tree-button-hint-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-hint:disabled { --tree-button-image: var(--tree-button-hint-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-tools > button { --tree-button-image: var(--tree-button-neutral-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .tree-tools > button::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .tree-tools > button:hover:not(:disabled) { --tree-button-image: var(--tree-button-neutral-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-tools > button:active:not(:disabled) { --tree-button-image: var(--tree-button-neutral-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-tools > button:disabled { --tree-button-image: var(--tree-button-neutral-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-demo-status > button { --tree-button-image: var(--tree-button-neutral-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .tree-demo-status > button::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .tree-demo-status > button:hover:not(:disabled) { --tree-button-image: var(--tree-button-neutral-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-demo-status > button:active:not(:disabled) { --tree-button-image: var(--tree-button-neutral-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-demo-status > button:disabled { --tree-button-image: var(--tree-button-neutral-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-setting-toggle { --tree-button-image: var(--tree-button-neutral-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .tree-setting-toggle::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .tree-setting-toggle:hover:not(:disabled) { --tree-button-image: var(--tree-button-neutral-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-setting-toggle:active:not(:disabled) { --tree-button-image: var(--tree-button-neutral-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-setting-toggle:disabled { --tree-button-image: var(--tree-button-neutral-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .lesson-sound-toggle { --tree-button-image: var(--tree-button-neutral-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .lesson-sound-toggle::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .lesson-sound-toggle:hover:not(:disabled) { --tree-button-image: var(--tree-button-neutral-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .lesson-sound-toggle:active:not(:disabled) { --tree-button-image: var(--tree-button-neutral-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .lesson-sound-toggle:disabled { --tree-button-image: var(--tree-button-neutral-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-replacement-options > button { --tree-button-image: var(--tree-button-neutral-normal); position: relative; isolation: isolate; border: 0; box-shadow: none; background: none; filter: none; translate: none; transition: transform .12s; }
 .tree-game .tree-replacement-options > button::before { content:""; position:absolute; inset:0; z-index:-1; border:18px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .tree-replacement-options > button:hover:not(:disabled) { --tree-button-image: var(--tree-button-neutral-hover); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-replacement-options > button:active:not(:disabled) { --tree-button-image: var(--tree-button-neutral-pressed); background:none; box-shadow:none; filter:none; translate:none; }
 .tree-game .tree-replacement-options > button:disabled { --tree-button-image: var(--tree-button-neutral-disabled); background:none; box-shadow:none; filter:none; translate:none; }
 
@@ -174,7 +164,6 @@
 .tree-game .victory-map-button,
 .tree-game .victory-actions .button-green { --tree-button-image:var(--tree-button-action-normal); background:none; box-shadow:none; border:0; position:relative; isolation:isolate; color:#FFFFFF; filter:none; }
 .tree-game .victory-map-button::before { content:""; position:absolute; inset:0; z-index:-1; border:20px solid transparent; border-image:var(--tree-button-image) 20 fill stretch; pointer-events:none; }
-.tree-game .victory-map-button:hover { --tree-button-image:var(--tree-button-action-hover); background:none; box-shadow:none; filter:none; }
 .tree-game .victory-map-button:active { --tree-button-image:var(--tree-button-action-pressed); background:none; box-shadow:none; filter:none; }
 .tree-game .victory-map-icon { background:none; border:0; }
 .tree-game .victory-award img { display:block; width:100%; height:100%; object-fit:contain; }

@@ -34,7 +34,6 @@
 .insertion-tile:disabled { opacity: 1; cursor: default; }
 .insertion-tile:not(:disabled) { cursor: grab; }
 .insertion-tile:focus-visible, .insertion-slot:focus-visible { outline: 3px solid #a38bc4; outline-offset: 4px; }
-.insertion-tile:not(:disabled):hover { border-color: #a8b98f; }
 .insertion-tile strong { font-size: clamp(23px, 5cqw, 34px); line-height: 1; font-weight: 900; }
 .insertion-card-corner { position: absolute; left: 5px; top: 5px; color: var(--suit-color); font-size: 10px; line-height: 1; font-weight: 800; }
 .insertion-card-corner small { display: block; margin-top: 2px; font-size: 9px; }

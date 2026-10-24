@@ -1,0 +1,9 @@
+/* Shared finished-tile artwork from Bubble Sort. */
+.quick-studio .qf-overview>span.is-fixed {
+ background:transparent url('/assets/bubble-ui/tile-settled.svg') center/100% 100% no-repeat;
+ border:0; box-shadow:none;
+}
+.insertion-world[data-sort-complete="true"] .insertion-tile {
+ background:transparent url('/assets/bubble-ui/tile-settled.svg') center/100% 100% no-repeat;
+ border-color:transparent; box-shadow:none; color:#2c2037;
+}

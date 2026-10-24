@@ -45,3 +45,10 @@ import "./bubbleStudio.css";
 
 import "./curriculumMap.css";
 import "./linkedCasual.css";
+
+import "./quickStudio.css";
+import "./mergeStudio.css";
+
+import "./selectionStudio.css";
+
+import "./sortingCompletion.css";
