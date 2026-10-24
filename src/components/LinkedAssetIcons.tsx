@@ -1,9 +1,10 @@
 import type { CSSProperties } from "react";
 
 /** File-backed UI sprites shared with the Unity export. Labels belong to the control. */
+const bubbleNames: Record<string, string> = { "arrow-left": "back", "arrow-right": "next", check: "check", lightbulb: "hint", settings: "settings", star: "star", "rotate-ccw": "replay", "undo-2": "previous", x: "close", "volume-2": "sound", "volume-x": "mute", pause: "pause", play: "play", "skip-back": "previous", "skip-forward": "next" };
 function icon(name: string) {
   return function AssetIcon({ size = 24, className = "", style }: { size?: number | string; className?: string; style?: CSSProperties }) {
-    return <img className={`linked-ui-icon ${className}`} src={`/assets/hybrid-casual-ui/linked/svg/icon-${name}.svg`} width={size} height={size} style={style} alt="" aria-hidden="true" draggable={false} />;
+    return <img className={`linked-ui-icon ${className}`} src={`${import.meta.env.BASE_URL}assets/bubble-ui/icon-${bubbleNames[name] ?? name}.svg`} width={size} height={size} style={style} alt="" aria-hidden="true" draggable={false} />;
   };
 }
 

@@ -64,14 +64,14 @@ export default function App() {
     gameAudio.unlock();
     gameAudio.play("enter");
     setSession((value) => value + 1);
-    setLinkedLevel(algorithm === "linked-search" || algorithm === "linked-insertion" || algorithm === "linked-deletion" ? 2 : 3);
+    setLinkedLevel(algorithm === "linked-list" && mode === "play" ? 1 : algorithm === "linked-search" || algorithm === "linked-insertion" || algorithm === "linked-deletion" ? 2 : 3);
     setScene(mode);
   }
   function finishLinkedLevel() {
     const id = algorithm as LinkedTrackId;
     const next = completeLinkedLevel(linkedLevels, id, linkedLevel);
     setLinkedLevels(next);
-    complete();
+    if (id !== "linked-list" || linkedLevel === 3) complete();
   }
   function back() {
     gameAudio.stop();
@@ -118,7 +118,7 @@ export default function App() {
         onSpeedChange={setSpeed}
       />
     );
-  if (algorithm === "linked-list") return <LinkedListGame key={`${session}:${scene}:${linkedLevel}`} mode={scene} level={linkedLevel} sound={sound} onSoundChange={changeSound} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={finishLinkedLevel} onNextLevel={() => { if (linkedLevel < 3) { setLinkedLevel((linkedLevel + 1) as LinkedLevel); setSession(value => value + 1); } }} />;
+  if (algorithm === "linked-list") return <LinkedListGame key={`${session}:${scene}:${linkedLevel}`} mode={scene} onDemo={() => start("demo")} level={linkedLevel} sound={sound} onSoundChange={changeSound} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={finishLinkedLevel} onNextLevel={() => { if (linkedLevel < 3) { setLinkedLevel((linkedLevel + 1) as LinkedLevel); setSession(value => value + 1); } }} />;
   if (regionForLesson(algorithm).id === "linear-structures") return <LinkedAlgorithmGame mode={scene} onPlay={() => start("play")} key={`${session}:${scene}:${linkedLevel}`} algorithm={algorithm as Exclude<LinkedTrackId, "linked-list">} level={linkedLevel} sound={sound} onSoundChange={changeSound} onBack={back} onChooseMap={chooseMap} onComplete={finishLinkedLevel} onNextLevel={() => { if (linkedLevel < 3) { setLinkedLevel((linkedLevel + 1) as LinkedLevel); setSession(value => value + 1); } }} />;
   if (algorithm === "binary") return <BinarySearchGame key={`${session}:${scene}`} mode={scene} sound={sound} speed={speed} onBack={back} onPlay={() => start("play")} onChooseMap={chooseMap} onComplete={complete} onSoundChange={changeSound} onSpeedChange={setSpeed} />;
   if (algorithm === "linear") return scene === "play"

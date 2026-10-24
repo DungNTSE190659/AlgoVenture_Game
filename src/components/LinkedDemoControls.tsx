@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Pause, Play, RotateCcw, SkipBack, SkipForward } from "./LinkedAssetIcons";
-import Pig from "./Pig";
+import Fox from "./Fox";
 import { gameAudio } from "../audio/gameAudio";
 
 type Props = {
@@ -46,8 +46,8 @@ export default function LinkedDemoControls({ step, count, narration, onStep, onS
 
   return <div className="linked-demo-player">
     <div className="linked-demo-dialogue">
-      <Pig mood={done ? "celebrate" : "explaining"} />
-      <div className="linked-speech"><span className="linked-speaker">Buta đồng hành</span><p aria-live="polite">{narration}</p></div>
+      <Fox mood={done ? "celebrate" : "explaining"} />
+      <div className="linked-speech"><span className="linked-speaker">Cáo đồng hành</span><p aria-live="polite">{narration}</p></div>
     </div>
     <footer className="linked-demo-controls">
       <div className="linked-demo-playback">

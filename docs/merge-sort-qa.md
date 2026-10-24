@@ -33,7 +33,7 @@ npm run build
 
 ```powershell
 $env:PLAYWRIGHT_CHANNEL='msedge'
-npx playwright test tests/merge.spec.ts tests/game-hud.spec.ts
+npx playwright test tests/merge.spec.ts
 ```
 
 Unit test kiểm tra chia không đổi thứ tự, chọn nhánh tùy ý, từ chối lá sai/lá không ở đầu, ưu tiên trái khi bằng nhau, input âm/trùng/lẻ/đảo ngược, bảo toàn danh tính và bất biến snapshot. Engine băng chuyền cũ cùng nguồn asset được giữ lại nhưng không còn được import bởi màn Merge Sort.

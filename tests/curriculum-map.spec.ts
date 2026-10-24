@@ -1,6 +1,21 @@
 import { expect, test } from "@playwright/test";
 import { mapLessonName } from "../src/engine/curriculumMap";
 import { ALL_LESSONS, lessonAvailable } from "../src/engine/learningTrack";
+import { enterTrack } from "./track-navigation";
+
+test("finishing a demo leaves completion and the next lesson locked", async ({ page }) => {
+  await enterTrack(page, "Bubble Sort", "Demo");
+  await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
+  await page.getByLabel("Mảng của bạn", { exact: true }).fill("2, 1");
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
+  const next = page.getByRole("button", { name: "Bước tiếp", exact: true });
+  // Bound traversal so a broken demo cannot leave the test looping indefinitely.
+  for (let step = 0; step < 50 && await next.count(); step++) await next.click();
+  await expect(page.getByRole("button", { name: "Tự mình thử", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Về bản đồ", exact: true }).click();
+  await expect(page.locator('[data-lesson="bubble"]')).not.toHaveClass(/is-complete/);
+  await expect(page.locator('[data-lesson="selection"]')).toHaveClass(/is-locked/);
+});
 
 test("all lessons appear once in the horizontal roadmap and rotate to a vertical spine on phones", async ({ page }) => {
   await page.goto("/");
@@ -32,21 +47,26 @@ test("all lessons appear once in the horizontal roadmap and rotate to a vertical
   }
 });
 
-test("data structures reveal one branch at a time and fold back into a compact phone map", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
-  const map = page.locator(".curriculum-map");
-  await expect(page.locator(".roadmap-topic-node")).toHaveCount(6);
-  await expect(page.getByRole("button", { name: "Bubble Sort", exact: true })).toHaveCount(0);
-  await page.getByRole("button", { name: "Mở nhánh Array" }).click();
-  await expect(page.getByRole("button", { name: "Bubble Sort", exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Mở nhánh Tree" }).click();
-  await expect(page.getByRole("button", { name: "Bubble Sort", exact: true })).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Tree Basics", exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Thu gọn Tree" }).click();
-  await expect(page.getByRole("button", { name: "Tree Basics", exact: true })).toHaveCount(0);
-  await expect.poll(() => map.evaluate(node => node.scrollHeight)).toBeLessThanOrEqual(844);
-  await page.screenshot({ path: ".qa/roadmap-collapsed-390.png" });
+test.describe("phone map", () => {
+  test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  test("data structures reveal one branch at a time and fold back into a compact phone map", async ({ page }) => {
+    await page.goto("/");
+    const map = page.locator(".curriculum-map");
+    await page.evaluate(() => document.fonts.ready);
+    const collapsedHeight = await map.evaluate(node => node.scrollHeight);
+    await expect(page.locator(".roadmap-topic-node")).toHaveCount(6);
+    await expect(page.getByRole("button", { name: "Bubble Sort", exact: true })).toHaveCount(0);
+    await page.getByRole("button", { name: "Mở nhánh Array" }).tap();
+    await expect(page.getByRole("button", { name: "Bubble Sort", exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Mở nhánh Tree" }).tap();
+    await expect(page.getByRole("button", { name: "Bubble Sort", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Tree Basics", exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Thu gọn Tree" }).tap();
+    await expect(page.getByRole("button", { name: "Tree Basics", exact: true })).toHaveCount(0);
+    await expect(page.locator(".roadmap-topic.is-expanded")).toHaveCount(0);
+    await expect.poll(() => map.evaluate(node => node.scrollHeight)).toBeLessThanOrEqual(collapsedHeight + 1);
+    await page.screenshot({ path: ".qa/roadmap-collapsed-390.png" });
+  });
 });
 
 test("locked and upcoming lessons remain discoverable without bypassing prerequisites", async ({ page }) => {

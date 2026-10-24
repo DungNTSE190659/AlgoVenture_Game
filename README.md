@@ -133,7 +133,7 @@ Bubble Sort Demo và Play dùng cảnh cầu gỗ cùng đoàn thú rừng; Play
 
 ## Kiến trúc
 
-- `src/components/GameHud.tsx` và `src/gameHud.css`: khung màn chơi, tiêu đề, sao/thẻ điểm và nút gợi ý dùng chung cho Bubble, Selection, Insertion và Quick Sort. Màn thuật toán mới dùng `GameLayout`, `GameHeader`, `GameStats` và `GameFooter` theo mẫu bên dưới. Footer là phần tử cùng cấp với bàn chơi, nằm ở cuối màn; không đặt nút gợi ý vào phần nội dung được căn giữa. Demo truyền `play={false}` cho layout/header và không truyền điểm. Giữ vị trí và kiểu dáng chung trong `gameHud.css` thay vì ghi đè ở CSS từng thuật toán. `tests/game-hud.spec.ts` đối chiếu vị trí, khoảng cách cuối màn, kiểu nút và mở/đóng gợi ý trên desktop, điện thoại dọc/ngang; bổ sung tên thuật toán mới vào danh sách kiểm tra này.
+- `src/components/GameHud.tsx` và `src/gameHud.css`: HUD dùng chung cho các màn còn dùng cấu trúc này. Bubble hiện dùng `src/components/BubbleGame.tsx` và `src/bubbleStudio.css`; `tests/bubble-studio.spec.ts` kiểm tra bố cục tím–vàng, vị trí nút và bàn chơi ở desktop 1440×900, điện thoại 390×844. Không dùng footer/HUD cũ làm chuẩn bắt buộc cho Bubble.
 
 ```tsx
 <GameLayout className="algorithm-world">
@@ -166,7 +166,7 @@ Bubble Sort Demo và Play dùng cảnh cầu gỗ cùng đoàn thú rừng; Play
 - `src/engine/quicksort.test.ts`: kiểm tra trạng thái, phân hoạch, số trùng, mảng âm, input bất biến và generator.
 - `src/engine/lesson.test.ts`: kiểm tra snapshot, giá trị từng nhóm, chốt cố định, thứ tự các nhịp dạy và mảng con đệ quy.
 - `tests/lesson.spec.ts`: kiểm tra chữ lớn trên laptop, quan hệ so sánh, animation đổi chỗ/tạm dừng, biểu cảm theo ngữ cảnh và bố cục bài học.
-- `tests/game.spec.ts`: kiểm tra bản đồ và trình phát demo.
+- `tests/curriculum-map.spec.ts`: bản đồ hiện tại, vào Demo/Thử thách, khóa bài và lưu tiến độ. `tests/demo-playback.spec.ts`: trình phát Demo Quick Sort.
 - `tests/expedition.spec.ts`: kiểm tra Quick Sort ngã ba với chuột, cảm ứng, bàn phím, tự sửa nhóm, chọn nhánh, số bằng mốc và bố cục.
 
 ## Kiểm tra và build
@@ -177,7 +177,7 @@ npm run build
 npm run test:e2e
 ```
 
-E2E mặc định dùng Chrome đã cài trên máy. Nếu có Edge, dùng PowerShell: `$env:PLAYWRIGHT_CHANNEL='msedge'; npm run test:e2e`. Có thể cài Chrome bằng `npx playwright install chrome`. Các bài kiểm tra gameplay dùng fixture tiến trình đã hoàn thành những ải đứng trước, không bỏ qua khóa trong ứng dụng. `tests/world-map.spec.ts` kiểm tra vuốt trái/phải, kéo chuột, bàn phím, bấm bản đồ vào lộ trình, lưu tiến trình và điều kiện hoàn thành toàn bộ chủ đề trước.
+E2E mặc định dùng Chrome đã cài trên máy. Nếu có Edge, dùng PowerShell: `$env:PLAYWRIGHT_CHANNEL='msedge'; npm run test:e2e`. Có thể cài Chrome bằng `npx playwright install chrome`. Các bài kiểm tra gameplay dùng fixture tiến trình đã hoàn thành những ải đứng trước, không bỏ qua khóa trong ứng dụng. `tests/curriculum-map.spec.ts` kiểm tra bản đồ hiện tại; các test bản đồ trượt và HUD cũ đã được loại bỏ. Khi sửa một tính năng, chạy các file liên quan thay vì mặc định chạy toàn bộ E2E.
 
 `npm run build` tạo web tĩnh trong `dist/`. Chạy `npm run preview` để xem bản build. Font Google được tải qua mạng; có font sans-serif dự phòng nếu offline. Game không dùng tài khoản hay dịch vụ backend; chưa có service worker/PWA.
 # AlgoVenture_Game

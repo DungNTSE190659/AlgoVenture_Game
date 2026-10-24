@@ -44,3 +44,4 @@ import "./sortingPortrait.css";
 import "./bubbleStudio.css";
 
 import "./curriculumMap.css";
+import "./linkedCasual.css";

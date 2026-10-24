@@ -1,0 +1,520 @@
+/* Shared Bubble Sort composition for every Linked List lesson. */
+.linked-world.linked-stage-layout {
+  background: #9191ff;
+  height: 100dvh; min-height: 100dvh; overflow-y: auto;
+  --linked-slot-width: 140px; --linked-node-width: 116px;
+  --linked-row-height: 112px; --linked-block-height: 100px; --linked-chain-gap: 32px;
+}
+.linked-world .linked-scenery { display: none; }
+.linked-world.linked-stage-layout .lesson-header {
+  width: min(1440px, 100%); margin: 0 auto; padding: 16px 28px;
+  min-height: 82px; flex: 0 0 82px; gap: 12px;
+  grid-template-columns: 50px minmax(0, 1fr) 50px;
+}
+.linked-world.linked-stage-layout .lesson-header h1 { font-size: 32px; }
+.linked-world.linked-stage-layout .lesson-header .linked-hud { display: none; }
+.linked-world.linked-stage-layout .lesson-header .round-button { width: 50px; height: 50px; min-height: 50px; }
+.linked-world.linked-stage-layout .linked-content {
+  width: min(1440px, 100%); flex: 1 0 auto; overflow: visible;
+  padding: 8px 28px 28px; gap: 0; min-height: calc(100dvh - 82px);
+}
+.linked-world.linked-stage-layout .linked-workspace {
+  grid-template-columns: minmax(0, 1fr) 440px;
+  grid-template-rows: auto auto auto;
+  grid-template-areas: "intro guide" "bank guide" "board tools";
+  align-content: center; align-items: center;
+  flex: 1 0 auto; min-height: calc(100dvh - 118px); gap: 20px 32px;
+}
+.linked-world.linked-stage-layout :is(.linked-panel, .linked-assembly, .linked-bank) {
+  border: 0; border-image: none; background: none; box-shadow: none; border-radius: 0;
+}
+.linked-world.linked-stage-layout :is(.linked-panel, .linked-bank, .linked-assembly, .linked-speech)::before,
+.linked-world.linked-stage-layout .linked-speech::after { display: none; }
+.linked-world.linked-stage-layout .linked-intro { grid-area: intro; margin: 0; text-align: center; }
+.linked-world.linked-stage-layout .linked-intro h2 { font-size: 24px; margin: 8px 0; }
+.linked-world.linked-stage-layout .linked-intro p { font-size: 16px; line-height: 1.5; margin: 0; }
+.linked-world .linked-eyebrow { font-size: 11px; letter-spacing: 1.5px; }
+.linked-revisit { min-height: 44px; border: 0; background: none; text-decoration: underline; font: inherit; font-size: 12px; cursor: pointer; }
+.linked-world.linked-stage-layout .linked-assembly { grid-area: board; display: block; padding: 20px 0 36px; min-width: 0; }
+.linked-world.linked-stage-layout .linked-bank { grid-area: bank; padding: 0; min-width: 0; }
+.linked-world.linked-stage-layout .linked-bank-row {
+  display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center;
+  min-height: 0; gap: 16px; padding: 16px 0; overflow: visible;
+}
+.linked-world.linked-stage-layout .linked-bank-cell { flex: 0 0 auto; width: auto; }
+.linked-world.linked-stage-layout .linked-panel-heading { justify-content: center; }
+.linked-world.linked-stage-layout .linked-panel-heading h3 { font-size: 11px; font-weight: 800; opacity: .65; letter-spacing: 1px; text-transform: uppercase; }
+.linked-world.linked-stage-layout .linked-bank-row:not(:has(.linked-node, .journey-pig-pickup))::after { content: none; padding: 0; font-size: 11px; opacity: .65; }
+.linked-world.linked-stage-layout.linked-demo .linked-bank:not(:has(.linked-node, .journey-pig-pickup)) { display: none; }
+.linked-world.linked-stage-layout.linked-demo .linked-bank-row::after { content: none; }
+.linked-world.linked-stage-layout .linked-assembly > .linked-panel-heading { display: none; }
+.linked-world.linked-stage-layout .linked-assembly-scroll { display: block; overflow-x: auto; overflow-y: hidden; padding: 44px 16px 32px; }
+.linked-world.linked-stage-layout :is(.linked-board, .journey-chain) {
+  display: flex; flex-direction: row; align-items: center; justify-content: center;
+  width: max-content; min-width: 100%; min-height: 150px; gap: var(--linked-chain-gap);
+  padding: 24px 0; margin: 0 auto; flex: none;
+}
+.linked-world.linked-stage-layout .journey-piece { flex-direction: row; }
+.linked-world.linked-stage-layout .linked-slot { width: var(--linked-slot-width); height: var(--linked-row-height); flex: none; background: rgb(255 255 255 / 10%); border: 2px dashed #51478a; border-radius: 20px; }
+.linked-world.linked-stage-layout .linked-slot:has(.linked-node) { border-color: transparent; background: none; }
+.linked-world.linked-stage-layout .linked-slot .linked-slot-label { top: auto; bottom: -26px; left: 0; width: 100%; padding: 0; text-align: center; background: none; border-radius: 0; font-size: 11px; }
+.linked-world.linked-stage-layout .linked-node,
+.linked-world.linked-stage-layout .linked-bank .linked-node { width: calc(var(--linked-node-width) + 10px); height: var(--linked-block-height); }
+.linked-world.linked-stage-layout .linked-node .linked-node-body {
+  width: var(--linked-node-width); height: var(--linked-block-height); padding: 0 28% 6px 0;
+  background: url('/assets/bubble-ui/tile.svg') center / 100% 100% no-repeat;
+  border: 0; border-radius: 0; box-shadow: none;
+}
+.linked-world.linked-stage-layout .linked-node .linked-node-value { color: #fff !important; font-size: 36px; -webkit-text-stroke: 1px #202326; paint-order: stroke fill; text-shadow: 0 2px #202326; }
+.linked-world.linked-stage-layout .linked-node .linked-node-body::after {
+  display: flex; align-items: center; justify-content: center; content: "next";
+  inset: 8px 0 14px auto; width: 28%; height: auto; border: 0;
+  border-left: 1px solid rgb(32 35 38 / 28%); border-radius: 0;
+  background: none; font-size: 9px; color: #202326 !important;
+}
+.linked-world.linked-stage-layout .linked-node.node-selected .linked-node-body { outline: none; transform: none; animation: none; background-image: url('/assets/bubble-ui/tile.svg'); }
+.linked-world.linked-stage-layout .linked-slot .linked-node .ll-hole { left: -16px; top: 50%; transform: translateY(-50%); }
+.linked-world.linked-stage-layout .ll-rope-anchor { left: auto; right: 0; top: 50%; transform: translateY(-50%); }
+.linked-world.linked-stage-layout :is(.construction-null, .journey-null) { position: relative; left: auto; top: auto; flex: none; margin: 0 0 0 12px; transform: none; }
+.linked-world.linked-stage-layout :is(.construction-null, .journey-null) .ll-hole { left: -18px; top: 50%; transform: translateY(-50%); }
+.linked-world.linked-stage-layout .linked-null-target { background: #ffdb3b; border: 2px solid #202326; border-radius: 12px; box-shadow: 0 4px #202326; padding: 12px 16px; margin: 0; min-height: 50px; }
+.linked-world.linked-stage-layout .journey-pig { left: 50%; top: auto; bottom: calc(100% + 12px); transform: translateX(-50%); }
+.linked-world.linked-stage-layout .journey-piece > .journey-plus { left: auto; right: calc(100% + 2px); width: 32px; }
+.linked-world.linked-stage-layout .journey-chain > .journey-plus { position: relative; left: auto; bottom: auto; width: 32px; }
+.linked-world.linked-stage-layout :is(.linked-challenge-guide, .linked-demo-dialogue, .discovery-companion) {
+  display: flex; flex-direction: row; align-items: center; align-self: end;
+  height: auto; min-height: 174px; gap: 16px; padding: 0; margin: 0; max-width: none;
+}
+.linked-world.linked-stage-layout :is(.linked-challenge-guide, .linked-demo-dialogue, .discovery-companion) > .linked-speech {
+  position: relative; flex: 1; min-width: 0; max-height: none; overflow: visible;
+  border: 12px solid transparent; border-image: url('/assets/bubble-ui/dialogue.svg') 12 fill stretch;
+  border-radius: 0; padding: 10px 10px 12px; background: none; box-shadow: none;
+}
+.linked-world.linked-stage-layout .linked-speech::after {
+  display: block; content: ""; position: absolute; top: 26px; left: -34px;
+  width: 42px; height: 26px; transform: rotate(-90deg);
+  background: url('/assets/bubble-ui/speech-tail.svg') center / contain no-repeat;
+}
+.linked-world.linked-stage-layout .linked-speech p { font-size: 16px; line-height: 1.65; overflow: visible; max-height: none; margin: 0; padding: 0; font-weight: 700; }
+.linked-world.linked-stage-layout .linked-speaker { display: block; font-size: 14px; font-weight: 900; margin-bottom: 8px; opacity: 1; letter-spacing: 0; }
+.linked-world .bubble-fox { display: block; width: 128px; height: 174px; flex: 0 0 128px; }
+.linked-world .bubble-fox img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset),
+.linked-world.linked-stage-layout .discovery-continue {
+  background: none; border: 12px solid transparent; border-image: url('/assets/bubble-ui/button.svg') 12 fill stretch;
+  border-radius: 0; box-shadow: none; min-height: 56px; padding: 0 6px; font-weight: 900;
+  color: #171522; -webkit-text-stroke: 0; text-shadow: none;
+}
+.linked-world.linked-stage-layout button:is(.linked-check-button, .linked-buta-hint, .button-green, .button-purple, .round-button, .linked-demo-try, .lesson-speed-button, .linked-challenge-secondary > button, .linked-settings-reset)::before { display: none; }
+.linked-world.linked-stage-layout button:is(.linked-check-button, .button-purple),
+.linked-world.linked-stage-layout .discovery-continue { border-image-source: url('/assets/bubble-ui/button-primary.svg'); }
+.linked-world.linked-stage-layout button.linked-buta-hint { border-image-source: url('/assets/bubble-ui/button-hint.svg'); }
+.linked-world.linked-stage-layout button:is(.lesson-speed-button, .linked-demo-try, .linked-challenge-secondary > button, .linked-settings-reset) { border: 0; border-image: none; background: none; box-shadow: none; min-height: 44px; }
+.linked-world.linked-stage-layout button:hover:not(:disabled):not(.linked-null-target):not(.discovery-null) { background-color: transparent; box-shadow: none; filter: none; }
+.linked-world.linked-stage-layout button:focus-visible { outline: 3px solid #202326; outline-offset: 4px; }
+.linked-world.linked-stage-layout .linked-challenge-tools { align-self: start; flex-direction: column; gap: 12px; }
+.linked-world.linked-stage-layout .linked-challenge-tools .journey-controls { display: flex; flex-direction: column; gap: 12px; }
+.linked-world.linked-stage-layout .linked-challenge-tools .chunky-button,
+.linked-world.linked-stage-layout .linked-buta-hint { font-size: 17px; min-height: 56px; padding: 0 6px; }
+.linked-world.linked-stage-layout .linked-settings { background: #efedff; border: 3px solid #202326; border-radius: 24px; box-shadow: 0 7px #202326; }
+.linked-world .linked-settings::before { display: none; }
+.linked-world .linked-discovery {
+  display: grid; grid-template-columns: minmax(0, 1fr) 440px;
+  grid-template-areas: "chain companion" "chain actions";
+  padding-top: 32px;
+  align-content: center; align-items: center; gap: 16px 32px;
+  width: 100%; min-height: calc(100dvh - 118px); margin: 0; padding: 32px 0 0; text-align: center;
+}
+.linked-discovery-progress { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; }
+.linked-discovery-progress > span { width: 32px; height: 6px; border-radius: 4px; background: #665ab8; }
+.linked-discovery-progress > .is-active { background: #ffdb3b !important; }
+
+.linked-discovery h2 { grid-area: title; font-size: 28px; margin: 0; }
+.discovery-task { grid-area: task; font-size: 16px; line-height: 1.5; margin: 0; }
+.discovery-chain { grid-area: chain; display: flex; align-items: center; justify-content: center; gap: 30px; padding: 44px 8px; min-height: 220px; }
+.discovery-piece { position: relative; }
+.discovery-label { position: absolute; top: calc(100% + 16px); left: 0; width: 100%; font-size: 11px; }
+.discovery-node { display: flex; background: url('/assets/bubble-ui/tile.svg') center / 100% 100% no-repeat; padding: 0 0 8px; }
+.discovery-node button { width: 64px; min-height: 100px; background: none; border: 0; font: inherit; font-size: 34px; font-weight: 900; cursor: pointer; }
+.discovery-node button + button { width: 36px; border-left: 1px solid rgb(32 35 38 / 28%); font-size: 10px; }
+.linked-world .linked-discovery .discovery-node button:first-child { color: #fff !important; -webkit-text-stroke: 1px #202326; paint-order: stroke fill; text-shadow: 0 2px #202326; }
+.linked-world .linked-discovery :is(.discovery-node button:disabled, .discovery-null:disabled) { opacity: 1; cursor: default; }
+.discovery-arrow { position: absolute; top: 36px; right: -27px; font-size: 26px; }
+.discovery-arrow.is-broken { font-weight: 900; }
+.discovery-null { padding: 12px; background: #ffdb3b; border: 2px solid #202326; border-radius: 12px; box-shadow: 0 4px #202326; font: inherit; font-weight: 800; min-height: 50px; }
+.discovery-companion { grid-area: companion; text-align: left; }
+.discovery-continue { grid-area: continue; width: 100%; cursor: pointer; font: inherit; }
+.linked-discovery > .linked-revisit { grid-area: demo; }
+/* The chain spans the companion and controls, so neither pushes it downward. */
+@media (min-width: 1001px) {
+  .linked-world.linked-stage-layout .linked-workspace {
+    position: relative;
+    grid-template-rows: auto auto;
+    grid-template-areas: "board guide" "board tools";
+  }
+  .linked-world.linked-stage-layout .linked-assembly {
+    align-self: center;
+    padding-block: 0;
+  }
+  .linked-world.linked-stage-layout .linked-workspace .linked-playfield > .linked-bank {
+    position: absolute;
+    left: 0;
+    bottom: calc(50% + 110px);
+    width: calc(100% - 472px);
+  }
+}
+@media (min-width: 1001px) and (max-width: 1200px) {
+  .linked-world.linked-stage-layout :is(.linked-workspace, .linked-discovery) { grid-template-columns: minmax(0, 1fr) 380px; gap: 20px 24px; }
+  .linked-world.linked-stage-layout { --linked-slot-width: 112px; --linked-node-width: 96px; --linked-block-height: 88px; --linked-chain-gap: 24px; }
+  .discovery-chain { gap: 24px; }
+  .discovery-node button { width: 52px; }
+  .linked-world.linked-stage-layout .linked-workspace .linked-playfield > .linked-bank { width: calc(100% - 404px); }
+}
+@media (max-width: 1000px) {
+  .linked-world.linked-stage-layout :is(.linked-workspace, .linked-discovery) { grid-template-columns: minmax(0, 1fr); align-content: center; gap: 24px; }
+  .linked-world.linked-stage-layout .linked-workspace { grid-template-areas: "intro" "bank" "board" "guide" "tools"; }
+  .linked-world.linked-stage-layout .linked-discovery { grid-template-areas: "chain" "companion" "actions"; padding-top: 32px; }
+  .linked-world.linked-stage-layout :is(.linked-challenge-guide, .linked-demo-dialogue, .linked-challenge-tools, .linked-demo-controls, .discovery-companion, .discovery-continue) { width: min(100%, 560px); margin-inline: auto; }
+  .linked-world.linked-stage-layout .linked-bank-row { padding: 8px 0; }
+  .linked-world.linked-stage-layout .linked-assembly { padding: 0; }
+}
+@media (max-width: 760px) {
+  .linked-world.linked-stage-layout .lesson-header { padding: 10px 16px; min-height: 68px; flex-basis: 68px; }
+  .linked-world.linked-stage-layout .lesson-header h1 { font-size: 23px; }
+  .linked-world.linked-stage-layout .linked-content { padding: 6px 12px 24px; min-height: calc(100dvh - 68px); }
+  .linked-world.linked-stage-layout { --linked-slot-width: 96px; --linked-node-width: 80px; --linked-block-height: 76px; --linked-row-height: 88px; --linked-chain-gap: 28px; }
+  .linked-world.linked-stage-layout .linked-assembly-scroll { overflow-x: auto; padding-inline: 20px; }
+  .linked-world.linked-stage-layout :is(.linked-board, .journey-chain) { min-width: max-content; }
+  .linked-world.linked-stage-layout .linked-node .linked-node-value { font-size: 28px; }
+  .linked-world.linked-stage-layout :is(.linked-challenge-guide, .linked-demo-dialogue, .discovery-companion) { display: flex; flex-direction: row; gap: 12px; min-height: 124px; }
+  .linked-world .bubble-fox { width: 86px; height: 124px; flex-basis: 86px; }
+  .linked-world.linked-stage-layout :is(.linked-challenge-guide, .linked-demo-dialogue, .discovery-companion) > .linked-speech { width: auto; flex: 1 1 0; padding: 8px 4px 10px; }
+  .linked-world.linked-stage-layout .linked-speech p { font-size: 14px; }
+  .linked-world.linked-stage-layout .linked-speaker { font-size: 13px; }
+  .linked-world.linked-stage-layout .linked-challenge-tools { display: flex; flex-direction: column; }
+  .linked-world.linked-stage-layout .linked-intro h2 { font-size: 22px; }
+  .discovery-chain { gap: 22px; padding: 36px 0; min-height: 160px; }
+  .discovery-node button { width: 40px; min-height: 76px; font-size: 26px; }
+  .discovery-node button + button { width: 24px; font-size: 8px; }
+  .discovery-null { padding: 10px 6px; font-size: 12px; }
+  .discovery-arrow { top: 22px; right: -22px; font-size: 22px; }
+  .discovery-label { font-size: 10px; }
+}
+
+/* Match Bubble focus corners, with a persistent selection independent of hover. */
+.linked-world.linked-stage-layout :is(.linked-node, .discovery-node, .discovery-null) { position: relative; }
+.linked-world.linked-stage-layout :is(.linked-node, .discovery-node, .discovery-null)::after {
+  content: ""; position: absolute; inset: -8px; z-index: 8;
+  border: 14px solid transparent; border-image: url('/assets/bubble-ui/focus-corners.svg') 22 stretch;
+  background: none; pointer-events: none; opacity: 0; transform: none; transition: opacity 120ms ease;
+}
+.linked-world.linked-stage-layout :is(.linked-node.node-selected, .discovery-node.is-selected, .discovery-null.is-selected)::after { opacity: 1; }
+.linked-world.linked-stage-layout :is(.discovery-chain, .linked-workspace):not(:has(.is-selected, .node-selected)) :is(.linked-node, .discovery-node):has(button:focus-visible)::after,
+.linked-world.linked-stage-layout .discovery-chain:not([data-selection]) .discovery-null:focus-visible::after { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .linked-world.linked-stage-layout :is(.discovery-chain, .linked-workspace):not(:has(.is-selected, .node-selected)) :is(.linked-node, .discovery-node):has(button:not(:disabled):hover)::after,
+  .linked-world.linked-stage-layout .discovery-chain:not([data-selection]) .discovery-null:not(:disabled):hover::after { opacity: 1; }
+}
+.linked-world.linked-stage-layout .discovery-actions {
+  grid-area: actions; display: flex; flex-direction: column; align-self: start; gap: 12px;
+  width: 100%; min-width: 0;
+}
+.linked-world.linked-stage-layout .discovery-actions > :is(.linked-check-button, .linked-buta-hint, .discovery-continue) {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 56px; font-size: 17px;
+}
+.linked-world.linked-stage-layout .discovery-continue { grid-area: auto; }
+@media (max-width: 1000px) {
+  .linked-world.linked-stage-layout .discovery-actions { width: min(100%, 560px); margin-inline: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .linked-world.linked-stage-layout :is(.linked-node, .discovery-node, .discovery-null)::after { transition: none; }
+}
+
+/* Results and settings share the same cream, black outlines and game buttons. */
+.linked-world.linked-stage-layout dialog.victory-screen,
+.linked-world.linked-stage-layout dialog.lesson-settings {
+  width: min(620px, calc(100vw - 32px)); max-width: none;
+  max-height: calc(100dvh - 40px); margin: auto; padding: 24px;
+  background: #efedff; color: #000;
+  border: 3px solid #202326; border-radius: 24px;
+  box-shadow: 0 7px 0 #202326; overflow: auto;
+  scrollbar-width: thin; scrollbar-color: #5c4ca3 #efedff;
+}
+.linked-world.linked-stage-layout dialog::backdrop { background: #29224866; backdrop-filter: none; }
+.linked-world.linked-stage-layout dialog.bubble-failure { width: min(500px, calc(100vw - 32px)); }
+.linked-world.linked-stage-layout .bubble-failure-content { max-width: none; width: 100%; padding: 0; gap: 12px; color: #000; }
+.linked-world.linked-stage-layout .bubble-failure-content h2 { font-size: 27px; line-height: 1.25; }
+.linked-world.linked-stage-layout .bubble-failure-content .pig { width: 96px; height: 120px; }
+.linked-world.linked-stage-layout .bubble-failure-content > strong { color: #000; }
+.linked-world.linked-stage-layout .bubble-failure-content > p { font-size: 14px; line-height: 1.5; }
+.linked-world.linked-stage-layout dialog .bubble-result-summary { font-size: 14px; }
+.linked-world.linked-stage-layout dialog .bubble-result-summary > strong { font-size: 20px; margin-bottom: 10px; }
+.linked-world.linked-stage-layout .bubble-failure-content > button { width: 100%; min-height: 48px; }
+.linked-world.linked-stage-layout dialog .chunky-button, .linked-world.linked-stage-layout dialog .modal-primary,
+.linked-world.linked-stage-layout dialog .victory-map-button {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 0 8px; border: 12px solid transparent; border-radius: 0;
+  border-image: url('/assets/bubble-ui/button.svg') 12 fill stretch;
+  background: none; box-shadow: none; font-size: 16px; font-weight: 1000; color: #fff;
+  -webkit-text-stroke: 1px #202326; paint-order: stroke fill; text-shadow: 0 1px 0 #202326;
+}
+.linked-world.linked-stage-layout dialog .button-purple, .linked-world.linked-stage-layout dialog .modal-primary {
+  border-image-source: url('/assets/bubble-ui/button-primary.svg');
+}
+.linked-world.linked-stage-layout dialog .victory-map-button, .linked-world.linked-stage-layout .bubble-failure-content > .bubble-finish-button {
+  border-image-source: url('/assets/bubble-ui/button-hint.svg');
+}
+.linked-world.linked-stage-layout dialog .victory-map-icon { background: none; border: 0; box-shadow: none; }
+.linked-world.linked-stage-layout dialog .victory-summary { color: #000; }
+.linked-world.linked-stage-layout dialog .victory-title { font-size: 27px; }
+.linked-world.linked-stage-layout dialog .victory-actions { margin-top: 12px; gap: 12px; }
+.linked-world.linked-stage-layout dialog .victory-award .award-star { display: none; }
+.linked-world.linked-stage-layout dialog .victory-award { background: url('/assets/bubble-ui/icon-star.svg') center / contain no-repeat; }
+.linked-world.linked-stage-layout dialog .victory-award.unearned { background-image: url('/assets/bubble-ui/icon-star-empty.svg'); }
+.linked-world.linked-stage-layout dialog .bubble-victory { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 16px; }
+.linked-world.linked-stage-layout dialog .victory-stars { grid-column: 1 / -1; justify-content: center; min-height: 64px; gap: 12px; }
+.linked-world.linked-stage-layout dialog .victory-stars .victory-award { width: 60px; height: 64px; margin: 0; }
+.linked-world.linked-stage-layout dialog .victory-buta .pig { width: 96px; }
+.linked-world.linked-stage-layout dialog .victory-actions { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.linked-world.linked-stage-layout dialog .victory-actions button { min-width: 0; white-space: normal; }
+.linked-world.linked-stage-layout dialog .victory-map-button { grid-column: 1 / -1; }
+.linked-world.linked-stage-layout dialog .modal-header h2 { font-size: 24px; }
+.linked-world.linked-stage-layout dialog :is(.setting-select, .custom-input) {
+  background: #faf9ff; color: #000; border: 2px solid #202326; border-radius: 12px; box-shadow: none;
+}
+@media (max-width: 600px) {
+  .linked-world.linked-stage-layout dialog.victory-screen, .linked-world.linked-stage-layout dialog.lesson-settings { padding: 18px; }
+  .linked-world.linked-stage-layout .bubble-failure-content { gap: 10px; }
+  .linked-world.linked-stage-layout .bubble-failure-content h2 { font-size: 24px; }
+}
+
+
+.linked-world.linked-stage-layout .discovery-actions .discovery-continue {
+  border-image: none; border: 3px solid #202326; border-radius: 14px;
+  background: #9be8b0; box-shadow: 0 5px #367d53; padding: 10px 16px;
+}
+.linked-world.linked-stage-layout .discovery-actions .discovery-continue:hover { background: #b7f2c7; box-shadow: 0 5px #367d53; }
+.linked-world.linked-stage-layout .linked-result-summary dl { display: grid; gap: 8px; margin: 12px 0; }
+.linked-world.linked-stage-layout .linked-result-summary dl > div { display: flex; justify-content: space-between; gap: 16px; }
+.linked-world.linked-stage-layout .linked-result-summary dd { margin: 0; font-weight: 900; }
+.linked-world.linked-stage-layout .bubble-failure-content { display: flex; flex-direction: column; align-items: center; }
+.linked-world.linked-stage-layout .bubble-failure-content .linked-result-summary { width: 100%; }
+.linked-world.linked-stage-layout .bubble-failure-stars { display: flex; gap: 12px; }
+.linked-world.linked-stage-layout .bubble-failure-stars .linked-ui-icon { content: url('/assets/bubble-ui/icon-star-empty.svg'); width: 42px; height: 42px; }
+.linked-world.linked-stage-layout dialog .victory-map-button { color: #171522; -webkit-text-stroke: 0; text-shadow: none; }
+
+/* NULL retains its yellow face and shadow when hovered. */
+.linked-world.linked-stage-layout :is(.linked-null-target, .discovery-null):hover:not(:disabled) {
+  background: #ffdb3b;
+  box-shadow: 0 4px #202326;
+}
+/* Mobile demos fit one viewport; boards and narration share a fixed grid. */
+@media (max-width: 1000px) {
+  .linked-world.linked-stage-layout.linked-demo {
+    height: 100dvh; min-height: 0; overflow: hidden;
+    --linked-slot-width: clamp(44px, 13vw, 76px);
+    --linked-node-width: clamp(40px, 12vw, 68px);
+    --linked-block-height: clamp(44px, 7dvh, 60px);
+    --linked-row-height: calc(var(--linked-block-height) + 8px);
+    --linked-chain-gap: clamp(12px, 3vw, 24px);
+  }
+  .linked-world.linked-stage-layout.linked-demo .lesson-header {
+    flex: 0 0 58px; min-height: 58px; padding: 6px 12px; margin: 0;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+  }
+  .linked-world.linked-stage-layout.linked-demo .lesson-header h1 { font-size: clamp(17px, 4.6vw, 24px); }
+  .linked-world.linked-stage-layout.linked-demo .lesson-header .round-button { width: 44px; height: 44px; min-height: 44px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-content {
+    flex: 1 1 0; min-height: 0; width: 100%; padding: 4px 12px 8px;
+    overflow: hidden;
+  }
+  .linked-world.linked-stage-layout.linked-demo .linked-workspace {
+    flex: 1 1 0; min-height: 0; height: 100%; width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto auto auto;
+    grid-template-areas: "bank" "board" "guide" "tools";
+    align-content: stretch; align-items: center; gap: 6px;
+  }
+  .linked-world.linked-stage-layout.linked-demo .linked-bank {
+    position: static; width: 100%; min-height: 0; padding: 0;
+    align-self: end; overflow: visible;
+  }
+  .linked-world.linked-stage-layout.linked-demo .linked-bank-row {
+    display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: center;
+    min-height: 0; height: auto; padding: 0; gap: 16px;
+  }
+  .linked-world.linked-stage-layout.linked-demo .linked-bank-cell { width: auto; flex: 0 0 auto; }
+  .linked-world.linked-stage-layout.linked-demo .linked-assembly { width: 100%; height: auto; min-height: 0; padding: 0; align-self: center; }
+  .linked-world.linked-stage-layout.linked-demo .linked-assembly-scroll { overflow: visible; padding: 30px 4px 36px; min-height: 0; }
+  .linked-world.linked-stage-layout.linked-demo :is(.linked-board, .journey-chain) {
+    width: max-content; min-width: 0; min-height: 0; height: auto;
+    flex-direction: row; justify-content: center;
+    gap: var(--linked-chain-gap); padding: 0; margin: 0 auto;
+  }
+  .linked-world.linked-stage-layout.linked-demo .linked-slot { width: var(--linked-slot-width); height: var(--linked-row-height); border-radius: 12px; }
+  .linked-world.linked-stage-layout.linked-demo :is(.linked-node, .linked-bank .linked-node) { width: var(--linked-node-width); height: var(--linked-block-height); }
+  .linked-world.linked-stage-layout.linked-demo .linked-node .linked-node-body { width: var(--linked-node-width); height: var(--linked-block-height); }
+  .linked-world.linked-stage-layout.linked-demo .linked-node .linked-node-value { font-size: clamp(20px, 5.2vw, 28px); }
+  .linked-world.linked-stage-layout.linked-demo .linked-node .linked-node-body::after { font-size: 7px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-slot .linked-slot-label { bottom: -20px; font-size: 8px; letter-spacing: 0; }
+  .linked-world.linked-stage-layout.linked-demo :is(.construction-null, .journey-null) { margin: 0; }
+  .linked-world.linked-stage-layout.linked-demo .linked-null-target { min-height: 34px; padding: 6px; font-size: 10px; border-radius: 9px; }
+  .linked-world.linked-stage-layout.linked-demo .ll-hole { width: 24px; height: 24px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-slot .linked-node .ll-hole { left: -12px; }
+  .linked-world.linked-stage-layout.linked-demo :is(.construction-null, .journey-null) .ll-hole { left: -12px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-nail { width: 26px; height: 26px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-nail-head { width: 20px; height: 20px; left: 3px; top: 3px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-nail-tip { width: 8px; height: 6px; left: 19px; top: 10px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-complete-check { width: 18px; height: 18px; right: -4px; bottom: -4px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-dialogue { display: flex; flex-direction: row; width: 100%; min-height: 0; height: auto; align-items: center; gap: 10px; margin: 0; }
+  .linked-world.linked-stage-layout.linked-demo .bubble-fox { flex: 0 0 52px; width: 52px; height: 74px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-dialogue > .linked-speech { width: auto; flex: 1 1 0; min-height: 0; max-height: none; padding: 5px 4px 8px; border-width: 10px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-dialogue .linked-speech p { font-size: 13px; line-height: 1.4; overflow: visible; }
+  .linked-world.linked-stage-layout.linked-demo .linked-speaker { font-size: 11px; margin-bottom: 4px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-speech::after { width: 30px; height: 20px; left: -26px; top: 16px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-controls { display: flex; width: 100%; min-width: 0; margin: 0; padding: 0; gap: 2px; align-self: end; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-playback { grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 8px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-playback .round-button { width: 44px; height: 44px; min-height: 44px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-playback .chunky-button { min-height: 44px; min-width: 0; padding: 0 4px; font-size: 14px; flex-direction: row; gap: 6px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-step-status { flex-wrap: nowrap; min-height: 30px; gap: 8px; }
+  .linked-world.linked-stage-layout.linked-demo .lesson-speed-button { min-height: 30px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-try { min-height: 30px; font-size: 12px; }
+  .linked-world.linked-stage-layout.linked-demo .journey-pig .pig { width: 24px; height: 28px; }
+  .linked-world.linked-stage-layout.linked-demo .journey-pig { bottom: calc(100% + 4px); }
+}
+@media (max-width: 1000px) and (max-height: 500px) and (min-aspect-ratio: 4/3) {
+  .linked-world.linked-stage-layout.linked-demo {
+    --linked-slot-width: clamp(44px, 7vw, 64px); --linked-node-width: clamp(40px, 6.4vw, 58px);
+    --linked-block-height: 48px; --linked-chain-gap: 14px;
+  }
+  .linked-world.linked-stage-layout.linked-demo .lesson-header { flex-basis: 52px; min-height: 52px; padding-block: 4px; }
+  .linked-world.linked-stage-layout.linked-demo .linked-workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 40%);
+    grid-template-rows: auto auto; grid-template-areas: "bank guide" "board tools";
+    align-content: center; gap: 6px 16px;
+  }
+  .linked-world.linked-stage-layout.linked-demo .linked-demo-dialogue .linked-speech p { font-size: 12px; line-height: 1.35; }
+}
+
+/* Labels are real children constrained to the face of each node. */
+.linked-world.linked-stage-layout .linked-node .linked-node-body::after { display: none; }
+.linked-world.linked-stage-layout .linked-node .linked-node-body { position: relative; }
+.linked-world.linked-stage-layout .linked-node-next {
+  position: absolute; top: 12%; bottom: 18%; right: 6%; width: 22%;
+  display: flex; align-items: center; justify-content: center;
+  border-left: 1px solid #20232640; padding-left: 2px;
+  font-size: 9px; line-height: 1; white-space: nowrap; overflow: hidden;
+  pointer-events: none;
+}
+.linked-world.linked-stage-layout .discovery-node > button {
+  position: relative; width: 100px; min-height: 100px; padding: 0 30% 6px 0;
+}
+.linked-world.linked-stage-layout .discovery-node-next {
+  position: absolute; right: 5%; top: 12%; bottom: 18%; width: 25%;
+  display: flex; align-items: center; justify-content: center; border-left: 1px solid #20232640;
+  font-size: 11px; color: #202326 !important; -webkit-text-stroke: 0; text-shadow: none;
+}
+.linked-world.linked-stage-layout :is(.linked-empty-slot, .journey-empty) {
+  max-width: 100%; padding: 0; font-size: 12px; white-space: normal; text-align: center;
+}
+@media (max-width: 760px) {
+  .linked-world.linked-stage-layout .discovery-node > button { width: 64px; min-height: 76px; }
+}
+@media (max-width: 1000px) {
+  .linked-world.linked-stage-layout.linked-demo .linked-node-next { font-size: clamp(6px, 1.4vw, 9px); }
+  .linked-world.linked-stage-layout.linked-demo :is(.linked-empty-slot, .journey-empty) { font-size: 10px; line-height: 1.2; }
+}
+.linked-world.linked-stage-layout .discovery-node .discovery-node-value { color: #fff !important; -webkit-text-stroke: 1px #202326; paint-order: stroke fill; text-shadow: 0 2px #202326; }
+
+.linked-world.linked-stage-layout .discovery-node-next { display: grid; place-items: center; text-align: center; overflow-wrap: anywhere; line-height: 1.1; font-size: 9px; }
+
+/* A single playfield centers supplies and chain as one group. */
+.linked-playfield { display: contents; }
+.linked-world.linked-stage-layout .linked-node .linked-node-body,
+.linked-world.linked-stage-layout .linked-node.node-selected .linked-node-body,
+.linked-world.linked-stage-layout .discovery-node { background-image: url('/assets/hybrid-casual-ui/linked/svg/node-casual.svg'); }
+.linked-world.linked-stage-layout :is(.linked-node-next, .discovery-node-next) { border-left: 0; }
+@media (max-width: 1000px) and (min-height: 501px) {
+  .linked-world.linked-stage-layout {
+    height: 100dvh; min-height: 0; overflow: hidden;
+    --linked-slot-width: clamp(44px, 13vw, 76px);
+    --linked-node-width: clamp(40px, 12vw, 68px);
+    --linked-block-height: clamp(44px, 7dvh, 60px);
+    --linked-row-height: calc(var(--linked-block-height) + 8px);
+  }
+  .linked-world.linked-stage-layout .linked-content { min-height: 0; flex: 1 1 0; padding: 4px 12px 12px; overflow: hidden; }
+  .linked-world.linked-stage-layout .linked-workspace,
+  .linked-world.linked-stage-layout.linked-demo .linked-workspace {
+    min-height: 0; height: 100%; flex: 1 1 0;
+    grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto auto;
+    grid-template-areas: "stage" "guide" "tools"; align-content: stretch; gap: 10px;
+  }
+  .linked-world.linked-stage-layout .linked-playfield {
+    grid-area: stage; display: flex; flex-direction: column; justify-content: center;
+    align-items: stretch; min-height: 0; gap: 20px; width: 100%;
+  }
+  .linked-world.linked-stage-layout .linked-workspace .linked-playfield > .linked-bank {
+    position: static; align-self: auto; width: 100%; min-height: 0; padding: 0;
+  }
+  .linked-world.linked-stage-layout .linked-bank-row { display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-evenly; gap: 12px; min-height: 0; padding: 0; }
+  .linked-world.linked-stage-layout :is(.linked-node, .linked-bank .linked-node) { width: var(--linked-node-width); height: var(--linked-block-height); }
+  .linked-world.linked-stage-layout .linked-node .linked-node-body { width: var(--linked-node-width); height: var(--linked-block-height); }
+  .linked-world.linked-stage-layout .linked-node .linked-node-value { font-size: 24px; }
+  .linked-world.linked-stage-layout .linked-assembly { align-self: auto; width: 100%; min-height: 0; padding: 0; }
+  .linked-world.linked-stage-layout .linked-assembly-scroll { overflow: visible; padding: 24px 4px 32px; }
+  .linked-world.linked-stage-layout :is(.linked-board, .journey-chain),
+  .linked-world.linked-stage-layout.linked-demo :is(.linked-board, .journey-chain) {
+    width: 100%; min-width: 0; min-height: 0; padding: 0;
+    flex-direction: row; justify-content: space-between; gap: 8px;
+  }
+  .linked-world.linked-stage-layout .linked-slot { width: var(--linked-slot-width); height: var(--linked-row-height); }
+  .linked-world.linked-stage-layout .linked-slot .linked-slot-label { bottom: -20px; font-size: 8px; }
+  .linked-world.linked-stage-layout :is(.construction-null, .journey-null) { margin: 0; }
+  .linked-world.linked-stage-layout .linked-null-target { padding: 6px; min-height: 34px; font-size: 10px; }
+  .linked-world.linked-stage-layout .linked-node-next { font-size: 7px; padding: 0; }
+  .linked-world.linked-stage-layout :is(.linked-challenge-guide, .linked-demo-dialogue) { align-self: end; width: 100%; min-height: 0; }
+  .linked-world.linked-stage-layout .linked-challenge-guide .bubble-fox { width: 52px; height: 74px; flex-basis: 52px; }
+  .linked-world.linked-stage-layout .linked-challenge-guide > .linked-speech { padding: 5px 4px 8px; border-width: 10px; }
+  .linked-world.linked-stage-layout .linked-challenge-guide .linked-speech p { font-size: 13px; line-height: 1.4; }
+  .linked-world.linked-stage-layout .linked-challenge-tools { width: 100%; align-self: end; gap: 10px; }
+  .linked-world.linked-stage-layout .linked-discovery {
+    min-height: 0; height: 100%; flex: 1 1 0; padding-top: 28px;
+    grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto auto;
+    grid-template-areas: "chain" "companion" "actions"; align-content: stretch;
+  }
+  .linked-world.linked-stage-layout .discovery-chain { min-height: 0; width: 100%; justify-content: space-between; gap: 14px; padding: 32px 4px; }
+  .linked-world.linked-stage-layout .discovery-companion,
+  .linked-world.linked-stage-layout .discovery-actions { align-self: end; width: 100%; margin: 0; }
+}
+@media (max-width: 1000px) and (min-height: 501px) {
+  .linked-world.linked-stage-layout .ll-hole { width: 32px; height: 32px; }
+  .linked-world.linked-stage-layout .linked-null-target { min-width: 48px; }
+}
+
+/* next names the pointer field; its label never changes with its destination. */
+.linked-world.linked-stage-layout .discovery-node-next { white-space: nowrap; overflow-wrap: normal; font-size: clamp(6px, 1.7vw, 9px); }
+@media (max-width: 1000px) {
+  .linked-world.linked-stage-layout .linked-node-next,
+  .linked-world.linked-stage-layout.linked-demo .linked-node-next {
+    width: 28%; right: 1%; padding: 0;
+    font-size: clamp(5px, calc(var(--linked-node-width) * .11), 9px);
+  }
+}
+
+/* Keep the chain compact, with each connector centered between neighboring nodes. */
+.linked-world.linked-stage-layout .discovery-chain {
+  display: grid; grid-template-columns: auto minmax(32px, 56px) auto minmax(32px, 56px) auto minmax(32px, 56px) auto;
+  align-items: center; justify-content: center; gap: 0; width: 100%;
+}
+.linked-world.linked-stage-layout .discovery-arrow {
+  position: static; inset: auto; transform: none;
+  display: grid; place-items: center; align-self: center;
+  font-size: 26px; line-height: 1; text-align: center;
+}
+@media (max-width: 760px) {
+  .linked-world.linked-stage-layout .discovery-chain {
+    grid-template-columns: auto minmax(16px, 28px) auto minmax(16px, 28px) auto minmax(16px, 28px) auto;
+  }
+  .linked-world.linked-stage-layout .discovery-arrow { font-size: 22px; }
+}
