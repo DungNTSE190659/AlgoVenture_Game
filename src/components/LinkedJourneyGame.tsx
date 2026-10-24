@@ -10,6 +10,8 @@ import LinkedWorld from "./LinkedWorld";
 import LinkedRopeMaterial from "./LinkedRopeMaterial";
 import LinkedDemoControls from "./LinkedDemoControls";
 import LinkedChallengeGuide from "./LinkedChallengeGuide";
+import Fox from "./Fox";
+import { LinkedFailure, LinkedResultSummary } from "./LinkedResults";
 import VictoryCelebration from "./VictoryCelebration";
 import { gameAudio } from "../audio/gameAudio";
 import { linkedChallenge } from "../engine/linkedChallenges";
@@ -18,7 +20,7 @@ import type { LinkedLevel, LinkedTrackId } from "../engine/linkedCurriculum";
 type Algorithm = Exclude<LinkedTrackId, "linked-list">;
 type Props = { mode: "demo" | "play"; algorithm: Algorithm; level: LinkedLevel; sound: boolean; onSoundChange: (value: boolean) => void; onPlay: () => void; onBack: () => void; onChooseMap: () => void; onComplete: () => void; onNextLevel: () => void };
 type Held = { kind: "node" | "link" | "pig"; value: number };
-type State = { slots: (number | null)[]; links: Record<number, number | null>; phase: "reverse" | "build" | "walk" | "insert" | "new-link" | "previous-link" | "delete" | "bypass" | "remove" | "review" | "done"; cursor: number | null; head: number | null; nullDock: number | null; started: boolean; held: Held | null; message: string; messageError: boolean; mistakes: number; counters: LinkedCounters };
+type State = { slots: (number | null)[]; links: Record<number, number | null>; phase: "reverse" | "build" | "walk" | "insert" | "new-link" | "previous-link" | "delete" | "bypass" | "remove" | "review" | "done"; cursor: number | null; head: number | null; nullDock: number | null; started: boolean; held: Held | null; message: string; messageError: boolean; mistakes: number; failedChecks: number; counters: LinkedCounters };
 type Action = { kind: "select"; held: Held } | { kind: "slot"; index: number } | { kind: "target"; value: number | null } | { kind: "check" | "bank" | "ready" | "next" | "found" | "edit" };
 const labels = { "linked-traversal": "Traversal", "linked-search": "Search", "linked-insertion": "Insertion", "linked-deletion": "Deletion", "linked-reversal": "Reversal" };
 
@@ -33,12 +35,13 @@ export default function LinkedJourneyGame(props: Props) {
   const walkGoal = algorithm === "linked-insertion" ? values[Math.max(0, editIndex - 1)] : removed;
   const searchValue = level === 1 ? 6 : level === 2 ? 9 : 5;
   const reversal = algorithm === "linked-reversal";
-  const initial = (): State => ({ slots: reversal ? [...values] : values.map(() => null), links: Object.fromEntries(values.map((value, index) => [value, reversal ? values[index + 1] ?? null : null])), phase: reversal ? "reverse" : "build", cursor: null, head: reversal ? values[0] : null, nullDock: reversal ? values[values.length - 1] : null, started: false, held: null, message: "", messageError: false, mistakes: 0, counters: emptyLinkedCounters() });
+  const prepared = reversal || !demo;
+  const initial = (): State => ({ slots: prepared ? [...values] : values.map(() => null), links: Object.fromEntries(values.map((value, index) => [value, prepared ? values[index + 1] ?? null : null])), phase: reversal ? "reverse" : demo ? "build" : "walk", cursor: null, head: prepared ? values[0] : null, nullDock: prepared ? values[values.length - 1] : null, started: false, held: null, message: "", messageError: false, mistakes: 0, failedChecks: 0, counters: emptyLinkedCounters() });
+  const [focusedValue, setFocusedValue] = useState<number | null>(null);
   const [state, setState] = useState<State>(initial);
+  const lost = !demo && state.failedChecks >= 5;
   const stateRef = useRef(state);
   stateRef.current = state;
-  const history = useRef<State[]>([]);
-  const dragHistoryLength = useRef(0);
   const [demoStep, setDemoStep] = useState(0);
   const demoMotion = useLinkedDemoMotion(demo, demoStep);
   const [settings, setSettings] = useState(false);
@@ -73,13 +76,26 @@ export default function LinkedJourneyGame(props: Props) {
       const result = algorithm === "linked-traversal" ? s.started && s.cursor === null
         : algorithm === "linked-search" ? s.started && (s.cursor === searchValue || (!values.includes(searchValue) && s.cursor === null))
         : s.head === expected[0];
-      if (s.phase === "build" || !assembled || !result) return { ...fail("Chưa hoàn thành. Kiểm tra vị trí các khối, dây nối và vị trí của heo rồi thử lại nhé."), phase: algorithm === "linked-search" && s.phase === "review" ? "walk" : s.phase };
+      if (s.phase === "build" || !assembled || !result) {
+        const wrongLink = expected.find((value, index) => s.links[value] !== (expected[index + 1] ?? null));
+        const explanation = !assembled
+          ? s.slots.length !== expected.length || expected.some((value, index) => s.slots[index] !== value)
+            ? `Các nút chưa khớp mục tiêu ${expected.join(" → ")}. Mỗi nút giữ dữ liệu riêng; hãy kiểm tra nút cần thêm, bỏ hoặc đổi chỗ trước.`
+            : wrongLink !== undefined
+              ? `next của nút ${wrongLink} đang trỏ sai. Đi theo dây này sẽ rời khỏi đường đi cần tạo. Hãy đối chiếu nút đứng sau ${wrongLink} trong mục tiêu rồi sửa liên kết.`
+              : "Nút cuối cần nối vào NULL để xác nhận không còn nút tiếp theo."
+          : !s.started ? "Danh sách đã có sẵn, nhưng bạn chưa bắt đầu duyệt. HEAD đánh dấu điểm vào danh sách: đặt heo lên đó rồi đi theo next."
+          : algorithm === "linked-search" ? `Bạn đang ở ${s.cursor ?? "NULL"}, chưa xác nhận đúng giá trị ${searchValue}. Tìm kiếm cần so sánh từng nút từ HEAD; nếu chưa gặp số cần tìm, hãy tiếp tục theo next.`
+          : algorithm === "linked-traversal" ? "Vẫn còn nút chưa đi qua. Duyệt là lần theo next từ HEAD cho tới NULL, nơi không còn nút tiếp theo."
+          : "HEAD chưa trỏ tới nút đầu của danh sách mới. HEAD là điểm bắt đầu để có thể đi tới các nút còn lại.";
+        return { ...fail(explanation), failedChecks: s.failedChecks + 1, phase: algorithm === "linked-search" && s.phase === "review" ? "walk" : s.phase };
+      }
       return ok({ phase: "done", message: "Kết quả chính xác!" });
     }
     if (action.kind === "select") {
       if (action.held.kind === "link" && ["reverse", "build", "new-link", "previous-link", "bypass", "remove", "review"].includes(s.phase)) {
         const from = action.held.value;
-        return { ...s, held: action.held, links: { ...s.links, [from]: null }, nullDock: s.nullDock === from ? null : s.nullDock, phase: s.phase === "remove" ? "bypass" : s.phase === "previous-link" && from === added ? "new-link" : s.phase, messageError: false, message: "Đã rút đinh. Kéo tới lỗ mới hoặc bấm lỗ muốn cắm." };
+        return { ...s, held: action.held, links: { ...s.links, [from]: null }, nullDock: s.nullDock === from ? null : s.nullDock, phase: s.phase === "remove" ? "bypass" : s.phase === "previous-link" && from === added ? "new-link" : s.phase, messageError: false, message: "Đã rút đinh. Chạm nút đích hoặc kéo tới lỗ muốn nối." };
       }
       return { ...s, held: action.held, message: "", messageError: false };
     }
@@ -107,7 +123,7 @@ export default function LinkedJourneyGame(props: Props) {
         if (to === null && s.nullDock !== null && s.nullDock !== from) return ok({ messageError: true, message: "Lỗ NULL đã có đinh. Hãy tháo đinh cũ trước." });
         const seen = new Set<number>(); let current = to;
         while (current !== null && !seen.has(current)) {
-          if (current === from) return ok({ messageError: true, message: "Liên kết này tạo vòng tròn. Chọn lỗ khác nhé." });
+          if (current === from) return ok({ messageError: true, message: "Liên kết này tạo vòng lặp: đi theo next sẽ gặp lại nút cũ mãi và không tới NULL. Hãy nối tới nút chưa đi qua." });
           seen.add(current); current = s.links[current] ?? null;
         }
         return ok({ links: { ...s.links, [from]: to }, nullDock: to === null ? from : s.nullDock });
@@ -142,11 +158,11 @@ export default function LinkedJourneyGame(props: Props) {
         return ok({ links, nullDock, phase: s.phase === "review" ? "review" : "previous-link" });
       }
       if (s.phase === "build" && s.held?.kind === "link") {
-        if (action.value === s.held.value || (action.value !== null && !s.slots.includes(action.value))) return fail("Chọn lỗ của một khối khác đã lắp.");
+        if (action.value === s.held.value || (action.value !== null && !s.slots.includes(action.value))) return fail("next trỏ tới nút tiếp theo. Nối về chính nút này sẽ tạo vòng lặp; hãy chọn một nút khác đã lắp.");
         return ok({ links: { ...s.links, [s.held.value]: action.value }, nullDock: action.value === null ? s.held.value : s.nullDock === s.held.value ? null : s.nullDock });
       }
       if (s.phase === "walk" && !s.started && s.held?.kind === "pig") {
-        if (action.value !== s.head) return fail("Đặt heo lên HEAD để bắt đầu.");
+        if (action.value !== s.head) return fail(`Bạn đang bắt đầu ở giữa danh sách, nên sẽ bỏ sót các nút phía trước. HEAD đánh dấu nút đầu tiên: hãy đặt heo lên ${s.head} để duyệt từ đầu.`);
         return ok({ started: true, cursor: action.value, phase: algorithm === "linked-deletion" && action.value === removed ? "bypass" : "walk" });
       }
       if (s.phase === "new-link") {
@@ -219,7 +235,7 @@ export default function LinkedJourneyGame(props: Props) {
   const narration = linkedNarration(previousFrame, shown, demoStep > 0 ? script[demoStep - 1] : undefined, { algorithm, before: values, after: [...challenge.after], added, removed, searchValue });
   const correctPositions = challenge.after.filter((value, index) => shown.slots[index] === value).length;
   const correctConnections = challenge.after.filter((value, index) => shown.slots.includes(value) && (index === challenge.after.length - 1 ? shown.nullDock === value : shown.links[value] === challenge.after[index + 1])).length;
-  const score = Math.max(0, (correctPositions + correctConnections) * 100 + shown.counters.visits.length * 50 - shown.mistakes * 25);
+  const score = Math.max(0, (correctPositions + correctConnections) * 100 + shown.counters.visits.length * 50);
   const finished = shown.phase === "done";
   const layoutKey = JSON.stringify([shown.slots, shown.links, shown.nullDock]);
   useLayoutEffect(() => {
@@ -235,8 +251,10 @@ export default function LinkedJourneyGame(props: Props) {
         const a = source.getBoundingClientRect(), b = target?.getBoundingClientRect();
         const x1 = a.left + a.width / 2 - rect.left, y1 = a.top + a.height / 2 - rect.top;
         const dragging = drag?.kind === "link" && drag.value === Number(from);
-        const x2 = dragging ? drag.x - rect.left : b ? b.left + b.width / 2 - rect.left : x1 + 38;
-        const y2 = dragging ? drag.y - rect.top : b ? b.top + b.height / 2 - rect.top : y1 + 16;
+        const incoming = b ? Object.entries(shown.links).filter(([id, destination]) => destination === to && (to !== null || shown.nullDock === Number(id))).map(([id]) => id) : [];
+        const spread = incoming.length > 1 ? (incoming.indexOf(from) - (incoming.length - 1) / 2) * 48 : 0;
+        const x2 = dragging ? drag.x - rect.left : b ? b.left + b.width / 2 - rect.left : x1 + 18;
+        const y2 = dragging ? drag.y - rect.top : b ? b.top + b.height / 2 - rect.top + spread : y1 + 42;
         paths.push({ from: Number(from), to: to ?? null, x: x2, y: y2, path: `M ${x1} ${y1} L ${x2} ${y2}` });
       }
       setWires(paths);
@@ -260,11 +278,11 @@ export default function LinkedJourneyGame(props: Props) {
     else if (state.slots !== previous.slots || state.links !== previous.links || state.cursor !== previous.cursor) gameAudio.play("correct");
   }, [state, demo]);
   function dispatch(action: Action) {
-    if (demo) return;
+    if (demo || lost) return;
+    if (action.kind === "select" && action.held.kind === "node") setFocusedValue(action.held.value);
     gameAudio.unlock();
     const current = stateRef.current;
     const next = transition(current, action);
-    if (!next.messageError && (next.slots !== current.slots || next.links !== current.links || next.cursor !== current.cursor || next.started !== current.started || next.phase !== current.phase || next.nullDock !== current.nullDock)) history.current.push({ ...current, held: null });
     stateRef.current = next;
     setState(next);
   }
@@ -272,7 +290,6 @@ export default function LinkedJourneyGame(props: Props) {
     if (demo || !event.isPrimary || pointer.current !== null) return;
     pointer.current = event.pointerId;
     beforeDrag.current = state;
-    dragHistoryLength.current = history.current.length;
     event.preventDefault(); dispatch({ kind: "select", held }); setDrag({ ...held, x: event.clientX, y: event.clientY, startX: event.clientX, startY: event.clientY });
   }
   useEffect(() => {
@@ -293,7 +310,7 @@ export default function LinkedJourneyGame(props: Props) {
       }
       setDrag(null);
     };
-    const cancel = () => { pointer.current = null; setDrag(null); history.current.length = dragHistoryLength.current; if (beforeDrag.current) setState(beforeDrag.current); };
+    const cancel = () => { pointer.current = null; setDrag(null); if (beforeDrag.current) setState(beforeDrag.current); };
     const pointerCancel = (event: globalThis.PointerEvent) => { if (event.pointerId === pointer.current) cancel(); };
     const hidden = () => { if (document.hidden) cancel(); };
     window.addEventListener("pointermove", move); window.addEventListener("pointerup", up);
@@ -301,13 +318,7 @@ export default function LinkedJourneyGame(props: Props) {
     document.addEventListener("visibilitychange", hidden);
     return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); window.removeEventListener("pointercancel", pointerCancel); window.removeEventListener("blur", cancel); document.removeEventListener("visibilitychange", hidden); };
   }, [drag]);
-  function reset() { history.current = []; setState(initial()); setDemoStep(0); setDrag(null); done.current = false; }
-  function undo() {
-    const previous = history.current.pop();
-    if (!previous) return;
-    pointer.current = null; setDrag(null);
-    setState({ ...previous, held: null, mistakes: state.mistakes, messageError: false, message: "Đã hoàn tác thao tác vừa rồi." });
-  }
+  function reset() { setFocusedValue(null); setState(initial()); setDemoStep(0); setDrag(null); done.current = false; }
   const guidance = shown.phase === "build" ? `Lắp ${values.join(" → ")}, nối next tới NULL rồi chọn “Lắp xong”.`
     : shown.phase === "reverse" ? `Tháo dây trước khi chuyển khối. Xếp lại ${challenge.after.join(" → ")}, rồi nối next đến NULL.`
     : shown.phase === "walk" ? !shown.started ? `Kéo Buta lên HEAD ${shown.head} để bắt đầu duyệt.` : `Buta đang ở ${shown.cursor ?? "NULL"}. Đi theo next${algorithm === "linked-search" ? ` và so sánh với ${searchValue}` : " để sang nút tiếp theo"}.`
@@ -315,9 +326,9 @@ export default function LinkedJourneyGame(props: Props) {
     : shown.phase === "new-link" || shown.phase === "previous-link" ? `Nối ${added} tới nút phía sau trước, rồi nối nút phía trước tới ${added}.`
     : shown.phase === "bypass" || shown.phase === "remove" || shown.phase === "delete" ? `Tháo các dây nối với ${removed}, nối tắt từ nút trước tới nút sau, rồi đưa ${removed} về khay.`
     : "Quan sát lại HEAD, các liên kết next và NULL, rồi kiểm tra kết quả.";
-  const card = (value: number, bank = false) => <div data-demo-node={value} className={`linked-node linked-node-${["peach", "mint", "lavender"][Math.max(0, values.indexOf(value)) % 3]} ${shown.held?.value === value && shown.held.kind === "node" ? "node-selected" : ""}`}>
+  const card = (value: number, bank = false) => <div data-next-known={!bank && (shown.links[value] !== null || shown.nullDock === value)} data-demo-node={value} className={`linked-node linked-node-${["peach", "mint", "lavender"][Math.max(0, values.indexOf(value)) % 3]} ${focusedValue === value ? "node-selected" : ""}`}>
     {!bank && <button className="ll-hole" disabled={demo} data-journey-target={value} aria-label={`Lỗ của khối ${value}`} onClick={() => dispatch({ kind: "target", value })}><span /></button>}
-    <button className="linked-node-body" disabled={demo} data-journey-target={value} aria-label={`Khối ${value}${bank ? " ở khay" : " ở hàng lắp"}`} onPointerDown={event => { if (bank || shown.phase === "build" || shown.phase === "reverse" || (algorithm === "linked-deletion" && ["delete", "bypass", "remove", "review"].includes(shown.phase))) begin({ kind: "node", value }, event); }} onClick={event => { event.stopPropagation(); if (bank || shown.phase === "build" || shown.phase === "reverse" || (algorithm === "linked-deletion" && ["bypass", "remove", "review"].includes(shown.phase) && shown.held?.kind !== "link")) dispatch({ kind: "select", held: { kind: "node", value } }); else dispatch({ kind: "target", value }); }}><span className="linked-node-value">{value}</span></button>
+    <button className="linked-node-body" disabled={demo} data-journey-target={value} aria-label={`Khối ${value}${bank ? " ở khay" : " ở hàng lắp"}`} aria-pressed={focusedValue === value} onPointerDown={event => { if (bank || shown.phase === "build" || shown.phase === "reverse" || (algorithm === "linked-deletion" && ["delete", "bypass", "remove", "review"].includes(shown.phase))) begin({ kind: "node", value }, event); }} onClick={event => { event.stopPropagation(); setFocusedValue(value); if (bank || shown.phase === "build" || shown.phase === "reverse" || (algorithm === "linked-deletion" && ["bypass", "remove", "review"].includes(shown.phase) && shown.held?.kind !== "link")) dispatch({ kind: "select", held: { kind: "node", value } }); else dispatch({ kind: "target", value }); }}><span className="linked-node-value">{value}</span><span className="linked-node-next" aria-hidden="true">next</span></button>
     {demo && finished && !bank && <span className="linked-complete-check" role="img" aria-label="Hoàn thành"><Check size={16} /></span>}
     {!bank && <span className="ll-rope-anchor" data-wire-source={value} data-wire-target={shown.links[value] ?? "null"} aria-hidden="true" />}
   </div>;
@@ -326,26 +337,16 @@ export default function LinkedJourneyGame(props: Props) {
     <LinkedWorld map />
     <GameHeader assetIcons title={`Linked List ${labels[algorithm]}`} beforeSettings={<LinkedStats score={score} counters={shown.counters} />} onBack={props.onBack} onSettings={() => setSettings(true)} />
     <section className="linked-content">
-      <div className="linked-intro"><p>{algorithm === "linked-search" ? `Tìm số ${searchValue}` : algorithm === "linked-traversal" ? `Lắp theo thứ tự ${values.join(" → ")}. ${challenge.instruction}` : algorithm === "linked-insertion" ? `Lắp ${values.join(" → ")}, sau đó ${challenge.instruction.charAt(0).toLocaleLowerCase("vi-VN")}${challenge.instruction.slice(1)}` : challenge.instruction}</p></div>
+
       <div className="linked-workspace" ref={demoMotion.ref}>
-        <div className="linked-panel linked-bank" data-journey-bank="true" role={!demo ? "button" : undefined} tabIndex={!demo ? 0 : -1} aria-label="Trả khối về khay" onKeyDown={event => { if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); dispatch({ kind: "bank" }); } }} onClick={() => dispatch({ kind: "bank" })}><div className="linked-panel-heading"><h3>Khay khối</h3></div><div className="linked-bank-row">
+
+        <div className="linked-playfield">
+        <div className="linked-panel linked-bank" data-journey-bank="true" role={!demo ? "button" : undefined} tabIndex={!demo ? 0 : -1} aria-label="Trả khối về khay" onKeyDown={event => { if (event.target === event.currentTarget && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); dispatch({ kind: "bank" }); } }} onClick={() => dispatch({ kind: "bank" })}><div className="linked-bank-row">
           {[...values].reverse().filter(value => !shown.slots.includes(value)).map(value => <div className="linked-bank-cell" key={value}>{card(value, true)}</div>)}
           {shown.phase === "insert" && <div className="linked-bank-cell">{card(added, true)}</div>}
           {shown.phase === "walk" && !shown.started && <button className="journey-pig-pickup" aria-label="Cầm heo nhỏ" onPointerDown={event => begin({ kind: "pig", value: 0 }, event)} onClick={() => dispatch({ kind: "select", held: { kind: "pig", value: 0 } })}><Pig small /><span>Đặt heo lên HEAD</span></button>}
         </div></div>
-        {!demo && !finished && <LinkedChallengeGuide message={shown.message} error={shown.messageError} guidance={guidance} onReset={reset} onUndo={undo} canUndo={history.current.length > 0}>
-          <div className="journey-controls">
-            <button className={`chunky-button linked-check-button ${["review", "reverse"].includes(shown.phase) ? "" : "linked-secondary-check"}`} onClick={() => dispatch({ kind: "check" })}><Check size={23} /> Kiểm tra</button>
-            {shown.phase === "build" && <button className="chunky-button button-green linked-ready" onClick={() => dispatch({ kind: "ready" })}>Lắp xong · Bắt đầu duyệt</button>}
-            {shown.phase === "walk" && <>
-              <button className="chunky-button button-green" aria-label="Đi theo next" disabled={!shown.started || shown.cursor === null} onClick={() => dispatch({ kind: "next" })}><ArrowRight /> Đi theo next</button>
-              {algorithm === "linked-search" && <button className="chunky-button button-purple" disabled={!shown.started} onClick={() => dispatch({ kind: "found" })}>{shown.started && shown.cursor === null ? "Không tìm thấy" : "Đã tìm thấy"}</button>}
-              {algorithm === "linked-insertion" && <button className="chunky-button button-purple" disabled={!shown.started} onClick={() => dispatch({ kind: "edit" })}>Chèn tại đây</button>}
-            </>}
-          </div>
-        </LinkedChallengeGuide>}
-        {demo && <LinkedDemoControls step={demoStep} count={script.length + 1} narration={narration} onStep={setDemoStep} suspended={settings} onPauseChange={demoMotion.onPauseChange} onSpeedChange={demoMotion.onSpeedChange} onPlay={props.onPlay} />}
-        <div className="linked-panel linked-assembly"><div className="linked-panel-heading"><h3>Hàng lắp</h3></div>
+        <div className="linked-panel linked-assembly">
           <div className="linked-assembly-scroll"><div className="journey-chain" ref={chainRef}><svg className="journey-wires" aria-hidden="true"><LinkedRopeMaterial />{wires.map(wire => <path key={wire.from} data-demo-wire={wire.from} d={wire.path} />)}</svg>
             {wires.map(wire => <button key={wire.from} data-demo-nail={wire.from} className={`linked-nail journey-nail ${shown.held?.kind === "link" && shown.held.value === wire.from ? "journey-nail-selected" : ""}`} style={{ left: wire.x, top: wire.y, pointerEvents: drag?.kind === "link" && drag.value === wire.from ? "none" : undefined }} disabled={demo || !["reverse", "build", "new-link", "previous-link", "bypass", "remove", "review"].includes(shown.phase)} aria-label={`Đinh của khối ${wire.from}`} data-null-docked={wire.to === null && shown.nullDock === wire.from || undefined} data-journey-target={wire.to ?? (shown.nullDock === wire.from ? "null" : undefined)} onPointerDown={event => begin({ kind: "link", value: wire.from }, event)} onClick={event => { if (event.detail === 0) dispatch({ kind: "select", held: { kind: "link", value: wire.from } }); }}><span className="linked-nail-head" /><span className="linked-nail-tip" /></button>)}
             {shown.slots.map((value, index) => <div className="journey-piece" key={value ?? `slot-${index}`}>
@@ -360,9 +361,23 @@ export default function LinkedJourneyGame(props: Props) {
             <div className="journey-null"><button className="ll-hole journey-null-hole" data-journey-target="null" disabled={demo} aria-label="Lỗ NULL" onClick={() => dispatch({ kind: "target", value: null })}><span /></button><button className="linked-null-target" data-journey-target="null" disabled={demo} onClick={() => dispatch({ kind: "target", value: null })}>NULL</button>{shown.started && shown.cursor === null && <div className="journey-pig"><Pig small /></div>}</div>
           </div></div>
         </div>
+        </div>
+        {!demo && !finished && !lost && <LinkedChallengeGuide objective={`${algorithm === "linked-search" ? `Tìm số ${searchValue}.` : challenge.instruction}${shown.phase === "walk" && !shown.started ? " Đặt heo lên HEAD để bắt đầu." : ""}`} message={shown.message} error={shown.messageError} guidance={guidance}>
+          <div className="journey-controls">
+            <button className={`chunky-button linked-check-button ${["review", "reverse"].includes(shown.phase) ? "" : "linked-secondary-check"}`} onClick={() => dispatch({ kind: "check" })}><Check size={23} /> Kiểm tra</button>
+            {shown.phase === "build" && <button className="chunky-button button-green linked-ready" onClick={() => dispatch({ kind: "ready" })}>Lắp xong · Bắt đầu duyệt</button>}
+            {shown.phase === "walk" && <>
+              <button className="chunky-button button-green" aria-label="Đi theo next" disabled={!shown.started || shown.cursor === null} onClick={() => dispatch({ kind: "next" })}><ArrowRight /> Đi theo next</button>
+              {algorithm === "linked-search" && <button className="chunky-button button-purple" disabled={!shown.started} onClick={() => dispatch({ kind: "found" })}>{shown.started && shown.cursor === null ? "Không tìm thấy" : "Đã tìm thấy"}</button>}
+              {algorithm === "linked-insertion" && <button className="chunky-button button-purple" disabled={!shown.started} onClick={() => dispatch({ kind: "edit" })}>Chèn tại đây</button>}
+            </>}
+          </div>
+        </LinkedChallengeGuide>}
+        {demo && <LinkedDemoControls step={demoStep} count={script.length + 1} narration={narration} onStep={setDemoStep} suspended={settings} onPauseChange={demoMotion.onPauseChange} onSpeedChange={demoMotion.onSpeedChange} onPlay={props.onPlay} />}
       </div>
-      {!demo && finished && <VictoryCelebration className="linked-victory" title="Hoàn thành!" nextLabel="Màn tiếp theo" stars={shown.mistakes === 0 ? 3 : shown.mistakes < 3 ? 2 : 1} difficulty="hard" onReplay={reset} onHarder={props.onNextLevel} onMap={props.onChooseMap}><strong>{challenge.after.join(" → ")} → NULL</strong><p>{shown.message || (algorithm === "linked-traversal" ? `Heo đã đi qua ${values.length} nút và tới NULL.` : challenge.instruction)}</p></VictoryCelebration>}
+      {!demo && finished && <VictoryCelebration className="bubble-victory linked-victory" companion={<Fox mood="celebrate" />} companionName="Cáo" title="Hoàn thành!" nextLabel="Màn tiếp theo" stars={3} difficulty="hard" onReplay={reset} onHarder={props.onNextLevel} onMap={props.onChooseMap}><LinkedResultSummary counters={shown.counters} mistakes={shown.mistakes} /><strong>{challenge.after.join(" → ")} → NULL</strong><p>{shown.message || (algorithm === "linked-traversal" ? `Heo đã đi qua ${values.length} nút và tới NULL.` : challenge.instruction)}</p></VictoryCelebration>}
     </section>
+    {lost && <LinkedFailure counters={state.counters} mistakes={state.mistakes} message={state.message} onReplay={reset} onBack={props.onBack} />}
     {settings && <div className="linked-settings-backdrop" onClick={() => setSettings(false)}><section className="linked-settings" role="dialog" aria-modal="true" aria-label="Tùy chọn" onClick={event => event.stopPropagation()}><button className="round-button" aria-label="Đóng tùy chọn" onClick={() => setSettings(false)}><X /></button><h2>Tùy chọn</h2><button className="chunky-button button-green" onClick={() => props.onSoundChange(!props.sound)}>{props.sound ? <Volume2 /> : <VolumeX />} Âm thanh: {props.sound ? "Bật" : "Tắt"}</button></section></div>}
     {drag && drag.kind !== "link" && <div className="linked-drag-ghost" style={{ left: drag.x, top: drag.y }} aria-hidden="true">{drag.kind === "pig" ? <Pig small /> : <div className={`linked-node linked-node-${["peach", "mint", "lavender"][Math.max(0, values.indexOf(drag.value)) % 3]}`}><span className="linked-node-body"><span className="linked-node-value">{drag.value}</span></span></div>}</div>}
   </GameLayout>;

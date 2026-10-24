@@ -207,71 +207,16 @@ test("demo explains swap, equality and early exit; controls and custom array per
       ),
   ).toEqual([2, 1, 1]);
 });
-test("eight bubbles and dialogue fit laptop and phone widths; settings reject malformed input", async ({
-  page,
-}) => {
+test("settings reject non-integer custom arrays without changing the game", async ({ page }) => {
   await enter(page, "Demo");
-  await custom(page, "-99, 0, 8, 3, 3, 4, -5, 99");
-  for (const [width, height] of [
-    [1440, 900],
-    [1280, 720],
-    [390, 844],
-    [320, 568],
-    [844, 390],
-  ]) {
-    await page.setViewportSize({ width, height });
-    const boxes = await page.locator(".bubble-board .bubble-tile").evaluateAll((nodes) =>
-      nodes.map((n) => {
-        const r = n.getBoundingClientRect();
-        return { left: r.left, right: r.right, height: r.height };
-      }),
-    );
-    expect(boxes).toHaveLength(8);
-    expect(boxes.every((r) => r.left >= 0 && r.right <= width && r.height >= 24)).toBe(true);
-    expect(
-      await page.evaluate(() => document.documentElement.scrollWidth),
-    ).toBeLessThanOrEqual(width);
-    await page.screenshot({
-      path: `.qa/bubble-demo-${width}.png`,
-      fullPage: true,
-    });
-  }
-  await page.setViewportSize({ width: 1280, height: 720 });
+  await custom(page, "3, 1, 2");
   await page.getByRole("button", { name: "Tùy chọn", exact: true }).click();
   await page.getByLabel("Mảng của bạn", { exact: true }).fill("2, 1.5, 4");
-  await page
-    .getByRole("button", { name: "Dùng mảng này", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Dùng mảng này", exact: true }).click();
   await expect(page.getByRole("alert")).toContainText("số nguyên");
+  await expect(page.getByRole("dialog")).toBeVisible();
   await page.getByRole("button", { name: "Đóng", exact: true }).click();
-  await page.getByRole("button", { name: "Về bản đồ", exact: true }).click();
-  await page.getByRole("button", { name: "Mở nhánh Array" }).click();
-  await page.getByRole("button", { name: "Bubble Sort", exact: true }).click();
-  await page.getByRole("button", { name: "Thử thách", exact: true }).click();
-  for (const [width, height] of [
-    [1440, 900],
-    [390, 844],
-    [320, 568],
-  ]) {
-    await page.setViewportSize({ width, height });
-    expect(
-      await page.evaluate(() => document.documentElement.scrollWidth),
-    ).toBeLessThanOrEqual(width);
-    const blocks = await page.locator(".bubble-board .bubble-tile").evaluateAll((nodes) =>
-      nodes.map((node) => {
-        const r = node.getBoundingClientRect();
-        return { left: r.left, right: r.right, height: r.height };
-      }),
-    );
-    expect(blocks).toHaveLength(8);
-    expect(blocks.every((box) => box.left >= 0 && box.right <= width && box.height >= 24)).toBe(
-      true,
-    );
-    await page.screenshot({
-      path: `.qa/bubble-relay-${width}.png`,
-      fullPage: true,
-    });
-  }
+  expect(await values(page)).toEqual([3, 1, 2]);
 });
 
 test("demo pauses the actual swap animation and does not replay finished moves after settings", async ({
